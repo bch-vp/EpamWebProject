@@ -2,11 +2,14 @@ var path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // плагин для загрузки кода Vue
 
 module.exports = {
-    entry: path.join(__dirname, 'src', 'main', 'webapp', 'js', 'vue', 'main.js'),
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'home', 'home.js'),
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/',
-        filename: 'build.js'
+        filename: 'home.js',
+    },
+    devServer: {
+        port: 8081
     },
     module: {
         rules: [
@@ -43,6 +46,12 @@ module.exports = {
                 ]
             }
         ]
+    },
+    resolve: {
+        modules: [
+            path.join(__dirname, 'src', 'main', 'webapp'),
+            path.join(__dirname, 'node_modules'),
+        ],
     },
     plugins: [
         new VueLoaderPlugin()
