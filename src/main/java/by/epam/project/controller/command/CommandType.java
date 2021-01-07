@@ -1,5 +1,6 @@
 package by.epam.project.controller.command;
 
+import by.epam.project.controller.command.impl.ChangeLanguageCommand;
 import by.epam.project.controller.command.impl.SignInCommand;
 import by.epam.project.controller.command.impl.SignUpCommand;
 import by.epam.project.controller.command.impl.page.PassingHomeCommand;
@@ -9,7 +10,8 @@ public enum CommandType {
     SIGN_IN(new SignInCommand()),
     SIGN_UP(new SignUpCommand()),
     PASSING_HOME(new PassingHomeCommand()),
-    PASSING_HOME_USER(new PassingHomeUserCommand());
+    PASSING_HOME_USER(new PassingHomeUserCommand()),
+    CHANGE_LANGUAGE(new ChangeLanguageCommand());
 
     private final Command command;
 

@@ -1,46 +1,50 @@
 <template>
-  <v-container>
-    <div class="title font-weight-regular" style="color: white">Sign in...</br></br></div>
-    <v-form
-        @submit="submit"
-        action="HotelWeb?command=sign_in"
-        method="post"
-        ref="formSignIn"
-        v-model="valid"
-    >
-      <div style="color: red">{{ signInErrorMessage }}</div>
-      <v-text-field
-          dark
-          name="login"
-          v-model="login"
-          :counter="10"
-          :rules="rules.login"
-          label="Login"
-          required
-      ></v-text-field>
+  <div class="sign-in-wrapper">
+    <div class="sign-in-background">
+      <div class="sign-in">
+        <div class="title font-weight-regular" style="color: white">Sign in...</br></br></div>
+        <v-form
+            @submit="submit"
+            action="HotelWeb?command=sign_in"
+            method="post"
+            ref="formSignIn"
+            v-model="valid"
+        >
+          <div style="color: red">{{ signInErrorMessage }}</div>
+          <v-text-field
+              dark
+              name="login"
+              v-model="login"
+              :counter="10"
+              :rules="rules.login"
+              label="Login"
+              required
+          ></v-text-field>
 
-      <v-text-field
-          dark
-          name="password"
-          v-model="password"
-          :counter="10"
-          :rules="rules.password"
-          :append-icon="value ? 'visibility' : 'visibility_off'"
-          @click:append="() => (value = !value)"
-          :type="value ? 'password' : 'text'"
-          label="Password"
-          required
-      ></v-text-field>
+          <v-text-field
+              dark
+              name="password"
+              v-model="password"
+              :counter="10"
+              :rules="rules.password"
+              :append-icon="value ? 'visibility' : 'visibility_off'"
+              @click:append="() => (value = !value)"
+              :type="value ? 'password' : 'text'"
+              label="Password"
+              required
+          ></v-text-field>
 
-      <div align="center">
-        <v-btn type="submit" :disabled="!valid" dark small text rounded color="indigo">submit
-        </v-btn>
-        <v-btn @click="reset" outlined small fab color="indigo">
-          <v-icon>autorenew</v-icon>
-        </v-btn>
+          <div align="center">
+            <v-btn type="submit" :disabled="!valid" dark small text rounded color="indigo">submit
+            </v-btn>
+            <v-btn @click="reset" outlined small fab color="indigo">
+              <v-icon>autorenew</v-icon>
+            </v-btn>
+          </div>
+        </v-form>
       </div>
-    </v-form>
-  </v-container>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -85,5 +89,22 @@ export default {
 </script>
 
 <style>
+.sign-in-wrapper {
+  width: 30%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
 
+.sign-in-background {
+  background: rgba(128, 128, 128, 0.1);
+  border-radius: 20px;
+}
+
+.sign-in{
+  padding: 15px;
+}
 </style>

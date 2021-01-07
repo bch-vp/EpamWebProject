@@ -1,18 +1,46 @@
 <template>
   <v-app>
     <v-app-bar dark app>
-      <v-toolbar-title class="font-weight-medium" style="margin-left: 2%">HotelWeb</v-toolbar-title>
+      <v-toolbar-title class="font-weight-medium" style="margin-left: 2%">{{text_page.name_hotel}}</v-toolbar-title>
       <v-btn v-on:click="showHome" outlined text rounded
-             style="margin-left: 2%">
+             style="margin-left: 3%">
         <v-icon>home</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
+
       <v-btn v-on:click="showSignIn" outlined text rounded
-             style="margin-right: 1%">Sign in
+             style="margin-right: 1%">{{text_page.sing_in}}
       </v-btn>
       <v-btn v-on:click="showSignUp" outlined text rounded
-             style="margin-right: 2%">Sign up
+             style="margin-right: 2%">{{text_page.sing_up}}
       </v-btn>
+
+      <v-menu offset-y style="margin-left: 3%">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn style="margin-right: 1%" v-bind="attrs" v-on="on" rounded>
+            <v-icon>language</v-icon>
+            <span>{{text_page.language}}</span>
+          </v-btn>
+        </template>
+        <v-list dark>
+          <v-list-item class="list-item">
+            <v-btn href="HotelWeb?command=change_language&language=ru" v-if="language !== 'ru'">
+              ru
+            </v-btn>
+            <div v-else>
+              RU
+            </div>
+          </v-list-item>
+          <v-list-item class="list-item">
+            <v-btn href="HotelWeb?command=change_language&language=en" v-if="language !== 'en' && language !== ''">
+              en
+            </v-btn>
+            <div v-else>
+              EN
+            </div>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <div class="hero-image">
@@ -21,6 +49,7 @@
         <sign-up v-if="isSignUp"/>
       </div>
     </v-main>
+
   </v-app>
 </template>
 
@@ -38,12 +67,14 @@ export default {
   created() {
     if (signInErrorMessage) {
       this.isSignIn = true
-    }else{
+    } else {
       this.showHome()
     }
   },
   data() {
     return {
+      text_page : text_page,
+      language : language,
       signInErrorMessage: signInErrorMessage,
       isHome: false,
       isSignIn: false,
@@ -91,5 +122,9 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+}
+
+.list-item {
+  justify-content: center;
 }
 </style>
