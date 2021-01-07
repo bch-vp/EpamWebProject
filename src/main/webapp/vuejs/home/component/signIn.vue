@@ -2,7 +2,8 @@
   <div class="sign-in-wrapper">
     <div class="sign-in-background">
       <div class="sign-in">
-        <div class="title font-weight-regular" style="color: white">Sign in...</br></br></div>
+        <div class="title font-weight-regular" style="color: white; text-align: center">
+          {{ sign_in_component.name }}...<br></div>
         <v-form
             @submit="submit"
             action="HotelWeb?command=sign_in"
@@ -15,11 +16,12 @@
               dark
               name="login"
               v-model="login"
-              :counter="10"
+              :counter="15"
               :rules="rules.login"
-              label="Login"
+              v-bind:label=sign_in_component.login.name
               required
-          ></v-text-field>
+          >
+          </v-text-field>
 
           <v-text-field
               dark
@@ -51,6 +53,7 @@
 export default {
   data() {
     return {
+      sign_in_component: sign_in_component,
       signInErrorMessage: signInErrorMessage,
       value: String,
       valid: false,
@@ -58,10 +61,10 @@ export default {
       password: '',
       rules: {
         login: [
-          v => !!v || 'Login is required',
-          v => /.{3,}/.test(v) || 'Minimum three in length',
-          v => (v && v.length <= 10) || 'Login must be less than 10 characters',
-          v => /^\S*$/.test(v) || 'Spaces are prohibited',
+          v => !!v || sign_in_component.login.errors.required,
+          v => /.{3,}/.test(v) || sign_in_component.login.errors.min_length,
+          v => (v && v.length <= 15) || sign_in_component.login.errors.max_length,
+          v => /^\S*$/.test(v) || sign_in_component.login.errors.spaces_prohibited,
         ],
         password: [
           v => !!v || 'Password is required',
@@ -104,7 +107,7 @@ export default {
   border-radius: 20px;
 }
 
-.sign-in{
+.sign-in {
   padding: 15px;
 }
 </style>

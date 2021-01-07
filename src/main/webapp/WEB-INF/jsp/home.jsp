@@ -21,12 +21,27 @@
 
 <script>
     let language = "${language}"
+
     let text_page = {
         name_hotel : "<fmt:message key="header.name_hotel"/>",
         sing_in : "<fmt:message key="header.sign_in"/>",
         sing_up : "<fmt:message key="header.sign_up"/>",
         language : "<fmt:message key="header.language"/>"
     }
+
+    let sign_in_component = {
+        name : "<fmt:message key="sign_in_component.name"/>",
+        login : {
+            name : "<fmt:message key="sign_in_component.login.name"/>",
+            errors : {
+                required : "<fmt:message key="sign_in_component.login.errors.required"/>",
+                min_length : "<fmt:message key="sign_in_component.login.errors.min_length"/>",
+                max_length : "<fmt:message key="sign_in_component.login.errors.max_length"/>",
+                spaces_prohibited : "<fmt:message key="sign_in_component.login.errors.spaces_prohibited"/>",
+            }
+        }
+    }
+
     let signInErrorMessage = "${signInErrorMessage}"
 </script>
 <script src="http://localhost:8081/home.js"></script>

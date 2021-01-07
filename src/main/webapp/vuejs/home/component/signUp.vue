@@ -2,7 +2,7 @@
   <div class="sign-up-wrapper">
     <div class="sign-up-background">
       <div class="sign-up">
-        <div class="title font-weight-regular" style="color: white">Sign up...</br></br></div>
+        <div class="title font-weight-regular" style="color: white; text-align: center">Sign up...<br></div>
         <v-form
             @submit="submit"
             action="HotelWeb?command=sign_up"

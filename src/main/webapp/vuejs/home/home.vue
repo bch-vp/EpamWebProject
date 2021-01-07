@@ -8,10 +8,11 @@
       </v-btn>
       <v-spacer></v-spacer>
 
-      <v-btn v-on:click="showSignIn" outlined text rounded
+
+      <v-btn v-on:click="showSignIn"outlined text
              style="margin-right: 1%">{{text_page.sing_in}}
       </v-btn>
-      <v-btn v-on:click="showSignUp" outlined text rounded
+      <v-btn v-on:click="showSignUp" outlined text
              style="margin-right: 2%">{{text_page.sing_up}}
       </v-btn>
 
