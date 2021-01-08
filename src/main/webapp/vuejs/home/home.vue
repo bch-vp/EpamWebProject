@@ -1,26 +1,80 @@
 <template>
   <v-app>
-    <v-app-bar dark app>
-      <v-toolbar-title class="font-weight-medium" style="margin-left: 2%">{{text_page.name_hotel}}</v-toolbar-title>
-      <v-btn v-on:click="showHome" outlined text rounded
+
+<!--    <v-app-bar-->
+<!--        style="box-shadow: 0 0 300px black;"-->
+<!--        app-->
+<!--        dark>-->
+
+
+
+<!--      <template v-slot:img="{ props }">-->
+<!--        <v-img-->
+<!--            v-bind="props">-->
+<!--&lt;!&ndash;            gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"&ndash;&gt;-->
+<!--        </v-img>-->
+<!--      </template>-->
+
+<!--      <v-app-bar-nav-icon></v-app-bar-nav-icon>-->
+
+<!--      <v-toolbar-title>Titlebhkhb</v-toolbar-title>-->
+
+<!--      <v-spacer></v-spacer>-->
+
+<!--      <v-btn icon>-->
+<!--        <v-icon>mdi-magnify</v-icon>-->
+<!--      </v-btn>-->
+
+<!--      <v-btn icon>-->
+<!--        <v-icon>mdi-heart</v-icon>-->
+<!--      </v-btn>-->
+
+<!--      <v-btn icon>-->
+<!--        <v-icon>mdi-dots-vertical</v-icon>-->
+<!--      </v-btn>-->
+
+<!--      <template  v-slot:extension>-->
+<!--        <v-tabs align-with-title style="margin-left: 500px">-->
+<!--          <v-tab>Tab 1</v-tab>-->
+<!--          <v-tab>Tab 2</v-tab>-->
+<!--          <v-tab>Tab 3</v-tab>-->
+<!--        </v-tabs>-->
+<!--      </template>-->
+<!--    </v-app-bar>-->
+
+<!--    <v-main>-->
+<!--            <div class="hero-image">-->
+<!--              <home v-if="isHome"/>-->
+<!--              <sign-in v-if="isSignIn"/>-->
+<!--              <sign-up />-->
+<!--            </div>-->
+<!--          </v-main>-->
+
+
+    <v-app-bar style="box-shadow: 0 0 100px black;"  dark app>
+      <v-toolbar-title class="font-weight-medium" style="margin-left: 2%">{{ text_page.header.hotel }}</v-toolbar-title>
+      <v-btn v-on:click="showHome" :disabled="isHome"  rounded
              style="margin-left: 3%">
-        <v-icon>home</v-icon>
+        <v-icon v-if="isHome" color="#616161">home</v-icon>
+        <v-icon v-else>home</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
 
-
-      <v-btn v-on:click="showSignIn"outlined text
-             style="margin-right: 1%">{{text_page.sing_in}}
-      </v-btn>
-      <v-btn v-on:click="showSignUp" outlined text
-             style="margin-right: 2%">{{text_page.sing_up}}
+      <v-btn v-on:click="showSignIn" :disabled="isSignIn" rounded text style="margin-right: 1%">
+        <div v-if="isSignIn" style="color: #616161">{{ text_page.header.sing_in }}</div>
+        <div v-else>{{ text_page.header.sing_in }}</div>
       </v-btn>
 
-      <v-menu offset-y style="margin-left: 3%">
+      <v-btn v-on:click="showSignUp" :disabled="isSignUp" text rounded style="margin-right: 3%">
+        <div v-if="isSignUp" style="color: #616161">{{ text_page.header.sing_up }}</div>
+        <div v-else>{{ text_page.header.sing_up }}</div>
+      </v-btn>
+
+      <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
         <template v-slot:activator="{ on, attrs }">
           <v-btn style="margin-right: 1%" v-bind="attrs" v-on="on" rounded>
             <v-icon>language</v-icon>
-            <span>{{text_page.language}}</span>
+            <span>&nbsp;{{ text_page.header.language }}</span>
           </v-btn>
         </template>
         <v-list dark>
@@ -65,21 +119,29 @@ export default {
     SignIn,
     SignUp
   },
+  data() {
+    return {
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
+      text_page: {
+        header: text_page.header
+      },
+      language: language,
+      signInErrorMessage: signInErrorMessage,
+      isHome: false,
+      isSignIn: false,
+      isSignUp: false
+    }
+  },
   created() {
     if (signInErrorMessage) {
       this.isSignIn = true
     } else {
       this.showHome()
-    }
-  },
-  data() {
-    return {
-      text_page : text_page,
-      language : language,
-      signInErrorMessage: signInErrorMessage,
-      isHome: false,
-      isSignIn: false,
-      isSignUp: false
     }
   },
   methods: {
@@ -123,6 +185,10 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+}
+
+.active {
+  color: purple;
 }
 
 .list-item {

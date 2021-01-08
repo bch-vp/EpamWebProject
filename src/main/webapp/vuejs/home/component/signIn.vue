@@ -3,7 +3,7 @@
     <div class="sign-in-background">
       <div class="sign-in">
         <div class="title font-weight-regular" style="color: white; text-align: center">
-          {{ sign_in_component.name }}...<br></div>
+          {{ text_page.sign_in_component.name }}...<br></div>
         <v-form
             @submit="submit"
             action="HotelWeb?command=sign_in"
@@ -18,7 +18,7 @@
               v-model="login"
               :counter="15"
               :rules="rules.login"
-              v-bind:label=sign_in_component.login.name
+              v-bind:label=text_page.sign_in_component.login.name
               required
           >
           </v-text-field>
@@ -27,19 +27,20 @@
               dark
               name="password"
               v-model="password"
-              :counter="10"
+              :counter="20"
               :rules="rules.password"
               :append-icon="value ? 'visibility' : 'visibility_off'"
               @click:append="() => (value = !value)"
               :type="value ? 'password' : 'text'"
-              label="Password"
+              v-bind:label=text_page.sign_in_component.password.name
               required
           ></v-text-field>
 
           <div align="center">
-            <v-btn type="submit" :disabled="!valid" dark small text rounded color="indigo">submit
+            <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+              {{ text_page.sign_in_component.submit }}
             </v-btn>
-            <v-btn @click="reset" outlined small fab color="indigo">
+            <v-btn @click="reset" outlined small fab color="#8C9EFF">
               <v-icon>autorenew</v-icon>
             </v-btn>
           </div>
@@ -53,7 +54,9 @@
 export default {
   data() {
     return {
-      sign_in_component: sign_in_component,
+      text_page: {
+        sign_in_component: text_page.sign_in_component,
+      },
       signInErrorMessage: signInErrorMessage,
       value: String,
       valid: false,
@@ -61,19 +64,19 @@ export default {
       password: '',
       rules: {
         login: [
-          v => !!v || sign_in_component.login.errors.required,
-          v => /.{3,}/.test(v) || sign_in_component.login.errors.min_length,
-          v => (v && v.length <= 15) || sign_in_component.login.errors.max_length,
-          v => /^\S*$/.test(v) || sign_in_component.login.errors.spaces_prohibited,
+          v => !!v || this.text_page.sign_in_component.login.error.required,
+          v => (v.length >= 3) || this.text_page.sign_in_component.login.error.min_length,
+          v => (v.length <= 15) || this.text_page.sign_in_component.login.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.sign_in_component.login.error.spaces_prohibited,
         ],
         password: [
-          v => !!v || 'Password is required',
-          v => /.{5,}/.test(v) || 'Minimum five in length',
-          v => (v && v.length <= 10) || 'Password must be less than 10 characters',
-          v => /^\S*$/.test(v) || 'Spaces are prohibited',
-          v => /(?=.*?[a-z])/.test(v) || 'At least one lower case English letter',
-          v => /(?=.*?[A-Z])/.test(v) || 'At least one upper case English letter',
-          v => /(?=.*?[0-9])/.test(v) || 'At least one digit',
+          v => !!v || this.text_page.sign_in_component.password.error.required,
+          v => (v.length >= 5) || this.text_page.sign_in_component.password.error.min_length,
+          v => (v.length <= 20) || this.text_page.sign_in_component.password.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.sign_in_component.password.error.spaces_prohibited,
+          v => /(?=.*?[a-z])/.test(v) || this.text_page.sign_in_component.password.error.one_lower_case_letter,
+          v => /(?=.*?[A-Z])/.test(v) || this.text_page.sign_in_component.password.error.one_upper_case_letter,
+          v => /(?=.*?[0-9])/.test(v) || this.text_page.sign_in_component.password.error.one_digit,
         ],
       },
     }
@@ -103,11 +106,12 @@ export default {
 }
 
 .sign-in-background {
+  box-shadow: 0 0 300px;
   background: rgba(128, 128, 128, 0.1);
   border-radius: 20px;
 }
 
 .sign-in {
-  padding: 15px;
+  padding: 45px;
 }
 </style>
