@@ -1,50 +1,52 @@
 <template>
   <div class="sign-in-wrapper">
     <div class="sign-in-background">
-      <div class="sign-in">
-        <div class="title font-weight-regular" style="color: white; text-align: center">
-          {{ text_page.sign_in_component.name }}...<br></div>
-        <v-form
-            @submit="submit"
-            action="HotelWeb?command=sign_in"
-            method="post"
-            ref="formSignIn"
-            v-model="valid"
-        >
-          <div style="color: red">{{ signInErrorMessage }}</div>
-          <v-text-field
-              dark
-              name="login"
-              v-model="login"
-              :counter="15"
-              :rules="rules.login"
-              v-bind:label=text_page.sign_in_component.login.name
-              required
+      <div class="sign-in-shadow-in">
+        <div class="sign-in">
+          <div class="title font-weight-regular" style="color: white; text-align: center">
+            {{ text_page.sign_in_component.name }}...<br></div>
+          <v-form
+              @submit="submit"
+              action="HotelWeb?command=sign_in"
+              method="post"
+              ref="formSignIn"
+              v-model="valid"
           >
-          </v-text-field>
+            <div style="color: red">{{ signInErrorMessage }}</div>
+            <v-text-field
+                dark
+                name="login"
+                v-model="login"
+                :counter="15"
+                :rules="rules.login"
+                v-bind:label=text_page.sign_in_component.login.name
+                required
+            >
+            </v-text-field>
 
-          <v-text-field
-              dark
-              name="password"
-              v-model="password"
-              :counter="20"
-              :rules="rules.password"
-              :append-icon="value ? 'visibility' : 'visibility_off'"
-              @click:append="() => (value = !value)"
-              :type="value ? 'password' : 'text'"
-              v-bind:label=text_page.sign_in_component.password.name
-              required
-          ></v-text-field>
+            <v-text-field
+                dark
+                name="password"
+                v-model="password"
+                :counter="20"
+                :rules="rules.password"
+                :append-icon="value ? 'visibility' : 'visibility_off'"
+                @click:append="() => (value = !value)"
+                :type="value ? 'password' : 'text'"
+                v-bind:label=text_page.sign_in_component.password.name
+                required
+            ></v-text-field>
 
-          <div align="center">
-            <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
-              {{ text_page.sign_in_component.submit }}
-            </v-btn>
-            <v-btn @click="reset" outlined small fab color="#8C9EFF">
-              <v-icon>autorenew</v-icon>
-            </v-btn>
-          </div>
-        </v-form>
+            <div align="center">
+              <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+                {{ text_page.sign_in_component.submit }}
+              </v-btn>
+              <v-btn @click="reset" outlined small fab color="#8C9EFF">
+                <v-icon>autorenew</v-icon>
+              </v-btn>
+            </div>
+          </v-form>
+        </div>
       </div>
     </div>
   </div>
@@ -103,6 +105,11 @@ export default {
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
+}
+
+.sign-in-shadow-in {
+  box-shadow: inset 0 0 20px;
+  border-radius: 20px;
 }
 
 .sign-in-background {

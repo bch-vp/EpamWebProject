@@ -3,28 +3,33 @@ package by.epam.project.controller.command.impl;
 import by.epam.project.controller.Router;
 import by.epam.project.controller.command.Command;
 import by.epam.project.controller.command.PagePath;
+import by.epam.project.controller.command.PropertiesContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
+import by.epam.project.model.service.impl.EmailServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import by.epam.project.util.ContentUtil;
 import by.epam.project.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.util.Map;
 
 import static by.epam.project.util.RequestParameterName.*;
-import static by.epam.project.util.RequestParameterName.USER_PHONE;
 
 public class SignUpCommand implements Command {
     private UserServiceImpl userService = UserServiceImpl.getInstance();
+    private EmailServiceImpl emailService = EmailServiceImpl.getInstance();
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        Router router = new Router();
+        HttpSession session = request.getSession();
+        Router router;
 
         try {
             String login = request.getParameter(USER_LOGIN);
@@ -40,6 +45,14 @@ public class SignUpCommand implements Command {
             if (UserValidator.defineIncorrectValues(requestData)) {
                 User newUser = new User(login, name, surname, phone, email);
                 userService.signUpUser(newUser, password);
+
+                String locale = (String) session.getAttribute(LOCALE);
+
+                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale, PropertiesContentKey.EMAIL_SUBJECT);
+                String emailBodyWithLocale = ContentUtil.getWithLocale(locale, PropertiesContentKey.EMAIL_BODY);
+
+                emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
+                        emailBodyWithLocale, PagePath.EMAIL_ACTIVATION_LINK);
 
                 router = new Router(PagePath.NOTIFICATION);
             } else {

@@ -8,7 +8,7 @@ import by.epam.project.controller.command.PagePath;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.project.util.RequestParameterName.LANGUAGE;
+import static by.epam.project.util.RequestParameterName.LOCALE;
 
 public class ChangeLanguageCommand implements Command {
     private static final String EN_LANGUAGE = "en";
@@ -19,7 +19,7 @@ public class ChangeLanguageCommand implements Command {
         HttpSession session = request.getSession();
         Router router;
 
-        String givenLanguage = request.getParameter(LANGUAGE);
+        String givenLanguage = request.getParameter(LOCALE);
         if (givenLanguage.equals(EN_LANGUAGE) || givenLanguage.equals(RU_LANGUAGE)) {
             session.setAttribute(MessageAttribute.LANGUAGE, givenLanguage);
             String currentPage = PagePath.HOME;
