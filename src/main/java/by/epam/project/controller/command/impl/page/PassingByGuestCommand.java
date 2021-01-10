@@ -6,9 +6,9 @@ import by.epam.project.controller.command.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class PassingHomeUserCommand implements Command {
+public class PassingByGuestCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
-        return new Router(PagePath.HOME_USER);
+        return new Router(PagePath.GUEST);
     }
 }

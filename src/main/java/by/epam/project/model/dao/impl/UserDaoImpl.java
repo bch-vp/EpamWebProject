@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     public boolean add(User user, String password) throws DaoException {
         boolean update;
         try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
+                PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, password);
             statement.setString(3, user.getName());

@@ -21,7 +21,8 @@ public class SendMail implements Command {
         EmailServiceImpl emailService = EmailServiceImpl.getInstance();
         emailService.sendActivationEmail(user, emailSubjectWithLocale,
                 emailBodyWithLocale, PagePath.EMAIL_ACTIVATION_LINK);
-        return new Router(PagePath.HOME);
+        return new Router(PagePath.GUEST
+        );
 
     }
 }

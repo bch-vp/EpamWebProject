@@ -12,7 +12,7 @@
               ref="formSignIn"
               v-model="valid"
           >
-            <div style="color: red">{{ signInErrorMessage }}</div>
+            <div style="color: red">{{ error_not_Found }}</div>
             <v-text-field
                 dark
                 name="login"
@@ -54,12 +54,12 @@
 
 <script>
 export default {
+  props:["error_not_Found"],
   data() {
     return {
       text_page: {
         sign_in_component: text_page.sign_in_component,
       },
-      signInErrorMessage: signInErrorMessage,
       value: String,
       valid: false,
       login: '',

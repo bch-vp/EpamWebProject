@@ -20,10 +20,10 @@ public interface BaseDao<T extends Entity> {
 
         try {
             String userLogin = resultSet.getString(USER_LOGIN);
-            String userEmail = resultSet.getString(USER_EMAIL);
             String userName = resultSet.getString(USER_NAME);
             String userSurname = resultSet.getString(USER_SURNAME);
             String userPhone = resultSet.getString(USER_PHONE);
+            String userEmail = resultSet.getString(USER_EMAIL);
 
             User createdUser = creator.createUser(userLogin, userEmail, userName,
                     userSurname, userPhone);

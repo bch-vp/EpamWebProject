@@ -100,7 +100,8 @@
     <v-main>
       <div class="hero-image">
         <home v-if="isHome"/>
-        <sign-in v-if="isSignIn"/>
+        <sign-in v-if="isSignIn"
+                 :error_not_Found="error_not_Found"/>
         <sign-up v-if="isSignUp"/>
       </div>
     </v-main>
@@ -131,14 +132,14 @@ export default {
         header: text_page.header
       },
       language: language,
-      signInErrorMessage: signInErrorMessage,
+      error_not_Found: error_not_Found,
       isHome: false,
       isSignIn: false,
       isSignUp: false
     }
   },
   created() {
-    if (signInErrorMessage) {
+    if (error_not_Found) {
       this.isSignIn = true
     } else {
       this.showHome()
@@ -155,7 +156,7 @@ export default {
       this.isSignIn = false
       this.isSignUp = false
       this.isHome = false
-      signInErrorMessage = undefined
+      this.error_not_Found = undefined
     }
     ,
     showHome() {

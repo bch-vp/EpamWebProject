@@ -21,8 +21,8 @@ import java.util.Map;
 import static by.epam.project.util.RequestParameterName.*;
 
 public class SignUpCommand implements Command {
-    private UserServiceImpl userService = UserServiceImpl.getInstance();
-    private EmailServiceImpl emailService = EmailServiceImpl.getInstance();
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final EmailServiceImpl emailService = EmailServiceImpl.getInstance();
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -46,7 +46,7 @@ public class SignUpCommand implements Command {
                 User newUser = new User(login, name, surname, phone, email);
                 userService.signUpUser(newUser, password);
 
-                String locale = (String) session.getAttribute(LOCALE);
+                String locale = (String) session.getAttribute(LANGUAGE);
 
                 String emailSubjectWithLocale = ContentUtil.getWithLocale(locale, PropertiesContentKey.EMAIL_SUBJECT);
                 String emailBodyWithLocale = ContentUtil.getWithLocale(locale, PropertiesContentKey.EMAIL_BODY);

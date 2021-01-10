@@ -13,7 +13,7 @@ public class RequestParameterName {
     public static final String PHONE_UNIQUE = "phoneUnique";
     public static final String NOT_UNIQUE = "notUnique";
     public static final String EMPTY_STRING = "";
-    public static final String LOCALE = "locale";
+    public static final String LANGUAGE = "language";
 
     public static final String COMMAND = "command";
 

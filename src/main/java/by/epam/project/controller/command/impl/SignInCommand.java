@@ -6,21 +6,25 @@ import by.epam.project.controller.command.PagePath;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import by.epam.project.util.ContentUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+import static by.epam.project.util.RequestParameterName.LANGUAGE;
 
 public class SignInCommand implements Command {
-    private UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
+        HttpSession session = request.getSession();
 
         try {
             String login = request.getParameter("login");
@@ -28,10 +32,12 @@ public class SignInCommand implements Command {
 
             Optional<User> currentUser = userService.signInUser(login, password);
             if (currentUser.isPresent()) {
-                router.setCurrentPage(PagePath.HOME_USER);
+                router.setCurrentPage(PagePath.CLIENT);
             } else {
-                request.setAttribute("signInErrorMessage", "Not found");
-                router.setCurrentPage(PagePath.HOME);
+                String language = (String) session.getAttribute(LANGUAGE);
+                String error = ContentUtil.getWithLocale(language, "error.sign_in.not_found");
+                session.setAttribute("error_not_found", error);
+                router.setCurrentPage(PagePath.GUEST);
             }
         } catch (
                 ServiceException exp) {
