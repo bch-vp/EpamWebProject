@@ -1,3 +1,4 @@
+<%--@elvariable id="sign_in_component" type="sun.tools.java.ClassDefinition"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -25,11 +26,14 @@
             hotel: "<fmt:message key="header.hotel"/>",
             sing_in: "<fmt:message key="header.sign_in"/>",
             sing_up: "<fmt:message key="header.sign_up"/>",
-            language: "<fmt:message key="header.language"/>"
         },
+        language: "${language}",
         sign_in_component: {
             name: "<fmt:message key="sign_in_component"/>",
             submit: "<fmt:message key="sign_in_component.submit"/>",
+            error: {
+                not_found: "${error_sign_in_not_found}"
+            },
             login: {
                 name: "<fmt:message key="sign_in_component.login"/>",
                 error: {
@@ -55,6 +59,11 @@
         sign_up_component: {
             name: "<fmt:message key="sign_up_component"/>",
             submit: "<fmt:message key="sign_up_component.submit"/>",
+            error: {
+                login_not_unique: "${error_sign_up_login_not_unique}",
+                telephone_number_not_unique: "${error_sign_up_telephone_number_not_unique}",
+                email_not_unique: "${error_sign_up_email_not_unique}"
+            },
             login: {
                 name: "<fmt:message key="sign_up_component.login"/>",
                 error: {
@@ -116,10 +125,11 @@
             }
         }
     }
-    let language = "${language}"
-    let error_not_Found = "${error_not_found}"
 </script>
 <script src="http://localhost:8081/home.js"></script>
-<c:remove var="error_not_found" scope="session"/>
+<c:remove var="error_sign_in_not_found" scope="session"/>
+<c:remove var="error_sign_up_login_not_unique" scope="session"/>
+<c:remove var="error_sign_up_telephone_number_not_unique" scope="session"/>
+<c:remove var="error_sign_up_email_not_unique" scope="session"/>
 </body>
 </html>

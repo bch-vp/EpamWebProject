@@ -12,7 +12,7 @@
               ref="formSignIn"
               v-model="valid"
           >
-            <div style="color: red">{{ error_not_Found }}</div>
+            <div style="color: red">{{ error.not_found }}</div>
             <v-text-field
                 dark
                 name="login"
@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  props:["error_not_Found"],
+  props: ["error"],
   data() {
     return {
       text_page: {
@@ -91,6 +91,7 @@ export default {
     },
     reset: function () {
       this.$refs.formSignIn.reset()
+      this.error.not_found = undefined
     },
   }
 }

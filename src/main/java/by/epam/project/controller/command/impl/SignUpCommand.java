@@ -2,8 +2,9 @@ package by.epam.project.controller.command.impl;
 
 import by.epam.project.controller.Router;
 import by.epam.project.controller.command.Command;
+import by.epam.project.controller.command.MessageAttribute;
 import by.epam.project.controller.command.PagePath;
-import by.epam.project.controller.command.PropertiesContentKey;
+import by.epam.project.controller.command.PropertiesMessage;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.EmailServiceImpl;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static by.epam.project.util.RequestParameterName.*;
@@ -29,7 +31,7 @@ public class SignUpCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Router router;
+        Router router = new Router();
 
         try {
             String login = request.getParameter(USER_LOGIN);
@@ -48,19 +50,35 @@ public class SignUpCommand implements Command {
 
                 String locale = (String) session.getAttribute(LANGUAGE);
 
-                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale, PropertiesContentKey.EMAIL_SUBJECT);
-                String emailBodyWithLocale = ContentUtil.getWithLocale(locale, PropertiesContentKey.EMAIL_BODY);
+                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale, PropertiesMessage.EMAIL_SUBJECT);
+                String emailBodyWithLocale = ContentUtil.getWithLocale(locale, PropertiesMessage.EMAIL_BODY);
 
                 emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
                         emailBodyWithLocale, PagePath.EMAIL_ACTIVATION_LINK);
 
-                router = new Router(PagePath.NOTIFICATION);
+                router.setCurrentPage(PagePath.NOTIFICATION);
             } else {
-                router = new Router(PagePath.ERROR_500);
+                String language = (String) session.getAttribute(LANGUAGE);
+
+                if(requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE)){
+                    String error = ContentUtil.getWithLocale(language, PropertiesMessage.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                    session.setAttribute(MessageAttribute.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE, error);
+                }
+                if(requestData.get(PHONE_UNIQUE).equals(NOT_UNIQUE)){
+                    String error = ContentUtil.getWithLocale(language,
+                            PropertiesMessage.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+                    session.setAttribute(MessageAttribute.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE, error);
+                }
+                if(requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE)){
+                    String error = ContentUtil.getWithLocale(language, PropertiesMessage.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+                    session.setAttribute(MessageAttribute.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE, error);
+                }
+
+                router.setCurrentPage(PagePath.GUEST);
             }
         } catch (ServiceException exp) {
             LOGGER.error(exp);
-            router = new Router(PagePath.ERROR_500);
+            router.setCurrentPage(PagePath.ERROR_500);
         }
         return router;
     }

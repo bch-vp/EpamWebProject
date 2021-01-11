@@ -13,6 +13,9 @@
               ref="formSignUp"
               v-model="valid"
           >
+            <div style="color: red">{{ error.login_not_unique }}</div>
+            <div style="color: red">{{ error.telephone_number_not_unique }}</div>
+            <div style="color: red">{{ error.email_not_unique }}</div>
             <v-text-field
                 dark
                 name="login"
@@ -93,6 +96,7 @@
 
 <script>
 export default {
+  props: ['error'],
   data() {
     return {
       text_page: {
@@ -162,6 +166,9 @@ export default {
     },
     reset: function () {
       this.$refs.formSignUp.reset()
+      this.error.login_not_unique = undefined
+      this.error.telephone_number_not_unique = undefined
+      this.error.email_not_unique = undefined
     },
   }
 }

@@ -1,5 +1,6 @@
 package by.epam.project.model.service.impl;
 
+import by.epam.project.controller.command.MessageAttribute;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
@@ -7,6 +8,7 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.validator.UserValidator;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
