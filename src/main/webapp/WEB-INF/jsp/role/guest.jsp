@@ -38,6 +38,7 @@
                 name: "<fmt:message key="sign_in_component.login"/>",
                 error: {
                     required: "<fmt:message key="sign_in_component.login.error.required"/>",
+                    valid_characters: "<fmt:message key="sign_in_component.login.error.valid_characters"/>",
                     min_length: "<fmt:message key="sign_in_component.login.error.min_length"/>",
                     max_length: "<fmt:message key="sign_in_component.login.error.max_length"/>",
                     spaces_prohibited: "<fmt:message key="sign_in_component.login.error.spaces_prohibited"/>",
@@ -68,6 +69,7 @@
                 name: "<fmt:message key="sign_up_component.login"/>",
                 error: {
                     required: "<fmt:message key="sign_up_component.login.error.required"/>",
+                    valid_characters: "<fmt:message key="sign_up_component.login.error.valid_characters"/>",
                     min_length: "<fmt:message key="sign_up_component.login.error.min_length"/>",
                     max_length: "<fmt:message key="sign_up_component.login.error.max_length"/>",
                     spaces_prohibited: "<fmt:message key="sign_up_component.login.error.spaces_prohibited"/>",

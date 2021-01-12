@@ -2,7 +2,7 @@ var path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // плагин для загрузки кода Vue
 
 module.exports = {
-    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'home', 'home.js'),
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'guest', 'home.js'),
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/',
