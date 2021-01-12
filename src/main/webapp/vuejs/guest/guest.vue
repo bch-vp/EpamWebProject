@@ -1,91 +1,38 @@
 <template>
   <v-app>
     <div class="background-image">
-      <v-app-bar app flat fixed dark color="transparent" style="box-shadow: 0 0 50px black;" dark app>
-        <v-toolbar-title class="font-weight-medium" style="margin-left: 2%">{{
-            text_page.header.hotel
-          }}
-        </v-toolbar-title>
-
-
-
-        <v-spacer></v-spacer>
-
-        <v-btn v-on:click="showHome" :disabled="isHome" text rounded
-               style="margin-left: 3%; margin-right: 3%">
-          <v-icon v-if="isHome" color="#616161">home</v-icon>
-          <div v-else class="text-subtitle-1 font-weight-black">
-            <v-icon>home</v-icon>
-          </div>
-        </v-btn>
-
-        <v-btn v-on:click="showSignIn" :disabled="isSignIn" rounded text style="margin-right: 1%">
-          <div v-if="isSignIn" style="color: #616161">{{ text_page.header.sing_in }}</div>
-          <div v-else class="text-subtitle-1 font-weight-black"> {{ text_page.header.sing_in }}</div>
-        </v-btn>
-
-        <v-btn v-on:click="showSignUp" :disabled="isSignUp" text rounded style="margin-right: 3%">
-          <div v-if="isSignUp" style="color: #616161">{{ text_page.header.sing_up }}</div>
-          <div v-else class="text-subtitle-1 font-weight-black">{{ text_page.header.sing_up }}</div>
-        </v-btn>
-
-        <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn style="margin-right: 1%" v-bind="attrs" v-on="on" text rounded>
-              <v-icon>language</v-icon>
-              <span>&nbsp;{{ text_page.language }}</span>
-            </v-btn>
-          </template>
-          <v-list dark>
-            <v-list-item class="list-item">
-              <v-btn href="HotelWeb?command=change_language&language=ru" v-if="text_page.language !== 'ru'">
-                ru
-              </v-btn>
-              <div v-else>
-                RU
-              </div>
-            </v-list-item>
-            <v-list-item class="list-item">
-              <v-btn href="HotelWeb?command=change_language&language=en" v-if="text_page.language !== 'en'
-                                                                                && text_page.language !== ''">
-                en
-              </v-btn>
-              <div v-else>
-                EN
-              </div>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-app-bar>
-
-      <home v-if="isHome"/>
-      <sign-in v-if="isSignIn"
-               :error="text_page.sign_in_component.error"/>
-      <sign-up v-if="isSignUp"
-               :error="text_page.sign_up_component.error"/>
+      <v-container>
+        <v-row style="height: 2em">
+          <CustomHeader :showHome="showHome" :showSignIn="showSignIn" :showSignUp="showSignUp" :text_page="text_page"/>
+        </v-row>
+        <v-row>
+          <home v-if="isHome"/>
+          <sign-in v-if="isSignIn"
+                   :error="text_page.sign_in_component.error"/>
+          <sign-up v-if="isSignUp"
+                   :error="text_page.sign_up_component.error"/>
+        </v-row>
+      </v-container>
     </div>
+
   </v-app>
 </template>
 
 <script>
+import CustomHeader from 'vuejs/header.vue'
 import Home from 'vuejs/guest/component/home.vue'
 import SignIn from 'vuejs/guest/component/signIn.vue'
 import SignUp from 'vuejs/guest/component/signUp.vue'
 
 export default {
   components: {
+    CustomHeader,
     Home,
     SignIn,
     SignUp
   },
   data() {
     return {
-      items: [
-        {title: 'Click Me'},
-        {title: 'Click Me'},
-        {title: 'Click Me'},
-        {title: 'Click Me 2'},
-      ],
       text_page: {
         header: text_page.header,
         language: text_page.language,

@@ -5,7 +5,7 @@
         <v-col sm="8" md="6" lg="5" xl="4">
           <div class="sign-up-background">
             <div class="sign-up">
-              <div class="title font-weight-regular" style="color: white; text-align: center">
+              <div class="title font-weight-regular" style="color: white; text-align: center;">
                 {{ text_page.sign_up_component.name }}...<br>
               </div>
               <v-form
