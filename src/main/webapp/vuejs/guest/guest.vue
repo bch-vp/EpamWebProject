@@ -6,10 +6,13 @@
           <CustomHeader :showHome="showHome" :showSignIn="showSignIn" :showSignUp="showSignUp" :text_page="text_page"/>
         </v-row>
         <v-row>
-          <home v-if="isHome"/>
+          <home v-if="isHome"
+                :showSignUp="showSignUp"/>
           <sign-in v-if="isSignIn"
+                   :showSignUp="showSignUp"
                    :error="text_page.sign_in_component.error"/>
           <sign-up v-if="isSignUp"
+                   :showSignIn="showSignIn"
                    :error="text_page.sign_up_component.error"/>
         </v-row>
       </v-container>
@@ -94,26 +97,11 @@ export default {
 <style>
 .background-image {
   background-image: url("/img/background.jpg");
-  background-color: #cccccc;
-  height: 100%;
+  background-color: black;
+  height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-}
-
-.active {
-  color: purple;
-}
-
-.shadow {
-  text-shadow: 0px 3px 0px #b2a98f,
-  0px 14px 10px rgba(0, 0, 0, 0.15),
-  0px 24px 2px rgba(0, 0, 0, 0.1),
-  0px 34px 30px rgba(0, 0, 0, 0.1);
-}
-
-.list-item {
-  justify-content: center;
 }
 </style>

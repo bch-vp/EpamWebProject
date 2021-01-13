@@ -1,25 +1,29 @@
 <template>
-  <div style="width: 100%;margin-top: 4em ;background: rgba(0, 0, 0, 0.8);">
+  <div class="sign-up-wrapper">
     <v-container>
       <v-row justify="center" row>
         <v-col sm="12" md="12" lg="12" xl="11">
-          <v-container justify="center">
-
-            <v-row >
-              <v-col align="center" style=" ;color: white ">
-                faeffaeffaeff aeffaeffaeffae ffaeffaef faeffaef
-              </v-col>
-              <v-col style=";height: 100px; justify-content: center;color: white; display: flex;
-  align-items: center">
-                fwaffaeffaeffaeffaeffaeffaef faeffaeffaeffaef faeffaeffaeffaeff aeffaeffaeffaeffa effaeffaeffaeff
-                aeffaeffaeffaeffaeffaeffaeffaeffaeffaeffaef
-              </v-col>
-              <v-col style="color: white">
-                fwaffaeffaef faeffaeffae ffaeffwaffaeff aeffaeffaeffae ffaeffwaffaef faeffaeffaeffaeffaef
-              </v-col>
-            </v-row>
-
-          </v-container>
+          <div class="sign-up-background">
+            <div class="sign-up">
+              <v-container>
+                <v-row justify="center" style="margin-top: 3em; margin-bottom: 3em">
+                  <span class="text-h2 center" style="text-align: center; font-family: 'Monoton', cursive;"> A Best Place To Stay</span>
+                </v-row>
+                <br>
+                <v-row justify="center">
+                  <span class="text-h6 font-weight-regular center" style="text-align: center; padding-bottom: 3em;">
+                    San Francisco has hills with views, the coast, excellent food and has been voted the happiest,
+                    healthiest and fittest city in the States many times.
+                    We are delighted to have you with us and look forward to making your stay most comfortable.</span>
+                </v-row>
+                <v-row justify="center">
+                  <v-btn @click="showSignUp" color="green" style="margin-bottom: 3em" text outlined rounded>
+                    <span style="" class="text-h5 center">begin</span>
+                  </v-btn>
+                </v-row>
+              </v-container>
+            </div>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -27,9 +31,48 @@
 </template>
 
 <script>
+import CustomHeader from 'vuejs/header.vue'
 
+export default {
+  props: ['showSignUp'],
+  components: {
+    CustomHeader
+  }
+}
 </script>
 
-<style>
+<style scoped>
+@media screen and (min-width: 400px) {
+  .sign-up-wrapper {
+    width: 100%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sign-up-wrapper {
+    width: 100%;
+    position: relative;
+    margin-right: -50%;
+  }
+}
+
+.sign-up-background {
+  box-shadow: 0 0 25px;
+  background: rgba(0, 0, 0, 0.93);
+  border-radius: 20px;
+}
+
+
+.sign-up {
+  color: white;
+  margin-top: 5em;
+  padding: 2em;
+}
 
 </style>

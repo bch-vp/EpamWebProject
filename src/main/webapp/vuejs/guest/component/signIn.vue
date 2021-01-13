@@ -1,12 +1,14 @@
 <template>
   <div class="sign-in-wrapper">
-    <v-container>
-      <v-row justify="center" row>
-        <v-col sm="8" md="6" lg="5" xl="4">
+    <v-container >
+      <v-row justify="center"   row>
+        <v-col sm="8" md="6" lg="5" xl="4" >
           <div class="sign-in-background">
             <div class="sign-in">
               <div class="title font-weight-regular" style="color: white; text-align: center">
-                {{ text_page.sign_in_component.name }}...<br></div>
+                <span class="text-h6 font-weight-regular center ">
+                  {{ text_page.sign_in_component.name }}...
+                </span><br></div>
               <v-form
                   @submit="submit"
                   action="HotelWeb?command=sign_in"
@@ -38,9 +40,11 @@
                     v-bind:label=text_page.sign_in_component.password.name
                     required
                 ></v-text-field>
-
+                <v-btn @click="showSignUp"  color="green"  text outlined rounded>
+                  <span style="" >go to sign up</span>
+                </v-btn>
                 <div align="center">
-                  <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+                  <v-btn  type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
                     {{ text_page.sign_in_component.submit }}
                   </v-btn>
                   <v-btn @click="reset" outlined small fab color="#8C9EFF">
@@ -58,7 +62,7 @@
 
 <script>
 export default {
-  props: ["error"],
+  props: ['error','showSignUp'],
   data() {
     return {
       text_page: {
@@ -102,7 +106,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 .sign-in-wrapper {
   width: 100%;
   margin: 0;

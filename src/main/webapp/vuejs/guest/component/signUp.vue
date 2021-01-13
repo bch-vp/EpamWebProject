@@ -5,8 +5,9 @@
         <v-col sm="8" md="6" lg="5" xl="4">
           <div class="sign-up-background">
             <div class="sign-up">
+
               <div class="title font-weight-regular" style="color: white; text-align: center;">
-                {{ text_page.sign_up_component.name }}...<br>
+                <span class="text-h6 font-weight-regular center">{{ text_page.sign_up_component.name }}...</span><br>
               </div>
               <v-form
                   @submit="submit"
@@ -80,14 +81,17 @@
                     v-bind:label=text_page.sign_up_component.email.name
                     required
                 ></v-text-field>
-
+                <v-btn @click="showSignIn"  color="green"  text outlined rounded>
+                  <span style="" >go to sign in</span>
+                </v-btn>
                 <div align="center">
-                  <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+                  <v-btn  type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
                     {{ text_page.sign_up_component.submit }}
                   </v-btn>
                   <v-btn @click="reset" outlined small fab color="#8C9EFF">
                     <v-icon>autorenew</v-icon>
                   </v-btn>
+
                 </div>
               </v-form>
 
@@ -101,7 +105,7 @@
 
 <script>
 export default {
-  props: ['error'],
+  props: ['error','showSignIn'],
   data() {
     return {
       text_page: {
@@ -193,6 +197,14 @@ export default {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .sign-up-wrapper {
+    width: 100%;
+    position: relative;
+    margin-right: -50%;
+  }
+}
+
 .sign-up-background {
   box-shadow: 0 0 25px;
   background: rgba(0, 0, 0, 0.93);
@@ -202,7 +214,6 @@ export default {
 @media screen and (max-width: 400px) {
   .sign-up {
     margin-top: 4em;
-    margin-bottom: 3em;
     padding: 2em;
   }
 }
