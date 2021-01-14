@@ -2,6 +2,7 @@ package by.epam.project.controller.command.impl;
 
 import by.epam.project.controller.Router;
 import by.epam.project.controller.command.Command;
+import by.epam.project.controller.command.CommandType;
 import by.epam.project.controller.command.MessageAttribute;
 import by.epam.project.controller.command.PagePath;
 
@@ -17,13 +18,15 @@ public class ChangeLanguageCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Router router;
+        Router router = new Router();
 
         String givenLanguage = request.getParameter(LANGUAGE);
         if (givenLanguage.equals(EN_LANGUAGE) || givenLanguage.equals(RU_LANGUAGE)) {
             session.setAttribute(MessageAttribute.LANGUAGE, givenLanguage);
-            String currentPage = PagePath.GUEST;
-            router = new Router(currentPage);
+
+            router.setRedirect();
+            String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
+            router.setCurrentPage(redirectUrl);
         } else {
             router = new Router(PagePath.ERROR_404);
         }

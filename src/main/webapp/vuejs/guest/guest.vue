@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import CustomHeader from 'vuejs/header.vue'
+import CustomHeader from 'vuejs/guest/header.vue'
 import Home from 'vuejs/guest/component/home.vue'
 import SignIn from 'vuejs/guest/component/signIn.vue'
 import SignUp from 'vuejs/guest/component/signUp.vue'

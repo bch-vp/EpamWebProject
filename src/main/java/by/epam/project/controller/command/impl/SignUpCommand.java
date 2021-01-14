@@ -1,10 +1,7 @@
 package by.epam.project.controller.command.impl;
 
 import by.epam.project.controller.Router;
-import by.epam.project.controller.command.Command;
-import by.epam.project.controller.command.MessageAttribute;
-import by.epam.project.controller.command.PagePath;
-import by.epam.project.controller.command.PropertiesMessage;
+import by.epam.project.controller.command.*;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.EmailServiceImpl;
@@ -74,7 +71,9 @@ public class SignUpCommand implements Command {
                     session.setAttribute(MessageAttribute.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE, error);
                 }
 
-                router.setCurrentPage(PagePath.GUEST);
+                router.setRedirect();
+                String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
+                router.setCurrentPage(redirectUrl);
             }
         } catch (ServiceException exp) {
             LOGGER.error(exp);

@@ -1,16 +1,14 @@
 var path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // плагин для загрузки кода Vue
 
-module.exports = {
-    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'guest', 'home.js'),
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/',
-        filename: 'home.js',
-    },
-    devServer: {
-        port: 8081
-    },
+
+const webpack = require("webpack");
+/* ---------------
+ * Main config
+ * We will place here all the common settings
+ * ---------------*/
+var config = {
+    watch: true,
     module: {
         rules: [
             {
@@ -55,5 +53,39 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin()
-    ]
-}
+    ],
+    mode: "development"
+};
+
+var guestConfiq = Object.assign({}, config, {
+    name: "guest",
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'guest', 'guest.js'),
+    output: {
+        path: __dirname + "/build",
+        publicPath: "/",
+        filename: "guest.js"
+    },
+});
+
+var notificationConfiq = Object.assign({}, config, {
+    name: "notification",
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'notification', 'notification.js'),
+    output: {
+        path: __dirname + "/build",
+        publicPath: "/",
+        filename: "notification.js"
+    },
+});
+
+var errorConfiq = Object.assign({}, config, {
+    name: "guest",
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'error', 'error.js'),
+    output: {
+        path: __dirname + "/build",
+        publicPath: "/",
+        filename: "error.js"
+    },
+});
+
+// Return Array of Configurations
+module.exports = [guestConfiq, notificationConfiq, errorConfiq];

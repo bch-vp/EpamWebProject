@@ -28,9 +28,21 @@
             sing_up: "<fmt:message key="header.sign_up"/>",
         },
         language: "${language}",
+        guest_home_component:{
+            greeting:{
+                title: "<fmt:message key="guest_home_component.greeting.title"/>",
+                text: "<fmt:message key="guest_home_component.greeting.text"/>",
+                button:{
+                    submit: "<fmt:message key="guest_home_component.greeting.button.submit"/>",
+                }
+            }
+        },
         sign_in_component: {
             name: "<fmt:message key="sign_in_component"/>",
             submit: "<fmt:message key="sign_in_component.submit"/>",
+            go_to_component:{
+                sign_up: "<fmt:message key="sign_in_component.go_to_component.sign_up"/>",
+            },
             error: {
                 not_found: "${error_sign_in_not_found}"
             },
@@ -60,6 +72,9 @@
         sign_up_component: {
             name: "<fmt:message key="sign_up_component"/>",
             submit: "<fmt:message key="sign_up_component.submit"/>",
+            go_to_component:{
+                sign_in: "<fmt:message key="sign_up_component.go_to_component.sign_in"/>",
+            },
             error: {
                 login_not_unique: "${error_sign_up_login_not_unique}",
                 telephone_number_not_unique: "${error_sign_up_telephone_number_not_unique}",
@@ -85,6 +100,13 @@
                     one_digit: "<fmt:message key="sign_up_component.password.error.one_digit"/>",
                     one_lower_case_letter: "<fmt:message key="sign_up_component.password.error.one_lower_case_letter"/>",
                     one_upper_case_letter: "<fmt:message key="sign_up_component.password.error.one_upper_case_letter"/>",
+                }
+            },
+            password_repeat:{
+                name: "<fmt:message key="sign_up_component.password_repeat"/>",
+                error:{
+                    required: "<fmt:message key="sign_up_component.password_repeat.error.required"/>",
+                    not_equal: "<fmt:message key="sign_up_component.password_repeat.error.not_equal"/>"
                 }
             },
             first_name: {
@@ -128,7 +150,7 @@
         }
     }
 </script>
-<script src="http://localhost:8081/home.js"></script>
+<script src="http://localhost:8081/guest.js"></script>
 <c:remove var="error_sign_in_not_found" scope="session"/>
 <c:remove var="error_sign_up_login_not_unique" scope="session"/>
 <c:remove var="error_sign_up_telephone_number_not_unique" scope="session"/>

@@ -1,16 +1,32 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ilyamurin
-  Date: 1/2/21
-  Time: 19:41
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:choose>
+    <c:when test="${not empty language}"> <fmt:setLocale value="${language}"/></c:when>
+    <c:when test="${empty language}"> <fmt:setLocale value="en"/></c:when>
+</c:choose>
+
+<fmt:setBundle basename="content.language"/>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Notification</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
 </head>
 <body>
-Notification
+<div id="app"/>
+<script>
+    let text_page = {
+        notification_component: {
+            title: "<fmt:message key="notification_component.notification_component.title"/>",
+            text: "<fmt:message key="notification_component.notification_component.text"/>",
+            button: "<fmt:message key="notification_component.notification_component.button"/>",
+        }
+    }
+</script>
+<script src="http://localhost:8081/notification.js"></script>
 </body>
 </html>

@@ -29,18 +29,36 @@
                     required
                 ></v-text-field>
 
-                <v-text-field
-                    dark
-                    name="password"
-                    v-model="password"
-                    :counter="20"
-                    :rules="rules.password"
-                    :append-icon="value ? 'visibility' : 'visibility_off'"
-                    @click:append="() => (value = !value)"
-                    :type="value ? 'password' : 'text'"
-                    v-bind:label=text_page.sign_up_component.password.name
-                    required
-                ></v-text-field>
+
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                          dark
+                          name="password"
+                          v-model="password"
+                          :counter="20"
+                          :rules="rules.password"
+                          :append-icon="valuePassword ? 'visibility' : 'visibility_off'"
+                          @click:append="() => (valuePassword = !valuePassword)"
+                          :type="valuePassword ? 'password' : 'text'"
+                          v-bind:label=text_page.sign_up_component.password.name
+                          required
+                      ></v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                          dark
+                          v-model="passwordRepeat"
+                          :counter="20"
+                          :rules="rules.passwordRepeat"
+                          :append-icon="valuePasswordRepeat ? 'visibility' : 'visibility_off'"
+                          @click:append="() => (valuePasswordRepeat = !valuePasswordRepeat)"
+                          :type="valuePasswordRepeat ? 'password' : 'text'"
+                          label='Repeat password'
+                          required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
 
                 <v-text-field
                     dark
@@ -82,7 +100,7 @@
                     required
                 ></v-text-field>
                 <v-btn @click="showSignIn"  color="green"  text outlined rounded>
-                  <span style="" >go to sign in</span>
+                  <span style="" >{{text_page.sign_up_component.go_to_component.sign_in}}</span>
                 </v-btn>
                 <div align="center">
                   <v-btn  type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
@@ -111,10 +129,12 @@ export default {
       text_page: {
         sign_up_component: text_page.sign_up_component,
       },
-      value: String,
+      valuePassword: String,
+      valuePasswordRepeat: String,
       valid: false,
       login: '',
       password: '',
+      passwordRepeat: '',
       first_name: '',
       last_name: '',
       telephoneNumber: '',
@@ -135,6 +155,11 @@ export default {
           v => /(?=.*?[a-z])/.test(v) || this.text_page.sign_up_component.password.error.one_lower_case_letter,
           v => /(?=.*?[A-Z])/.test(v) || this.text_page.sign_up_component.password.error.one_upper_case_letter,
           v => /(?=.*?[0-9])/.test(v) || this.text_page.sign_up_component.password.error.one_digit,
+        ],
+        passwordRepeat:[
+          v => !!v || this.text_page.sign_up_component.password_repeat.error.required,
+          v => (v && this.passwordRepeat === this.password) ||
+              this.text_page.sign_up_component.password_repeat.error.not_equal,
         ],
         first_name: [
           v => !!v || this.text_page.sign_up_component.first_name.error.required,

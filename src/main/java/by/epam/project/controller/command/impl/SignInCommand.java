@@ -1,10 +1,7 @@
 package by.epam.project.controller.command.impl;
 
 import by.epam.project.controller.Router;
-import by.epam.project.controller.command.Command;
-import by.epam.project.controller.command.MessageAttribute;
-import by.epam.project.controller.command.PagePath;
-import by.epam.project.controller.command.PropertiesMessage;
+import by.epam.project.controller.command.*;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
@@ -39,7 +36,10 @@ public class SignInCommand implements Command {
                 String language = (String) session.getAttribute(LANGUAGE);
                 String error = ContentUtil.getWithLocale(language, PropertiesMessage.ERROR_SIGN_IN_NOT_FOUND);
                 session.setAttribute(MessageAttribute.ERROR_SIGN_IN_NOT_FOUND, error);
-                router.setCurrentPage(PagePath.GUEST);
+
+                router.setRedirect();
+                String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
+                router.setCurrentPage(redirectUrl);
             }
         } catch (
                 ServiceException exp) {

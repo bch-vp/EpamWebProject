@@ -41,7 +41,7 @@
                     required
                 ></v-text-field>
                 <v-btn @click="showSignUp"  color="green"  text outlined rounded>
-                  <span style="" >go to sign up</span>
+                  <span style="" >{{text_page.sign_in_component.go_to_component.sign_up}}</span>
                 </v-btn>
                 <div align="center">
                   <v-btn  type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">

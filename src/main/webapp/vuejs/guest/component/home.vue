@@ -7,18 +7,21 @@
             <div class="sign-up">
               <v-container>
                 <v-row justify="center" style="margin-top: 3em; margin-bottom: 3em">
-                  <span class="text-h2 center" style="text-align: center; font-family: 'Monoton', cursive;"> A Best Place To Stay</span>
+                  <span class="text-h2 center" style="text-align: center; font-family: 'Monoton', cursive;">
+                    {{ text_page.guest_home_component.greeting.title }}
+                  </span>
                 </v-row>
                 <br>
                 <v-row justify="center">
                   <span class="text-h6 font-weight-regular center" style="text-align: center; padding-bottom: 3em;">
-                    San Francisco has hills with views, the coast, excellent food and has been voted the happiest,
-                    healthiest and fittest city in the States many times.
-                    We are delighted to have you with us and look forward to making your stay most comfortable.</span>
+                    {{ text_page.guest_home_component.greeting.text }}
+                  </span>
                 </v-row>
                 <v-row justify="center">
                   <v-btn @click="showSignUp" color="green" style="margin-bottom: 3em" text outlined rounded>
-                    <span style="" class="text-h5 center">begin</span>
+                    <span style="" class="text-h6 center">
+                      {{ text_page.guest_home_component.greeting.button.submit }}
+                    </span>
                   </v-btn>
                 </v-row>
               </v-container>
@@ -31,12 +34,19 @@
 </template>
 
 <script>
-import CustomHeader from 'vuejs/header.vue'
+import CustomHeader from 'vuejs/guest/header.vue'
 
 export default {
   props: ['showSignUp'],
   components: {
     CustomHeader
+  },
+  data() {
+    return {
+      text_page: {
+        guest_home_component: text_page.guest_home_component,
+      },
+    }
   }
 }
 </script>

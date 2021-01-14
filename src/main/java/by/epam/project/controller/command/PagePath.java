@@ -1,6 +1,7 @@
 package by.epam.project.controller.command;
 
 public class PagePath {
+
     public final static String INDEX = "/index.jsp";
     public final static String GUEST = "/WEB-INF/jsp/role/guest.jsp";
     public final static String CLIENT = "/WEB-INF/jsp/role/client.jsp";
