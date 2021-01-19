@@ -1,6 +1,6 @@
-package by.epam.project.util;
+package by.epam.project.controller.constant;
 
-public class RequestParameterName {
+public class ParameterKey {
     public static final String USER_LOGIN = "login";
     public static final String USER_PASSWORD = "password";
     public static final String USER_EMAIL = "email";
@@ -17,6 +17,6 @@ public class RequestParameterName {
 
     public static final String COMMAND = "command";
 
-    private RequestParameterName() {
+    private ParameterKey() {
     }
 }

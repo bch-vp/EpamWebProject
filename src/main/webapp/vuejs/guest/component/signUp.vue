@@ -28,37 +28,35 @@
                     v-bind:label=text_page.sign_up_component.login.name
                     required
                 ></v-text-field>
-
-
-                  <v-row>
-                    <v-col>
-                      <v-text-field
-                          dark
-                          name="password"
-                          v-model="password"
-                          :counter="20"
-                          :rules="rules.password"
-                          :append-icon="valuePassword ? 'visibility' : 'visibility_off'"
-                          @click:append="() => (valuePassword = !valuePassword)"
-                          :type="valuePassword ? 'password' : 'text'"
-                          v-bind:label=text_page.sign_up_component.password.name
-                          required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col>
-                      <v-text-field
-                          dark
-                          v-model="passwordRepeat"
-                          :counter="20"
-                          :rules="rules.passwordRepeat"
-                          :append-icon="valuePasswordRepeat ? 'visibility' : 'visibility_off'"
-                          @click:append="() => (valuePasswordRepeat = !valuePasswordRepeat)"
-                          :type="valuePasswordRepeat ? 'password' : 'text'"
-                          label='Repeat password'
-                          required
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                        dark
+                        name="password"
+                        v-model="password"
+                        :counter="20"
+                        :rules="rules.password"
+                        :append-icon="valuePassword ? 'visibility' : 'visibility_off'"
+                        @click:append="() => (valuePassword = !valuePassword)"
+                        :type="valuePassword ? 'password' : 'text'"
+                        v-bind:label=text_page.sign_up_component.password.name
+                        required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                        dark
+                        v-model="passwordRepeat"
+                        :counter="20"
+                        :rules="rules.passwordRepeat"
+                        :append-icon="valuePasswordRepeat ? 'visibility' : 'visibility_off'"
+                        @click:append="() => (valuePasswordRepeat = !valuePasswordRepeat)"
+                        :type="valuePasswordRepeat ? 'password' : 'text'"
+                        label='Repeat password'
+                        required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
 
                 <v-text-field
                     dark
@@ -99,20 +97,22 @@
                     v-bind:label=text_page.sign_up_component.email.name
                     required
                 ></v-text-field>
-                <v-btn @click="showSignIn"  color="green"  text outlined rounded>
-                  <span style="" >{{text_page.sign_up_component.go_to_component.sign_in}}</span>
-                </v-btn>
+                <br>
+                <v-row>
+                  <v-btn @click="showSignIn" color="green" text outlined rounded>
+                    <span style="">{{ text_page.sign_up_component.go_to_component.sign_in }}</span>
+                  </v-btn>
+                </v-row>
+                <br>
                 <div align="center">
-                  <v-btn  type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+                  <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
                     {{ text_page.sign_up_component.submit }}
                   </v-btn>
                   <v-btn @click="reset" outlined small fab color="#8C9EFF">
                     <v-icon>autorenew</v-icon>
                   </v-btn>
-
                 </div>
               </v-form>
-
             </div>
           </div>
         </v-col>
@@ -123,7 +123,7 @@
 
 <script>
 export default {
-  props: ['error','showSignIn'],
+  props: ['error', 'showSignIn'],
   data() {
     return {
       text_page: {
@@ -156,7 +156,7 @@ export default {
           v => /(?=.*?[A-Z])/.test(v) || this.text_page.sign_up_component.password.error.one_upper_case_letter,
           v => /(?=.*?[0-9])/.test(v) || this.text_page.sign_up_component.password.error.one_digit,
         ],
-        passwordRepeat:[
+        passwordRepeat: [
           v => !!v || this.text_page.sign_up_component.password_repeat.error.required,
           v => (v && this.passwordRepeat === this.password) ||
               this.text_page.sign_up_component.password_repeat.error.not_equal,
@@ -196,7 +196,28 @@ export default {
   methods: {
     submit: function () {
       if (this.$refs.formSignUp.validate()) {
-        this.$refs.formSignUp.submit()
+        // this.$refs.formSignUp.submit()
+
+
+        var dataSignUp = {
+          login: this.login,
+          password: this.password,
+          first_name: this.first_name,
+          last_name: this.last_name,
+          telephone_number: this.telephoneNumber,
+          email: this.email
+        }
+        this.$resource('/details').save({}, dataSignUp).then(result =>
+            result.json().then(data => {
+              this.details.push(data);
+              this.details.sort((a, b) => -(a.id - b.id))
+              this.clear()
+            },ex =>{
+              alert(ex.status)
+            })
+        )
+
+
       }
     },
     reset: function () {
@@ -242,6 +263,7 @@ export default {
     padding: 2em;
   }
 }
+
 @media screen and (min-width: 400px) {
   .sign-up {
     padding-left: 45px;

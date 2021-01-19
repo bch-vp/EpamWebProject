@@ -20,7 +20,7 @@
                   </span>
                     </v-row>
                     <v-row justify="center">
-                      <v-btn href="HotelWeb?command=passing_by_guest" color="green" style="margin-bottom: 3em" text outlined rounded>
+                      <v-btn href="do?command=passing_by_guest" color="green" style="margin-bottom: 3em" text outlined rounded>
                     <span  style="" class="text-h6 center">
                       {{text_page.error_component.error.button}}
                     </span>

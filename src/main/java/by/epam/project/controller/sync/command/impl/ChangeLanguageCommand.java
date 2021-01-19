@@ -1,15 +1,15 @@
-package by.epam.project.controller.command.impl;
+package by.epam.project.controller.sync.command.impl;
 
-import by.epam.project.controller.Router;
-import by.epam.project.controller.command.Command;
-import by.epam.project.controller.command.CommandType;
-import by.epam.project.controller.command.MessageAttribute;
-import by.epam.project.controller.command.PagePath;
+import by.epam.project.controller.sync.Router;
+import by.epam.project.controller.sync.command.Command;
+import by.epam.project.controller.sync.command.CommandType;
+import by.epam.project.controller.constant.AttributeKey;
+import by.epam.project.controller.constant.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.project.util.RequestParameterName.LANGUAGE;
+import static by.epam.project.controller.constant.ParameterKey.LANGUAGE;
 
 public class ChangeLanguageCommand implements Command {
     private static final String EN_LANGUAGE = "en";
@@ -22,7 +22,7 @@ public class ChangeLanguageCommand implements Command {
 
         String givenLanguage = request.getParameter(LANGUAGE);
         if (givenLanguage.equals(EN_LANGUAGE) || givenLanguage.equals(RU_LANGUAGE)) {
-            session.setAttribute(MessageAttribute.LANGUAGE, givenLanguage);
+            session.setAttribute(AttributeKey.LANGUAGE, givenLanguage);
 
             router.setRedirect();
             String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());

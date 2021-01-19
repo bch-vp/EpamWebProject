@@ -9,6 +9,9 @@ const webpack = require("webpack");
  * ---------------*/
 var config = {
     watch: true,
+    devServer: {
+        port: 8081,
+    },
     module: {
         rules: [
             {

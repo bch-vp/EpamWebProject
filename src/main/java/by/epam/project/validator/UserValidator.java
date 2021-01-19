@@ -1,12 +1,11 @@
 package by.epam.project.validator;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static by.epam.project.util.RequestParameterName.*;
+import static by.epam.project.controller.constant.ParameterKey.*;
 
 public class UserValidator {
     private static final String LOGIN_REGEX_MIN_MAX_SIZE = "^.{3,10}$";
@@ -22,13 +21,13 @@ public class UserValidator {
     }
 
     public static Map<String, String> validateParameters(String login, String password, String email,
-                                                         String name, String surname, String phone) {
+                                                         String firstName, String lastName, String phone) {
         Map<String, String> validatedData = new HashMap<>();
         validatedData.put(USER_LOGIN, isLoginCorrect(login) ? login : EMPTY_STRING);
         validatedData.put(USER_PASSWORD, isPasswordCorrect(password) ? password : EMPTY_STRING);
         validatedData.put(USER_EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
-        validatedData.put(USER_NAME, isNameCorrect(name) ? name : EMPTY_STRING);
-        validatedData.put(USER_SURNAME, isSurnameCorrect(surname) ? surname : EMPTY_STRING);
+        validatedData.put(USER_NAME, isNameCorrect(firstName) ? firstName : EMPTY_STRING);
+        validatedData.put(USER_SURNAME, isSurnameCorrect(lastName) ? lastName : EMPTY_STRING);
         validatedData.put(USER_PHONE, isPhoneCorrect(phone) ? phone : EMPTY_STRING);
         return validatedData;
     }

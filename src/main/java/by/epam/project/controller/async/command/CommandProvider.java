@@ -1,20 +1,10 @@
-package by.epam.project.controller.command;
+package by.epam.project.controller.async.command;
 
-import by.epam.project.controller.command.impl.EmptyCommand;
+import by.epam.project.controller.async.command.impl.EmptyCommand;
 
-/**
- * The type Command provider.
- */
 public class CommandProvider {
-    private CommandProvider() {
-    }
+    private CommandProvider(){}
 
-    /**
-     * Provide command command.
-     *
-     * @param command the command
-     * @return the command
-     */
     public static Command provideCommand(String command) {
         Command currentCommand;
 

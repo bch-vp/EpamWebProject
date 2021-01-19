@@ -1,6 +1,5 @@
 package by.epam.project.model.service.impl;
 
-import by.epam.project.controller.command.MessageAttribute;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
@@ -8,13 +7,12 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.validator.UserValidator;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.util.RequestParameterName.*;
-import static by.epam.project.util.RequestParameterName.NOT_UNIQUE;
+import static by.epam.project.controller.constant.ParameterKey.*;
+import static by.epam.project.controller.constant.ParameterKey.NOT_UNIQUE;
 
 
 public class UserServiceImpl implements UserService {
@@ -57,10 +55,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> defineSignUpData(String login, String password, String email, String name, String surname, String phone) throws ServiceException {
+    public Map<String, String> defineSignUpData(String login, String password, String email, String firstName,
+                                                String lastName, String phone) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
 
-        Map<String, String> signUpData = UserValidator.validateParameters(login, password, email, name, surname, phone);
+        Map<String, String> signUpData =
+                UserValidator.validateParameters(login, password, email, firstName, lastName, phone);
         try {
             signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login).isEmpty() ? login : NOT_UNIQUE);
             signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email).isEmpty() ? email : NOT_UNIQUE);

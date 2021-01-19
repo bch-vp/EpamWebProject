@@ -1,4 +1,4 @@
-package by.epam.project.controller.command;
+package by.epam.project.controller.constant;
 
 public class PagePath {
 

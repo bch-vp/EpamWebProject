@@ -1,7 +1,10 @@
-package by.epam.project.controller.command.impl;
+package by.epam.project.controller.sync.command.impl;
 
-import by.epam.project.controller.Router;
-import by.epam.project.controller.command.*;
+import by.epam.project.controller.constant.AttributeKey;
+import by.epam.project.controller.constant.PagePath;
+import by.epam.project.controller.constant.PropertieKey;
+import by.epam.project.controller.sync.Router;
+import by.epam.project.controller.sync.command.*;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.EmailServiceImpl;
@@ -14,10 +17,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.project.util.RequestParameterName.*;
+import static by.epam.project.controller.constant.ParameterKey.*;
 
 public class SignUpCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -47,8 +49,8 @@ public class SignUpCommand implements Command {
 
                 String locale = (String) session.getAttribute(LANGUAGE);
 
-                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale, PropertiesMessage.EMAIL_SUBJECT);
-                String emailBodyWithLocale = ContentUtil.getWithLocale(locale, PropertiesMessage.EMAIL_BODY);
+                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale, PropertieKey.EMAIL_SUBJECT);
+                String emailBodyWithLocale = ContentUtil.getWithLocale(locale, PropertieKey.EMAIL_BODY);
 
                 emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
                         emailBodyWithLocale, PagePath.EMAIL_ACTIVATION_LINK);
@@ -57,18 +59,18 @@ public class SignUpCommand implements Command {
             } else {
                 String language = (String) session.getAttribute(LANGUAGE);
 
-                if(requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE)){
-                    String error = ContentUtil.getWithLocale(language, PropertiesMessage.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-                    session.setAttribute(MessageAttribute.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE, error);
+                if (requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE)) {
+                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                    session.setAttribute(AttributeKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE, error);
                 }
-                if(requestData.get(PHONE_UNIQUE).equals(NOT_UNIQUE)){
+                if (requestData.get(PHONE_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language,
-                            PropertiesMessage.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
-                    session.setAttribute(MessageAttribute.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE, error);
+                            PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+                    session.setAttribute(AttributeKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE, error);
                 }
-                if(requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE)){
-                    String error = ContentUtil.getWithLocale(language, PropertiesMessage.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
-                    session.setAttribute(MessageAttribute.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE, error);
+                if (requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE)) {
+                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+                    session.setAttribute(AttributeKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE, error);
                 }
 
                 router.setRedirect();
@@ -76,7 +78,6 @@ public class SignUpCommand implements Command {
                 router.setCurrentPage(redirectUrl);
             }
         } catch (ServiceException exp) {
-            LOGGER.error(exp);
             router.setCurrentPage(PagePath.ERROR_500);
         }
         return router;

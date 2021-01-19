@@ -37,7 +37,7 @@
       </template>
       <v-list dark>
         <v-list-item class="list-item">
-          <v-btn href="HotelWeb?command=change_language&language=ru" v-if="text_page.language !== 'ru'">
+          <v-btn href="do?command=change_language&language=ru" v-if="text_page.language !== 'ru'">
             ru
           </v-btn>
           <div v-else>
@@ -45,7 +45,7 @@
           </div>
         </v-list-item>
         <v-list-item class="list-item">
-          <v-btn href="HotelWeb?command=change_language&language=en" v-if="text_page.language !== 'en'
+          <v-btn href="do?command=change_language&language=en" v-if="text_page.language !== 'en'
                                                                                 && text_page.language !== ''">
             en
           </v-btn>

@@ -1,13 +1,11 @@
-package by.epam.project.controller;
+package by.epam.project.controller.sync;
 
-import by.epam.project.controller.command.Command;
-import by.epam.project.controller.command.CommandProvider;
+import by.epam.project.controller.constant.ParameterKey;
+import by.epam.project.controller.sync.command.Command;
+import by.epam.project.controller.sync.command.CommandProvider;
 import by.epam.project.model.connection.ConnectionPool;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +26,7 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Command command = CommandProvider.provideCommand(request.getParameter("command"));
+        Command command = CommandProvider.provideCommand(request.getParameter(ParameterKey.COMMAND));
         Router router = command.execute(request);
 
         String currentPage = router.getCurrentPage();

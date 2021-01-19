@@ -1,11 +1,14 @@
 package by.epam.project.model.entity;
 
+
 public class User extends Entity {
     private String login;
     private String name;
     private String surname;
     private String phone;
     private String email;
+
+    public User(){}
 
     public User(String login, String name, String surname, String phone, String email) {
         this.login = login;

@@ -1,24 +1,24 @@
-package by.epam.project.controller.command.impl;
+package by.epam.project.controller.sync.command.impl;
 
-import by.epam.project.controller.Router;
-import by.epam.project.controller.command.*;
+import by.epam.project.controller.constant.AttributeKey;
+import by.epam.project.controller.constant.PagePath;
+import by.epam.project.controller.constant.PropertieKey;
+import by.epam.project.controller.sync.Router;
+import by.epam.project.controller.sync.command.*;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-import static by.epam.project.util.RequestParameterName.LANGUAGE;
+import static by.epam.project.controller.constant.ParameterKey.LANGUAGE;
 
 public class SignInCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest request) {
@@ -34,16 +34,14 @@ public class SignInCommand implements Command {
                 router.setCurrentPage(PagePath.CLIENT);
             } else {
                 String language = (String) session.getAttribute(LANGUAGE);
-                String error = ContentUtil.getWithLocale(language, PropertiesMessage.ERROR_SIGN_IN_NOT_FOUND);
-                session.setAttribute(MessageAttribute.ERROR_SIGN_IN_NOT_FOUND, error);
+                String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_IN_NOT_FOUND);
+                session.setAttribute(AttributeKey.ERROR_SIGN_IN_NOT_FOUND, error);
 
                 router.setRedirect();
                 String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
                 router.setCurrentPage(redirectUrl);
             }
-        } catch (
-                ServiceException exp) {
-            LOGGER.error(exp);
+        } catch (ServiceException exp) {
             router.setCurrentPage(PagePath.ERROR_500);
         }
         return router;

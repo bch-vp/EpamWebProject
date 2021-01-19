@@ -16,26 +16,33 @@
             <param-value>UTF-8</param-value>
         </init-param>
     </filter>
-
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <servlet>
-        <servlet-name>Servlet</servlet-name>
-        <servlet-class>by.epam.project.controller.Controller</servlet-class>
+        <servlet-name>SyncServlet</servlet-name>
+        <servlet-class>by.epam.project.controller.sync.Controller</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Servlet</servlet-name>
-        <url-pattern>/HotelWeb</url-pattern>
+        <servlet-name>SyncServlet</servlet-name>
+        <url-pattern>/do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AsyncServlet</servlet-name>
+        <servlet-class>by.epam.project.controller.async.Controller</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AsyncServlet</servlet-name>
+        <url-pattern>/ajax</url-pattern>
     </servlet-mapping>
 
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/jsp/error404.jsp</location>
     </error-page>
-
     <error-page>
         <error-code>500</error-code>
         <location>/WEB-INF/jsp/error500.jsp</location>
