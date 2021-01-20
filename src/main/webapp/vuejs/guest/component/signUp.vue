@@ -5,17 +5,14 @@
         <v-col sm="8" md="6" lg="5" xl="4">
           <div class="sign-up-background">
             <div class="sign-up">
-
-              <div class="title font-weight-regular" style="color: white; text-align: center;">
-                <span class="text-h6 font-weight-regular center">{{ text_page.sign_up_component.name }}...</span><br>
-              </div>
+              <br>
               <v-form
-                  @submit="submit"
-                  action="HotelWeb?command=sign_up"
-                  method="post"
                   ref="formSignUp"
                   v-model="valid"
               >
+                <div class="title font-weight-regular" style="color: white; text-align: center;">
+                  <span class="text-h6 font-weight-regular center">{{ text_page.sign_up_component.name }}...</span><br>
+                </div>
                 <div style="color: red">{{ error.login_not_unique }}</div>
                 <div style="color: red">{{ error.telephone_number_not_unique }}</div>
                 <div style="color: red">{{ error.email_not_unique }}</div>
@@ -105,7 +102,7 @@
                 </v-row>
                 <br>
                 <div align="center">
-                  <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+                  <v-btn @click="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
                     {{ text_page.sign_up_component.submit }}
                   </v-btn>
                   <v-btn @click="reset" outlined small fab color="#8C9EFF">
@@ -123,11 +120,16 @@
 
 <script>
 export default {
-  props: ['error', 'showSignIn'],
+  props: ['showSignIn'],
   data() {
     return {
       text_page: {
         sign_up_component: text_page.sign_up_component,
+      },
+      error: {
+        login_not_unique: "",
+        telephone_number_not_unique: "",
+        email_not_unique: ""
       },
       valuePassword: String,
       valuePasswordRepeat: String,
@@ -196,28 +198,27 @@ export default {
   methods: {
     submit: function () {
       if (this.$refs.formSignUp.validate()) {
-        // this.$refs.formSignUp.submit()
 
-
-        var dataSignUp = {
-          login: this.login,
-          password: this.password,
-          first_name: this.first_name,
-          last_name: this.last_name,
-          telephone_number: this.telephoneNumber,
-          email: this.email
-        }
-        this.$resource('/details').save({}, dataSignUp).then(result =>
-            result.json().then(data => {
-              this.details.push(data);
-              this.details.sort((a, b) => -(a.id - b.id))
-              this.clear()
-            },ex =>{
-              alert(ex.status)
+        this.axios({
+          method: 'post',
+          url: '/ajax?command=sign_up',
+          data: {
+            login: this.login,
+            password: this.password,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            telephone_number: this.telephoneNumber,
+            email: this.email
+          }
+        }).then(response => {
+              console.log(response.data)
+            },
+            ex => {
+              this.$refs.formSignUp.reset()
+              this.error.login_not_unique = ex.response.data.error.login_not_unique
+              this.error.telephone_number_not_unique = ex.response.data.error.telephone_number_not_unique
+              this.error.email_not_unique = ex.response.data.error.email_not_unique
             })
-        )
-
-
       }
     },
     reset: function () {

@@ -33,6 +33,7 @@ public class SignUpCommand implements Command {
 
         try {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+            String content  = request.getContentType();
 
             String login = (String) requestParameters.get(USER_LOGIN);
             String password = (String) requestParameters.get(USER_PASSWORD);
@@ -63,16 +64,16 @@ public class SignUpCommand implements Command {
 
                 if (requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, "login not unique", error, "error");
+                    JsonUtil.addNodeToJsonTree(jsonTree, "login_not_unique", error, "error");
                 }
                 if (requestData.get(PHONE_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language,
                             PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, "phone not unique", error, "error");
+                    JsonUtil.addNodeToJsonTree(jsonTree, "telephone_number_not_unique", error, "error");
                 }
                 if (requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, "phone not unique", error, "error");
+                    JsonUtil.addNodeToJsonTree(jsonTree, "email_not_unique", error, "error");
                 }
 
                 resultJson = JsonUtil.jsonTreeToJson(jsonTree);

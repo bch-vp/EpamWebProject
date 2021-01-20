@@ -9,8 +9,7 @@
           <home v-if="isHome"
                 :showSignUp="showSignUp"/>
           <sign-in v-if="isSignIn"
-                   :showSignUp="showSignUp"
-                   :error="text_page.sign_in_component.error"/>
+                   :showSignUp="showSignUp"/>
           <sign-up v-if="isSignUp"
                    :showSignIn="showSignIn"
                    :error="text_page.sign_up_component.error"/>
