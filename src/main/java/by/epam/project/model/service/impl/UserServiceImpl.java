@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.constant.ParameterKey.*;
-import static by.epam.project.controller.constant.ParameterKey.NOT_UNIQUE;
+import static by.epam.project.controller.constant.RequestParameterKey.*;
+import static by.epam.project.controller.constant.RequestParameterKey.NOT_UNIQUE;
 
 
 public class UserServiceImpl implements UserService {
@@ -62,9 +62,18 @@ public class UserServiceImpl implements UserService {
         Map<String, String> signUpData =
                 UserValidator.validateParameters(login, password, email, firstName, lastName, phone);
         try {
-            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login).isEmpty() ? login : NOT_UNIQUE);
-            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email).isEmpty() ? email : NOT_UNIQUE);
-            signUpData.put(PHONE_UNIQUE, userDao.findByPhone(phone).isEmpty() ? phone : NOT_UNIQUE);
+            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
+                    .isEmpty()
+                    ? (login == null ? EMPTY_STRING : login)
+                    : NOT_UNIQUE);
+            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
+                    .isEmpty()
+                    ? (email == null ? EMPTY_STRING : email)
+                    : NOT_UNIQUE);
+            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
+                    .isEmpty()
+                    ? (phone == null ? EMPTY_STRING : phone)
+                    : NOT_UNIQUE);
         } catch (DaoException exp) {
             throw new ServiceException("Error during define sign up data", exp);
         }

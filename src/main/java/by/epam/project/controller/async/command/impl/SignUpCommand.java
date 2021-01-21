@@ -1,6 +1,7 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
+import by.epam.project.controller.constant.ErrorKey;
 import by.epam.project.controller.constant.PagePath;
 import by.epam.project.controller.constant.PropertieKey;
 import by.epam.project.exception.ServiceException;
@@ -20,28 +21,29 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.project.controller.constant.ParameterKey.*;
+import static by.epam.project.controller.constant.RequestParameterKey.*;
 
 public class SignUpCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
     private final EmailServiceImpl emailService = EmailServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
+        String language = (String) session.getAttribute(LANGUAGE);
         String resultJson = null;
 
+        Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+        String content = request.getContentType();
+
+        String login = (String) requestParameters.get(USER_LOGIN);
+        String password = (String) requestParameters.get(USER_PASSWORD);
+        String email = (String) requestParameters.get(USER_EMAIL);
+        String firstName = (String) requestParameters.get(USER_NAME);
+        String lastName = (String) requestParameters.get(USER_SURNAME);
+        String phone = (String) requestParameters.get(USER_PHONE);
+
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
-            String content  = request.getContentType();
-
-            String login = (String) requestParameters.get(USER_LOGIN);
-            String password = (String) requestParameters.get(USER_PASSWORD);
-            String email = (String) requestParameters.get(USER_EMAIL);
-            String firstName = (String) requestParameters.get(USER_NAME);
-            String lastName = (String) requestParameters.get(USER_SURNAME);
-            String phone = (String) requestParameters.get(USER_PHONE);
-
             Map<String, String> requestData = userService.defineSignUpData(login,
                     password, email, firstName, lastName, phone);
 
@@ -59,33 +61,40 @@ public class SignUpCommand implements Command {
 
                 response.setStatus(HttpServletResponse.SC_CREATED);
             } else {
-                JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, "error");
-                String language = (String) session.getAttribute(LANGUAGE);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+                JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);
 
                 if (requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, "login_not_unique", error, "error");
+                    JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.LOGIN_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
-                if (requestData.get(PHONE_UNIQUE).equals(NOT_UNIQUE)) {
+                if (requestData.get(TELEPHONE_NUMBER_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language,
                             PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, "telephone_number_not_unique", error, "error");
+                    JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
                 if (requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, "email_not_unique", error, "error");
+                    JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
 
                 resultJson = JsonUtil.jsonTreeToJson(jsonTree);
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-            if(resultJson != null && !resultJson.isEmpty()) {
-                response.setContentType(CONTENT_TYPE);
-                response.setCharacterEncoding(ENCODING);
-                response.getWriter().write(resultJson);
-            }
-        } catch (ServiceException | IOException exp) {
+        } catch (ServiceException exp) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);
+            String propertieKey = exp.getCause().getMessage();// ??????????
+            String error = ContentUtil.getWithLocale(language, propertieKey);
+            JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.DATABASE_CONNECTION_NOT_RECEIVED, error, ErrorKey.ERROR);
+
+            resultJson = JsonUtil.jsonTreeToJson(jsonTree);
+        }
+        if (resultJson != null && !resultJson.isEmpty()) {
+            response.setContentType(CONTENT_TYPE);
+            response.setCharacterEncoding(ENCODING);
+            response.getWriter().write(resultJson);
         }
     }
 }

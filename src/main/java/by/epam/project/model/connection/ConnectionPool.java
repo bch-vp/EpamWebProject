@@ -1,5 +1,7 @@
 package by.epam.project.model.connection;
 
+import by.epam.project.controller.constant.PropertieKey;
+import by.epam.project.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,8 +17,8 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-public enum ConnectionPool {
-    INSTANCE;
+public class ConnectionPool {
+    private static final ConnectionPool instance = new ConnectionPool();
 
     private static final String DATABASE_PROPERTIES = "database.properties";
     private static final String DATABASE_URL = "url";
@@ -28,19 +30,38 @@ public enum ConnectionPool {
 
     private static final Logger Logger = LogManager.getLogger();
 
-    ConnectionPool() {
-        freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
-        busyConnections = new ArrayDeque<>();
-        initializePool();
+    public static ConnectionPool getInstance() {
+        return instance;
     }
 
-    public ProxyConnection getConnection() {
+    private ConnectionPool() {
+        freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
+        busyConnections = new ArrayDeque<>();
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        Properties properties = new Properties();
+
+        try {
+            properties.load(classLoader.getResourceAsStream(DATABASE_PROPERTIES));
+            String sqlUrl = properties.getProperty(DATABASE_URL);
+            String sqlDriver = properties.getProperty(DATABASE_DRIVER);
+            Class.forName(sqlDriver);
+            for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
+                freeConnections.add(new ProxyConnection(DriverManager.getConnection(sqlUrl, properties)));
+            }
+        } catch (IOException | ClassNotFoundException | SQLException exp) {
+            throw new RuntimeException("Connection pool is not initialize.", exp);
+        }
+    }
+
+    public ProxyConnection getConnection() throws DaoException {
         ProxyConnection proxyConnection = null;
         try {
             proxyConnection = freeConnections.take();
             busyConnections.add(proxyConnection);
+//            throw new InterruptedException();
         } catch (InterruptedException exp) {
             Logger.error("The connection is not received", exp);
+            throw new DaoException(PropertieKey.ERROR_DATABASE_CONNECTION_NOT_RECEIVED,exp);
         }
         return proxyConnection;
     }
@@ -63,23 +84,6 @@ public enum ConnectionPool {
             }
         }
         deregisterDrivers();
-    }
-
-    private void initializePool() {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        Properties properties = new Properties();
-
-        try {
-            properties.load(classLoader.getResourceAsStream(DATABASE_PROPERTIES));
-            String sqlUrl = properties.getProperty(DATABASE_URL);
-            String sqlDriver = properties.getProperty(DATABASE_DRIVER);
-            Class.forName(sqlDriver);
-            for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
-                freeConnections.add(new ProxyConnection(DriverManager.getConnection(sqlUrl, properties)));
-            }
-        } catch (IOException | ClassNotFoundException | SQLException exp) {
-            throw new RuntimeException("Connection pool is not initialize.", exp);
-        }
     }
 
     private void deregisterDrivers() {

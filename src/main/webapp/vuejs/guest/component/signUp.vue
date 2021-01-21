@@ -13,6 +13,7 @@
                 <div class="title font-weight-regular" style="color: white; text-align: center;">
                   <span class="text-h6 font-weight-regular center">{{ text_page.sign_up_component.name }}...</span><br>
                 </div>
+                <div style="color: yellow">{{ error.database_connection_not_received }}</div>
                 <div style="color: red">{{ error.login_not_unique }}</div>
                 <div style="color: red">{{ error.telephone_number_not_unique }}</div>
                 <div style="color: red">{{ error.email_not_unique }}</div>
@@ -129,7 +130,8 @@ export default {
       error: {
         login_not_unique: "",
         telephone_number_not_unique: "",
-        email_not_unique: ""
+        email_not_unique: "",
+        database_connection_not_received: ""
       },
       valuePassword: String,
       valuePasswordRepeat: String,
@@ -211,13 +213,18 @@ export default {
             email: this.email
           }
         }).then(response => {
-              console.log(response.data)
+              // show NOTIFICATION to confirm email
             },
             ex => {
-              this.$refs.formSignUp.reset()
-              this.error.login_not_unique = ex.response.data.error.login_not_unique
-              this.error.telephone_number_not_unique = ex.response.data.error.telephone_number_not_unique
-              this.error.email_not_unique = ex.response.data.error.email_not_unique
+              alert(ex.response.status)
+              if (ex.response.status === 400) {
+                this.$refs.formSignUp.reset()
+                this.error.login_not_unique = ex.response.data.error.login_not_unique
+                this.error.telephone_number_not_unique = ex.response.data.error.telephone_number_not_unique
+                this.error.email_not_unique = ex.response.data.error.email_not_unique
+              } else if (ex.response.status === 500) {
+                this.error.database_connection_not_received = ex.response.data.error.database_connection_not_received
+              }
             })
       }
     },
@@ -226,6 +233,7 @@ export default {
       this.error.login_not_unique = undefined
       this.error.telephone_number_not_unique = undefined
       this.error.email_not_unique = undefined
+      this.error.database_connection_not_received = undefined
     },
   }
 }

@@ -15,7 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import static by.epam.project.controller.constant.AttributeKey.ENCODING;
+import static by.epam.project.controller.constant.SessionAttributeKey.ENCODING;
 
 
 public class MailSender {

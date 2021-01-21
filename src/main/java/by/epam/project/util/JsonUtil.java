@@ -1,5 +1,6 @@
 package by.epam.project.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -19,22 +20,22 @@ public class JsonUtil {
         return instance;
     }
 
-    public static <T> T toObject(String json, Class<T> clazz) {
+    public static <T> T toObject(String json, Class<T> clazz) throws JsonProcessingException {
         try {
             return objectMapper.readValue(json, clazz);
         } catch (IOException e) {
+            throw e;
 //            logger.error(e.getMessage(), e);
         }
-        return null;
     }
 
-    public static <T> String toJson(T entity) {
+    public static <T> String toJson(T entity) throws JsonProcessingException {
         try {
             return objectMapper.writeValueAsString(entity);
         } catch (IOException e) {
+            throw e;
 //            logger.error(e.getMessage(), e);
         }
-        return null;
     }
 
     public static <T> T toMap(InputStream inputStream, Class<T> clazz)

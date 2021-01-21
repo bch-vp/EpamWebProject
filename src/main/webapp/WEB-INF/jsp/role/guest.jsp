@@ -44,7 +44,8 @@
                 sign_up: "<fmt:message key="sign_in_component.go_to_component.sign_up"/>",
             },
             error: {
-                not_found: "${error_sign_in_not_found}"
+                not_found: "${login_not_found}",
+                database_connection_not_received:"${database_connection_not_received}",
             },
             login: {
                 name: "<fmt:message key="sign_in_component.login"/>",
@@ -151,9 +152,7 @@
     }
 </script>
 <script src="http://localhost:8081/guest.js"></script>
-<c:remove var="error_sign_in_not_found" scope="session"/>
-<c:remove var="error_sign_up_login_not_unique" scope="session"/>
-<c:remove var="error_sign_up_telephone_number_not_unique" scope="session"/>
-<c:remove var="error_sign_up_email_not_unique" scope="session"/>
+<c:remove var="database_connection_not_received" scope="session"/>
+<c:remove var="login_not_found" scope="session"/>
 </body>
 </html>

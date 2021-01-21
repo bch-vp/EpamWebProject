@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.epam.project.controller.constant.ParameterKey.COMMAND;
+import static by.epam.project.controller.constant.RequestParameterKey.COMMAND;
 
 public class Controller extends HttpServlet {
     @Override

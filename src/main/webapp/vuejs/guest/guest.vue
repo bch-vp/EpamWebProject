@@ -9,10 +9,10 @@
           <home v-if="isHome"
                 :showSignUp="showSignUp"/>
           <sign-in v-if="isSignIn"
+                   :error="text_page.sign_in_component.error"
                    :showSignUp="showSignUp"/>
           <sign-up v-if="isSignUp"
-                   :showSignIn="showSignIn"
-                   :error="text_page.sign_up_component.error"/>
+                   :showSignIn="showSignIn"/>
         </v-row>
       </v-container>
     </div>
@@ -51,12 +51,9 @@ export default {
     }
   },
   created() {
-    if (text_page.sign_in_component.error.not_found) {
+    if (text_page.sign_in_component.error.not_found
+        || text_page.sign_in_component.error.database_connection_not_received) {
       this.isSignIn = true
-    } else if (text_page.sign_up_component.error.login_not_unique
-        || text_page.sign_up_component.error.telephone_number_not_unique
-        || text_page.sign_up_component.error.email_not_unique) {
-      this.isSignUp = true
     } else {
       this.showHome()
     }
@@ -73,9 +70,11 @@ export default {
       this.isSignUp = false
       this.isHome = false
       this.text_page.sign_in_component.error.not_found = undefined
+      this.text_page.sign_in_component.error.database_connection_not_received = undefined
       this.text_page.sign_up_component.error.login_not_unique = undefined
       this.text_page.sign_up_component.error.telephone_number_not_unique = undefined
       this.text_page.sign_up_component.error.email_not_unique = undefined
+      this.text_page.sign_up_component.error.database_connection_not_received = undefined
     },
     showHome() {
       this.clearAllComponents()

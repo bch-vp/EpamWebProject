@@ -9,5 +9,5 @@ public interface Command {
     String CONTENT_TYPE = "application/json";
     String ENCODING = "UTF-8";
 
-    void execute(HttpServletRequest request, HttpServletResponse response);
+    void execute(HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

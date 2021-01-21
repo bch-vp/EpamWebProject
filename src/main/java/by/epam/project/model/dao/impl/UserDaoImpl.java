@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
-    private static UserDaoImpl instance = new UserDaoImpl();
+    private static final UserDaoImpl instance = new UserDaoImpl();
 
     private UserDaoImpl() {
     }
@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 
     public boolean add(User user, String password) throws DaoException {
         boolean update;
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
                 PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, password);
@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> findByLogin(String login) throws DaoException {
         Optional<User> foundUser = Optional.empty();
 
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_LOGIN)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> findByEmail(String email) throws DaoException {
         Optional<User> user = Optional.empty();
 
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_EMAIL)) {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
@@ -94,7 +94,7 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> findByPhone(String phone) throws DaoException {
         Optional<User> user = Optional.empty();
 
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_PHONE)) {
             statement.setString(1, phone);
             ResultSet resultSet = statement.executeQuery();
@@ -116,7 +116,7 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> findByLoginAndPassword(String login, String password) throws DaoException {
         Optional<User> foundUser = Optional.empty();
 
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_LOGIN_AND_PASSWORD)) {
             statement.setString(1, login);
             statement.setString(2, password);

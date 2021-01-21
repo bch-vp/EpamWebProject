@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static by.epam.project.controller.constant.ParameterKey.*;
+import static by.epam.project.controller.constant.RequestParameterKey.*;
 
 public interface BaseDao<T extends Entity> {
     Logger logger = LogManager.getLogger();

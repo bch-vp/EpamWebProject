@@ -17,6 +17,7 @@
                   v-model="valid"
               >
                 <div style="color: red">{{ error.not_found }}</div>
+                <div style="color: yellow">{{ error.database_connection_not_received }}</div>
                 <v-text-field
                     dark
                     name="login"
@@ -109,6 +110,7 @@ export default {
     reset: function () {
       this.$refs.formSignIn.reset()
       this.error.not_found = undefined
+      this.error.database_connection_not_received = undefined
     },
   }
 }
