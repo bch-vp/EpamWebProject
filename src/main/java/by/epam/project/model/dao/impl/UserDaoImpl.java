@@ -4,7 +4,6 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.dao.UserDao;
-import by.epam.project.model.entity.Entity;
 import by.epam.project.model.entity.User;
 
 import java.sql.Connection;
@@ -12,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
+
+import static by.epam.project.controller.constant.RequestParameterKey.USER_PASSWORD;
 
 public class UserDaoImpl implements UserDao {
     private static final UserDaoImpl instance = new UserDaoImpl();
@@ -29,7 +30,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public boolean add(User user, String password) throws DaoException {
-        boolean update;
+        boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
                 PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
             statement.setString(1, user.getLogin());
@@ -39,16 +40,25 @@ public class UserDaoImpl implements UserDao {
             statement.setString(5, user.getPhone());
             statement.setString(6, user.getEmail());
 
-            update = statement.executeUpdate() > 0;
+            isUpdated = statement.executeUpdate() > 0;
         } catch (SQLException exp) {
             throw new DaoException(exp);
         }
-        return update;
+        return isUpdated;
     }
 
     @Override
     public boolean updatePasswordByLogin(String login, String password) throws DaoException {
-        return false;
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PASSWORD_BY_LOGIN)) {
+            statement.setString(1, password);
+            statement.setString(2, login);
+            isUpdated = statement.executeUpdate() > 0;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return isUpdated;
     }
 
     @Override
@@ -108,8 +118,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public String findPasswordByLogin(String login) throws DaoException {
-        return null;
+    public Optional<String> findPasswordByLogin(String login) throws DaoException {
+        Optional<String> password = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_PASSWORD_BY_LOGIN)) {
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                password = Optional.of(resultSet.getString(USER_PASSWORD));
+            }
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return password;
     }
 
     @Override

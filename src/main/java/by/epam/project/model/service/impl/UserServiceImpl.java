@@ -5,6 +5,7 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
+import by.epam.project.util.EncryptPassword;
 import by.epam.project.validator.UserValidator;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import static by.epam.project.controller.constant.RequestParameterKey.NOT_UNIQUE
 
 
 public class UserServiceImpl implements UserService {
-    private static UserServiceImpl instance = new UserServiceImpl();
+    private static final UserServiceImpl instance = new UserServiceImpl();
 
     private UserServiceImpl() {
     }
@@ -28,14 +29,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> signInUser(String login, String password) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
-
-        if (!UserValidator.isLoginCorrect(login) || !UserValidator.isPasswordCorrect(password)) {
-            return Optional.empty();
-        }
-
+        String encryptPassword = EncryptPassword.encryption(password);
         try {
-            Optional<User> foundUser = userDao.findByLoginAndPassword(login, password);
-
+            Optional<User> foundUser = userDao.findByLoginAndPassword(login, encryptPassword);
             return foundUser;
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
@@ -46,8 +42,9 @@ public class UserServiceImpl implements UserService {
     public boolean signUpUser(User user, String password) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         boolean isSignedUp;
+        String encryptPassword = EncryptPassword.encryption(password);
         try {
-            isSignedUp = userDao.add(user, password);
+            isSignedUp = userDao.add(user, encryptPassword);
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign up user", exp);
         }
@@ -107,11 +104,41 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByLogin(String login) throws ServiceException {
-        return Optional.empty();
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        Optional<User> user = Optional.empty();
+        try {
+           user = userDao.findByLogin(login);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during define data", exp);
+        }
+        return user;
+    }
+
+    @Override
+    public boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException {
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        try {
+            Optional<String> userPassword = userDao.findPasswordByLogin(login);
+String ppp = EncryptPassword.encryption(password);
+            if (userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get())) {
+                return false;
+            }
+            return true;
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during sign in user", exp);
+        }
     }
 
     @Override
     public boolean updatePasswordByLogin(String login, String password) throws ServiceException {
-        return false;
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        boolean isUpdated;
+        String encryptPassword = EncryptPassword.encryption(password);
+        try {
+            isUpdated = userDao.updatePasswordByLogin(login,encryptPassword);
+            return isUpdated;
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during sign in user", exp);
+        }
     }
 }

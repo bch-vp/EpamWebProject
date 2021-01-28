@@ -1,5 +1,6 @@
 package by.epam.project.model.service;
 
+import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 
@@ -19,4 +20,5 @@ public interface UserService {
     Optional<User> findUserByEmail(String email) throws ServiceException;
     Optional<User> findUserByLogin(String login) throws ServiceException;
     boolean updatePasswordByLogin(String login, String password) throws ServiceException;
+    boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
 }

@@ -3,6 +3,8 @@ package by.epam.project.controller.constant;
 public class RequestParameterKey {
     public static final String USER_LOGIN = "login";
     public static final String USER_PASSWORD = "password";
+    public static final String USER_NEW_PASSWORD = "new_password";
+    public static final String USER_OLD_PASSWORD = "old_password";
     public static final String USER_EMAIL = "email";
     public static final String USER_NAME = "first_name";
     public static final String USER_SURNAME = "last_name";

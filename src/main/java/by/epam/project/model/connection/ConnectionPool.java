@@ -1,7 +1,5 @@
 package by.epam.project.model.connection;
 
-import by.epam.project.controller.constant.PropertieKey;
-import by.epam.project.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,15 +51,13 @@ public class ConnectionPool {
         }
     }
 
-    public ProxyConnection getConnection() throws DaoException {
+    public ProxyConnection getConnection(){
         ProxyConnection proxyConnection = null;
         try {
             proxyConnection = freeConnections.take();
             busyConnections.add(proxyConnection);
-//            throw new InterruptedException();
         } catch (InterruptedException exp) {
             Logger.error("The connection is not received", exp);
-            throw new DaoException(PropertieKey.ERROR_DATABASE_CONNECTION_NOT_RECEIVED,exp);
         }
         return proxyConnection;
     }

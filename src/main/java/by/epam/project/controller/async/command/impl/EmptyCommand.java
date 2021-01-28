@@ -8,6 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 public class EmptyCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
+        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 }

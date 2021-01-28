@@ -34,7 +34,6 @@ public class SignUpCommand implements Command {
         String resultJson = null;
 
         Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
-        String content = request.getContentType();
 
         String login = (String) requestParameters.get(USER_LOGIN);
         String password = (String) requestParameters.get(USER_PASSWORD);
@@ -83,13 +82,6 @@ public class SignUpCommand implements Command {
             }
         } catch (ServiceException exp) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-
-            JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);
-            String propertieKey = exp.getCause().getMessage();// ??????????
-            String error = ContentUtil.getWithLocale(language, propertieKey);
-            JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.DATABASE_CONNECTION_NOT_RECEIVED, error, ErrorKey.ERROR);
-
-            resultJson = JsonUtil.jsonTreeToJson(jsonTree);
         }
         if (resultJson != null && !resultJson.isEmpty()) {
             response.setContentType(CONTENT_TYPE);

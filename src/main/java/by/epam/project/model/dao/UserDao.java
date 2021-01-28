@@ -12,7 +12,7 @@ public interface UserDao extends BaseDao<User>{
     Optional<User> findByLogin(String login) throws DaoException;
     Optional<User> findByEmail(String email) throws DaoException;
     Optional<User> findByPhone(String phone) throws DaoException;
-    String findPasswordByLogin(String login) throws DaoException;
+    Optional<String> findPasswordByLogin(String login) throws DaoException;
     boolean activateUser(String login) throws DaoException;
     Optional<User> findByLoginAndPassword(String login, String password) throws DaoException;
 }

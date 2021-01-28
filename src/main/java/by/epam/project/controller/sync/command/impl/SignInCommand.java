@@ -11,6 +11,7 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
+import by.epam.project.validator.UserValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,38 +31,27 @@ public class SignInCommand implements Command {
         Router router = new Router();
         HttpSession session = request.getSession();
 
-
-
-//        StringBuffer jb = new StringBuffer();
-//        String line = null;
-//        try {
-//            BufferedReader reader = request.getReader();
-//            while ((line = reader.readLine()) != null)
-//                jb.append(line);
-//        } catch (Exception e) { /*report an error*/ }
-
-
-
-
         String language = (String) session.getAttribute(LANGUAGE);
 
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
         try {
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
-
-            Optional<User> currentUser = userService.signInUser(login, password);
-            if (currentUser.isPresent()) {
-                router.setCurrentPage(PagePath.CLIENT);
-            } else {
-
-                String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_IN_NOT_FOUND);
-                session.setAttribute(ErrorKey.LOGIN_NOT_FOUND, error);
-
-                router.setRedirect();
-                String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
-                router.setCurrentPage(redirectUrl);
+            if (UserValidator.isLoginCorrect(login) && UserValidator.isPasswordCorrect(password)) {
+                Optional<User> currentUser = userService.signInUser(login, password);
+                if (currentUser.isPresent()) {
+                    router.setCurrentPage(PagePath.CLIENT);
+                    return router;
+                }
             }
-        } catch (ServiceException exp) {
+            String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_IN_NOT_FOUND);
+            session.setAttribute(ErrorKey.LOGIN_NOT_FOUND, error);
+
+            router.setRedirect();
+            String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
+            router.setCurrentPage(redirectUrl);
+        } catch (
+                ServiceException exp) {
             String propertieKey = exp.getCause().getMessage();// ??????????
             String error = ContentUtil.getWithLocale(language, propertieKey);
             session.setAttribute(ErrorKey.DATABASE_CONNECTION_NOT_RECEIVED, error);

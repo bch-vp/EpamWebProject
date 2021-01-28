@@ -42,7 +42,7 @@
                     required
                 ></v-text-field><br>
                 <v-row>
-                  <v-btn color="red" text outlined rounded>
+                  <v-btn @click="showChangePassword" color="red" text outlined rounded>
                     <span style="">forget password?</span>
                   </v-btn>
                 </v-row>
@@ -71,7 +71,7 @@
 
 <script>
 export default {
-  props: ['error', 'showSignUp'],
+  props: ['error', 'showSignUp', 'showChangePassword'],
   data() {
     return {
       text_page: {

@@ -28,6 +28,11 @@
             sing_up: "<fmt:message key="header.sign_up"/>",
         },
         language: "${language}",
+        notification_component: {
+            title: "<fmt:message key="notification_component.notification_component.title"/>",
+            text: "<fmt:message key="notification_component.notification_component.text"/>",
+            button: "<fmt:message key="notification_component.notification_component.button"/>",
+        },
         guest_home_component:{
             greeting:{
                 title: "<fmt:message key="guest_home_component.greeting.title"/>",

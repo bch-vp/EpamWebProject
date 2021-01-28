@@ -10,9 +10,16 @@
                 :showSignUp="showSignUp"/>
           <sign-in v-if="isSignIn"
                    :error="text_page.sign_in_component.error"
-                   :showSignUp="showSignUp"/>
+                   :showSignUp="showSignUp"
+                   :showChangePassword="showChangePassword"/>
           <sign-up v-if="isSignUp"
-                   :showSignIn="showSignIn"/>
+                   :showSignIn="showSignIn"
+                   :showNotification="showNotification"
+                   :showChangePassword="showChangePassword"/>
+          <notification v-if="isNotification"
+                        :text_page="text_page"
+                        :showHome="showHome"/>
+          <change-password v-if="isChangePassword"/>
         </v-row>
       </v-container>
     </div>
@@ -25,13 +32,17 @@ import CustomHeader from 'vuejs/guest/header.vue'
 import Home from 'vuejs/guest/component/home.vue'
 import SignIn from 'vuejs/guest/component/signIn.vue'
 import SignUp from 'vuejs/guest/component/signUp.vue'
+import Notification from 'vuejs/guest/component/notification.vue'
+import ChangePassword from 'vuejs/guest/component/changePassword.vue'
 
 export default {
   components: {
     CustomHeader,
     Home,
     SignIn,
-    SignUp
+    SignUp,
+    Notification,
+    ChangePassword
   },
   data() {
     return {
@@ -47,16 +58,19 @@ export default {
       },
       isHome: false,
       isSignIn: false,
-      isSignUp: false
+      isSignUp: false,
+      isNotification: false,
+      isChangePassword: false
     }
   },
   created() {
-    if (text_page.sign_in_component.error.not_found
-        || text_page.sign_in_component.error.database_connection_not_received) {
-      this.isSignIn = true
-    } else {
-      this.showHome()
-    }
+    this.isChangePassword = true
+    // if (text_page.sign_in_component.error.not_found
+    //     || text_page.sign_in_component.error.database_connection_not_received) {
+    //   this.isSignIn = true
+    // } else {
+    //   this.showHome()
+    // }
   },
   methods: {
     clearAllComponents() {
@@ -69,6 +83,8 @@ export default {
       this.isSignIn = false
       this.isSignUp = false
       this.isHome = false
+      this.isNotification = false
+      this.isChangePassword = false
       this.text_page.sign_in_component.error.not_found = undefined
       this.text_page.sign_in_component.error.database_connection_not_received = undefined
       this.text_page.sign_up_component.error.login_not_unique = undefined
@@ -87,6 +103,14 @@ export default {
     showSignIn() {
       this.clearAllComponents()
       this.isSignIn = true
+    },
+    showNotification() {
+      this.clearAllComponents()
+      this.isNotification = true
+    },
+    showChangePassword() {
+      this.clearAllComponents()
+      this.isChangePassword = true
     }
   }
 }

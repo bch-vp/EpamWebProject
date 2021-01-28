@@ -70,18 +70,9 @@ var guestConfiq = Object.assign({}, config, {
     },
 });
 
-var notificationConfiq = Object.assign({}, config, {
-    name: "notification",
-    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'notification', 'notification.js'),
-    output: {
-        path: __dirname + "/build",
-        publicPath: "/",
-        filename: "notification.js"
-    },
-});
 
 var errorConfiq = Object.assign({}, config, {
-    name: "guest",
+    name: "error",
     entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'error', 'error.js'),
     output: {
         path: __dirname + "/build",
@@ -91,4 +82,4 @@ var errorConfiq = Object.assign({}, config, {
 });
 
 // Return Array of Configurations
-module.exports = [guestConfiq, notificationConfiq, errorConfiq];
+module.exports = [guestConfiq, errorConfiq];

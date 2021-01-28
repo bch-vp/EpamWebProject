@@ -5,7 +5,6 @@
         <v-col sm="8" md="6" lg="5" xl="4">
           <div class="sign-up-background">
             <div class="sign-up">
-              <br>
               <v-form
                   ref="formSignUp"
                   v-model="valid"
@@ -121,7 +120,7 @@
 
 <script>
 export default {
-  props: ['showSignIn'],
+  props: ['showSignIn', 'showNotification'],
   data() {
     return {
       text_page: {
@@ -200,7 +199,6 @@ export default {
   methods: {
     submit: function () {
       if (this.$refs.formSignUp.validate()) {
-
         this.axios({
           method: 'post',
           url: '/ajax?command=sign_up',
@@ -213,10 +211,9 @@ export default {
             email: this.email
           }
         }).then(response => {
-              // show NOTIFICATION to confirm email
+              this.showNotification()
             },
             ex => {
-              alert(ex.response.status)
               if (ex.response.status === 400) {
                 this.$refs.formSignUp.reset()
                 this.error.login_not_unique = ex.response.data.error.login_not_unique

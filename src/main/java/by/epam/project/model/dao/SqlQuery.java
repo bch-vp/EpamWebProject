@@ -12,7 +12,7 @@ public class SqlQuery {
             "telephone_number, email FROM users WHERE telephone_number = ?";
     public static final String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT login, password, first_name, last_name, " +
             "telephone_number, email FROM users WHERE login = ? AND password = ?";
-
+    public static final String UPDATE_PASSWORD_BY_LOGIN = "UPDATE users SET password = ? WHERE login = ?";
 
     private SqlQuery() {
     }
