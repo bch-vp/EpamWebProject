@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import static by.epam.project.controller.constant.RequestParameterKey.USER_PASSWORD;
+import static by.epam.project.controller.parameter.RequestParameterKey.USER_PASSWORD;
 
 public class UserDaoImpl implements UserDao {
     private static final UserDaoImpl instance = new UserDaoImpl();

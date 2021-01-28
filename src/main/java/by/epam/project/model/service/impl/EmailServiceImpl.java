@@ -16,6 +16,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public void sendConfirmationChangingPassword(User user, String subject, String body, String uniqueKey) {
+        MailSender sender = new MailSender();
+        String bodyEmail = String.format(body, user.getName(), uniqueKey);
+        sender.sendMessage(subject, bodyEmail, user.getEmail());
+    }
+
+    @Override
     public void sendActivationEmail(User user, String subject, String body, String link) {
         MailSender sender = new MailSender();
         String bodyEmail = String.format(body, user.getName(), link + user.getLogin());

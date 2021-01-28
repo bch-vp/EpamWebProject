@@ -9,18 +9,16 @@
                 <span class="text-h6 font-weight-regular center">Change password...</span><br>
                 <div style="color: green">{{ success }}</div>
               </div>
-
+              <div style="color: yellow">{{ info.check_email }}</div>
               <div style="color: red">{{ error.login_not_found }}</div>
-              <!--                <div style="color: red">{{ error.telephone_number_not_unique }}</div>-->
-              <!--                <div style="color: red">{{ error.email_not_unique }}</div>-->
+              <div style="color: red">{{ error.incorrect_email }}</div>
               <v-form
-                  ref="formLogin"
-                  v-model="validFormLogin"
+                  ref="formFirstStepLogic"
+                  v-model="validFormFirstStepLogic"
               >
                 <v-text-field
                     dark
-                    :disabled="!isFormLogin"
-                    name="login"
+                    :disabled="!isFirstStepLogic"
                     v-model="login"
                     :counter="15"
                     :rules="rules.login"
@@ -29,28 +27,23 @@
                 ></v-text-field>
               </v-form>
               <v-form
-                  ref="formLoginAndPassword"
-                  v-model="validFromLoginAndPassword"
+                  ref="formSecondStepLogic"
+                  v-model="validFormSecondStepLogic"
               >
                 <v-text-field
                     dark
-                    :disabled="!isFormLoginAndPassword"
-                    name="password"
-                    v-model="oldPassword"
+                    :disabled="!isSecondStepLogic"
+                    v-model="email"
                     :counter="20"
-                    :rules="rules.oldPassword"
-                    :append-icon="valueOldPasswordRepeat ? 'visibility' : 'visibility_off'"
-                    @click:append="() => (valueOldPasswordRepeat = !valueOldPasswordRepeat)"
-                    :type="valueOldPasswordRepeat ? 'password' : 'text'"
-                    label="Old password"
+                    :rules="rules.email"
+                    label="Email"
                     required
                 ></v-text-field>
                 <v-row>
                   <v-col>
                     <v-text-field
                         dark
-                        :disabled="!isFormLoginAndPassword"
-                        name="password"
+                        :disabled="!isSecondStepLogic"
                         v-model="newPassword"
                         :counter="20"
                         :rules="rules.newPassword"
@@ -64,7 +57,7 @@
                   <v-col>
                     <v-text-field
                         dark
-                        :disabled="!isFormLoginAndPassword"
+                        :disabled="!isSecondStepLogic"
                         v-model="newPasswordRepeat"
                         :counter="20"
                         :rules="rules.newPasswordRepeat"
@@ -77,22 +70,49 @@
                   </v-col>
                 </v-row>
               </v-form>
-                <br>
-                <div align="center">
-                  <v-btn v-if="isFormLogin" @click="formLoginSubmit" :disabled="!validFormLogin" dark small text rounded
-                         color="#8C9EFF">
-                    Сheck the existence of login
-                  </v-btn>
-                  <v-btn v-if="isFormLoginAndPassword" @click="formLoginAndPasswordSubmit"
-                         :disabled="!validFromLoginAndPassword"
-                         dark small text rounded
-                         color="#8C9EFF">
-                    submit
-                  </v-btn>
-                  <v-btn @click="fullFormReset" outlined small fab color="#8C9EFF">
-                    <v-icon>autorenew</v-icon>
-                  </v-btn>
-                </div>
+              <div v-if="isThirdStepLogic">
+                <v-form
+                    ref="formThirdStepLogic"
+                    v-model="validFormThirdStepLogic"
+                >
+                  <v-text-field
+                      dark
+                      :disabled="!isThirdStepLogic"
+                      v-model="uniqueKey"
+                      :rules="rules.uniqueKey"
+                      :counter="20"
+                      label="Unique key from email"
+                      required
+                  ></v-text-field>
+                </v-form>
+              </div>
+              <br>
+              <div align="center">
+                <v-btn v-if="isFirstStepLogic"
+                       @click="submitFormFirstStepLogic"
+                       :disabled="!validFormFirstStepLogic"
+                       dark small text rounded
+                       color="#8C9EFF">
+                  Сheck the existence of login
+                </v-btn>
+                <v-btn v-if="isSecondStepLogic"
+                       @click="submitFormSecondStepLogic"
+                       :disabled="!validFormSecondStepLogic"
+                       dark small text rounded
+                       color="#8C9EFF">
+                  submit
+                </v-btn>
+                <v-btn v-if="isThirdStepLogic"
+                       @click="submitFormThirdStepLogic"
+                       :disabled="!validFormThirdStepLogic"
+                       dark small text rounded
+                       color="#8C9EFF">
+                  submit
+                </v-btn>
+                <v-btn @click="AllFormsReset" outlined small fab color="#8C9EFF">
+                  <v-icon>autorenew</v-icon>
+                </v-btn>
+              </div>
             </div>
           </div>
         </v-col>
@@ -109,21 +129,33 @@ export default {
       text_page: {
         sign_up_component: text_page.sign_up_component,
       },
-      success:'',
+      success: '',
       isFormLogin: true,
       isFormLoginAndPassword: false,
-      error: {
-        login_not_found: "",
+      info: {
+        check_email: undefined,
       },
+      error: {
+        login_not_found: undefined,
+        incorrect_email: undefined
+      },
+
+      isFirstStepLogic: true,
+      isSecondStepLogic: false,
+      isThirdStepLogic: false,
+
+      validFormFirstStepLogic: false,
+      validFormSecondStepLogic: false,
+      validFormThirdStepLogic: false,
+
       valueNewPassword: String,
       valueNewPasswordRepeat: String,
-      valueOldPasswordRepeat: String,
-      validFormLogin: false,
-      validFromLoginAndPassword: false,
+      valueEmail: String,
       login: '',
-      oldPassword: '',
+      email: '',
       newPassword: '',
       newPasswordRepeat: '',
+      uniqueKey: '',
       rules: {
         login: [
           v => !!v || this.text_page.sign_up_component.login.error.required,
@@ -132,18 +164,15 @@ export default {
           v => (v && v.length <= 15) || this.text_page.sign_up_component.login.error.max_length,
           v => /^\S*$/.test(v) || this.text_page.sign_up_component.login.error.spaces_prohibited,
         ],
-        oldPassword: [
-          v => !!v || this.text_page.sign_up_component.password.error.required,
-          v => (v && v.length >= 5) || this.text_page.sign_up_component.password.error.min_length,
-          v => (v && v.length <= 20) || this.text_page.sign_up_component.password.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.password.error.spaces_prohibited,
-          v => /(?=.*?[a-z])/.test(v) || this.text_page.sign_up_component.password.error.one_lower_case_letter,
-          v => /(?=.*?[A-Z])/.test(v) || this.text_page.sign_up_component.password.error.one_upper_case_letter,
-          v => /(?=.*?[0-9])/.test(v) || this.text_page.sign_up_component.password.error.one_digit,
+        email: [
+          v => !!v || this.text_page.sign_up_component.email.error.required,
+          v => /^\S*$/.test(v) || this.text_page.sign_up_component.email.error.spaces_prohibited,
+          v => (v && v.length <= 55) || this.text_page.sign_up_component.email.error.max_length,
+          v => /^[a-zA-z0-9_.-]{1,35}@[a-zA-z0-9_-]{2,15}\.[a-z]{2,5}$/.test(v)
+              || this.text_page.sign_up_component.email.error.pattern,
         ],
         newPassword: [
           v => !!v || this.text_page.sign_up_component.password.error.required,
-          v => (v && this.newPassword !== this.oldPassword) || 'cant be like old pass',
           v => (v && v.length >= 5) || this.text_page.sign_up_component.password.error.min_length,
           v => (v && v.length <= 20) || this.text_page.sign_up_component.password.error.max_length,
           v => /^\S*$/.test(v) || this.text_page.sign_up_component.password.error.spaces_prohibited,
@@ -156,13 +185,40 @@ export default {
           v => (v && this.newPassword === this.newPasswordRepeat) ||
               this.text_page.sign_up_component.password_repeat.error.not_equal,
         ],
+        uniqueKey: [
+          v => !!v || "Can't be empty",
+          v => (v && v.length <= 20) || "Can't be more then 20 symbols",
+        ]
       }
     }
   },
+  created() {
+    this.showFirstStepLogic()
+  },
   methods: {
-    formLoginSubmit: function () {
-      if (this.$refs.formLogin.validate()) {
+    clearAllStepsLogic: function () {
+      this.isFirstStepLogic = false
+      this.isSecondStepLogic = false
+      this.isThirdStepLogic = false
 
+      this.error.login_not_found = undefined
+      this.info.check_email = undefined
+      this.error.incorrect_email= undefined
+    },
+    showFirstStepLogic: function () {
+      this.clearAllStepsLogic()
+      this.isFirstStepLogic = true
+    },
+    showSecondStepLogic: function () {
+      this.clearAllStepsLogic()
+      this.isSecondStepLogic = true
+    },
+    showThirdStepLogic: function () {
+      this.clearAllStepsLogic()
+      this.isThirdStepLogic = true
+    },
+    submitFormFirstStepLogic: function () {
+      if (this.$refs.formFirstStepLogic.validate()) {
         this.axios({
           method: 'post',
           url: '/ajax?command=check_login_existence',
@@ -170,49 +226,47 @@ export default {
             login: this.login,
           }
         }).then(response => {
-              this.error.login_not_found = ""
-              this.isFormLogin = false
-              this.isFormLoginAndPassword = true
+              this.showSecondStepLogic()
             },
             ex => {
-              if (ex.response.status === 404) {
-                this.fullFormReset()
-                this.error.login_not_found = "Login didn't find"
-              }
+              this.error.login_not_found = "Login didn't found"
             })
       }
     },
-    fullFormReset: function () {
-      this.$refs.formLogin.reset()
-      this.$refs.formLoginAndPassword.reset()
-      this.success=""
-      this.error.login_not_found = ""
-      this.isFormLogin = true
-      this.isFormLoginAndPassword = false
-    },
-    formLoginAndPasswordSubmit: function () {
-      if (this.$refs.formLoginAndPassword.validate()) {
+    submitFormSecondStepLogic: function () {
+      if (this.$refs.formSecondStepLogic.validate()) {
 
         this.axios({
           method: 'post',
-          url: '/ajax?command=change_password',
+          url: '/ajax?command=change_password_by_email',
           data: {
             login: this.login,
+            email: this.email,
             new_password: this.newPassword,
-            old_password: this.oldPassword
           }
-        }).then(response => {
-              this.fullFormReset()
-              this.success = 'Success'
+        }).then(resp => {
             },
             ex => {
-              if (ex.response.status === 400) {
-                this.fullFormReset()
-                this.error.login_not_found = "Password wrong"
+              if (ex.response.status === 401) {
+                this.showThirdStepLogic()
+                this.info.check_email = ex.response.data.error
+              } else if (ex.response.status === 400) {
+                this.error.incorrect_email = ex.response.data.error
               }
             })
       }
-    }
+    },
+    submitFormThirdStepLogic: function () {
+
+
+    },
+    AllFormsReset: function () {
+      this.$refs.formFirstStepLogic.reset()
+      this.$refs.formSecondStepLogic.reset()
+      // this.$refs.formThirdStepLogic.reset()
+      this.clearAllStepsLogic()
+      this.showFirstStepLogic()
+    },
   }
 }
 </script>

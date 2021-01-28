@@ -3,13 +3,13 @@ package by.epam.project.controller.sync.command.impl;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.controller.sync.command.CommandType;
-import by.epam.project.controller.constant.SessionAttributeKey;
-import by.epam.project.controller.constant.PagePath;
+import by.epam.project.controller.parameter.SessionAttributeKey;
+import by.epam.project.controller.parameter.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.project.controller.constant.RequestParameterKey.LANGUAGE;
+import static by.epam.project.controller.parameter.RequestParameterKey.LANGUAGE;
 
 public class ChangeLanguageCommand implements Command {
     private static final String EN_LANGUAGE = "en";

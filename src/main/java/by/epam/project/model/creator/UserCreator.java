@@ -13,9 +13,9 @@ public class UserCreator {
         return instance;
     }
 
-    public User createUser(String userLogin, String userEmail, String userName,
-                           String userSurname, String userPhone) {
-        User createdUser = new User(userLogin, userEmail, userName, userSurname, userPhone);
+    public User createUser(String userLogin, String userName,
+                           String userSurname, String userPhone, String userEmail) {
+        User createdUser = new User(userLogin, userName, userSurname, userPhone, userEmail);
         return createdUser;
     }
 }

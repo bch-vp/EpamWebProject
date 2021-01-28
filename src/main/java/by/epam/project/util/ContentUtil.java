@@ -3,7 +3,7 @@ package by.epam.project.util;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static by.epam.project.controller.constant.SessionAttributeKey.ENGLISH_LANGUAGE;
+import static by.epam.project.controller.parameter.SessionAttributeKey.ENGLISH_LANGUAGE;
 
 public class ContentUtil {
     private ContentUtil() {

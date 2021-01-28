@@ -4,7 +4,7 @@ import by.epam.project.controller.sync.Router;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static by.epam.project.controller.constant.RequestParameterKey.COMMAND;
+import static by.epam.project.controller.parameter.RequestParameterKey.COMMAND;
 
 public interface Command {
     String REDIRECT_QUESTION_MARK = "?";

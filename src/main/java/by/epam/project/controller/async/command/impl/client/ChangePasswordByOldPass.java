@@ -1,4 +1,4 @@
-package by.epam.project.controller.async.command.impl;
+package by.epam.project.controller.async.command.impl.client;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.constant.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.RequestParameterKey.*;
 
-public class ChangePassword implements Command {
+public class ChangePasswordByOldPass implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override

@@ -29,6 +29,11 @@ public class JsonUtil {
         }
     }
 
+    public static String toJson(Map map) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(map);
+    }
+
+
     public static <T> String toJson(T entity) throws JsonProcessingException {
         try {
             return objectMapper.writeValueAsString(entity);
@@ -72,57 +77,4 @@ public class JsonUtil {
     public static String jsonTreeToJson(JsonNode jsonNode){
         return jsonNode.toString();
     }
-
-
-    //    public static <T> T toCollection(String json, TypeReference<T> typeReference) {
-//        try {
-//            return objectMapper.readValue(json, typeReference);
-//        } catch (JsonParseException e) {
-//            logger.error(e.getMessage(), e);
-//        } catch (JsonMappingException e) {
-//            logger.error(e.getMessage(), e);
-//        } catch (IOException e) {
-//            logger.error(e.getMessage(), e);
-//        }
-//        return null;
-//    }
-//
-//
-//    /**
-//     * json string convert to map with javaBean
-//     */
-//    public static <T> Map<String, T> json2map(String jsonStr, Class<T> clazz)
-//            throws Exception {
-//        Map<String, Map<String, Object>> map = objectMapper.readValue(jsonStr,
-//                new TypeReference<Map<String, T>>() {
-//                });
-//        Map<String, T> result = new HashMap<String, T>();
-//        for (Map.Entry<String, Map<String, Object>> entry : map.entrySet()) {
-//            result.put(entry.getKey(), map2pojo(entry.getValue(), clazz));
-//        }
-//        return result;
-//    }
-
-//    /**
-//     * json array string convert to list with javaBean
-//     */
-//    public static <T> List<T> json2list(String jsonArrayStr, Class<T> clazz)
-//            throws Exception {
-//        List<Map<String, Object>> list = objectMapper.readValue(jsonArrayStr,
-//                new TypeReference<List<T>>() {
-//                });
-//        List<T> result = new ArrayList<T>();
-//        for (Map<String, Object> map : list) {
-//            result.add(map2pojo(map, clazz));
-//        }
-//        return result;
-//    }
-
-//    /**
-//     * map convert to javaBean
-//     */
-//    public static <T> T map2pojo(Map map, Class<T> clazz) {
-//        return objectMapper.convertValue(map, clazz);
-//    }
-
 }

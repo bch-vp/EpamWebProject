@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static by.epam.project.controller.constant.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.RequestParameterKey.*;
 
 public class UserValidator {
     private static final String LOGIN_REGEX_MIN_MAX_SIZE = "^.{3,10}$";

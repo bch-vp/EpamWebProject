@@ -1,6 +1,6 @@
 package by.epam.project.controller.sync;
 
-import by.epam.project.controller.constant.RequestParameterKey;
+import by.epam.project.controller.parameter.RequestParameterKey;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.controller.sync.command.CommandProvider;
 import by.epam.project.model.connection.ConnectionPool;

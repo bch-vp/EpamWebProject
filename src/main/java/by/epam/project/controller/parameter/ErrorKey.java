@@ -1,4 +1,4 @@
-package by.epam.project.controller.constant;
+package by.epam.project.controller.parameter;
 
 public class ErrorKey {
     public static final String ERROR = "error";

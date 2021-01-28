@@ -1,6 +1,6 @@
 package by.epam.project.controller.sync;
 
-import by.epam.project.controller.constant.PagePath;
+import by.epam.project.controller.parameter.PagePath;
 
 public class Router {
     public enum Type {

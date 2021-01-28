@@ -1,26 +1,21 @@
-package by.epam.project.controller.sync.command.impl;
+package by.epam.project.controller.sync.command.impl.guest;
 
-import by.epam.project.controller.constant.ErrorKey;
-import by.epam.project.controller.constant.SessionAttributeKey;
-import by.epam.project.controller.constant.PagePath;
-import by.epam.project.controller.constant.PropertieKey;
+import by.epam.project.controller.parameter.ErrorKey;
+import by.epam.project.controller.parameter.PagePath;
+import by.epam.project.controller.parameter.PropertieKey;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.*;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
-import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.UserValidator;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.util.Optional;
 
-import static by.epam.project.controller.constant.RequestParameterKey.LANGUAGE;
+import static by.epam.project.controller.parameter.RequestParameterKey.LANGUAGE;
 
 public class SignInCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();

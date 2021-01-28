@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.constant.RequestParameterKey.*;
-import static by.epam.project.controller.constant.RequestParameterKey.NOT_UNIQUE;
+import static by.epam.project.controller.parameter.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.RequestParameterKey.NOT_UNIQUE;
 
 
 public class UserServiceImpl implements UserService {
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         Optional<User> user = Optional.empty();
         try {
-           user = userDao.findByLogin(login);
+            user = userDao.findByLogin(login);
         } catch (DaoException exp) {
             throw new ServiceException("Error during define data", exp);
         }
@@ -119,14 +119,13 @@ public class UserServiceImpl implements UserService {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         try {
             Optional<String> userPassword = userDao.findPasswordByLogin(login);
-String ppp = EncryptPassword.encryption(password);
             if (userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get())) {
                 return false;
             }
-            return true;
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
         }
+        return true;
     }
 
     @Override
@@ -135,7 +134,7 @@ String ppp = EncryptPassword.encryption(password);
         boolean isUpdated;
         String encryptPassword = EncryptPassword.encryption(password);
         try {
-            isUpdated = userDao.updatePasswordByLogin(login,encryptPassword);
+            isUpdated = userDao.updatePasswordByLogin(login, encryptPassword);
             return isUpdated;
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);

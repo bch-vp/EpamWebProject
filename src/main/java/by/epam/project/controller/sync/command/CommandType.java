@@ -1,9 +1,9 @@
 package by.epam.project.controller.sync.command;
 
 import by.epam.project.controller.sync.command.impl.ChangeLanguageCommand;
-import by.epam.project.controller.sync.command.impl.SignInCommand;
-import by.epam.project.controller.sync.command.impl.page.PassingByGuestCommand;
-import by.epam.project.controller.sync.command.impl.page.PassingByClientCommand;
+import by.epam.project.controller.sync.command.impl.guest.SignInCommand;
+import by.epam.project.controller.sync.command.impl.guest.PassingByGuestCommand;
+import by.epam.project.controller.sync.command.impl.client.PassingByClientCommand;
 
 public enum CommandType {
     SIGN_IN(new SignInCommand()),

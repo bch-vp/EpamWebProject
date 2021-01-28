@@ -1,9 +1,9 @@
-package by.epam.project.controller.async.command.impl;
+package by.epam.project.controller.async.command.impl.guest;
 
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.constant.ErrorKey;
-import by.epam.project.controller.constant.PagePath;
-import by.epam.project.controller.constant.PropertieKey;
+import by.epam.project.controller.parameter.ErrorKey;
+import by.epam.project.controller.parameter.PagePath;
+import by.epam.project.controller.parameter.PropertieKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.EmailServiceImpl;
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.project.controller.constant.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.RequestParameterKey.*;
 
 public class SignUpCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -31,7 +31,7 @@ public class SignUpCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String language = (String) session.getAttribute(LANGUAGE);
-        String resultJson = null;
+        String responseJson = null;
 
         Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
@@ -52,8 +52,10 @@ public class SignUpCommand implements Command {
 
                 String locale = (String) session.getAttribute(LANGUAGE);
 
-                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale, PropertieKey.EMAIL_SUBJECT);
-                String emailBodyWithLocale = ContentUtil.getWithLocale(locale, PropertieKey.EMAIL_BODY);
+                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale,
+                        PropertieKey.EMAIL_SUBJECT_ACTIVATION_SIGN_UP);
+                String emailBodyWithLocale = ContentUtil.getWithLocale(locale,
+                        PropertieKey.EMAIL_BODY_ACTIVATION_SIGN_UP);
 
                 emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
                         emailBodyWithLocale, PagePath.EMAIL_ACTIVATION_LINK);
@@ -78,15 +80,15 @@ public class SignUpCommand implements Command {
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
 
-                resultJson = JsonUtil.jsonTreeToJson(jsonTree);
+                responseJson = JsonUtil.jsonTreeToJson(jsonTree);
             }
         } catch (ServiceException exp) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        if (resultJson != null && !resultJson.isEmpty()) {
+        if (responseJson != null && !responseJson.isEmpty()) {
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(ENCODING);
-            response.getWriter().write(resultJson);
+            response.getWriter().write(responseJson);
         }
     }
 }
