@@ -7,7 +7,7 @@
             <div class="sign-up">
               <div class="title font-weight-regular" style="color: white; text-align: center;">
                 <span class="text-h6 font-weight-regular center">Change password...</span><br>
-                <div style="color: green">{{ success }}</div>
+                <div style="color: green">{{ info.success }}</div>
               </div>
               <div style="color: yellow">{{ info.check_email }}</div>
               <div style="color: red">{{ error.login_not_found }}</div>
@@ -34,7 +34,7 @@
                     dark
                     :disabled="!isSecondStepLogic"
                     v-model="email"
-                    :counter="20"
+                    :counter="55"
                     :rules="rules.email"
                     label="Email"
                     required
@@ -70,11 +70,12 @@
                   </v-col>
                 </v-row>
               </v-form>
-              <div v-if="isThirdStepLogic">
-                <v-form
-                    ref="formThirdStepLogic"
-                    v-model="validFormThirdStepLogic"
-                >
+
+              <v-form
+                  ref="formThirdStepLogic"
+                  v-model="validFormThirdStepLogic"
+              >
+                <div v-if="isThirdStepLogic">
                   <v-text-field
                       dark
                       :disabled="!isThirdStepLogic"
@@ -84,8 +85,9 @@
                       label="Unique key from email"
                       required
                   ></v-text-field>
-                </v-form>
-              </div>
+                </div>
+              </v-form>
+
               <br>
               <div align="center">
                 <v-btn v-if="isFirstStepLogic"
@@ -109,7 +111,7 @@
                        color="#8C9EFF">
                   submit
                 </v-btn>
-                <v-btn @click="AllFormsReset" outlined small fab color="#8C9EFF">
+                <v-btn @click="allFormsReset" outlined small fab color="#8C9EFF">
                   <v-icon>autorenew</v-icon>
                 </v-btn>
               </div>
@@ -129,15 +131,16 @@ export default {
       text_page: {
         sign_up_component: text_page.sign_up_component,
       },
-      success: '',
       isFormLogin: true,
       isFormLoginAndPassword: false,
       info: {
         check_email: undefined,
+        success: undefined
       },
       error: {
         login_not_found: undefined,
-        incorrect_email: undefined
+        incorrect_email: undefined,
+        time_expired: undefined
       },
 
       isFirstStepLogic: true,
@@ -201,9 +204,10 @@ export default {
       this.isSecondStepLogic = false
       this.isThirdStepLogic = false
 
-      this.error.login_not_found = undefined
       this.info.check_email = undefined
-      this.error.incorrect_email= undefined
+      this.info.success = undefined
+      this.error.incorrect_email = undefined
+      this.error.login_not_found = undefined
     },
     showFirstStepLogic: function () {
       this.clearAllStepsLogic()
@@ -235,7 +239,6 @@ export default {
     },
     submitFormSecondStepLogic: function () {
       if (this.$refs.formSecondStepLogic.validate()) {
-
         this.axios({
           method: 'post',
           url: '/ajax?command=change_password_by_email',
@@ -257,13 +260,31 @@ export default {
       }
     },
     submitFormThirdStepLogic: function () {
-
-
+      if (this.$refs.formThirdStepLogic.validate()) {
+        this.axios({
+          method: 'post',
+          url: '/ajax?command=change_password_by_email',
+          data: {
+            login: this.login,
+            email: this.email,
+            new_password: this.newPassword,
+            unique_key: this.uniqueKey
+          }
+        }).then(resp => {
+              this.allFormsReset()
+              this.info.success = text_page.change_password_by_email_component.success
+            },
+            ex => {
+              if (ex.response.status === 400) {
+                this.error.time_expired = ex.response.data.error
+              }
+            })
+      }
     },
-    AllFormsReset: function () {
+    allFormsReset: function () {
       this.$refs.formFirstStepLogic.reset()
       this.$refs.formSecondStepLogic.reset()
-      // this.$refs.formThirdStepLogic.reset()
+      this.$refs.formThirdStepLogic.reset()
       this.clearAllStepsLogic()
       this.showFirstStepLogic()
     },

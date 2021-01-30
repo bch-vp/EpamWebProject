@@ -40,10 +40,11 @@
                     :type="value ? 'password' : 'text'"
                     v-bind:label=text_page.sign_in_component.password.name
                     required
-                ></v-text-field><br>
+                ></v-text-field>
+                <br>
                 <v-row>
                   <v-btn @click="showChangePassword" color="red" text outlined rounded>
-                    <span style="">forget password?</span>
+                    <span style="">{{ text_page.sign_in_component.go_to_component.change_password_by_email }}</span>
                   </v-btn>
                 </v-row>
                 <br>
@@ -52,6 +53,7 @@
                     <span style="">{{ text_page.sign_in_component.go_to_component.sign_up }}</span>
                   </v-btn>
                 </v-row>
+                <br>
                 <div align="center">
                   <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
                     {{ text_page.sign_in_component.submit }}

@@ -137,6 +137,8 @@ public class ChangePasswordByEmail implements Command {
 
                 String json = JsonUtil.toJson(responseMap);
                 writeJsonToResponse(response, json);
+
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
             session.removeAttribute(UNIQUE_KEY);
         } catch (ServiceException exp) {

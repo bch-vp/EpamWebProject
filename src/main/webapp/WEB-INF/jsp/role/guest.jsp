@@ -47,6 +47,7 @@
             submit: "<fmt:message key="sign_in_component.submit"/>",
             go_to_component:{
                 sign_up: "<fmt:message key="sign_in_component.go_to_component.sign_up"/>",
+                change_password_by_email: "<fmt:message key="sign_in_component.go_to_component.change_password_by_email"/>",
             },
             error: {
                 not_found: "${login_not_found}",
@@ -153,6 +154,9 @@
                     pattern: "<fmt:message key="sign_up_component.email.error.pattern"/>",
                 }
             }
+        },
+        change_password_by_email_component:{
+            success:"<fmt:message key="success"/>",
         }
     }
 </script>
