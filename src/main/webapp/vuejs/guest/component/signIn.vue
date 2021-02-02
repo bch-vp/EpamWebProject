@@ -7,7 +7,7 @@
             <div class="sign-in">
               <div class="title font-weight-regular" style="color: white; text-align: center">
                 <span class="text-h6 font-weight-regular center ">
-                  {{ text_page.sign_in_component.name }}...
+                  {{ text_page.form_component.title.sign_in }}...
                 </span><br></div>
               <v-form
                   @submit="submit"
@@ -16,15 +16,14 @@
                   ref="formSignIn"
                   v-model="valid"
               >
-                <div style="color: red">{{ error.not_found }}</div>
-                <div style="color: yellow">{{ error.database_connection_not_received }}</div>
+                <div style="color: red">{{ text_page.form_component.error.not_found }}</div>
                 <v-text-field
                     dark
                     name="login"
                     v-model="login"
                     :counter="15"
                     :rules="rules.login"
-                    v-bind:label=text_page.sign_in_component.login.name
+                    v-bind:label=text_page.form_component.input.login.name
                     required
                 >
                 </v-text-field>
@@ -38,25 +37,25 @@
                     :append-icon="value ? 'visibility' : 'visibility_off'"
                     @click:append="() => (value = !value)"
                     :type="value ? 'password' : 'text'"
-                    v-bind:label=text_page.sign_in_component.password.name
+                    v-bind:label=text_page.form_component.input.password.name
                     required
                 ></v-text-field>
                 <br>
                 <v-row>
                   <v-btn @click="showChangePassword" color="red" text outlined rounded>
-                    <span style="">{{ text_page.sign_in_component.go_to_component.change_password_by_email }}</span>
+                    <span style="">{{ text_page.form_component.button.go_to_component.change_password_by_email }}</span>
                   </v-btn>
                 </v-row>
                 <br>
                 <v-row>
                   <v-btn @click="showSignUp" color="green" text outlined rounded>
-                    <span style="">{{ text_page.sign_in_component.go_to_component.sign_up }}</span>
+                    <span style="">{{ text_page.form_component.button.go_to_component.sign_up }}</span>
                   </v-btn>
                 </v-row>
                 <br>
                 <div align="center">
                   <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
-                    {{ text_page.sign_in_component.submit }}
+                    {{ text_page.form_component.button.submit }}
                   </v-btn>
                   <v-btn @click="reset" outlined small fab color="#8C9EFF">
                     <v-icon>autorenew</v-icon>
@@ -76,29 +75,27 @@ export default {
   props: ['error', 'showSignUp', 'showChangePassword'],
   data() {
     return {
-      text_page: {
-        sign_in_component: text_page.sign_in_component,
-      },
+      text_page: text_page,
       value: String,
       valid: false,
       login: '',
       password: '',
       rules: {
         login: [
-          v => !!v || this.text_page.sign_in_component.login.error.required,
-          v => /^[a-zA-Z0-9_.-]+$/.test(v) || this.text_page.sign_in_component.login.error.valid_characters,
-          v => (v && v.length >= 3) || this.text_page.sign_in_component.login.error.min_length,
-          v => (v && v.length <= 15) || this.text_page.sign_in_component.login.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_in_component.login.error.spaces_prohibited,
+          v => !!v || this.text_page.form_component.input.login.error.required,
+          v => /^[a-zA-Z0-9_.-]+$/.test(v) || this.text_page.form_component.input.login.error.valid_characters,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.login.error.min_length,
+          v => (v && v.length <= 15) || this.text_page.form_component.input.login.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.login.error.spaces_prohibited,
         ],
         password: [
-          v => !!v || this.text_page.sign_in_component.password.error.required,
-          v => (v && v.length >= 5) || this.text_page.sign_in_component.password.error.min_length,
-          v => (v && v.length <= 20) || this.text_page.sign_in_component.password.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_in_component.password.error.spaces_prohibited,
-          v => /(?=.*?[a-z])/.test(v) || this.text_page.sign_in_component.password.error.one_lower_case_letter,
-          v => /(?=.*?[A-Z])/.test(v) || this.text_page.sign_in_component.password.error.one_upper_case_letter,
-          v => /(?=.*?[0-9])/.test(v) || this.text_page.sign_in_component.password.error.one_digit,
+          v => !!v || this.text_page.form_component.input.password.error.required,
+          v => (v && v.length >= 5) || this.text_page.form_component.input.password.error.min_length,
+          v => (v && v.length <= 20) || this.text_page.form_component.input.password.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.password.error.spaces_prohibited,
+          v => /(?=.*?[a-z])/.test(v) || this.text_page.form_component.input.password.error.one_lower_case_letter,
+          v => /(?=.*?[A-Z])/.test(v) || this.text_page.form_component.input.password.error.one_upper_case_letter,
+          v => /(?=.*?[0-9])/.test(v) || this.text_page.form_component.input.password.error.one_digit,
         ],
       },
     }
@@ -111,8 +108,7 @@ export default {
     },
     reset: function () {
       this.$refs.formSignIn.reset()
-      this.error.not_found = undefined
-      this.error.database_connection_not_received = undefined
+      this.text_page.form_component.error.not_found = undefined
     },
   }
 }

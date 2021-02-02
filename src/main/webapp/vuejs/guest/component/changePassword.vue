@@ -6,12 +6,13 @@
           <div class="sign-up-background">
             <div class="sign-up">
               <div class="title font-weight-regular" style="color: white; text-align: center;">
-                <span class="text-h6 font-weight-regular center">Change password...</span><br>
-                <div style="color: green">{{ info.success }}</div>
+                <span class="text-h6 font-weight-regular center">
+                  {{text_page.form_component.title.change_password}}...
+                </span><br>
+                <div style="color: green">{{ success }}</div>
               </div>
-              <div style="color: yellow">{{ info.check_email }}</div>
-              <div style="color: red">{{ error.login_not_found }}</div>
-              <div style="color: red">{{ error.incorrect_email }}</div>
+              <div style="color: yellow">{{ info }}</div>
+              <div style="color: red">{{ error }}</div>
               <v-form
                   ref="formFirstStepLogic"
                   v-model="validFormFirstStepLogic"
@@ -22,7 +23,7 @@
                     v-model="login"
                     :counter="15"
                     :rules="rules.login"
-                    label="Login"
+                    v-bind:label=text_page.form_component.input.login.name
                     required
                 ></v-text-field>
               </v-form>
@@ -36,7 +37,7 @@
                     v-model="email"
                     :counter="55"
                     :rules="rules.email"
-                    label="Email"
+                    v-bind:label=text_page.form_component.input.email.name
                     required
                 ></v-text-field>
                 <v-row>
@@ -50,7 +51,7 @@
                         :append-icon="valueNewPassword ? 'visibility' : 'visibility_off'"
                         @click:append="() => (valueNewPassword = !valueNewPassword)"
                         :type="valueNewPassword ? 'password' : 'text'"
-                        label="New password"
+                        v-bind:label=text_page.form_component.input.password.name
                         required
                     ></v-text-field>
                   </v-col>
@@ -64,7 +65,7 @@
                         :append-icon="valueNewPasswordRepeat ? 'visibility' : 'visibility_off'"
                         @click:append="() => (valueNewPasswordRepeat = !valueNewPasswordRepeat)"
                         :type="valueNewPasswordRepeat ? 'password' : 'text'"
-                        label='Repeat new password'
+                        v-bind:label=text_page.form_component.input.password_repeat.name
                         required
                     ></v-text-field>
                   </v-col>
@@ -82,7 +83,7 @@
                       v-model="uniqueKey"
                       :rules="rules.uniqueKey"
                       :counter="20"
-                      label="Unique key from email"
+                      v-bind:label=text_page.form_component.input.unique_key.name
                       required
                   ></v-text-field>
                 </div>
@@ -128,20 +129,13 @@ export default {
   props: ['showSignIn', 'showNotification'],
   data() {
     return {
-      text_page: {
-        sign_up_component: text_page.sign_up_component,
-      },
+      text_page: text_page,
       isFormLogin: true,
       isFormLoginAndPassword: false,
-      info: {
-        check_email: undefined,
-        success: undefined
-      },
-      error: {
-        login_not_found: undefined,
-        incorrect_email: undefined,
-        time_expired: undefined
-      },
+
+      success: undefined,
+      info: undefined,
+      error: undefined,
 
       isFirstStepLogic: true,
       isSecondStepLogic: false,
@@ -161,36 +155,36 @@ export default {
       uniqueKey: '',
       rules: {
         login: [
-          v => !!v || this.text_page.sign_up_component.login.error.required,
-          v => /^[a-zA-Z0-9_.-]+$/.test(v) || this.text_page.sign_up_component.login.error.valid_characters,
-          v => (v && v.length >= 3) || this.text_page.sign_up_component.login.error.min_length,
-          v => (v && v.length <= 15) || this.text_page.sign_up_component.login.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.login.error.spaces_prohibited,
+          v => !!v || this.text_page.form_component.input.login.error.required,
+          v => /^[a-zA-Z0-9_.-]+$/.test(v) || this.text_page.form_component.input.login.error.valid_characters,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.login.error.min_length,
+          v => (v && v.length <= 15) || this.text_page.form_component.input.login.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.login.error.spaces_prohibited,
         ],
         email: [
-          v => !!v || this.text_page.sign_up_component.email.error.required,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.email.error.spaces_prohibited,
-          v => (v && v.length <= 55) || this.text_page.sign_up_component.email.error.max_length,
+          v => !!v || this.text_page.form_component.input.email.error.required,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.email.error.spaces_prohibited,
+          v => (v && v.length <= 55) || this.text_page.form_component.input.email.error.max_length,
           v => /^[a-zA-z0-9_.-]{1,35}@[a-zA-z0-9_-]{2,15}\.[a-z]{2,5}$/.test(v)
-              || this.text_page.sign_up_component.email.error.pattern,
+              || this.text_page.form_component.input.email.error.pattern,
         ],
         newPassword: [
-          v => !!v || this.text_page.sign_up_component.password.error.required,
-          v => (v && v.length >= 5) || this.text_page.sign_up_component.password.error.min_length,
-          v => (v && v.length <= 20) || this.text_page.sign_up_component.password.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.password.error.spaces_prohibited,
-          v => /(?=.*?[a-z])/.test(v) || this.text_page.sign_up_component.password.error.one_lower_case_letter,
-          v => /(?=.*?[A-Z])/.test(v) || this.text_page.sign_up_component.password.error.one_upper_case_letter,
-          v => /(?=.*?[0-9])/.test(v) || this.text_page.sign_up_component.password.error.one_digit,
+          v => !!v || this.text_page.form_component.input.password.error.required,
+          v => (v && v.length >= 5) || this.text_page.form_component.input.password.error.min_length,
+          v => (v && v.length <= 20) || this.text_page.form_component.input.password.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.password.error.spaces_prohibited,
+          v => /(?=.*?[a-z])/.test(v) || this.text_page.form_component.input.password.error.one_lower_case_letter,
+          v => /(?=.*?[A-Z])/.test(v) || this.text_page.form_component.input.password.error.one_upper_case_letter,
+          v => /(?=.*?[0-9])/.test(v) || this.text_page.form_component.input.password.error.one_digit,
         ],
         newPasswordRepeat: [
-          v => !!v || this.text_page.sign_up_component.password_repeat.error.required,
+          v => !!v || this.text_page.form_component.input.password_repeat.error.required,
           v => (v && this.newPassword === this.newPasswordRepeat) ||
-              this.text_page.sign_up_component.password_repeat.error.not_equal,
+              this.text_page.form_component.input.password_repeat.error.not_equal,
         ],
         uniqueKey: [
-          v => !!v || "Can't be empty",
-          v => (v && v.length <= 20) || "Can't be more then 20 symbols",
+          v => !!v || this.text_page.form_component.input.unique_key.error.not_empty,
+          v => (v && v.length <= 10) || this.text_page.form_component.input.unique_key.error.max_length,
         ]
       }
     }
@@ -204,10 +198,8 @@ export default {
       this.isSecondStepLogic = false
       this.isThirdStepLogic = false
 
-      this.info.check_email = undefined
-      this.info.success = undefined
-      this.error.incorrect_email = undefined
-      this.error.login_not_found = undefined
+      this.info = undefined
+      this.error = undefined
     },
     showFirstStepLogic: function () {
       this.clearAllStepsLogic()
@@ -233,7 +225,7 @@ export default {
               this.showSecondStepLogic()
             },
             ex => {
-              this.error.login_not_found = "Login didn't found"
+              this.error = "Login didn't found"
             })
       }
     },
@@ -252,9 +244,9 @@ export default {
             ex => {
               if (ex.response.status === 401) {
                 this.showThirdStepLogic()
-                this.info.check_email = ex.response.data.error
+                this.info = ex.response.data.error
               } else if (ex.response.status === 400) {
-                this.error.incorrect_email = ex.response.data.error
+                this.error = ex.response.data.error//rewrite
               }
             })
       }
@@ -272,11 +264,11 @@ export default {
           }
         }).then(resp => {
               this.allFormsReset()
-              this.info.success = text_page.change_password_by_email_component.success
+              this.success = text_page.form_component.input.success
             },
             ex => {
               if (ex.response.status === 400) {
-                this.error.time_expired = ex.response.data.error
+                this.error = ex.response.data.error
               }
             })
       }

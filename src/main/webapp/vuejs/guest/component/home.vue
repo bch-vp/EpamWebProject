@@ -43,9 +43,7 @@ export default {
   },
   data() {
     return {
-      text_page: {
-        guest_home_component: text_page.guest_home_component,
-      },
+      text_page: text_page
     }
   }
 }

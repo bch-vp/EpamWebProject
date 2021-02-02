@@ -10,9 +10,8 @@
                   v-model="valid"
               >
                 <div class="title font-weight-regular" style="color: white; text-align: center;">
-                  <span class="text-h6 font-weight-regular center">{{ text_page.sign_up_component.name }}...</span><br>
+                  <span class="text-h6 font-weight-regular center">{{ text_page.form_component.title.sign_up }}...</span><br>
                 </div>
-                <div style="color: yellow">{{ error.database_connection_not_received }}</div>
                 <div style="color: red">{{ error.login_not_unique }}</div>
                 <div style="color: red">{{ error.telephone_number_not_unique }}</div>
                 <div style="color: red">{{ error.email_not_unique }}</div>
@@ -22,7 +21,7 @@
                     v-model="login"
                     :counter="15"
                     :rules="rules.login"
-                    v-bind:label=text_page.sign_up_component.login.name
+                    v-bind:label=text_page.form_component.input.login.name
                     required
                 ></v-text-field>
                 <v-row>
@@ -36,7 +35,7 @@
                         :append-icon="valuePassword ? 'visibility' : 'visibility_off'"
                         @click:append="() => (valuePassword = !valuePassword)"
                         :type="valuePassword ? 'password' : 'text'"
-                        v-bind:label=text_page.sign_up_component.password.name
+                        v-bind:label=text_page.form_component.input.password.name
                         required
                     ></v-text-field>
                   </v-col>
@@ -49,7 +48,7 @@
                         :append-icon="valuePasswordRepeat ? 'visibility' : 'visibility_off'"
                         @click:append="() => (valuePasswordRepeat = !valuePasswordRepeat)"
                         :type="valuePasswordRepeat ? 'password' : 'text'"
-                        label='Repeat password'
+                        v-bind:label=text_page.form_component.input.password_repeat.name
                         required
                     ></v-text-field>
                   </v-col>
@@ -61,7 +60,7 @@
                     v-model="first_name"
                     :counter="15"
                     :rules="rules.first_name"
-                    v-bind:label=text_page.sign_up_component.first_name.name
+                    v-bind:label=text_page.form_component.input.first_name.name
                     required
                 ></v-text-field>
 
@@ -71,7 +70,7 @@
                     v-model="last_name"
                     :counter="15"
                     :rules="rules.last_name"
-                    v-bind:label=text_page.sign_up_component.last_name.name
+                    v-bind:label=text_page.form_component.input.last_name.name
                     required
                 ></v-text-field>
 
@@ -81,7 +80,7 @@
                     v-model="telephoneNumber"
                     :counter="17"
                     :rules="rules.telephoneNumber"
-                    v-bind:label=text_page.sign_up_component.telephone_number.name
+                    v-bind:label=text_page.form_component.input.telephone_number.name
                     required
                 ></v-text-field>
 
@@ -91,19 +90,19 @@
                     v-model="email"
                     :rules="rules.email"
                     :counter="35"
-                    v-bind:label=text_page.sign_up_component.email.name
+                    v-bind:label=text_page.form_component.input.email.name
                     required
                 ></v-text-field>
                 <br>
                 <v-row>
                   <v-btn @click="showSignIn" color="green" text outlined rounded>
-                    <span style="">{{ text_page.sign_up_component.go_to_component.sign_in }}</span>
+                    <span style="">{{ text_page.form_component.button.go_to_component.sign_in }}</span>
                   </v-btn>
                 </v-row>
                 <br>
                 <div align="center">
                   <v-btn @click="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
-                    {{ text_page.sign_up_component.submit }}
+                    {{ text_page.form_component.button.submit }}
                   </v-btn>
                   <v-btn @click="reset" outlined small fab color="#8C9EFF">
                     <v-icon>autorenew</v-icon>
@@ -123,9 +122,7 @@ export default {
   props: ['showSignIn', 'showNotification'],
   data() {
     return {
-      text_page: {
-        sign_up_component: text_page.sign_up_component,
-      },
+      text_page:text_page,
       error: {
         login_not_unique: "",
         telephone_number_not_unique: "",
@@ -144,54 +141,53 @@ export default {
       email: '',
       rules: {
         login: [
-          v => !!v || this.text_page.sign_up_component.login.error.required,
-          v => /^[a-zA-Z0-9_.-]+$/.test(v) || this.text_page.sign_up_component.login.error.valid_characters,
-          v => (v && v.length >= 3) || this.text_page.sign_up_component.login.error.min_length,
-          v => (v && v.length <= 15) || this.text_page.sign_up_component.login.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.login.error.spaces_prohibited,
+          v => !!v || this.text_page.form_component.input.login.error.required,
+          v => /^[a-zA-Z0-9_.-]+$/.test(v) || this.text_page.form_component.input.login.error.valid_characters,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.login.error.min_length,
+          v => (v && v.length <= 15) || this.text_page.form_component.input.login.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.login.error.spaces_prohibited,
         ],
         password: [
-          v => !!v || this.text_page.sign_up_component.password.error.required,
-          v => (v && v.length >= 5) || this.text_page.sign_up_component.password.error.min_length,
-          v => (v && v.length <= 20) || this.text_page.sign_up_component.password.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.password.error.spaces_prohibited,
-          v => /(?=.*?[a-z])/.test(v) || this.text_page.sign_up_component.password.error.one_lower_case_letter,
-          v => /(?=.*?[A-Z])/.test(v) || this.text_page.sign_up_component.password.error.one_upper_case_letter,
-          v => /(?=.*?[0-9])/.test(v) || this.text_page.sign_up_component.password.error.one_digit,
+          v => !!v || this.text_page.form_component.input.password.error.required,
+          v => (v && v.length >= 5) || this.text_page.form_component.input.password.error.min_length,
+          v => (v && v.length <= 20) || this.text_page.form_component.input.password.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.password.error.spaces_prohibited,
+          v => /(?=.*?[a-z])/.test(v) || this.text_page.form_component.input.password.error.one_lower_case_letter,
+          v => /(?=.*?[A-Z])/.test(v) || this.text_page.form_component.input.password.error.one_upper_case_letter,
+          v => /(?=.*?[0-9])/.test(v) || this.text_page.form_component.input.password.error.one_digit,
         ],
         passwordRepeat: [
-          v => !!v || this.text_page.sign_up_component.password_repeat.error.required,
+          v => !!v || this.text_page.form_component.input.password_repeat.error.required,
           v => (v && this.passwordRepeat === this.password) ||
-              this.text_page.sign_up_component.password_repeat.error.not_equal,
+              this.text_page.form_component.input.password_repeat.error.not_equal,
         ],
         first_name: [
-          v => !!v || this.text_page.sign_up_component.first_name.error.required,
-          v => (v && v.length >= 3) || this.text_page.sign_up_component.first_name.error.min_length,
-          v => (v && v.length <= 15) || this.text_page.sign_up_component.first_name.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.first_name.error.spaces_prohibited,
-          v => /^[a-zA-Z]+$/.test(v) || this.text_page.sign_up_component.first_name.error.only_letters
+          v => !!v || this.text_page.form_component.input.first_name.error.required,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.first_name.error.min_length,
+          v => (v && v.length <= 15) || this.text_page.form_component.input.first_name.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.first_name.error.spaces_prohibited,
+          v => /^[a-zA-Z]+$/.test(v) || this.text_page.form_component.input.first_name.error.only_letters
         ],
         last_name: [
-          v => !!v || this.text_page.sign_up_component.last_name.error.required,
-          v => (v && v.length >= 3) || this.text_page.sign_up_component.last_name.error.min_length,
-          v => (v && v.length <= 15) || this.text_page.sign_up_component.last_name.error.max_length,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.last_name.error.spaces_prohibited,
+          v => !!v || this.text_page.form_component.input.last_name.error.required,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.last_name.error.min_length,
+          v => (v && v.length <= 15) || this.text_page.form_component.input.last_name.error.max_length,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.last_name.error.spaces_prohibited,
           v => /^[a-zA-Z]+$/.test(v)
-              || this.text_page.sign_up_component.last_name.error.only_letters
+              || this.text_page.form_component.input.last_name.error.only_letters
         ],
         telephoneNumber: [
-          v => !!v || this.text_page.sign_up_component.telephone_number.error.required,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.telephone_number.error.spaces_prohibited,
-          v => (v && v.length <= 17) || this.text_page.sign_up_component.telephone_number.error.max_length,
+          v => !!v || this.text_page.form_component.input.telephone_number.error.required,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.telephone_number.error.spaces_prohibited,
           v => /^(\+375\([\d]{2}\)[\d]{3}\-[\d]{2}\-[\d]{2})$/.test(v) ||
-              this.text_page.sign_up_component.telephone_number.error.pattern
+              this.text_page.form_component.input.telephone_number.error.pattern
         ],
         email: [
-          v => !!v || this.text_page.sign_up_component.email.error.required,
-          v => /^\S*$/.test(v) || this.text_page.sign_up_component.email.error.spaces_prohibited,
-          v => (v && v.length <= 55) || this.text_page.sign_up_component.email.error.max_length,
+          v => !!v || this.text_page.form_component.input.email.error.required,
+          v => /^\S*$/.test(v) || this.text_page.form_component.input.email.error.spaces_prohibited,
+          v => (v && v.length <= 55) || this.text_page.form_component.input.email.error.max_length,
           v => /^[a-zA-z0-9_.-]{1,35}@[a-zA-z0-9_-]{2,15}\.[a-z]{2,5}$/.test(v)
-              || this.text_page.sign_up_component.email.error.pattern,
+              || this.text_page.form_component.input.email.error.pattern,
         ]
       }
     }

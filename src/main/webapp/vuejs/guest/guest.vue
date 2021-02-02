@@ -9,7 +9,7 @@
           <home v-if="isHome"
                 :showSignUp="showSignUp"/>
           <sign-in v-if="isSignIn"
-                   :error="text_page.sign_in_component.error"
+                   :error="text_page.form_component.input.error"
                    :showSignUp="showSignUp"
                    :showChangePassword="showChangePassword"/>
           <sign-up v-if="isSignUp"
@@ -41,21 +41,12 @@ export default {
     Home,
     SignIn,
     SignUp,
-    Notification,
-    ChangePassword
+    ChangePassword,
+    Notification
   },
   data() {
     return {
-      text_page: {
-        header: text_page.header,
-        language: text_page.language,
-        sign_in_component: {
-          error: text_page.sign_in_component.error
-        },
-        sign_up_component: {
-          error: text_page.sign_up_component.error
-        }
-      },
+      text_page: text_page,
       isHome: false,
       isSignIn: false,
       isSignUp: false,
@@ -64,33 +55,21 @@ export default {
     }
   },
   created() {
-    this.isChangePassword = true
-    // if (text_page.sign_in_component.error.not_found
-    //     || text_page.sign_in_component.error.database_connection_not_received) {
-    //   this.isSignIn = true
-    // } else {
-    //   this.showHome()
-    // }
+    // this.isChangePassword = true
+    if (this.text_page.form_component.error.not_found) {
+      this.isSignIn = true
+    } else {
+      this.showHome()
+    }
   },
   methods: {
     clearAllComponents() {
-      if (this.$refs.formSignUp) {
-        this.$refs.formSignUp.reset()
-      }
-      if (this.$refs.formSignIn) {
-        this.$refs.formSignIn.reset()
-      }
       this.isSignIn = false
       this.isSignUp = false
       this.isHome = false
       this.isNotification = false
       this.isChangePassword = false
-      this.text_page.sign_in_component.error.not_found = undefined
-      this.text_page.sign_in_component.error.database_connection_not_received = undefined
-      this.text_page.sign_up_component.error.login_not_unique = undefined
-      this.text_page.sign_up_component.error.telephone_number_not_unique = undefined
-      this.text_page.sign_up_component.error.email_not_unique = undefined
-      this.text_page.sign_up_component.error.database_connection_not_received = undefined
+      this.text_page.form_component.error.not_found = undefined
     },
     showHome() {
       this.clearAllComponents()
