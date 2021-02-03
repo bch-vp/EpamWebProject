@@ -29,7 +29,8 @@ import static by.epam.project.controller.parameter.SessionAttributeKey.UNIQUE_KE
 public class ChangePasswordByEmail implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
     private final EmailService emailService = EmailServiceImpl.getInstance();
-    private static final int RANGE_MAX = 1000000;
+    private static final int DIFF_RANGE = 900_000;
+    private static final int MIN_RANGE = 100_000;
     private static final int TIMER_SEC = 300;
 
     @Override
@@ -38,6 +39,7 @@ public class ChangePasswordByEmail implements Command {
         HttpSession session = request.getSession();
 
         String locale = (String) session.getAttribute(LANGUAGE);
+        String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
 
         String login = (String) requestParameters.get(USER_LOGIN);
         String email = (String) requestParameters.get(USER_EMAIL);
@@ -76,9 +78,10 @@ public class ChangePasswordByEmail implements Command {
                 return;
             }
 
-            // if request not contain uniqueKey, that's why need to send new CODE to email
-            if(requestUniqueKey == null || requestUniqueKey.isEmpty()){
-                String uniqueKey = String.valueOf(new Random().nextInt(RANGE_MAX));
+            // if session not contain uniqueKey, that's why need to send new CODE to email
+            if (sessionUniqueKey == null || sessionUniqueKey.isEmpty()) {
+                int key = MIN_RANGE + new Random().nextInt(DIFF_RANGE);
+                String uniqueKey = String.valueOf(key);
 
                 session.setAttribute(TIME_CREATED, System.currentTimeMillis());
                 session.setAttribute(UNIQUE_KEY, uniqueKey);
@@ -105,8 +108,7 @@ public class ChangePasswordByEmail implements Command {
             }
 
             // if uniqueKey from request not equal session uniqueKey
-            String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
-            if(!requestUniqueKey.equals(sessionUniqueKey)){
+            if (!requestUniqueKey.equals(sessionUniqueKey)) {
                 String emailNotificationWithLocale = ContentUtil.getWithLocale(locale,
                         PropertieKey.ERROR_CHANGING_PASSWORD_UNIQUE_KEY_INCORRECT);
 
@@ -116,15 +118,14 @@ public class ChangePasswordByEmail implements Command {
                 String json = JsonUtil.toJson(responseMap);
                 writeJsonToResponse(response, json);
 
-                session.removeAttribute(UNIQUE_KEY);
-
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
 
-            long timeCreated = System.currentTimeMillis();
-            long timeNow = (long) session.getAttribute(TIME_CREATED);
-            boolean isTimeNotExpired = (timeNow - timeCreated) <= TIMER_SEC;
+            long timeCreated =(long) session.getAttribute(TIME_CREATED);
+            long timeNow = System.currentTimeMillis();
+            long diff = (timeNow - timeCreated)/1000;
+            boolean isTimeNotExpired = diff <= TIMER_SEC;
             if (isTimeNotExpired) {
                 userService.updatePasswordByLogin(login, newPassword);
                 response.setStatus(HttpServletResponse.SC_OK);

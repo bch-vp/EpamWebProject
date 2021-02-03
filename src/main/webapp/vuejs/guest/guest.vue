@@ -55,12 +55,12 @@ export default {
     }
   },
   created() {
-    // this.isChangePassword = true
-    if (this.text_page.form_component.error.not_found) {
-      this.isSignIn = true
-    } else {
-      this.showHome()
-    }
+    this.isChangePassword = true
+    // if (this.text_page.form_component.error.login_not_found) {
+    //   this.isSignIn = true
+    // } else {
+    //   this.showHome()
+    // }
   },
   methods: {
     clearAllComponents() {
@@ -69,7 +69,7 @@ export default {
       this.isHome = false
       this.isNotification = false
       this.isChangePassword = false
-      this.text_page.form_component.error.not_found = undefined
+      this.text_page.form_component.error.login_not_found = undefined
     },
     showHome() {
       this.clearAllComponents()

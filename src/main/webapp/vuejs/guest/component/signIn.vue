@@ -16,7 +16,7 @@
                   ref="formSignIn"
                   v-model="valid"
               >
-                <div style="color: red">{{ text_page.form_component.error.not_found }}</div>
+                <div style="color: red">{{ text_page.form_component.error.login_not_found }}</div>
                 <v-text-field
                     dark
                     name="login"
@@ -93,6 +93,7 @@ export default {
           v => (v && v.length >= 5) || this.text_page.form_component.input.password.error.min_length,
           v => (v && v.length <= 20) || this.text_page.form_component.input.password.error.max_length,
           v => /^\S*$/.test(v) || this.text_page.form_component.input.password.error.spaces_prohibited,
+          v => /^[A-Za-z0-9]+$/.test(v) || this.text_page.form_component.input.password.error.valid_characters,
           v => /(?=.*?[a-z])/.test(v) || this.text_page.form_component.input.password.error.one_lower_case_letter,
           v => /(?=.*?[A-Z])/.test(v) || this.text_page.form_component.input.password.error.one_upper_case_letter,
           v => /(?=.*?[0-9])/.test(v) || this.text_page.form_component.input.password.error.one_digit,
@@ -108,7 +109,7 @@ export default {
     },
     reset: function () {
       this.$refs.formSignIn.reset()
-      this.text_page.form_component.error.not_found = undefined
+      this.text_page.form_component.error.login_not_found = undefined
     },
   }
 }

@@ -91,30 +91,37 @@
 
               <br>
               <div align="center">
-                <v-btn v-if="isFirstStepLogic"
-                       @click="submitFormFirstStepLogic"
-                       :disabled="!validFormFirstStepLogic"
-                       dark small text rounded
-                       color="#8C9EFF">
-                  Сheck the existence of login
-                </v-btn>
-                <v-btn v-if="isSecondStepLogic"
-                       @click="submitFormSecondStepLogic"
-                       :disabled="!validFormSecondStepLogic"
-                       dark small text rounded
-                       color="#8C9EFF">
-                  submit
-                </v-btn>
-                <v-btn v-if="isThirdStepLogic"
-                       @click="submitFormThirdStepLogic"
-                       :disabled="!validFormThirdStepLogic"
-                       dark small text rounded
-                       color="#8C9EFF">
-                  submit
-                </v-btn>
-                <v-btn @click="allFormsReset" outlined small fab color="#8C9EFF">
-                  <v-icon>autorenew</v-icon>
-                </v-btn>
+                      <v-progress-circular x
+                          style="margin-right: 15px"
+                          v-if="spinnerVisible"
+                          indeterminate
+                          color="#8C9EFF"
+                      ></v-progress-circular>
+
+                      <v-btn v-if="isFirstStepLogic && !spinnerVisible"
+                             @click="submitFormFirstStepLogic"
+                             :disabled="!validFormFirstStepLogic"
+                             dark small text rounded
+                             color="#8C9EFF">
+                        Сheck the existence of login
+                      </v-btn>
+                      <v-btn v-if="isSecondStepLogic && !spinnerVisible"
+                             @click="submitFormSecondStepLogic"
+                             :disabled="!validFormSecondStepLogic"
+                             dark small text rounded
+                             color="#8C9EFF">
+                        submit
+                      </v-btn>
+                      <v-btn v-if="isThirdStepLogic && !spinnerVisible"
+                             @click="submitFormThirdStepLogic"
+                             :disabled="!validFormThirdStepLogic"
+                             dark small text rounded
+                             color="#8C9EFF">
+                        submit
+                      </v-btn>
+                      <v-btn @click="allFormsReset" outlined small fab color="#8C9EFF">
+                        <v-icon>autorenew</v-icon>
+                      </v-btn>
               </div>
             </div>
           </div>
@@ -145,6 +152,8 @@ export default {
       validFormSecondStepLogic: false,
       validFormThirdStepLogic: false,
 
+      spinnerVisible: false,
+
       valueNewPassword: String,
       valueNewPasswordRepeat: String,
       valueEmail: String,
@@ -173,6 +182,7 @@ export default {
           v => (v && v.length >= 5) || this.text_page.form_component.input.password.error.min_length,
           v => (v && v.length <= 20) || this.text_page.form_component.input.password.error.max_length,
           v => /^\S*$/.test(v) || this.text_page.form_component.input.password.error.spaces_prohibited,
+          v => /^[A-Za-z0-9]+$/.test(v) || this.text_page.form_component.input.password.error.valid_characters,
           v => /(?=.*?[a-z])/.test(v) || this.text_page.form_component.input.password.error.one_lower_case_letter,
           v => /(?=.*?[A-Z])/.test(v) || this.text_page.form_component.input.password.error.one_upper_case_letter,
           v => /(?=.*?[0-9])/.test(v) || this.text_page.form_component.input.password.error.one_digit,
@@ -184,13 +194,34 @@ export default {
         ],
         uniqueKey: [
           v => !!v || this.text_page.form_component.input.unique_key.error.not_empty,
-          v => (v && v.length <= 10) || this.text_page.form_component.input.unique_key.error.max_length,
+          v => (v && v.length === 6) || this.text_page.form_component.input.unique_key.error.length,
+          v => /^\d+$/.test(v) || this.text_page.form_component.input.unique_key.error.only_digits,
         ]
       }
     }
   },
   created() {
     this.showFirstStepLogic()
+    this.axios.interceptors.request.use(
+        conf => {
+          this.showSpinner()
+          return conf;
+        },
+        error => {
+          this.hideSpinner()
+          return Promise.reject(error);
+        }
+    );
+    this.axios.interceptors.response.use(
+        response => {
+          this.hideSpinner()
+          return response;
+        },
+        error => {
+          this.hideSpinner()
+          return Promise.reject(error);
+        }
+    );
   },
   methods: {
     clearAllStepsLogic: function () {
@@ -198,6 +229,7 @@ export default {
       this.isSecondStepLogic = false
       this.isThirdStepLogic = false
 
+      this.success=undefined
       this.info = undefined
       this.error = undefined
     },
@@ -225,9 +257,15 @@ export default {
               this.showSecondStepLogic()
             },
             ex => {
-              this.error = "Login didn't found"
+              this.error = this.text_page.form_component.error.not_found
             })
       }
+    },
+    showSpinner() {
+      this.spinnerVisible = true;
+    },
+    hideSpinner() {
+      this.spinnerVisible = false;
     },
     submitFormSecondStepLogic: function () {
       if (this.$refs.formSecondStepLogic.validate()) {
@@ -251,6 +289,10 @@ export default {
             })
       }
     },
+
+
+
+
     submitFormThirdStepLogic: function () {
       if (this.$refs.formThirdStepLogic.validate()) {
         this.axios({
@@ -264,7 +306,7 @@ export default {
           }
         }).then(resp => {
               this.allFormsReset()
-              this.success = text_page.form_component.input.success
+              this.success = this.text_page.form_component.info.success
             },
             ex => {
               if (ex.response.status === 400) {

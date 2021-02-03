@@ -58,6 +58,7 @@
                     name: "<fmt:message key="form_component.input.password"/>",
                     error: {
                         required: "<fmt:message key="form_component.input.password.error.required"/>",
+                        valid_characters:"<fmt:message key="form_component.input.password.error.valid_characters"/>",
                         min_length: "<fmt:message key="form_component.input.password.error.min_length"/>",
                         max_length: "<fmt:message key="form_component.input.password.error.max_length"/>",
                         spaces_prohibited: "<fmt:message key="form_component.input.password.error.spaces_prohibited"/>",
@@ -115,7 +116,8 @@
                     name: "<fmt:message key="form_component.input.unique_key"/>",
                     error: {
                         not_empty: "<fmt:message key="form_component.input.unique_key.error.not_empty"/>",
-                        max_length: "<fmt:message key="form_component.input.unique_key.error.max_length"/>"
+                        length: "<fmt:message key="form_component.input.unique_key.error.length"/>",
+                        only_digits: "<fmt:message key="form_component.input.unique_key.error.only_digits"/>"
                     }
                 }
             },
@@ -129,11 +131,11 @@
                 check_email: "<fmt:message key="form_component.info.check_email.unique_code"/>",
             },
             error: {
-                not_found: "${login_not_found}",
-                <%--not_found: "<fmt:message key="form_component.error.not_found"/>",--%>
-                <%--time_expired: "<fmt:message key="form_component.error.time_expired"/>",--%>
-                <%--email_incorrect: "<fmt:message key="form_component.error.email_incorrect"/>",--%>
-                <%--unique_key_incorrect: "<fmt:message key="form_component.error.unique_key_incorrect"/>",--%>
+                login_not_found: "${login_not_found}",
+                not_found: "<fmt:message key="form_component.error.not_found"/>",
+                time_expired: "<fmt:message key="form_component.error.time_expired"/>",
+                email_incorrect: "<fmt:message key="form_component.error.email_incorrect"/>",
+                unique_key_incorrect: "<fmt:message key="form_component.error.unique_key_incorrect"/>",
             },
             button: {
                 submit: "<fmt:message key="form_component.button.submit"/>",

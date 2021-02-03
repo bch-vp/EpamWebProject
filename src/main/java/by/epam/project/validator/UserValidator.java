@@ -8,14 +8,13 @@ import java.util.regex.Pattern;
 import static by.epam.project.controller.parameter.RequestParameterKey.*;
 
 public class UserValidator {
-    private static final String LOGIN_REGEX_MIN_MAX_SIZE = "^.{3,10}$";
-    private static final String LOGIN_REGEX_SPACES_PROHIBITED = "^\\S*$";
-    private static final String PASSWORD_REGEX= "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{5,10}$";
-    private static final String PASSWORD_REGEX_SPACES_PROHIBITED = "^\\S*$";
-    private static final String EMAIL_REGEX = "^[a-zA-z0-9_.-]{1,35}@[a-zA-z0-9_-]{2,15}\\.[a-z]{2,5}$";
-    private static final String NAME_REGEX = "^[a-zA-Z]{2,10}$";
-    private static final String SURNAME_REGEX = "^[a-zA-Z]{2,10}$";
+    private static final String LOGIN_REGEX = "^[a-zA-Z0-9_.-]{3,15}+$";
+    private static final String PASSWORD_REGEX= "^[A-Za-z0-9]{5,20}$";
+    private static final String FIRST_NAME_REGEX = "^[a-zA-Z]{3,15}$";
+    private static final String LAST_NAME_REGEX = "^[a-zA-Z]{3,15}$";
     private static final String PHONE_REGEX = "^(\\+375\\([\\d]{2}\\)[\\d]{3}\\-[\\d]{2}\\-[\\d]{2})$";
+    private static final String EMAIL_REGEX = "^[a-zA-z0-9_.-]{1,35}@[a-zA-z0-9_-]{2,15}\\.[a-z]{2,5}$";
+    private static final String UNIQUE_KEY_REGEX = "^\\d{6}$";
 
     private UserValidator() {
     }
@@ -26,15 +25,14 @@ public class UserValidator {
         validatedData.put(USER_LOGIN, isLoginCorrect(login) ? login : EMPTY_STRING);
         validatedData.put(USER_PASSWORD, isPasswordCorrect(password) ? password : EMPTY_STRING);
         validatedData.put(USER_EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
-        validatedData.put(USER_NAME, isNameCorrect(firstName) ? firstName : EMPTY_STRING);
-        validatedData.put(USER_SURNAME, isSurnameCorrect(lastName) ? lastName : EMPTY_STRING);
+        validatedData.put(USER_NAME, isFirstNameCorrect(firstName) ? firstName : EMPTY_STRING);
+        validatedData.put(USER_SURNAME, isSecondNameCorrect(lastName) ? lastName : EMPTY_STRING);
         validatedData.put(USER_PHONE, isPhoneCorrect(phone) ? phone : EMPTY_STRING);
         return validatedData;
     }
 
     public static boolean isLoginCorrect(String login) {
-        return isEmptyOrNull(login) && isStringMatches(login, LOGIN_REGEX_MIN_MAX_SIZE)
-                && isStringMatches(login, LOGIN_REGEX_SPACES_PROHIBITED);
+        return isEmptyOrNull(login) && isStringMatches(login, LOGIN_REGEX);
     }
 
     public static boolean isPasswordCorrect(String password) {
@@ -45,16 +43,20 @@ public class UserValidator {
         return isEmptyOrNull(email) && isStringMatches(email, EMAIL_REGEX);
     }
 
-    public static boolean isNameCorrect(String name) {
-        return isEmptyOrNull(name) && isStringMatches(name, NAME_REGEX);
+    public static boolean isFirstNameCorrect(String name) {
+        return isEmptyOrNull(name) && isStringMatches(name, FIRST_NAME_REGEX);
     }
 
-    public static boolean isSurnameCorrect(String surname) {
-        return isEmptyOrNull(surname) && isStringMatches(surname, SURNAME_REGEX);
+    public static boolean isSecondNameCorrect(String surname) {
+        return isEmptyOrNull(surname) && isStringMatches(surname, LAST_NAME_REGEX);
     }
 
     public static boolean isPhoneCorrect(String phone) {
         return isEmptyOrNull(phone) && isStringMatches(phone, PHONE_REGEX);
+    }
+
+    public static boolean isUniqueCodeCorrect(String uniqueCode) {
+        return isEmptyOrNull(uniqueCode) && isStringMatches(uniqueCode, UNIQUE_KEY_REGEX);
     }
 
     public static boolean defineIncorrectValues(Map<String, String> data) {

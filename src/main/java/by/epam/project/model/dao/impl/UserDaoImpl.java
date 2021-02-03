@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.Random;
 
 import static by.epam.project.controller.parameter.RequestParameterKey.USER_PASSWORD;
 

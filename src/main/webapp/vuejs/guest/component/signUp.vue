@@ -10,7 +10,9 @@
                   v-model="valid"
               >
                 <div class="title font-weight-regular" style="color: white; text-align: center;">
-                  <span class="text-h6 font-weight-regular center">{{ text_page.form_component.title.sign_up }}...</span><br>
+                  <span class="text-h6 font-weight-regular center">{{
+                      text_page.form_component.title.sign_up
+                    }}...</span><br>
                 </div>
                 <div style="color: red">{{ error.login_not_unique }}</div>
                 <div style="color: red">{{ error.telephone_number_not_unique }}</div>
@@ -101,10 +103,19 @@
                 </v-row>
                 <br>
                 <div align="center">
-                  <v-btn @click="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+                  <v-progress-circular style="margin-right: 15px"
+                                       v-if="spinnerVisible"
+                                       indeterminate
+                                       color="#8C9EFF"
+                  ></v-progress-circular>
+                  <v-btn v-if="!spinnerVisible"
+                         @click="submit"
+                         :disabled="!valid"
+                         dark small text rounded color="#8C9EFF">
                     {{ text_page.form_component.button.submit }}
                   </v-btn>
-                  <v-btn @click="reset" outlined small fab color="#8C9EFF">
+                  <v-btn @click="reset"
+                         outlined small fab color="#8C9EFF">
                     <v-icon>autorenew</v-icon>
                   </v-btn>
                 </div>
@@ -122,7 +133,7 @@ export default {
   props: ['showSignIn', 'showNotification'],
   data() {
     return {
-      text_page:text_page,
+      text_page: text_page,
       error: {
         login_not_unique: "",
         telephone_number_not_unique: "",
@@ -139,6 +150,9 @@ export default {
       last_name: '',
       telephoneNumber: '',
       email: '',
+
+      spinnerVisible: false,
+
       rules: {
         login: [
           v => !!v || this.text_page.form_component.input.login.error.required,
@@ -152,6 +166,7 @@ export default {
           v => (v && v.length >= 5) || this.text_page.form_component.input.password.error.min_length,
           v => (v && v.length <= 20) || this.text_page.form_component.input.password.error.max_length,
           v => /^\S*$/.test(v) || this.text_page.form_component.input.password.error.spaces_prohibited,
+          v => /^[A-Za-z0-9]+$/.test(v) || this.text_page.form_component.input.password.error.valid_characters,
           v => /(?=.*?[a-z])/.test(v) || this.text_page.form_component.input.password.error.one_lower_case_letter,
           v => /(?=.*?[A-Z])/.test(v) || this.text_page.form_component.input.password.error.one_upper_case_letter,
           v => /(?=.*?[0-9])/.test(v) || this.text_page.form_component.input.password.error.one_digit,
@@ -192,7 +207,35 @@ export default {
       }
     }
   },
+  created() {
+    this.axios.interceptors.request.use(
+        conf => {
+          this.showSpinner()
+          return conf;
+        },
+        error => {
+          this.hideSpinner()
+          return Promise.reject(error);
+        }
+    );
+    this.axios.interceptors.response.use(
+        response => {
+          this.hideSpinner()
+          return response;
+        },
+        error => {
+          this.hideSpinner()
+          return Promise.reject(error);
+        }
+    );
+  },
   methods: {
+    showSpinner() {
+      this.spinnerVisible = true;
+    },
+    hideSpinner() {
+      this.spinnerVisible = false;
+    },
     submit: function () {
       if (this.$refs.formSignUp.validate()) {
         this.axios({
