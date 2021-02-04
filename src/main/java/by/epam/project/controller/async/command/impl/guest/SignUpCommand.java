@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class SignUpCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -35,19 +35,20 @@ public class SignUpCommand implements Command {
 
         Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
-        String login = (String) requestParameters.get(USER_LOGIN);
-        String password = (String) requestParameters.get(USER_PASSWORD);
-        String email = (String) requestParameters.get(USER_EMAIL);
-        String firstName = (String) requestParameters.get(USER_NAME);
-        String lastName = (String) requestParameters.get(USER_SURNAME);
-        String phone = (String) requestParameters.get(USER_PHONE);
+        String login = (String) requestParameters.get(LOGIN);
+        String password = (String) requestParameters.get(PASSWORD);
+        String firstName = (String) requestParameters.get(FIRST_NAME);
+        String lastName = (String) requestParameters.get(LAST_NAME);
+        String phone = (String) requestParameters.get(TELEPHONE_NUMBER);
+        String email = (String) requestParameters.get(EMAIL);
 
         try {
             Map<String, String> requestData = userService.defineSignUpData(login,
                     password, email, firstName, lastName, phone);
 
             if (UserValidator.defineIncorrectValues(requestData)) {
-                User newUser = new User(login, firstName, lastName, phone, email);
+                User newUser = new User(login, firstName, lastName, phone, email,
+                                        User.Role.CLIENT.getRoleId(),false);
                 userService.signUpUser(newUser, password);
 
                 String locale = (String) session.getAttribute(LANGUAGE);

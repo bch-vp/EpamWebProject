@@ -2,7 +2,6 @@ package by.epam.project.controller.async.command.impl.guest;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
-import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.parameter.PropertieKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
@@ -22,9 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.*;
-import static by.epam.project.controller.parameter.SessionAttributeKey.TIME_CREATED;
-import static by.epam.project.controller.parameter.SessionAttributeKey.UNIQUE_KEY;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ChangePasswordByEmail implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -41,9 +38,9 @@ public class ChangePasswordByEmail implements Command {
         String locale = (String) session.getAttribute(LANGUAGE);
         String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
 
-        String login = (String) requestParameters.get(USER_LOGIN);
-        String email = (String) requestParameters.get(USER_EMAIL);
-        String newPassword = (String) requestParameters.get(USER_NEW_PASSWORD);
+        String login = (String) requestParameters.get(LOGIN);
+        String email = (String) requestParameters.get(EMAIL);
+        String newPassword = (String) requestParameters.get(NEW_PASSWORD);
         String requestUniqueKey = (String) requestParameters.get(UNIQUE_KEY);
 
         // if data not correct

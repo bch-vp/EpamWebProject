@@ -55,12 +55,12 @@ export default {
     }
   },
   created() {
-    this.isChangePassword = true
-    // if (this.text_page.form_component.error.login_not_found) {
-    //   this.isSignIn = true
-    // } else {
-    //   this.showHome()
-    // }
+    // this.isChangePassword = true
+    if (this.text_page.form_component.error.login_not_found) {
+      this.isSignIn = true
+    } else {
+      this.showHome()
+    }
   },
   methods: {
     clearAllComponents() {

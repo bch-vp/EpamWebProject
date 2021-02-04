@@ -11,9 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.Random;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.USER_PASSWORD;
+import static by.epam.project.controller.parameter.ParameterKey.PASSWORD;
+
 
 public class UserDaoImpl implements UserDao {
     private static final UserDaoImpl instance = new UserDaoImpl();
@@ -40,6 +40,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, user.getSurname());
             statement.setString(5, user.getPhone());
             statement.setString(6, user.getEmail());
+            statement.setInt(7, user.getRole().getRoleId());
 
             isUpdated = statement.executeUpdate() > 0;
         } catch (SQLException exp) {
@@ -127,7 +128,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                password = Optional.of(resultSet.getString(USER_PASSWORD));
+                password = Optional.of(resultSet.getString(PASSWORD));
             }
         } catch (SQLException exp) {
             throw new DaoException(exp);

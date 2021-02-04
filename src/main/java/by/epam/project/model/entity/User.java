@@ -1,21 +1,57 @@
 package by.epam.project.model.entity;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class User extends Entity {
+    public enum Role {
+        CLIENT(0),
+        ADMINISTRATOR(1);
+
+        private final int roleId;
+
+        Role(int roleId) {
+            this.roleId = roleId;
+        }
+
+        public int getRoleId() {
+            return roleId;
+        }
+
+
+        private static final Map<Integer, Role> LOOKUP_MAP = new HashMap<>();
+
+        static {
+            for (Role element : values()) {
+                LOOKUP_MAP.put(element.getRoleId(), element);
+            }
+        }
+
+        public static Role getRoleById(int roleId) {
+            return LOOKUP_MAP.get(roleId);
+        }
+    }
+
     private String login;
     private String name;
     private String surname;
     private String phone;
     private String email;
+    private Role role;
+    private boolean isActivated;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String login, String name, String surname, String phone, String email) {
+    public User(String login, String name, String surname, String phone, String email, int role, boolean isActivated) {
         this.login = login;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.email = email;
+        this.role = Role.getRoleById(role);
+        this.isActivated = isActivated;
     }
 
     public String getLogin() {
@@ -56,6 +92,22 @@ public class User extends Entity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ChangePasswordByOldPass implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -23,9 +23,9 @@ public class ChangePasswordByOldPass implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
-        String login = (String) requestParameters.get(USER_LOGIN);
-        String oldPassword = (String) requestParameters.get(USER_OLD_PASSWORD);
-        String newPassword = (String) requestParameters.get(USER_NEW_PASSWORD);
+        String login = (String) requestParameters.get(LOGIN);
+        String oldPassword = (String) requestParameters.get(OLD_PASSWORD);
+        String newPassword = (String) requestParameters.get(NEW_PASSWORD);
 
         try {
             if (UserValidator.isLoginCorrect(login)

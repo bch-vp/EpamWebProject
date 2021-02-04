@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.LANGUAGE;
+import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 
 public class SignInCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -45,11 +45,10 @@ public class SignInCommand implements Command {
             router.setRedirect();
             String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
             router.setCurrentPage(redirectUrl);
-        } catch (
-                ServiceException exp) {
-            String propertieKey = exp.getCause().getMessage();// ??????????
-            String error = ContentUtil.getWithLocale(language, propertieKey);
-            session.setAttribute(ErrorKey.DATABASE_CONNECTION_NOT_RECEIVED, error);
+        } catch (ServiceException exp) {
+//            String propertieKey = exp.getCause().getMessage();// ??????????
+//            String error = ContentUtil.getWithLocale(language, propertieKey);
+//            session.setAttribute(ErrorKey.DATABASE_CONNECTION_NOT_RECEIVED, error);
 
             router.setRedirect();
             String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UserValidator {
     private static final String LOGIN_REGEX = "^[a-zA-Z0-9_.-]{3,15}+$";
@@ -22,12 +22,12 @@ public class UserValidator {
     public static Map<String, String> validateParameters(String login, String password, String email,
                                                          String firstName, String lastName, String phone) {
         Map<String, String> validatedData = new HashMap<>();
-        validatedData.put(USER_LOGIN, isLoginCorrect(login) ? login : EMPTY_STRING);
-        validatedData.put(USER_PASSWORD, isPasswordCorrect(password) ? password : EMPTY_STRING);
-        validatedData.put(USER_EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
-        validatedData.put(USER_NAME, isFirstNameCorrect(firstName) ? firstName : EMPTY_STRING);
-        validatedData.put(USER_SURNAME, isSecondNameCorrect(lastName) ? lastName : EMPTY_STRING);
-        validatedData.put(USER_PHONE, isPhoneCorrect(phone) ? phone : EMPTY_STRING);
+        validatedData.put(LOGIN, isLoginCorrect(login) ? login : EMPTY_STRING);
+        validatedData.put(PASSWORD, isPasswordCorrect(password) ? password : EMPTY_STRING);
+        validatedData.put(EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
+        validatedData.put(FIRST_NAME, isFirstNameCorrect(firstName) ? firstName : EMPTY_STRING);
+        validatedData.put(LAST_NAME, isLastNameCorrect(lastName) ? lastName : EMPTY_STRING);
+        validatedData.put(TELEPHONE_NUMBER, isPhoneCorrect(phone) ? phone : EMPTY_STRING);
         return validatedData;
     }
 
@@ -47,7 +47,7 @@ public class UserValidator {
         return isEmptyOrNull(name) && isStringMatches(name, FIRST_NAME_REGEX);
     }
 
-    public static boolean isSecondNameCorrect(String surname) {
+    public static boolean isLastNameCorrect(String surname) {
         return isEmptyOrNull(surname) && isStringMatches(surname, LAST_NAME_REGEX);
     }
 

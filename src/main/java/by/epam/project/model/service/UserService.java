@@ -21,4 +21,5 @@ public interface UserService {
     Optional<User> findUserByLogin(String login) throws ServiceException;
     boolean updatePasswordByLogin(String login, String password) throws ServiceException;
     boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
+    boolean isActivated(String login) throws ServiceException;
 }

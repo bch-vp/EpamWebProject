@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.*;
-import static by.epam.project.controller.parameter.RequestParameterKey.NOT_UNIQUE;
+import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.NOT_UNIQUE;
 
 
 public class UserServiceImpl implements UserService {
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findUserByLogin(String login) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
-        Optional<User> user = Optional.empty();
+        Optional<User> user;
         try {
             user = userDao.findByLogin(login);
         } catch (DaoException exp) {
@@ -121,11 +121,12 @@ public class UserServiceImpl implements UserService {
             Optional<String> userPassword = userDao.findPasswordByLogin(login);
             if (userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get())) {
                 return false;
+            }else {
+                return true;
             }
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
         }
-        return true;
     }
 
     @Override
@@ -138,6 +139,22 @@ public class UserServiceImpl implements UserService {
             return isUpdated;
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
+        }
+    }
+
+    @Override
+    public boolean isActivated(String login) throws ServiceException {
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        boolean isActivated;
+        try {
+            Optional<User> userOptional = userDao.findByLogin(login);
+            if(userOptional.isEmpty()){
+                return false;
+            }
+            User user = userOptional.get();
+            return user.isActivated();
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during checking user activated status", exp);
         }
     }
 }

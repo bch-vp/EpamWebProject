@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public interface BaseDao<T extends Entity> {
     Logger logger = LogManager.getLogger();
@@ -19,14 +19,16 @@ public interface BaseDao<T extends Entity> {
         UserCreator creator = UserCreator.getInstance();
 
         try {
-            String userLogin = resultSet.getString(USER_LOGIN);
-            String userName = resultSet.getString(USER_NAME);
-            String userSurname = resultSet.getString(USER_SURNAME);
-            String userPhone = resultSet.getString(USER_PHONE);
-            String userEmail = resultSet.getString(USER_EMAIL);
+            String login = resultSet.getString(LOGIN);
+            String firstName = resultSet.getString(FIRST_NAME);
+            String lastName = resultSet.getString(LAST_NAME);
+            String telephoneNumber = resultSet.getString(TELEPHONE_NUMBER);
+            String email = resultSet.getString(EMAIL);
+            int role = resultSet.getInt(ROLE);
+            boolean isActivated = resultSet.getBoolean(IS_ACTIVATED);
 
-            User createdUser = creator.createUser(userLogin, userName,
-                    userSurname, userPhone, userEmail);
+            User createdUser = creator.createUser(login, firstName,
+                    lastName, telephoneNumber, email, role, isActivated);
             return createdUser;
         } catch (SQLException exp) {
             throw new DaoException("Error while creating user from resultSet", exp);

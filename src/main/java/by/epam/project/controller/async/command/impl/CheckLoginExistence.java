@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.RequestParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class CheckLoginExistence implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -23,7 +23,7 @@ public class CheckLoginExistence implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
-        String login = (String) requestParameters.get(USER_LOGIN);
+        String login = (String) requestParameters.get(LOGIN);
 
         if (!UserValidator.isLoginCorrect(login)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
