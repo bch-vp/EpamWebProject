@@ -9,23 +9,32 @@
 
       <v-spacer></v-spacer>
 
-<!--      <v-btn v-on:click="showHome" :disabled="this.$parent.isHome" text rounded-->
-<!--             style="margin-left: 3%; margin-right: 3%">-->
-<!--        <v-icon v-if="this.$parent.isHome" color="#616161">home</v-icon>-->
-<!--        <div v-else class="text-subtitle-1 font-weight-black">-->
-<!--          <v-icon>home</v-icon>-->
-<!--        </div>-->
-<!--      </v-btn>-->
+      <!--      <v-btn v-on:click="showHome" :disabled="this.$parent.isHome" text rounded-->
+      <!--             style="margin-left: 3%; margin-right: 3%">-->
+      <!--        <v-icon v-if="this.$parent.isHome" color="#616161">home</v-icon>-->
+      <!--        <div v-else class="text-subtitle-1 font-weight-black">-->
+      <!--          <v-icon>home</v-icon>-->
+      <!--        </div>-->
+      <!--      </v-btn>-->
 
-<!--      <v-btn v-on:click="showSignIn" :disabled="this.$parent.isSignIn" rounded text style="margin-right: 1%">-->
-<!--        <div v-if="this.$parent.isSignIn" style="color: #616161">{{ text_page.header.sing_in }}</div>-->
-<!--        <div v-else class="text-subtitle-1 font-weight-black"> {{ text_page.header.sing_in }}</div>-->
-<!--      </v-btn>-->
+      <!--      <v-btn v-on:click="showSignIn" :disabled="this.$parent.isSignIn" rounded text style="margin-right: 1%">-->
+      <!--        <div v-if="this.$parent.isSignIn" style="color: #616161">{{ text_page.header.sing_in }}</div>-->
+      <!--        <div v-else class="text-subtitle-1 font-weight-black"> {{ text_page.header.sing_in }}</div>-->
+      <!--      </v-btn>-->
 
-<!--      <v-btn v-on:click="showSignUp" :disabled="this.$parent.isSignUp" text rounded style="margin-right: 3%">-->
-<!--        <div v-if="this.$parent.isSignUp" style="color: #616161">{{ text_page.header.sing_up }}</div>-->
-<!--        <div v-else class="text-subtitle-1 font-weight-black">{{ text_page.header.sing_up }}</div>-->
-<!--      </v-btn>-->
+      <!--      <v-btn v-on:click="showSignUp" :disabled="this.$parent.isSignUp" text rounded style="margin-right: 3%">-->
+      <!--        <div v-if="this.$parent.isSignUp" style="color: #616161">{{ text_page.header.sing_up }}</div>-->
+      <!--        <div v-else class="text-subtitle-1 font-weight-black">{{ text_page.header.sing_up }}</div>-->
+      <!--      </v-btn>-->
+
+      <v-btn rounded text>
+        <v-icon>
+          perm_identity
+        </v-icon>
+        &nbsp
+        Admin
+      </v-btn>
+      |
 
       <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
         <template v-slot:activator="{ on, attrs }">
@@ -55,7 +64,8 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn rounded text href="do?command=sign_out">
+
+      <v-btn rounded text href="do?command=sign_out" style="padding-left: 2em">
         <v-icon>
           exit_to_app
         </v-icon>
@@ -66,9 +76,13 @@
 
 <script>
 export default {
-  props:['text_page', 'showHome', 'showSignIn', 'showSignUp'],
-  methods:{
-    accExit:function (){
+  data(){
+    return{
+      text_page:text_page
+    }
+  },
+  methods: {
+    accExit: function () {
 
     }
   }

@@ -35,9 +35,9 @@ public class User extends Entity {
     }
 
     private String login;
-    private String name;
-    private String surname;
-    private String phone;
+    private String firstName;
+    private String lastName;
+    private String telephoneNumber;
     private String email;
     private Role role;
     private boolean isActivated;
@@ -47,9 +47,9 @@ public class User extends Entity {
 
     public User(String login, String name, String surname, String phone, String email, int role, boolean isActivated) {
         this.login = login;
-        this.name = name;
-        this.surname = surname;
-        this.phone = phone;
+        this.firstName = name;
+        this.lastName = surname;
+        this.telephoneNumber = phone;
         this.email = email;
         this.role = Role.getRoleById(role);
         this.isActivated = isActivated;
@@ -63,28 +63,28 @@ public class User extends Entity {
         this.login = login;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
     public String getEmail() {
@@ -128,16 +128,22 @@ public class User extends Entity {
         if (login != null ? !login.equals(user.login) : user.login != null) {
             return false;
         }
-        if (name != null ? !name.equals(user.name) : user.name != null) {
+        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) {
             return false;
         }
-        if (surname != null ? !surname.equals(user.surname) : user.surname != null) {
+        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) {
             return false;
         }
-        if (phone != null ? !phone.equals(user.phone) : user.phone != null) {
+        if (telephoneNumber != null ? !telephoneNumber.equals(user.telephoneNumber) : user.telephoneNumber != null) {
             return false;
         }
         if (email != null ? !email.equals(user.email) : user.email != null) {
+            return false;
+        }
+        if (role != null ? !role.equals(user.role) : user.role != null) {
+            return false;
+        }
+        if (isActivated != user.isActivated) {
             return false;
         }
         return true;
@@ -148,10 +154,11 @@ public class User extends Entity {
         int result = super.hashCode();
         long temp;
         result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (telephoneNumber != null ? telephoneNumber.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 }

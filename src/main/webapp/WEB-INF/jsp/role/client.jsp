@@ -33,7 +33,14 @@
             sing_in: "<fmt:message key="header.sign_in"/>",
             sing_up: "<fmt:message key="header.sign_up"/>",
         },
-        language: "${language}",
+        language:  "<c:out value="${language}"/>",
+        profile_component:{
+            login: "<c:out value="${user.login}"/>",
+            first_name: "<c:out value="${user.firstName}"/>",
+            last_name: "<c:out value="${user.lastName}"/>",
+            telephone_number: "<c:out value="${user.telephoneNumber}"/>",
+            email: "<c:out value="${user.email}"/>"
+        }
     }
 </script>
 <script src="http://localhost:8081/client.js"></script>

@@ -3,11 +3,10 @@
     <div class="background-image">
       <v-container>
         <v-row style="height: 2em">
-          <CustomHeader :text_page="text_page"/>
+          <CustomHeader/>
         </v-row>
         <v-row>
-<!--          <home v-if="isHome"-->
-<!--                :showSignUp="showSignUp"/>-->
+          <profile/>
         </v-row>
       </v-container>
     </div>
@@ -17,10 +16,12 @@
 
 <script>
 import CustomHeader from 'vuejs/client/header.vue'
+import Profile from 'vuejs/client/component/profile.vue'
 
 export default {
   components: {
     CustomHeader,
+    Profile
   },
   data() {
     return {
