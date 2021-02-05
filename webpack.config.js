@@ -70,6 +70,15 @@ var guestConfiq = Object.assign({}, config, {
     },
 });
 
+var clientConfiq = Object.assign({}, config, {
+    name: "client",
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'client', 'client.js'),
+    output: {
+        path: __dirname + "/build",
+        publicPath: "/",
+        filename: "client.js"
+    },
+});
 
 var errorConfiq = Object.assign({}, config, {
     name: "error",
@@ -82,4 +91,4 @@ var errorConfiq = Object.assign({}, config, {
 });
 
 // Return Array of Configurations
-module.exports = [guestConfiq, errorConfiq];
+module.exports = [guestConfiq, clientConfiq, errorConfiq];

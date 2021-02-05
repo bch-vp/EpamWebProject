@@ -6,8 +6,9 @@ import java.util.Map;
 
 public class User extends Entity {
     public enum Role {
-        CLIENT(0),
-        ADMINISTRATOR(1);
+        GUEST(0),
+        CLIENT(1),
+        ADMIN(2);
 
         private final int roleId;
 

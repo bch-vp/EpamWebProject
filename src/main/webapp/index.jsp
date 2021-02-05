@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <html>
 <body>
-<jsp:forward page="/do?command=passing_by_guest"></jsp:forward>
+<c:redirect url="${pageContext.request.contextPath}/do"/>
 </body>
 </html>

@@ -1,4 +1,10 @@
-<%--@elvariable id="sign_in_component" type="sun.tools.java.ClassDefinition"--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: ilyamurin
+  Date: 1/3/11
+  Time: 20:42
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -12,7 +18,7 @@
 
 <html>
 <head>
-    <title>Home</title>
+    <title>Guest</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">

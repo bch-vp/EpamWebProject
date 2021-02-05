@@ -7,6 +7,12 @@ public class ParameterKey {
 
     public static final String TIME_CREATED = "time_created";
 
+    public static final String CURRENT_PAGE = "current_page";
+    public static final String PASSING_BY_GUEST = "passing_by_guest";
+    public static final String PASSING_BY_CLIENT = "passing_by_client";
+    public static final String PASSING_BY_ADMIN = "passing_by_admin";
+
+    public static final String USER = "user";
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
     public static final String NEW_PASSWORD = "new_password";

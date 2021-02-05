@@ -4,6 +4,7 @@ import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.controller.parameter.PagePath;
+import by.epam.project.util.URLUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,8 +22,34 @@ public class ChangeLanguageCommand implements Command {
             session.setAttribute(LANGUAGE, givenLanguage);
 
             router.setRedirect();
-            String redirectUrl = createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
-            router.setCurrentPage(redirectUrl);
+
+            // check current command
+            String currentPage = (String) session.getAttribute(CURRENT_PAGE);
+            if(currentPage == null){
+                String redirectURL = URLUtil.createRedirectURL(request,
+                        CommandType.PASSING_BY_GUEST.toString().toLowerCase());
+                router.setCurrentPage(redirectURL);
+                return router;
+            }
+            switch (currentPage){
+                case PASSING_BY_CLIENT -> {
+                    String redirectURL = URLUtil.createRedirectURL(request,
+                            CommandType.PASSING_BY_CLIENT.toString().toLowerCase());
+                    router.setCurrentPage(redirectURL);
+                }
+                case PASSING_BY_ADMIN -> {
+                    String redirectURL = URLUtil.createRedirectURL(request,
+                            CommandType.PASSING_BY_ADMIN.toString().toLowerCase());
+                    router.setCurrentPage(redirectURL);
+                }
+                default -> {
+                    String redirectURL = URLUtil.createRedirectURL(request,
+                            CommandType.PASSING_BY_GUEST.toString().toLowerCase());
+                    router.setCurrentPage(redirectURL);
+
+                }
+            }
+            return router;
         } else {
             router = new Router(PagePath.ERROR_404);
         }

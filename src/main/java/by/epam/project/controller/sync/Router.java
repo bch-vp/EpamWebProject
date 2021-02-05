@@ -9,7 +9,7 @@ public class Router {
     }
 
     private Type currentType = Type.FORWARD;
-    private String currentPage = PagePath.GUEST;
+    private String currentPage = PagePath.PASSING_BY_GUEST;
 
     public Router() {
     }

@@ -9,6 +9,24 @@
     </welcome-file-list>
 
     <filter>
+        <filter-name>emptyCommandRoleSecurityFilter</filter-name>
+        <filter-class>by.epam.project.controller.filter.EmptyCommandRoleSecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>emptyCommandRoleSecurityFilter</filter-name>
+        <url-pattern>/do</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>commandRoleSecurityFilter</filter-name>
+        <filter-class>by.epam.project.controller.filter.CommandRoleSecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>commandRoleSecurityFilter</filter-name>
+        <url-pattern>/do</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>by.epam.project.controller.filter.EncodingFilter</filter-class>
         <init-param>

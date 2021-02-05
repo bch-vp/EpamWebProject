@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
-import Guest from 'vuejs/guest/guest.vue'
+import Client from 'vuejs/client/client.vue'
 import vuetify from 'vuejs/plugin/vuetify' // path to vuetify export
 
 Vue.use(VueAxios, Axios)
 
 new Vue({
     el: '#app',
-    render: h => h(Guest),
+    render: h => h(Client),
     vuetify
 })
