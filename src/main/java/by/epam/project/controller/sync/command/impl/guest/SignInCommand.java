@@ -41,6 +41,8 @@ public class SignInCommand implements Command {
                     User user = userOptional.get();
                     session.setAttribute(USER, user);
 
+                    //write equal pass
+
                     User.Role role = user.getRole();
 
                     String redirectURL;
@@ -56,14 +58,15 @@ public class SignInCommand implements Command {
 
                     router.setCurrentPage(redirectURL);
                     return router;
-                }
-            } else {
-                String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_IN_NOT_FOUND);
-                session.setAttribute(ErrorKey.LOGIN_NOT_FOUND, error);
 
-                router.setRedirect();
-                String redirectUrl = URLUtil.createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
-                router.setCurrentPage(redirectUrl);
+                } else {
+                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_IN_NOT_FOUND);
+                    session.setAttribute(ErrorKey.LOGIN_NOT_FOUND, error);
+
+                    router.setRedirect();
+                    String redirectUrl = URLUtil.createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
+                    router.setCurrentPage(redirectUrl);
+                }
             }
         } catch (ServiceException exp) {
 //            String propertieKey = exp.getCause().getMessage();// ??????????

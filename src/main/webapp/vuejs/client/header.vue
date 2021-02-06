@@ -32,7 +32,7 @@
           perm_identity
         </v-icon>
         &nbsp
-        Admin
+        {{text_page.header.role}}
       </v-btn>
       |
 

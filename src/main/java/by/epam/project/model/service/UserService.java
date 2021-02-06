@@ -10,7 +10,10 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<User> signInUser(String login, String password) throws ServiceException;
+    boolean updateUser(User newUser, String oldLogin) throws ServiceException;
     Map<String, String> defineSignUpData(String login, String password, String email, String name,
+                                         String surname, String phone) throws ServiceException;
+    Map<String, String> defineSignUpData(String login, String email, String name,
                                          String surname, String phone) throws ServiceException;
     boolean signUpUser(User user, String password) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;

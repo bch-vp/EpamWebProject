@@ -152,7 +152,7 @@
                         "<fmt:message key="form_component.button.go_to_component.change_password_by_email"/>",
                 }
             }
-        },
+        }
     }
 </script>
 <script src="http://localhost:8081/guest.js"></script>

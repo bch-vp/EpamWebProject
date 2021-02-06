@@ -1,10 +1,10 @@
 <template>
-  <div class="sign-up-wrapper">
+  <div class="home-wrapper">
     <v-container>
       <v-row justify="center" row>
         <v-col sm="12" md="12" lg="12" xl="11">
-          <div class="sign-up-background">
-            <div class="sign-up">
+          <div class="home-background">
+            <div class="home">
               <v-container>
                 <v-row justify="center" style="margin-top: 3em; margin-bottom: 3em">
                   <span class="text-h2 center" style="text-align: center; font-family: 'Monoton', cursive;">
@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
 @media screen and (min-width: 400px) {
-  .sign-up-wrapper {
+  .home-wrapper {
     width: 100%;
     margin: 0;
     position: absolute;
@@ -63,21 +63,21 @@ export default {
 }
 
 @media screen and (max-width: 400px) {
-  .sign-up-wrapper {
+  .home-wrapper {
     width: 100%;
     position: relative;
     margin-right: -50%;
   }
 }
 
-.sign-up-background {
+.home-background {
   box-shadow: 0 0 25px;
   background: rgba(0, 0, 0, 0.93);
   border-radius: 20px;
 }
 
 
-.sign-up {
+.home {
   color: white;
   margin-top: 5em;
   padding: 2em;

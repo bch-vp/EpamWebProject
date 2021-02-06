@@ -53,7 +53,6 @@ public class EmptyCommandRoleSecurityFilter implements Filter {
                 String redirectURL = URLUtil.createRedirectURL(request,
                         CommandType.PASSING_BY_GUEST.toString().toLowerCase());
                 response.sendRedirect(redirectURL);
-
             }
         }
     }

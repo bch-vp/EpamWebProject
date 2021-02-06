@@ -78,6 +78,45 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean updateUser(User newUser, String oldLogin) throws ServiceException {
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        boolean isUpdated;
+
+        try {
+            isUpdated = userDao.updateUser(newUser, oldLogin);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during sign in user", exp);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public Map<String, String> defineSignUpData(String login, String email, String firstName,
+                                                String lastName, String phone) throws ServiceException {
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+
+        Map<String, String> signUpData =
+                UserValidator.validateParameters(login, email, firstName, lastName, phone);
+        try {
+            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
+                    .isEmpty()
+                    ? (login == null ? EMPTY_STRING : login)
+                    : NOT_UNIQUE);
+            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
+                    .isEmpty()
+                    ? (email == null ? EMPTY_STRING : email)
+                    : NOT_UNIQUE);
+            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
+                    .isEmpty()
+                    ? (phone == null ? EMPTY_STRING : phone)
+                    : NOT_UNIQUE);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during define sign up data", exp);
+        }
+        return signUpData;
+    }
+
+    @Override
     public List<User> findAllUsers() throws ServiceException {
         return null;
     }

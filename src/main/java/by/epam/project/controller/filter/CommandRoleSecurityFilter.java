@@ -46,11 +46,6 @@ public class CommandRoleSecurityFilter implements Filter {
             default -> commandsByRole = RoleAllowance.GUEST.getCommands();
         }
 
-//        Command command = CommandProvider.provideCommand(commandName);
-//        CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
-
-
-
         CommandType commandType;
         try {
             commandType = CommandType.valueOf(commandName.toUpperCase());

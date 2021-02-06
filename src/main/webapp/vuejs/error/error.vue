@@ -41,9 +41,7 @@
 export default {
   data() {
     return {
-      text_page: {
-        error_component: text_page.error_component
-      }
+      text_page: text_page
     }
   }
 }

@@ -16,7 +16,7 @@
 
 <script>
 import CustomHeader from 'vuejs/client/header.vue'
-import Profile from 'vuejs/client/component/profile.vue'
+import Profile from 'vuejs/client/component/profile/profile.vue'
 
 export default {
   components: {

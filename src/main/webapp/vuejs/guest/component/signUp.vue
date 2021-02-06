@@ -79,9 +79,9 @@
                 <v-text-field
                     dark
                     name="telephone_number"
-                    v-model="telephoneNumber"
+                    v-model="telephone_number"
                     :counter="17"
-                    :rules="rules.telephoneNumber"
+                    :rules="rules.telephone_number"
                     v-bind:label=text_page.form_component.input.telephone_number.name
                     required
                 ></v-text-field>
@@ -148,7 +148,7 @@ export default {
       passwordRepeat: '',
       first_name: '',
       last_name: '',
-      telephoneNumber: '',
+      telephone_number: '',
       email: '',
 
       spinnerVisible: false,
@@ -191,7 +191,7 @@ export default {
           v => /^[a-zA-Z]+$/.test(v)
               || this.text_page.form_component.input.last_name.error.only_letters
         ],
-        telephoneNumber: [
+        telephone_number: [
           v => !!v || this.text_page.form_component.input.telephone_number.error.required,
           v => /^\S*$/.test(v) || this.text_page.form_component.input.telephone_number.error.spaces_prohibited,
           v => /^(\+375\([\d]{2}\)[\d]{3}\-[\d]{2}\-[\d]{2})$/.test(v) ||
@@ -246,7 +246,7 @@ export default {
             password: this.password,
             first_name: this.first_name,
             last_name: this.last_name,
-            telephone_number: this.telephoneNumber,
+            telephone_number: this.telephone_number,
             email: this.email
           }
         }).then(response => {
@@ -258,8 +258,6 @@ export default {
                 this.error.login_not_unique = ex.response.data.error.login_not_unique
                 this.error.telephone_number_not_unique = ex.response.data.error.telephone_number_not_unique
                 this.error.email_not_unique = ex.response.data.error.email_not_unique
-              } else if (ex.response.status === 500) {
-                this.error.database_connection_not_received = ex.response.data.error.database_connection_not_received
               }
             })
       }
@@ -269,7 +267,7 @@ export default {
       this.error.login_not_unique = undefined
       this.error.telephone_number_not_unique = undefined
       this.error.email_not_unique = undefined
-      this.error.database_connection_not_received = undefined
+      // this.error.database_connection_not_received = undefined
     },
   }
 }

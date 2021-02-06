@@ -14,6 +14,7 @@ public class ParameterKey {
 
     public static final String USER = "user";
     public static final String LOGIN = "login";
+    public static final String OLD_LOGIN = "old_login";
     public static final String PASSWORD = "password";
     public static final String NEW_PASSWORD = "new_password";
     public static final String OLD_PASSWORD = "old_password";

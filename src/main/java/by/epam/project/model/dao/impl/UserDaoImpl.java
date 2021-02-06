@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(6, user.getEmail());
             statement.setInt(7, user.getRole().getRoleId());
 
-            isUpdated = statement.executeUpdate() > 0;
+            isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
             throw new DaoException(exp);
         }
@@ -56,7 +56,25 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PASSWORD_BY_LOGIN)) {
             statement.setString(1, password);
             statement.setString(2, login);
-            isUpdated = statement.executeUpdate() > 0;
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateUser(User newUser, String oldLogin) throws DaoException {
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_USER_BY_LOGIN)) {
+            statement.setString(1, newUser.getLogin());
+            statement.setString(2, newUser.getFirstName());
+            statement.setString(3, newUser.getLastName());
+            statement.setString(4, newUser.getTelephoneNumber());
+            statement.setString(5, newUser.getEmail());
+            statement.setString(6, oldLogin);
+            isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
             throw new DaoException(exp);
         }

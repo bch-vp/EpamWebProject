@@ -1,10 +1,10 @@
 <template>
-  <div class="sign-up-wrapper">
+  <div class="change-password-wrapper">
     <v-container>
       <v-row justify="center" row>
         <v-col sm="8" md="6" lg="5" xl="4">
-          <div class="sign-up-background">
-            <div class="sign-up">
+          <div class="change-password-background">
+            <div class="change-password">
               <div class="title font-weight-regular" style="color: white; text-align: center;">
                 <span class="text-h6 font-weight-regular center">
                   {{text_page.form_component.title.change_password}}...
@@ -328,7 +328,7 @@ export default {
 
 <style>
 @media screen and (min-width: 400px) {
-  .sign-up-wrapper {
+  .change-password-wrapper {
     width: 100%;
     margin: 0;
     position: absolute;
@@ -340,28 +340,28 @@ export default {
 }
 
 @media screen and (max-width: 400px) {
-  .sign-up-wrapper {
+  .change-password-wrapper {
     width: 100%;
     position: relative;
     margin-right: -50%;
   }
 }
 
-.sign-up-background {
+.change-password-background {
   box-shadow: 0 0 25px;
   background: rgba(0, 0, 0, 0.93);
   border-radius: 20px;
 }
 
 @media screen and (max-width: 400px) {
-  .sign-up {
+  .change-password {
     margin-top: 4em;
     padding: 2em;
   }
 }
 
 @media screen and (min-width: 400px) {
-  .sign-up {
+  .change-password {
     padding-left: 45px;
     padding-right: 45px;
     padding-top: 30px;
