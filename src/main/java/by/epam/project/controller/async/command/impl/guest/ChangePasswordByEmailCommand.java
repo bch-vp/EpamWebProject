@@ -23,7 +23,7 @@ import java.util.Random;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class ChangePasswordByEmail implements Command {
+public class ChangePasswordByEmailCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
     private final EmailService emailService = EmailServiceImpl.getInstance();
     private static final int DIFF_RANGE = 900_000;

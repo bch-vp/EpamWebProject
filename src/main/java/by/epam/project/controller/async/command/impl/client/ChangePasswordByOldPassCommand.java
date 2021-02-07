@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class ChangePasswordByOldPass implements Command {
+public class ChangePasswordByOldPassCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override

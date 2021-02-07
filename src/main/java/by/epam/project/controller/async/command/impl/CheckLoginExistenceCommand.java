@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class CheckLoginExistence implements Command {
+public class CheckLoginExistenceCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override

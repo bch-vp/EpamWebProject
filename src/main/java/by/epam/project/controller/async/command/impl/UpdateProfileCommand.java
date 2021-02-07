@@ -22,7 +22,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.NOT_UNIQUE;
 
-public class UpdateProfile implements Command {
+public class UpdateProfileCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override

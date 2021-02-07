@@ -14,7 +14,7 @@
       </v-col>
       <v-col>
         <div align="right">
-          <v-btn @click="showProfileEdit" color="yellow" outlined rounded  small x-small text  dark>
+          <v-btn @click="showProfileEdit" color="yellow" outlined rounded small x-small text dark>
             edit info&nbsp
             <v-icon>
               edit
@@ -29,12 +29,19 @@
       <v-col>
         <div align="center">
           <div class="background-image">
-            <div align="left">
-              <v-btn small rounded fab text dark color="yellow">
-                <v-icon>
-                  add_a_photo
-                </v-icon>
-              </v-btn>
+            <div align="">
+              <v-file-input v-on:change="handleFileUpload()"
+                            v-model="file"
+                            dark
+                            ref="file"
+                            prepend-icon="add_a_photo">
+              </v-file-input>
+              <!--              <v-btn small rounded fab text dark color="yellow">-->
+              <!--              <v-icon>-->
+              <!--                add_a_photo-->
+              <!--              </v-icon>-->
+              <!--              </v-btn>-->
+
             </div>
 
           </div>
@@ -86,9 +93,47 @@ export default {
   props: ['showProfileEdit'],
   data() {
     return {
-      text_page: text_page
+      text_page: text_page,
+      file: undefined
+    }
+  },
+  methods: {
+    handleFileUpload(){
+      alert(this.file)
+      let formData = new FormData();
+      formData.append('file', this.file);
+      formData.append('file', this.file);
+
+
+      // this.axios.post( '/ajax?command=upload_file',
+      //     formData,
+      //     {
+      //       headers: {
+      //         'Content-Type': 'multipart/form-data'
+      //       }
+      //     }
+      // ).then(function(){
+      //   console.log('SUCCESS!!');
+      // })
+      //     .catch(function(){
+      //       console.log('FAILURE!!');
+      //     });
+
+      this.axios({
+        method: 'post',
+        url: '/ajax?command=upload_file',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+      }).then(function(){
+        console.log('SUCCESS!!');
+      }).catch(function(){
+            console.log('FAILURE!!');
+          });
     }
   }
+
 }
 </script>
 
