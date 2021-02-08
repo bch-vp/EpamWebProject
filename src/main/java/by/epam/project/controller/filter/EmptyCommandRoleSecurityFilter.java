@@ -15,6 +15,7 @@ import java.util.Set;
 
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
+import static by.epam.project.model.entity.User.Role.CLIENT;
 
 public class EmptyCommandRoleSecurityFilter implements Filter {
     @Override
@@ -38,18 +39,18 @@ public class EmptyCommandRoleSecurityFilter implements Filter {
             role = user.getRole();
         }
         switch (role) {
-            case CLIENT ->{
+            case CLIENT:{
                 String redirectURL = URLUtil.createRedirectURL(request,
                         CommandType.PASSING_BY_CLIENT.toString().toLowerCase());
                 response.sendRedirect(redirectURL);
             }
-            case ADMIN -> {
+            case ADMIN: {
                 String redirectURL = URLUtil.createRedirectURL(request,
                         CommandType.PASSING_BY_ADMIN.toString().toLowerCase());
                 response.sendRedirect(redirectURL);
 
             }
-            default -> {
+            default: {
                 String redirectURL = URLUtil.createRedirectURL(request,
                         CommandType.PASSING_BY_GUEST.toString().toLowerCase());
                 response.sendRedirect(redirectURL);
