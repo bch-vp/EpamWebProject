@@ -18,6 +18,12 @@ import static by.epam.project.controller.parameter.ParameterKey.USER;
 import static by.epam.project.model.entity.User.Role.CLIENT;
 
 public class EmptyCommandRoleSecurityFilter implements Filter {
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
             throws IOException, ServletException {
