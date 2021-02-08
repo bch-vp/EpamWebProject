@@ -36,17 +36,19 @@ public class ChangeLanguageCommand implements Command {
                     String redirectURL = URLUtil.createRedirectURL(request,
                             CommandType.PASSING_BY_CLIENT.toString().toLowerCase());
                     router.setCurrentPage(redirectURL);
+                    break;
                 }
                 case PASSING_BY_ADMIN: {
                     String redirectURL = URLUtil.createRedirectURL(request,
                             CommandType.PASSING_BY_ADMIN.toString().toLowerCase());
                     router.setCurrentPage(redirectURL);
+                    break;
                 }
                 default: {
                     String redirectURL = URLUtil.createRedirectURL(request,
                             CommandType.PASSING_BY_GUEST.toString().toLowerCase());
                     router.setCurrentPage(redirectURL);
-
+                    break;
                 }
             }
             return router;

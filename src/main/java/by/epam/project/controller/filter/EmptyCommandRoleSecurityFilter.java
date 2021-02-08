@@ -43,17 +43,19 @@ public class EmptyCommandRoleSecurityFilter implements Filter {
                 String redirectURL = URLUtil.createRedirectURL(request,
                         CommandType.PASSING_BY_CLIENT.toString().toLowerCase());
                 response.sendRedirect(redirectURL);
+                break;
             }
             case ADMIN: {
                 String redirectURL = URLUtil.createRedirectURL(request,
                         CommandType.PASSING_BY_ADMIN.toString().toLowerCase());
                 response.sendRedirect(redirectURL);
-
+                break;
             }
             default: {
                 String redirectURL = URLUtil.createRedirectURL(request,
                         CommandType.PASSING_BY_GUEST.toString().toLowerCase());
                 response.sendRedirect(redirectURL);
+                break;
             }
         }
     }
