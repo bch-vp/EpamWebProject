@@ -55,10 +55,10 @@ public class ChangePasswordByEmailCommand implements Command {
             Optional<User> userOptional = userService.findUserByLogin(login);
 
             // if user by login not found
-            if (userOptional.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
+//            if (userOptional.isEmpty()) {
+//                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//                return;
+//            }
 
             // if email not equal with user's email
             User user = userOptional.get();
