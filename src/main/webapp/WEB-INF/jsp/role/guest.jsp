@@ -155,7 +155,19 @@
         }
     }
 </script>
-<script src="http://localhost:8081/guest.js"></script>
+
+<c:choose>
+    <c:when test="${is_dev_mode}">
+        <script src="http://localhost:8081/guest.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script>
+            alert('no')
+        </script>
+    </c:otherwise>
+</c:choose>
+
+<%--<script src="http://localhost:8081/guest.js"></script>--%>
 <c:remove var="login_not_found" scope="session"/>
 </body>
 </html>

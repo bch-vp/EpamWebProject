@@ -33,6 +33,8 @@ public class ParameterKey {
     public static final String EMPTY_STRING = "";
     public static final String LANGUAGE = "language";
 
+    public static final String IS_DEV_MODE = "is_dev_mode";
+
     public static final String COMMAND = "command";
 
     private ParameterKey() {
