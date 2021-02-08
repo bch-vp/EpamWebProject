@@ -161,13 +161,10 @@
         <script src="http://localhost:8081/guest.js"></script>
     </c:when>
     <c:otherwise>
-        <script>
-            alert('no')
-        </script>
+        <script src="${pageContext.request.contextPath}/js/guest.js"></script>
     </c:otherwise>
 </c:choose>
 
-<%--<script src="http://localhost:8081/guest.js"></script>--%>
 <c:remove var="login_not_found" scope="session"/>
 </body>
 </html>
