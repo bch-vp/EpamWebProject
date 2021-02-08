@@ -58,22 +58,22 @@ public class UserServiceImpl implements UserService {
 
         Map<String, String> signUpData =
                 UserValidator.validateParameters(login, password, email, firstName, lastName, phone);
-//        try {
-//            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
-//                    .isEmpty()
-//                    ? (login == null ? EMPTY_STRING : login)
-//                    : NOT_UNIQUE);
-//            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
-//                    .isEmpty()
-//                    ? (email == null ? EMPTY_STRING : email)
-//                    : NOT_UNIQUE);
-//            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
-//                    .isEmpty()
-//                    ? (phone == null ? EMPTY_STRING : phone)
-//                    : NOT_UNIQUE);
-//        } catch (DaoException exp) {
-//            throw new ServiceException("Error during define sign up data", exp);
-//        }
+        try {
+            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
+                    .isEmpty()
+                    ? (login == null ? EMPTY_STRING : login)
+                    : NOT_UNIQUE);
+            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
+                    .isEmpty()
+                    ? (email == null ? EMPTY_STRING : email)
+                    : NOT_UNIQUE);
+            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
+                    .isEmpty()
+                    ? (phone == null ? EMPTY_STRING : phone)
+                    : NOT_UNIQUE);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during define sign up data", exp);
+        }
         return signUpData;
     }
 
@@ -97,22 +97,22 @@ public class UserServiceImpl implements UserService {
 
         Map<String, String> signUpData =
                 UserValidator.validateParameters(login, email, firstName, lastName, phone);
-//        try {
-//            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
-//                    .isEmpty()
-//                    ? (login == null ? EMPTY_STRING : login)
-//                    : NOT_UNIQUE);
-//            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
-//                    .isEmpty()
-//                    ? (email == null ? EMPTY_STRING : email)
-//                    : NOT_UNIQUE);
-//            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
-//                    .isEmpty()
-//                    ? (phone == null ? EMPTY_STRING : phone)
-//                    : NOT_UNIQUE);
-//        } catch (DaoException exp) {
-//            throw new ServiceException("Error during define sign up data", exp);
-//        }
+        try {
+            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
+                    .isEmpty()
+                    ? (login == null ? EMPTY_STRING : login)
+                    : NOT_UNIQUE);
+            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
+                    .isEmpty()
+                    ? (email == null ? EMPTY_STRING : email)
+                    : NOT_UNIQUE);
+            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
+                    .isEmpty()
+                    ? (phone == null ? EMPTY_STRING : phone)
+                    : NOT_UNIQUE);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during define sign up data", exp);
+        }
         return signUpData;
     }
 
@@ -158,11 +158,11 @@ public class UserServiceImpl implements UserService {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         try {
             Optional<String> userPassword = userDao.findPasswordByLogin(login);
-//            if (userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get())) {
-//                return false;
-//            }else {
+            if (userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get())) {
+                return false;
+            }else {
                 return true;
-//            }
+            }
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
         }
@@ -187,9 +187,9 @@ public class UserServiceImpl implements UserService {
         boolean isActivated;
         try {
             Optional<User> userOptional = userDao.findByLogin(login);
-//            if(userOptional.isEmpty()){
-//                return false;
-//            }
+            if(userOptional.isEmpty()){
+                return false;
+            }
             User user = userOptional.get();
             return user.isActivated();
         } catch (DaoException exp) {
