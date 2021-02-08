@@ -57,6 +57,15 @@
         <url-pattern>/ajax</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UploadFileServlet</servlet-name>
+        <servlet-class>by.epam.project.controller.async.UploadFileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadFileServlet</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/jsp/error404.jsp</location>

@@ -9,6 +9,6 @@ import java.io.IOException;
 public class LoadFileCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        
+
     }
 }

@@ -102,7 +102,7 @@ export default {
       alert(this.file)
       let formData = new FormData();
       formData.append('file', this.file);
-      formData.append('file', this.file);
+      // formData.append('file', this.file);
 
 
       // this.axios.post( '/ajax?command=upload_file',
@@ -121,7 +121,7 @@ export default {
 
       this.axios({
         method: 'post',
-        url: '/ajax?command=upload_file',
+        url: '/upload',
         headers: {
           'Content-Type': 'multipart/form-data'
         },
