@@ -79,9 +79,6 @@
                 <version>3.8.1</version>
                 <configuration>
                     <release>14</release>
-                    <compilerArgs>--enable-preview</compilerArgs>
-                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                    <parameters>true</parameters>
                 </configuration>
             </plugin>
 <!--            <plugin>-->
