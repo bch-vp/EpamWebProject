@@ -8,7 +8,7 @@
     <artifactId>FinalProject</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>FinalProject</name>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -66,6 +66,7 @@
     </dependencies>
 
     <build>
+        <finalName>FinalProject</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
