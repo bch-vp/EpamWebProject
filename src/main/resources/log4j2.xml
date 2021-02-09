@@ -15,10 +15,10 @@
             <DefaultRolloverStrategy max="10" />
         </RollingFile>
     </Appenders>
-    <loggers>
-        <root level="INFO">
+    <Loggers>
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileRolling"/>
-        </root>
-    </loggers>
+        </Root>
+    </Loggers>
 </Configuration>
