@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PassingByGuestCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
-
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("pass guest");

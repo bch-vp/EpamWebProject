@@ -6,7 +6,7 @@
         </Console>
         <RollingFile
                 name="FileRolling"
-                fileName="logs/logs.txt"
+                fileName="/Users/ilyamurin/IdeaProjects/EpamWebProject/logs//logs.txt"
                 filePattern="logs/${date:yyyy-MM-dd}/%d{yyyy-MM-dd_HH-mm}_%i.txt">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{5} - %msg%n"/>
             <Policies>
