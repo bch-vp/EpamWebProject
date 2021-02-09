@@ -13,10 +13,6 @@ public class PassingByGuestCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        throw new RuntimeException("helllllllop");
-//        logger.info("pass guest");
-//        logger.warn("fgawgf");
-//        logger.fatal("fwagfa");
-//        return new Router(PagePath.PASSING_BY_GUEST);
+        return new Router(PagePath.PASSING_BY_GUEST);
     }
 }
