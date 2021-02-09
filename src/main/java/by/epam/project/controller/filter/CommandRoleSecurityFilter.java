@@ -46,17 +46,14 @@ public class CommandRoleSecurityFilter implements Filter {
             role = user.getRole();
         }
         switch (role) {
-            case CLIENT : {
+            case CLIENT -> {
                 commandsByRole = RoleAllowance.CLIENT.getCommands();
-                break;
             }
-            case ADMIN: {
+            case ADMIN -> {
                 commandsByRole = RoleAllowance.ADMIN.getCommands();
-                break;
             }
-            default: {
+            default -> {
                 commandsByRole = RoleAllowance.GUEST.getCommands();
-                break;
             }
         }
 

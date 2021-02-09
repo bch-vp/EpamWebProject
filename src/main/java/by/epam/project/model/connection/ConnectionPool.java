@@ -18,36 +18,34 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
 
-    private static final String DATABASE_PROPERTIES = "database.properties";
-    private static final String DATABASE_URL = "url";
-    private static final String DATABASE_DRIVER = "driver";
-    private static final int DEFAULT_POOL_SIZE = 32;
-
     private final BlockingQueue<ProxyConnection> freeConnections;
     private final Queue<ProxyConnection> busyConnections;
 
-    private static final Logger Logger = LogManager.getLogger();
+    private static final int DEFAULT_POOL_SIZE = 8;
+    private static final Logger logger = LogManager.getLogger();
 
     public static ConnectionPool getInstance() {
         return instance;
     }
 
     private ConnectionPool() {
+        DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
+
         freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
         busyConnections = new ArrayDeque<>();
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        Properties properties = new Properties();
-
         try {
-            properties.load(classLoader.getResourceAsStream(DATABASE_PROPERTIES));
-            String sqlUrl = properties.getProperty(DATABASE_URL);
-            String sqlDriver = properties.getProperty(DATABASE_DRIVER);
+            String url = databaseConfig.getUrl();
+            String username = databaseConfig.getUsername();
+            String password = databaseConfig.getPassword();
+            String sqlDriver = databaseConfig.getDriverName();
             Class.forName(sqlDriver);
             for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
-                freeConnections.add(new ProxyConnection(DriverManager.getConnection(sqlUrl, properties)));
+                Connection connection = DriverManager.getConnection(url, username, password);
+                freeConnections.add(new ProxyConnection(connection));
             }
-        } catch (IOException | ClassNotFoundException | SQLException exp) {
-            throw new RuntimeException("Connection pool is not initialize.", exp);
+        } catch (ClassNotFoundException | SQLException exp) {
+            logger.fatal("Connection pool is not initialize", exp);
+            throw new RuntimeException("Connection pool is not initialize", exp);
         }
     }
 
@@ -57,7 +55,7 @@ public class ConnectionPool {
             proxyConnection = freeConnections.take();
             busyConnections.add(proxyConnection);
         } catch (InterruptedException exp) {
-            Logger.error("The connection is not received", exp);
+            logger.error("The connection is not received", exp);
         }
         return proxyConnection;
     }
@@ -67,7 +65,7 @@ public class ConnectionPool {
                 && busyConnections.remove(connection)) {
             freeConnections.offer((ProxyConnection) connection);
         } else {
-            Logger.error("Invalid connection type passed");
+            logger.error("Invalid connection type passed");
         }
     }
 
@@ -76,7 +74,7 @@ public class ConnectionPool {
             try {
                 freeConnections.take().reallyClose();
             } catch (SQLException | InterruptedException exp) {
-                Logger.error("The pool was not destroyed", exp);
+                logger.error("The pool was not destroyed", exp);
             }
         }
         deregisterDrivers();
@@ -89,7 +87,7 @@ public class ConnectionPool {
             try {
                 DriverManager.deregisterDriver(driver);
             } catch (SQLException exp) {
-                Logger.error("Error while deregister drivers", exp);
+                logger.error("Error while deregister drivers", exp);
             }
         }
     }
