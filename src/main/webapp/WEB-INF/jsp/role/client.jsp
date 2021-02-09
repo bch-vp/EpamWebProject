@@ -164,6 +164,14 @@
         }
     }
 </script>
-<script src="http://localhost:8081/client.js"></script>
+<c:choose>
+    <c:when test="${is_dev_mode}">
+        <script src="http://localhost:8081/client.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="${pageContext.request.contextPath}/js/client.js"></script>
+    </c:otherwise>
+</c:choose>
+
 </body>
 </html>

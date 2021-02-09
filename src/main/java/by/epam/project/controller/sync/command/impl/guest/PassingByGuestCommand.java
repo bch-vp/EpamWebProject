@@ -3,12 +3,18 @@ package by.epam.project.controller.sync.command.impl.guest;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.controller.parameter.PagePath;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class PassingByGuestCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
+
     @Override
     public Router execute(HttpServletRequest request) {
+        logger.info("pass guest");
         return new Router(PagePath.PASSING_BY_GUEST);
     }
 }

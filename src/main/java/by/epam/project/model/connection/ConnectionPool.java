@@ -44,7 +44,7 @@ public class ConnectionPool {
                 freeConnections.add(new ProxyConnection(connection));
             }
         } catch (ClassNotFoundException | SQLException exp) {
-            logger.fatal("Connection pool is not initialize", exp);
+//            logger.error("Connection pool is not initialize", exp);
             throw new RuntimeException("Connection pool is not initialize", exp);
         }
     }
