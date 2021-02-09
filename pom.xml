@@ -100,7 +100,7 @@
                     </execution>
 
                     <execution>
-                        <id>yarn install</id>
+                        <id>yarn install --network-timeout 1000000 </id>
                         <goals>
                             <goal>yarn</goal>
                         </goals>
