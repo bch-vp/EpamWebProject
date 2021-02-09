@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
@@ -16,10 +15,10 @@
             <DefaultRolloverStrategy max="10" />
         </RollingFile>
     </Appenders>
-    <Loggers>
-        <Root level="INFO">
+    <loggers>
+        <root level="INFO">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileRolling"/>
-        </Root>
-    </Loggers>
+        </root>
+    </loggers>
 </Configuration>

@@ -31,6 +31,7 @@ public class UserValidator {
         return validatedData;
     }
 
+
     public static Map<String, String> validateParameters(String login, String email,
                                                          String firstName, String lastName, String phone) {
         Map<String, String> validatedData = new HashMap<>();
