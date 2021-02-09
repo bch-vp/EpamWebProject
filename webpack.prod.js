@@ -8,10 +8,6 @@ const webpack = require("webpack");
  * We will place here all the common settings
  * ---------------*/
 var config = {
-    watch: true,
-    devServer: {
-        port: 8081,
-    },
     module: {
         rules: [
             {
