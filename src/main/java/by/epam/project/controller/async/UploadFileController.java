@@ -6,9 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -18,6 +20,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 /**
  * Servlet implementation class UploadServlet
  */
+@MultipartConfig
 public class UploadFileController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -27,12 +30,18 @@ public class UploadFileController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Check that we have a file upload request
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
         if (!isMultipart) {
             return;
         }
+
+        String  s =request.getContentType();
+        List<Part> a= (List<Part>) request.getParts();
+        System.out.println(a.get(0).getSize());
+
+        // Check that we have a file upload request
+
 
         // Create a factory for disk-based file items
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -44,7 +53,7 @@ public class UploadFileController extends HttpServlet {
         // Sets the directory used to temporarily store files that are larger
         // than the configured size threshold. We use temporary directory for
         // java
-//        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
+//      factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
 
         // constructs the folder where uploaded file will be stored
         String c = getServletContext().getRealPath("");
@@ -53,7 +62,7 @@ public class UploadFileController extends HttpServlet {
                 + File.separator + DATA_DIRECTORY;
 
         // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload(factory);
+        ServletFileUpload upload = new ServletFileUpload();
 
         // Set overall request size constraint
         upload.setSizeMax(MAX_REQUEST_SIZE);
@@ -64,6 +73,8 @@ public class UploadFileController extends HttpServlet {
             Iterator iter = items.iterator();
             while (iter.hasNext()) {
                 FileItem item = (FileItem) iter.next();
+
+                long i = item.getSize();
 
                 if (!item.isFormField()) {
                     String fileName = new File(item.getName()).getName();

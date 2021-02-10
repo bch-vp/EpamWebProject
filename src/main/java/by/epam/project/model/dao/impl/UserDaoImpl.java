@@ -6,6 +6,7 @@ import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.dao.UserDao;
 import by.epam.project.model.entity.User;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     public boolean add(User user, String password) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-                PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, password);
             statement.setString(3, user.getFirstName());
@@ -74,6 +75,20 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, newUser.getTelephoneNumber());
             statement.setString(5, newUser.getEmail());
             statement.setString(6, oldLogin);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateAvatarByLogin(String login, InputStream inputStream) throws DaoException {
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_AVATAR_BY_LOGIN)) {
+            statement.setBlob(1, inputStream);
+            statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
             throw new DaoException(exp);

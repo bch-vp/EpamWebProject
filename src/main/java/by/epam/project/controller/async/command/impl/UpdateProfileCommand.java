@@ -37,19 +37,18 @@ public class UpdateProfileCommand implements Command {
         String oldLogin = (String) requestParameters.get(OLD_LOGIN);
         String firstName = (String) requestParameters.get(FIRST_NAME);
         String lastName = (String) requestParameters.get(LAST_NAME);
-        String phone = (String) requestParameters.get(TELEPHONE_NUMBER);
+        String telephoneNumber = (String) requestParameters.get(TELEPHONE_NUMBER);
         String email = (String) requestParameters.get(EMAIL);
 
+        User user = (User) session.getAttribute(USER);
+        int roleId = user.getRole().getRoleId();
+
         try {
-            Map<String, String> requestData = userService.defineSignUpData(login, email, firstName, lastName, phone);
+            Map<String, String> requestData = userService.defineSignUpData(login, email, firstName, lastName, telephoneNumber);
 
             if (UserValidator.defineIncorrectValues(requestData)) {
 
-                User user = (User) session.getAttribute(USER);
-                int roleId = user.getRole().getRoleId();
-
-
-                User newUser = new User(login, firstName, lastName, phone, email,
+                User newUser = new User(login, firstName, lastName, telephoneNumber, email,
                         roleId,false);
                 userService.updateUser(newUser, oldLogin);
 
@@ -61,16 +60,17 @@ public class UpdateProfileCommand implements Command {
 
                 JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);
 
-                if (requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE)) {
+                if (requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE) && !user.getLogin().equals(login)) {
                     String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.LOGIN_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
-                if (requestData.get(TELEPHONE_NUMBER_UNIQUE).equals(NOT_UNIQUE)) {
+                if (requestData.get(TELEPHONE_NUMBER_UNIQUE).equals(NOT_UNIQUE)
+                        && !user.getTelephoneNumber().equals(telephoneNumber)) {
                     String error = ContentUtil.getWithLocale(language,
                             PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
-                if (requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE)) {
+                if (requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE) && !user.getEmail().equals(email)) {
                     String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }

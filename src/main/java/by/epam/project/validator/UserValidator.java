@@ -24,10 +24,10 @@ public class UserValidator {
         Map<String, String> validatedData = new HashMap<>();
         validatedData.put(LOGIN, isLoginCorrect(login) ? login : EMPTY_STRING);
         validatedData.put(PASSWORD, isPasswordCorrect(password) ? password : EMPTY_STRING);
-        validatedData.put(EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
         validatedData.put(FIRST_NAME, isFirstNameCorrect(firstName) ? firstName : EMPTY_STRING);
         validatedData.put(LAST_NAME, isLastNameCorrect(lastName) ? lastName : EMPTY_STRING);
         validatedData.put(TELEPHONE_NUMBER, isPhoneCorrect(phone) ? phone : EMPTY_STRING);
+        validatedData.put(EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
         return validatedData;
     }
 
@@ -36,10 +36,10 @@ public class UserValidator {
                                                          String firstName, String lastName, String phone) {
         Map<String, String> validatedData = new HashMap<>();
         validatedData.put(LOGIN, isLoginCorrect(login) ? login : EMPTY_STRING);
-        validatedData.put(EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
         validatedData.put(FIRST_NAME, isFirstNameCorrect(firstName) ? firstName : EMPTY_STRING);
         validatedData.put(LAST_NAME, isLastNameCorrect(lastName) ? lastName : EMPTY_STRING);
         validatedData.put(TELEPHONE_NUMBER, isPhoneCorrect(phone) ? phone : EMPTY_STRING);
+        validatedData.put(EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
         return validatedData;
     }
 

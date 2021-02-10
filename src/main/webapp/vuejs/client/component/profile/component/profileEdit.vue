@@ -21,21 +21,29 @@
         </div>
       </v-col>
     </v-row>
-    <v-row justify="center">
-      <div class="title font-weight-regular" style="color: green">{{ success }}</div>
-    </v-row>
-    <br><br>
-    <v-row>
-      <div style="color: red">{{ error.login_not_unique }}</div>
-    </v-row>
-    <br>
-    <v-row>
-      <div style="color: red">{{ error.telephone_number_not_unique }}</div>
-    </v-row>
-    <br>
-    <v-row>
-      <div style="color: red">{{ error.email_not_unique }}</div>
-    </v-row>
+    <div v-if="error.login_not_unique">
+      <v-row justify="center">
+        <div class="title font-weight-regular" style="color: green">{{ success }}</div>
+      </v-row>
+      <br><br>
+    </div>
+    <div v-if="error.login_not_unique">
+      <v-row>
+        <div style="color: red">{{ error.login_not_unique }}</div>
+      </v-row>
+      <br>
+    </div>
+    <div v-if="error.telephone_number_not_unique">
+      <v-row>
+        <div style="color: red">{{ error.telephone_number_not_unique }}</div>
+      </v-row>
+      <br>
+    </div>
+    <div v-if="error.email_not_unique">
+      <v-row>
+        <div style="color: red">{{ error.email_not_unique }}</div>
+      </v-row>
+    </div>
 
 
     <v-row align="center"
@@ -131,10 +139,9 @@ export default {
 
       success: undefined,
       error: {
-        login_not_unique: "",
-        telephone_number_not_unique: "",
-        email_not_unique: "",
-        database_connection_not_received: ""
+        login_not_unique: undefined,
+        telephone_number_not_unique: undefined,
+        email_not_unique: undefined,
       },
 
       spinnerVisible: false,

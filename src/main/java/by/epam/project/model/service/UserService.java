@@ -4,6 +4,7 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public interface UserService {
     Optional<User> findUserByEmail(String email) throws ServiceException;
     Optional<User> findUserByLogin(String login) throws ServiceException;
     boolean updatePasswordByLogin(String login, String password) throws ServiceException;
+    boolean updateAvatarByLogin(String login, InputStream inputStream) throws ServiceException;
     boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
     boolean isActivated(String login) throws ServiceException;
 }

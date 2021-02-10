@@ -8,6 +8,7 @@ import by.epam.project.model.service.UserService;
 import by.epam.project.util.EncryptPassword;
 import by.epam.project.validator.UserValidator;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,6 +37,18 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
         }
+    }
+
+    @Override
+    public boolean updateAvatarByLogin(String login, InputStream inputStream) throws ServiceException {
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        boolean isUpdated;
+        try {
+            isUpdated = userDao.updateAvatarByLogin(login, inputStream);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating avatar", exp);
+        }
+        return isUpdated;
     }
 
     @Override
@@ -85,7 +98,7 @@ public class UserServiceImpl implements UserService {
         try {
             isUpdated = userDao.updateUser(newUser, oldLogin);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during sign in user", exp);
+            throw new ServiceException("Error during updating user", exp);
         }
         return isUpdated;
     }

@@ -23,66 +23,63 @@
         </div>
       </v-col>
     </v-row>
-
     <v-row align="center"
            justify="center">
       <v-col>
         <div align="center">
-          <div class="background-image">
-            <div align="">
-              <v-file-input v-on:change="handleFileUpload()"
-                            v-model="file"
-                            dark
-                            ref="file"
-                            prepend-icon="add_a_photo">
-              </v-file-input>
-              <!--              <v-btn small rounded fab text dark color="yellow">-->
-              <!--              <v-icon>-->
-              <!--                add_a_photo-->
-              <!--              </v-icon>-->
-              <!--              </v-btn>-->
-
-            </div>
-
+          <img :src="pathh" class="profile-image"/>
+          <div align="">
+            <v-file-input v-on:change="handleFileUpload()"
+                          v-model="file"
+                          dark
+                          ref="file"
+                          prepend-icon="add_a_photo">
+            </v-file-input>
           </div>
         </div>
       </v-col>
       <v-col>
+        <v-container>
+          <v-row>
+            <v-col>
 
-        <v-row>
+              <v-row>
           <span style="color: darkgray">
             {{ text_page.profile_component.login.key }}:&nbsp
           </span>
-          {{ text_page.profile_component.login.value }}
-        </v-row>
-        <br>
-        <v-row>
-                  <span style="color: darkgray">
-                    {{ text_page.profile_component.first_name.key }}:&nbsp
-                  </span>
-          {{ text_page.profile_component.first_name.value }}
-        </v-row>
-        <br>
-        <v-row>
+                {{ text_page.profile_component.login.value }}
+              </v-row>
+              <br><br>
+              <v-row>
+          <span style="color: darkgray">
+            {{ text_page.profile_component.first_name.key }}:&nbsp
+          </span>
+                {{ text_page.profile_component.first_name.value }}
+              </v-row>
+              <br><br>
+              <v-row>
           <span style="color: darkgray">
             {{ text_page.profile_component.last_name.key }}:&nbsp
           </span>
-          {{ text_page.profile_component.last_name.value }}
-        </v-row>
-        <br>
-        <v-row>
+                {{ text_page.profile_component.last_name.value }}
+              </v-row>
+              <br><br>
+              <v-row>
           <span style="color: darkgray">
             {{ text_page.profile_component.telephone_number.key }}:&nbsp
           </span>
-          {{ text_page.profile_component.telephone_number.value }}
-        </v-row>
-        <br>
-        <v-row>
-          <div style="color: darkgray">
-            {{ text_page.profile_component.email.key }}:&nbsp
-          </div>
-          {{ text_page.profile_component.email.value }}
-        </v-row>
+                {{ text_page.profile_component.telephone_number.value }}
+              </v-row>
+              <br><br>
+              <v-row>
+                <div style="color: darkgray">
+                  {{ text_page.profile_component.email.key }}:&nbsp
+                </div>
+                {{ text_page.profile_component.email.value }}
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-col>
     </v-row>
   </v-container>
@@ -94,43 +91,43 @@ export default {
   data() {
     return {
       text_page: text_page,
-      file: undefined
+      file: undefined,
+      profileImage: undefined,
+      pathh: "ajax?command=load_file",
     }
   },
+  created() {
+    this.axios({
+      method: 'post',
+      url: '/ajax?command=load_file',
+    }).then(response => {
+      console.log('SUCCESS!!');
+
+    }, ex => {
+      console.log('FAILURE!!');
+    })
+  },
   methods: {
-    handleFileUpload(){
-      alert(this.file)
+    handleFileUpload() {
+
       let formData = new FormData();
       formData.append('file', this.file);
-      // formData.append('file', this.file);
-
-
-      // this.axios.post( '/ajax?command=upload_file',
-      //     formData,
-      //     {
-      //       headers: {
-      //         'Content-Type': 'multipart/form-data'
-      //       }
-      //     }
-      // ).then(function(){
-      //   console.log('SUCCESS!!');
-      // })
-      //     .catch(function(){
-      //       console.log('FAILURE!!');
-      //     });
 
       this.axios({
         method: 'post',
-        url: '/upload',
+        url: '/ajax?command=upload_file',
         headers: {
           'Content-Type': 'multipart/form-data'
         },
         data: formData
-      }).then(function(){
+      }).then(response => {
         console.log('SUCCESS!!');
-      }).catch(function(){
-            console.log('FAILURE!!');
-          });
+        this.pathh = "ajax?command=load_file&s=" + Date.now()
+      }, ex => {
+        console.log('FAILURE!!');
+      })
+
+
     }
   }
 
@@ -138,8 +135,7 @@ export default {
 </script>
 
 <style scoped>
-.background-image {
-  background-image: url("/img/background.jpg");
+.profile-image {
   background-color: black;
   height: 11em;
   width: 14em;
