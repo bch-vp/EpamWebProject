@@ -46,11 +46,10 @@
     </div>
 
 
-    <v-row align="center"
-           justify="center">
+    <v-row >
       <v-col>
         <div align="center">
-          <div class="background-image"/>
+          <img src="ajax?command=load_file" class="profile-image"/>
         </div>
       </v-col>
       <v-col>
@@ -279,11 +278,10 @@ export default {
 </script>
 
 <style scoped>
-.background-image {
-  background-image: url("/img/background.jpg");
+.profile-image {
   background-color: black;
-  height: 10em;
-  width: 13em;
+  height: 14em;
+  width: 15em;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

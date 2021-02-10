@@ -18,6 +18,7 @@ public interface UserService {
                                          String surname, String phone) throws ServiceException;
     boolean signUpUser(User user, String password) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;
+    Map<String, String> defineUniqueData(String login, String email, String phone) throws ServiceException;
     List<User> sortByParameter(List<User> users, String sortType) throws ServiceException;
     Optional<User> findUserById(int id) throws ServiceException;
     Optional<User> findUserByPhone(String phone) throws ServiceException;

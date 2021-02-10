@@ -104,6 +104,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Map<String, String> defineUniqueData(String login, String email, String phone) throws ServiceException {
+        return null;
+    }
+
+    @Override
     public Map<String, String> defineSignUpData(String login, String email, String firstName,
                                                 String lastName, String phone) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();

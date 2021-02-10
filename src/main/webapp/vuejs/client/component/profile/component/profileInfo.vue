@@ -23,8 +23,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row align="center"
-           justify="center">
+    <v-row >
       <v-col>
         <div align="center">
           <img :src="pathh" class="profile-image"/>
@@ -137,13 +136,11 @@ export default {
 <style scoped>
 .profile-image {
   background-color: black;
-  height: 11em;
-  width: 14em;
+  height: 14em;
+  width: 15em;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
 }
-
-
 </style>
