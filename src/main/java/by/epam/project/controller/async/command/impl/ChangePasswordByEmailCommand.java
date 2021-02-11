@@ -11,6 +11,8 @@ import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.UserValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,8 @@ import java.util.Random;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ChangePasswordByEmailCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
     private final EmailService emailService = EmailServiceImpl.getInstance();
     private static final int DIFF_RANGE = 900_000;
@@ -31,27 +35,28 @@ public class ChangePasswordByEmailCommand implements Command {
     private static final int TIMER_SEC = 300;
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
-        HttpSession session = request.getSession();
-
-        String locale = (String) session.getAttribute(LANGUAGE);
-        String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
-
-        String login = (String) requestParameters.get(LOGIN);
-        String email = (String) requestParameters.get(EMAIL);
-        String newPassword = (String) requestParameters.get(NEW_PASSWORD);
-        String requestUniqueKey = (String) requestParameters.get(UNIQUE_KEY);
-
-        // if data not correct
-        if (!UserValidator.isLoginCorrect(login)
-                || !UserValidator.isEmailCorrect(email)
-                || !UserValidator.isPasswordCorrect(newPassword)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
+            Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+            HttpSession session = request.getSession();
+
+            String locale = (String) session.getAttribute(LANGUAGE);
+            String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
+
+            String login = (String) requestParameters.get(LOGIN);
+            String email = (String) requestParameters.get(EMAIL);
+            String newPassword = (String) requestParameters.get(NEW_PASSWORD);
+            String requestUniqueKey = (String) requestParameters.get(UNIQUE_KEY);
+
+            // if data not correct
+            if (!UserValidator.isLoginCorrect(login)
+                    || !UserValidator.isEmailCorrect(email)
+                    || !UserValidator.isPasswordCorrect(newPassword)) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+
             Optional<User> userOptional = userService.findUserByLogin(login);
             User user = userOptional.get();
 
@@ -113,9 +118,9 @@ public class ChangePasswordByEmailCommand implements Command {
                 return;
             }
 
-            long timeCreated =(long) session.getAttribute(TIME_CREATED);
+            long timeCreated = (long) session.getAttribute(TIME_CREATED);
             long timeNow = System.currentTimeMillis();
-            long diff = (timeNow - timeCreated)/1000;
+            long diff = (timeNow - timeCreated) / 1000;
             boolean isTimeNotExpired = diff <= TIMER_SEC;
             if (isTimeNotExpired) {
                 userService.updatePasswordByLogin(login, newPassword);
@@ -133,16 +138,15 @@ public class ChangePasswordByEmailCommand implements Command {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
             session.removeAttribute(UNIQUE_KEY);
-        } catch (ServiceException exp) {
+        } catch (ServiceException | IOException exp) {
+            logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     private void writeJsonToResponse(HttpServletResponse response, String json) throws IOException {
-        if (json != null && !json.isEmpty()) {
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(ENCODING);
             response.getWriter().write(json);
-        }
     }
 }

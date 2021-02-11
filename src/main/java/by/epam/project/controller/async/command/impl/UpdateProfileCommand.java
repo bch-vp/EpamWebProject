@@ -10,6 +10,8 @@ import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.UserValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,36 +25,38 @@ import static by.epam.project.controller.parameter.ErrorKey.LOGIN_NOT_UNIQUE;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UpdateProfileCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     private static final String EMPTY_JSON_TREE_OBJECT = "{}";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String language = (String) session.getAttribute(LANGUAGE);
 
-        Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
-
-        String login = (String) requestParameters.get(LOGIN);
-        String oldLogin = (String) requestParameters.get(OLD_LOGIN);
-        String firstName = (String) requestParameters.get(FIRST_NAME);
-        String lastName = (String) requestParameters.get(LAST_NAME);
-        String telephoneNumber = (String) requestParameters.get(TELEPHONE_NUMBER);
-        String email = (String) requestParameters.get(EMAIL);
-
-        User user = (User) session.getAttribute(USER);
-        int roleId = user.getRole().getRoleId();
-
-        Map<String, String> requestData = UserValidator.validateParameters(login, email, firstName, lastName, telephoneNumber);
-
-        //if not correct request data
-        if (!UserValidator.defineIncorrectValues(requestData)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
         try {
+            Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+
+            String login = (String) requestParameters.get(LOGIN);
+            String oldLogin = (String) requestParameters.get(OLD_LOGIN);
+            String firstName = (String) requestParameters.get(FIRST_NAME);
+            String lastName = (String) requestParameters.get(LAST_NAME);
+            String telephoneNumber = (String) requestParameters.get(TELEPHONE_NUMBER);
+            String email = (String) requestParameters.get(EMAIL);
+
+            User user = (User) session.getAttribute(USER);
+            int roleId = user.getRole().getRoleId();
+
+            Map<String, String> requestData = UserValidator.validateParameters(login, email, firstName, lastName, telephoneNumber);
+
+            //if not correct request data
+            if (!UserValidator.defineIncorrectValues(requestData)) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
             JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
             //if login not unique and our user doesn't contain this login
             if (!userService.isLoginUnique(login) && !user.getLogin().equals(login)) {
@@ -90,7 +94,8 @@ public class UpdateProfileCommand implements Command {
             session.setAttribute(USER, newUser);
             response.setStatus(HttpServletResponse.SC_OK);
 
-        } catch (ServiceException exp) {
+        } catch (ServiceException | IOException exp) {
+            logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

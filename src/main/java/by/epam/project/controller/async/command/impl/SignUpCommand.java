@@ -12,6 +12,8 @@ import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.UserValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,25 +26,26 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class SignUpCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
     private final EmailServiceImpl emailService = EmailServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String language = (String) session.getAttribute(LANGUAGE);
-        String responseJson = null;
-
-        Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
-
-        String login = (String) requestParameters.get(LOGIN);
-        String password = (String) requestParameters.get(PASSWORD);
-        String firstName = (String) requestParameters.get(FIRST_NAME);
-        String lastName = (String) requestParameters.get(LAST_NAME);
-        String phone = (String) requestParameters.get(TELEPHONE_NUMBER);
-        String email = (String) requestParameters.get(EMAIL);
 
         try {
+            Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+
+            String login = (String) requestParameters.get(LOGIN);
+            String password = (String) requestParameters.get(PASSWORD);
+            String firstName = (String) requestParameters.get(FIRST_NAME);
+            String lastName = (String) requestParameters.get(LAST_NAME);
+            String phone = (String) requestParameters.get(TELEPHONE_NUMBER);
+            String email = (String) requestParameters.get(EMAIL);
+
             Map<String, String> requestData = userService.defineSignUpData(login,
                     password, email, firstName, lastName, phone);
 
@@ -81,15 +84,18 @@ public class SignUpCommand implements Command {
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
 
-                responseJson = JsonUtil.jsonTreeToJson(jsonTree);
+                String responseJson = JsonUtil.jsonTreeToJson(jsonTree);
+                writeJsonToResponse(response, responseJson);
             }
-        } catch (ServiceException exp) {
+        } catch (ServiceException | IOException exp) {
+            logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        if (responseJson != null && !responseJson.isEmpty()) {
-            response.setContentType(CONTENT_TYPE);
-            response.setCharacterEncoding(ENCODING);
-            response.getWriter().write(responseJson);
-        }
+    }
+
+    private void writeJsonToResponse(HttpServletResponse response, String json) throws IOException {
+        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(ENCODING);
+        response.getWriter().write(json);
     }
 }

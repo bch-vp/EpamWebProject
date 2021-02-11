@@ -19,7 +19,7 @@ import static by.epam.project.controller.parameter.ParameterKey.NOT_UNIQUE;
 
 public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
-    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private  final UserDaoImpl userDao = UserDaoImpl.getInstance();
 
     private UserServiceImpl() {
     }

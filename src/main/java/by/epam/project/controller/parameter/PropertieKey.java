@@ -20,6 +20,12 @@ public class PropertieKey {
             "form_component.error.telephone_number_not_unique";
     public static final String ERROR_SIGN_UP_EMAIL_NOT_UNIQUE = "form_component.error.email_not_unique";
 
+    public static final String ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES = "profile_component.avatar.error.allowed_files_count";
+    public static final String ERROR_PROFILE_AVATAR_MAX_SIZE = "profile_component.avatar.error.max_size";
+    public static final String ERROR_PROFILE_AVATAR_FORMAT = "profile_component.avatar.error.format";
+    public static final String ERROR_PROFILE_AVATAR_FORM_FIELD = "profile_component.avatar.error.form_field";
+    public static final String ERROR_PROFILE_AVATAR_PARSE_REQUEST = "profile_component.avatar.error.parse_request";
+
 
     private PropertieKey() {
     }

@@ -6,6 +6,8 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.UserValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +19,12 @@ import java.util.Optional;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ChangePasswordByOldPassCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
 //        Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 //
 //        String login = (String) requestParameters.get(LOGIN);

@@ -5,8 +5,7 @@ import by.epam.project.model.service.EmailService;
 import by.epam.project.util.MailSender;
 
 public class EmailServiceImpl implements EmailService {
-    private static final EmailServiceImpl instance =
-            new EmailServiceImpl();
+    private static final EmailServiceImpl instance = new EmailServiceImpl();
 
     private EmailServiceImpl() {
     }

@@ -10,6 +10,8 @@ import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.URLUtil;
 import by.epam.project.validator.UserValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,7 @@ import java.util.Optional;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class SignInCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
 
@@ -66,6 +69,7 @@ public class SignInCommand implements Command {
                 }
             }
         } catch (ServiceException exp) {
+            logger.error(exp);
             router.setRedirect();
             String redirectUrl = URLUtil.createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
             router.setCurrentPage(redirectUrl);
