@@ -1,6 +1,6 @@
 package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.AsyncCommand;
+import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
-public class UploadProfileImageAsyncCommand implements AsyncCommand {
+public class UploadProfileImageCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
@@ -43,32 +43,32 @@ public class UploadProfileImageAsyncCommand implements AsyncCommand {
             fileItems = upload.parseRequest(request);
         } catch (FileUploadException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            //error upload file
+            //error upload file TODO
             return;
         }
 
         if (fileItems.size() > 1) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            //error only 1 file
+            //error only 1 file TODO
             return;
         }
 
         FileItem file = fileItems.get(0);
         if (file.getSize() > FILE_MAX_SIZE) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            //error file bigger then max size
+            //error file bigger then max size TODO
             return;
         }
 
         String contentType = file.getContentType();
         if (!FILE_TYPE.contains(contentType)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            //error wrong format file
+            //error wrong format file TODO
             return;
         }
         if(file.isFormField()){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            //error cant be formfield
+            //error cant be formfield TODO
             return;
         }
 
@@ -77,7 +77,7 @@ public class UploadProfileImageAsyncCommand implements AsyncCommand {
             userService.updateAvatarByLogin(login, inputStream);
         } catch (ServiceException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            //error during add to database
+            //error during add to database TODO
             return;
         }
 

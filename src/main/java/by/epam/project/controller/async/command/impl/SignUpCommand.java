@@ -1,6 +1,6 @@
 package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.AsyncCommand;
+import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.parameter.PropertieKey;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class SignUpAsyncCommand implements AsyncCommand {
+public class SignUpCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
     private final EmailServiceImpl emailService = EmailServiceImpl.getInstance();
 

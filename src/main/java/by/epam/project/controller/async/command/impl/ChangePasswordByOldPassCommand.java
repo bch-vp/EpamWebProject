@@ -1,6 +1,6 @@
 package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.AsyncCommand;
+import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class ChangePasswordByOldPassAsyncCommand implements AsyncCommand {
+public class ChangePasswordByOldPassCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override

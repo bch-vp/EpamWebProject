@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 
-public class SignOut implements Command {
+public class SignOutCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         Router router = new Router();

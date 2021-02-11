@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class SignInSyncCommand implements SyncCommand {
+public class SignInCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
 

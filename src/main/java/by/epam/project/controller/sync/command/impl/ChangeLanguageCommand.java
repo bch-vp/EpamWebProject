@@ -1,7 +1,7 @@
 package by.epam.project.controller.sync.command.impl;
 
 import by.epam.project.controller.sync.Router;
-import by.epam.project.controller.sync.command.SyncCommand;
+import by.epam.project.controller.sync.command.Command;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.util.URLUtil;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class ChangeLanguageSyncCommand implements SyncCommand {
+public class ChangeLanguageCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         HttpSession session = request.getSession();

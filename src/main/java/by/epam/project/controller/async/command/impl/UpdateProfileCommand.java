@@ -1,6 +1,6 @@
 package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.AsyncCommand;
+import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.PropertieKey;
 import by.epam.project.exception.ServiceException;
@@ -22,7 +22,7 @@ import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ErrorKey.LOGIN_NOT_UNIQUE;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class UpdateProfileAsyncCommand implements AsyncCommand {
+public class UpdateProfileCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     private static final String EMPTY_JSON_TREE_OBJECT = "{}";

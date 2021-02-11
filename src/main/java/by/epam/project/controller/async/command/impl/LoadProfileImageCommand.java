@@ -1,35 +1,44 @@
 package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.AsyncCommand;
-import by.epam.project.model.connection.ConnectionPool;
+import by.epam.project.controller.async.command.Command;
+import by.epam.project.exception.ServiceException;
+import by.epam.project.model.entity.User;
+import by.epam.project.model.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
+import java.util.Optional;
 
-public class LoadProfileImageAsyncCommand implements AsyncCommand {
-    private static final String CONTENT_TYPE = "Content-Type";
-    private static final String CONTENT_LENGTH = "Content-Length";
+import static by.epam.project.controller.parameter.ParameterKey.USER;
 
-    public static final String FFF = "SELECT avatar FROM users WHERE login = ?";
+public class LoadProfileImageCommand implements Command {
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        boolean isUpdated;
-        byte[] bytes = null;
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(FFF)) {
-            statement.setString(1, "ilya");
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                bytes = resultSet.getBytes("avatar");
-            }
+        HttpSession session = request.getSession();
 
-        } catch (SQLException exp) {
-            System.out.println(exp);
+        User user = (User) session.getAttribute(USER);
+        String login = user.getLogin();
+
+        Optional<byte[]> bytesOptional = Optional.empty();
+        try {
+            bytesOptional = userService.findAvatarByLogin(login);
+        } catch (ServiceException exp) {
+            //error during finding avatart in db TODO
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
         }
 
+        if(bytesOptional.isEmpty()){
+            //error avatar not found for this login TODO
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        byte[] bytes = bytesOptional.get();
         response.getOutputStream().write(bytes);
     }
 }

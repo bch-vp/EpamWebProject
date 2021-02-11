@@ -1,27 +1,27 @@
 package by.epam.project.controller.async.command;
 
-import by.epam.project.controller.async.command.impl.CheckLoginExistenceAsyncCommand;
-import by.epam.project.controller.async.command.impl.UpdateProfileAsyncCommand;
-import by.epam.project.controller.async.command.impl.LoadProfileImageAsyncCommand;
-import by.epam.project.controller.async.command.impl.UploadProfileImageAsyncCommand;
-import by.epam.project.controller.async.command.impl.ChangePasswordByEmailAsyncCommand;
-import by.epam.project.controller.async.command.impl.SignUpAsyncCommand;
+import by.epam.project.controller.async.command.impl.CheckLoginExistenceCommand;
+import by.epam.project.controller.async.command.impl.UpdateProfileCommand;
+import by.epam.project.controller.async.command.impl.LoadProfileImageCommand;
+import by.epam.project.controller.async.command.impl.UploadProfileImageCommand;
+import by.epam.project.controller.async.command.impl.ChangePasswordByEmailCommand;
+import by.epam.project.controller.async.command.impl.SignUpCommand;
 
 public enum CommandType {
-    SIGN_UP(new SignUpAsyncCommand()),
-    CHECK_LOGIN_EXISTENCE(new CheckLoginExistenceAsyncCommand()),
-    CHANGE_PASSWORD_BY_EMAIL(new ChangePasswordByEmailAsyncCommand()),
-    UPDATE_PROFILE(new UpdateProfileAsyncCommand()),
-    LOAD_PROFILE_IMAGE(new LoadProfileImageAsyncCommand()),
-    UPLOAD_PROFILE_IMAGE(new UploadProfileImageAsyncCommand());
+    SIGN_UP(new SignUpCommand()),
+    CHECK_LOGIN_EXISTENCE(new CheckLoginExistenceCommand()),
+    CHANGE_PASSWORD_BY_EMAIL(new ChangePasswordByEmailCommand()),
+    UPDATE_PROFILE(new UpdateProfileCommand()),
+    LOAD_PROFILE_IMAGE(new LoadProfileImageCommand()),
+    UPLOAD_PROFILE_IMAGE(new UploadProfileImageCommand());
 
-    private final AsyncCommand command;
+    private final Command command;
 
-    CommandType(AsyncCommand command) {
+    CommandType(Command command) {
         this.command = command;
 
     }
-    public AsyncCommand getCommand() {
+    public Command getCommand() {
         return command;
     }
 }
