@@ -94,8 +94,10 @@ public class SignUpCommand implements Command {
     }
 
     private void writeJsonToResponse(HttpServletResponse response, String json) throws IOException {
-        response.setContentType(CONTENT_TYPE);
-        response.setCharacterEncoding(ENCODING);
-        response.getWriter().write(json);
+        if(json != null && !json.isEmpty()) {
+            response.setContentType(CONTENT_TYPE);
+            response.setCharacterEncoding(ENCODING);
+            response.getWriter().write(json);
+        }
     }
 }
