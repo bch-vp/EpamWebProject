@@ -1,8 +1,6 @@
 package by.epam.project.controller.filter;
 
-import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.sync.command.CommandType;
-import by.epam.project.controller.sync.command.RoleAllowance;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.URLUtil;
 
@@ -15,7 +13,6 @@ import java.util.Set;
 
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
-import static by.epam.project.model.entity.User.Role.CLIENT;
 
 public class EmptyCommandRoleSecurityFilter implements Filter {
 

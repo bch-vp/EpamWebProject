@@ -1,11 +1,7 @@
 package by.epam.project.controller.filter;
 
+import by.epam.project.controller.filter.util.RolePermission;
 import by.epam.project.controller.parameter.PagePath;
-import by.epam.project.controller.sync.command.Command;
-import by.epam.project.controller.sync.command.CommandProvider;
-import by.epam.project.controller.sync.command.CommandType;
-import by.epam.project.controller.sync.command.RoleAllowance;
-import by.epam.project.controller.sync.command.impl.EmptyCommand;
 import by.epam.project.model.entity.User;
 
 import javax.servlet.*;
@@ -39,7 +35,7 @@ public class CommandRoleSecurityFilter implements Filter {
         }
 
         User.Role role = User.Role.GUEST;
-        Set<CommandType> commandsByRole;
+        Set<String> commandsByRole;
 
         User user = (User) session.getAttribute(USER);
         if (user != null) {
@@ -47,25 +43,18 @@ public class CommandRoleSecurityFilter implements Filter {
         }
         switch (role) {
             case CLIENT -> {
-                commandsByRole = RoleAllowance.CLIENT.getCommands();
+                commandsByRole = RolePermission.CLIENT.getCommands();
             }
             case ADMIN -> {
-                commandsByRole = RoleAllowance.ADMIN.getCommands();
+                commandsByRole = RolePermission.ADMIN.getCommands();
             }
             default -> {
-                commandsByRole = RoleAllowance.GUEST.getCommands();
+                commandsByRole = RolePermission.GUEST.getCommands();
             }
         }
 
-        CommandType commandType;
-        try {
-            commandType = CommandType.valueOf(commandName.toUpperCase());
-        } catch (IllegalArgumentException exp) {
-            request.getRequestDispatcher(PagePath.ERROR_404).forward(servletRequest, servletResponse);
-            return;
-        }
-
-        if (!commandsByRole.contains(commandType)) {
+        commandName = commandName.toUpperCase();
+        if (!commandsByRole.contains(commandName)) {
             request.getRequestDispatcher(PagePath.ERROR_404).forward(servletRequest, servletResponse);
             return;
         }

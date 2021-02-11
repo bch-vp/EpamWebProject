@@ -66,9 +66,7 @@
       </v-menu>
 
       <v-btn rounded text href="do?command=sign_out" style="padding-left: 2em">
-        <v-icon>
-          exit_to_app
-        </v-icon>
+        <v-icon>exit_to_app</v-icon>
       </v-btn>
     </v-app-bar>
   </div>

@@ -92,7 +92,7 @@ export default {
       text_page: text_page,
       file: undefined,
       profileImage: undefined,
-      pathh: "ajax?command=load_file",
+      pathh: "ajax?command=load_profile_image",
     }
   },
   methods: {
@@ -103,14 +103,14 @@ export default {
 
       this.axios({
         method: 'post',
-        url: '/ajax?command=upload_file',
+        url: '/ajax?command=upload_profile_image',
         headers: {
           'Content-Type': 'multipart/form-data'
         },
         data: formData
       }).then(response => {
         console.log('SUCCESS!!');
-        this.pathh = "ajax?command=load_file&s=" + Date.now()
+        this.pathh = "ajax?command=load_profile_image&s=" + Date.now()
       }, ex => {
         console.log('FAILURE!!');
       })

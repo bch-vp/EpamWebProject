@@ -1,7 +1,6 @@
-package by.epam.project.controller.sync.command.impl.guest;
+package by.epam.project.controller.sync.command.impl;
 
 import by.epam.project.controller.parameter.ErrorKey;
-import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.parameter.PropertieKey;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.*;
@@ -18,7 +17,7 @@ import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class SignInCommand implements Command {
+public class SignInSyncCommand implements SyncCommand {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
 

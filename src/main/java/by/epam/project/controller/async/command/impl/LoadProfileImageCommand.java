@@ -1,17 +1,14 @@
-package by.epam.project.controller.async.command.impl.client;
+package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.Command;
-import by.epam.project.exception.DaoException;
+import by.epam.project.controller.async.command.AsyncCommand;
 import by.epam.project.model.connection.ConnectionPool;
-import by.epam.project.model.dao.SqlQuery;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
-import java.util.Optional;
 
-public class LoadFileCommand implements Command {
+public class LoadProfileImageAsyncCommand implements AsyncCommand {
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String CONTENT_LENGTH = "Content-Length";
 
@@ -30,13 +27,9 @@ public class LoadFileCommand implements Command {
             }
 
         } catch (SQLException exp) {
-//            throw new DaoException(exp);
             System.out.println(exp);
         }
 
-//        response.setHeader(CONTENT_TYPE, "image/jpeg");
         response.getOutputStream().write(bytes);
-//        response.setHeader(CONTENT_LENGTH, St
-//        ring.valueOf(Files.size(path)));
     }
 }

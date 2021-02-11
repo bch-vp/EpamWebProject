@@ -1,6 +1,6 @@
-package by.epam.project.controller.async.command.impl.guest;
+package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.Command;
+import by.epam.project.controller.async.command.AsyncCommand;
 import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.PropertieKey;
 import by.epam.project.exception.ServiceException;
@@ -23,7 +23,7 @@ import java.util.Random;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class ChangePasswordByEmailCommand implements Command {
+public class ChangePasswordByEmailAsyncCommand implements AsyncCommand {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
     private final EmailService emailService = EmailServiceImpl.getInstance();
     private static final int DIFF_RANGE = 900_000;

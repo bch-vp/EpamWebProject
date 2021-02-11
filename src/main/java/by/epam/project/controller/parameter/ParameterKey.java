@@ -22,6 +22,7 @@ public class ParameterKey {
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String TELEPHONE_NUMBER = "telephone_number";
+    public static final String AVATAR = "avatar";
     public static final String ROLE = "role";
     public static final String IS_ACTIVATED = "is_activated";
     public static final String UNIQUE_KEY = "unique_key";

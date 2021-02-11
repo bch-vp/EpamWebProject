@@ -1,10 +1,11 @@
-package by.epam.project.controller.async.command.impl.client;
+package by.epam.project.controller.async.command.impl;
 
-import by.epam.project.controller.async.command.Command;
+import by.epam.project.controller.async.command.AsyncCommand;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
-public class UploadFileCommand implements Command {
+public class UploadProfileImageAsyncCommand implements AsyncCommand {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
@@ -40,7 +41,7 @@ public class UploadFileCommand implements Command {
         List<FileItem> fileItems;
         try {
             fileItems = upload.parseRequest(request);
-        } catch (Exception e) {
+        } catch (FileUploadException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             //error upload file
             return;

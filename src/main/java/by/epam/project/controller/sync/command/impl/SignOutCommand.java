@@ -1,4 +1,4 @@
-package by.epam.project.controller.sync.command.impl.client;
+package by.epam.project.controller.sync.command.impl;
 
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;

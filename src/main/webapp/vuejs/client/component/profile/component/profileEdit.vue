@@ -49,7 +49,7 @@
     <v-row>
       <v-col>
         <div align="center">
-          <img src="ajax?command=load_file" class="profile-image"/>
+          <img src="ajax?command=load_profile_image" class="profile-image"/>
         </div>
       </v-col>
       <v-col>

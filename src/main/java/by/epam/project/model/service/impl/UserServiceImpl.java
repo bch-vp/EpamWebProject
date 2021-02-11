@@ -31,15 +31,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> signInUser(String login, String password) throws ServiceException {
         String encryptPassword = EncryptPassword.encryption(password);
-        Optional<User> foundUser;
+        Optional<User> userOptional;
 
         try {
-            foundUser = userDao.findByLoginAndPassword(login, encryptPassword);
+            userOptional = userDao.findByLoginAndPassword(login, encryptPassword);
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
         }
 
-        return foundUser;
+        return userOptional;
     }
 
     @Override
@@ -160,6 +160,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<byte[]> findAvatarByLogin(String login) throws ServiceException {
+        Optional<byte[]> bytesOptional;
+
+        try {
+            bytesOptional = userDao.findAvatarByLogin(login);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating user's avatar", exp);
+        }
+
+        return bytesOptional;
+    }
+
+    @Override
     public Optional<User> findUserByLogin(String login) throws ServiceException {
         Optional<User> user;
 
@@ -174,15 +187,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException {
-        Optional<String> userPassword;
+        Optional<String> userPasswordOptional;
 
         try {
-            userPassword = userDao.findPasswordByLogin(login);
+            userPasswordOptional = userDao.findPasswordByLogin(login);
         } catch (DaoException exp) {
             throw new ServiceException("Error during checking is password equal Login's password", exp);
         }
 
-        return userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get());
+        return userPasswordOptional.isEmpty() || !EncryptPassword.encryption(password).equals(userPasswordOptional.get());
     }
 
     @Override
