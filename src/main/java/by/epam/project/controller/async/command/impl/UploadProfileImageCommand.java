@@ -78,7 +78,7 @@ public class UploadProfileImageCommand implements Command {
 
 
             //can't be form field
-            if (!file.isFormField()) {
+            if (file.isFormField()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD);
                 return;
