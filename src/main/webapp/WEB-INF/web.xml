@@ -26,6 +26,17 @@
         <url-pattern>/do</url-pattern>
     </filter-mapping>
 
+    //
+    <filter-mapping>
+        <filter-name>emptyCommandRoleSecurityFilter</filter-name>
+        <url-pattern>/ajax</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>commandRoleSecurityFilter</filter-name>
+        <url-pattern>/ajax</url-pattern>
+    </filter-mapping>
+
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>by.epam.project.controller.filter.EncodingFilter</filter-class>

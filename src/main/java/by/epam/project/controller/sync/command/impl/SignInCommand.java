@@ -40,8 +40,6 @@ public class SignInCommand implements Command {
                     User user = userOptional.get();
                     session.setAttribute(USER, user);
 
-                    //write equal pass
-
                     User.Role role = user.getRole();
 
                     String redirectURL;
@@ -68,10 +66,6 @@ public class SignInCommand implements Command {
                 }
             }
         } catch (ServiceException exp) {
-//            String propertieKey = exp.getCause().getMessage();// ??????????
-//            String error = ContentUtil.getWithLocale(language, propertieKey);
-//            session.setAttribute(ErrorKey.DATABASE_CONNECTION_NOT_RECEIVED, error);
-
             router.setRedirect();
             String redirectUrl = URLUtil.createRedirectURL(request, CommandType.PASSING_BY_GUEST.toString().toLowerCase());
             router.setCurrentPage(redirectUrl);

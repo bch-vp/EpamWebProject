@@ -21,40 +21,41 @@ public class ChangePasswordByOldPassCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
-
-        String login = (String) requestParameters.get(LOGIN);
-        String oldPassword = (String) requestParameters.get(OLD_PASSWORD);
-        String newPassword = (String) requestParameters.get(NEW_PASSWORD);
-
-        try {
-            if (UserValidator.isLoginCorrect(login)
-                    && UserValidator.isPasswordCorrect(oldPassword)
-                    && UserValidator.isPasswordCorrect(newPassword)) {
-                if (!oldPassword.equals(newPassword)) { // if oldPass not equal with newPass
-                    Optional<User> user = userService.findUserByLogin(login);
-                    if (user.isPresent()) { // if found acc with that login
-
-                        boolean isEqual = userService.isPasswordEqualLoginPassword(login, oldPassword);
-                        if (isEqual) { // if oldPass equal with pass of login
-                            //update pass
-                            userService.updatePasswordByLogin(login, newPassword);
-                            response.setStatus(HttpServletResponse.SC_OK);
-                        } else {
-                            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                        }
-                    } else {
-                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                    }
-                } else {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                }
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
-        } catch (ServiceException exp) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+//        Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+//
+//        String login = (String) requestParameters.get(LOGIN);
+//        String oldPassword = (String) requestParameters.get(OLD_PASSWORD);
+//        String newPassword = (String) requestParameters.get(NEW_PASSWORD);
+//
+//        try {
+//            if (UserValidator.isLoginCorrect(login)
+//                    && UserValidator.isPasswordCorrect(oldPassword)
+//                    && UserValidator.isPasswordCorrect(newPassword)) {
+//                if (!oldPassword.equals(newPassword)) { // if oldPass not equal with newPass
+//                    Optional<User> user = userService.findUserByLogin(login);
+//                    if (user.isPresent()) { // if found acc with that login
+//
+//                        boolean isEqual = userService.isPasswordEqualLoginPassword(login, oldPassword);
+//                        if (isEqual) { // if oldPass equal with pass of login
+//                            //update pass
+//                            userService.updatePasswordByLogin(login, newPassword);
+//                            response.setStatus(HttpServletResponse.SC_OK);
+//                        } else {
+//                            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                        }
+//                    } else {
+//                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//                    }
+//                } else {
+//                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                }
+//            } else {
+//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            }
+//        } catch (ServiceException exp) {
+//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//        }
+        //     TODO
 
     }
 }
