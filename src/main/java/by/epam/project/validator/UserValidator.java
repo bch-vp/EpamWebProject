@@ -71,6 +71,7 @@ public class UserValidator {
         return isEmptyOrNull(uniqueCode) && isStringMatches(uniqueCode, UNIQUE_KEY_REGEX);
     }
 
+
     public static boolean defineIncorrectValues(Map<String, String> data) {
         for (String key : data.keySet()) {
             if (data.get(key).isEmpty() || data.get(key).equals(NOT_UNIQUE)) {

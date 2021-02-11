@@ -46,7 +46,7 @@
     </div>
 
 
-    <v-row >
+    <v-row>
       <v-col>
         <div align="center">
           <img src="ajax?command=load_file" class="profile-image"/>
@@ -145,12 +145,14 @@ export default {
 
       spinnerVisible: false,
 
-      valid: false,
       login: text_page.profile_component.login.value,
       first_name: text_page.profile_component.first_name.value,
       last_name: text_page.profile_component.last_name.value,
       telephone_number: text_page.profile_component.telephone_number.value,
       email: text_page.profile_component.email.value,
+      valid: false,
+
+      validCount:0,
 
       rules: {
         login: [
@@ -191,7 +193,25 @@ export default {
       }
     }
   },
+  watch: {
+    login: function () {
+      this.checkChange()
+    },
+    first_name: function () {
+      this.checkChange()
+    },
+    last_name: function () {
+      this.checkChange()
+    },
+    telephone_number: function () {
+      this.checkChange()
+    },
+    email: function () {
+      this.checkChange()
+    }
+  },
   created() {
+    this.valid = false
     this.axios.interceptors.request.use(
         conf => {
           this.showSpinner()
@@ -212,6 +232,9 @@ export default {
           return Promise.reject(error);
         }
     );
+  },
+  beforeUpdate() {
+      this.checkChange()
   },
   methods: {
     submit() {
@@ -266,6 +289,17 @@ export default {
       this.error.login_not_unique = undefined
       this.error.telephone_number_not_unique = undefined
       this.error.email_not_unique = undefined
+    },
+    checkChange() {
+      if (this.login === this.text_page.profile_component.login.value
+          && this.first_name === this.text_page.profile_component.first_name.value
+          && this.last_name === this.text_page.profile_component.last_name.value
+          && this.telephone_number === this.text_page.profile_component.telephone_number.value
+          && this.email === this.text_page.profile_component.email.value) {
+        this.valid = false
+      }else{
+        this.valid = true
+      }
     },
     showSpinner() {
       this.spinnerVisible = true;

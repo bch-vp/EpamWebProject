@@ -1,5 +1,6 @@
 package by.epam.project.util;
 
+import by.epam.project.controller.parameter.PropertieKey;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +9,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+
+import static by.epam.project.controller.parameter.ErrorKey.ERROR;
+import static by.epam.project.controller.parameter.ErrorKey.LOGIN_NOT_UNIQUE;
 
 public class JsonUtil {
     private static final JsonUtil instance = new JsonUtil();
@@ -47,6 +51,22 @@ public class JsonUtil {
             throws IOException {
         return objectMapper.readValue(inputStream, clazz);
     }
+
+//    public static void main(String[] args) {
+//        JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
+//        System.out.println(jsonTree.isEmpty());
+////        JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, "error", ERROR);
+//
+//        JsonNode jsonNode = jsonTree.path("error");
+//        System.out.println(jsonTree.path("error").isEmpty());
+//
+//
+//        System.out.println(jsonTree.size());
+//        System.out.println(jsonTree.path(0));
+//        System.out.println(jsonTree.path(1));
+////        System.out.println(jsonTree.path(ERROR).equals(EMPTY_JSON_TREE_OBJECT));
+//        System.out.println(jsonTree.path(ERROR).isEmpty());
+//    }
 
     public static JsonNode addNodeToJsonTree(JsonNode rootNode, String key, String value, String... paths) {
         if(rootNode == null){

@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     public boolean add(User user, String password) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
+                    PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_USER)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, password);
             statement.setString(3, user.getFirstName());
@@ -54,7 +54,7 @@ public class UserDaoImpl implements UserDao {
     public boolean updatePasswordByLogin(String login, String password) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PASSWORD_BY_LOGIN)) {
+                    PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PASSWORD_BY_LOGIN)) {
             statement.setString(1, password);
             statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
@@ -68,7 +68,7 @@ public class UserDaoImpl implements UserDao {
     public boolean updateUser(User newUser, String oldLogin) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_USER_BY_LOGIN)) {
+                     PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_USER_BY_LOGIN)) {
             statement.setString(1, newUser.getLogin());
             statement.setString(2, newUser.getFirstName());
             statement.setString(3, newUser.getLastName());
@@ -86,7 +86,7 @@ public class UserDaoImpl implements UserDao {
     public boolean updateAvatarByLogin(String login, InputStream inputStream) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_AVATAR_BY_LOGIN)) {
+                   PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_AVATAR_BY_LOGIN)) {
             statement.setBlob(1, inputStream);
             statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
@@ -106,7 +106,7 @@ public class UserDaoImpl implements UserDao {
         Optional<User> foundUser = Optional.empty();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_LOGIN)) {
+                     PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_LOGIN)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -123,24 +123,25 @@ public class UserDaoImpl implements UserDao {
         Optional<User> user = Optional.empty();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_EMAIL)) {
+                    PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_EMAIL)) {
             statement.setString(1, email);
+
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 user = Optional.of(createUserFromResultSet(resultSet));
             }
-            return user;
         } catch (SQLException exp) {
             throw new DaoException(exp);
         }
+        return user;
     }
 
     @Override
-    public Optional<User> findByPhone(String phone) throws DaoException {
+    public Optional<User> findByTelephoneNumber(String phone) throws DaoException {
         Optional<User> user = Optional.empty();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_PHONE)) {
+                   PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_PHONE)) {
             statement.setString(1, phone);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -157,7 +158,7 @@ public class UserDaoImpl implements UserDao {
         Optional<String> password = Optional.empty();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_PASSWORD_BY_LOGIN)) {
+                    PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_PASSWORD_BY_LOGIN)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -174,7 +175,7 @@ public class UserDaoImpl implements UserDao {
         Optional<User> foundUser = Optional.empty();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_LOGIN_AND_PASSWORD)) {
+                  PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_LOGIN_AND_PASSWORD)) {
             statement.setString(1, login);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();

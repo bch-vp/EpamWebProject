@@ -2,7 +2,6 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
-import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.parameter.PropertieKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
@@ -19,17 +18,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static by.epam.project.controller.parameter.ErrorKey.ERROR;
+import static by.epam.project.controller.parameter.ErrorKey.LOGIN_NOT_UNIQUE;
 import static by.epam.project.controller.parameter.ParameterKey.*;
-import static by.epam.project.controller.parameter.ParameterKey.NOT_UNIQUE;
 
 public class UpdateProfileCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
+
+    private static final String EMPTY_JSON_TREE_OBJECT = "{}";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String language = (String) session.getAttribute(LANGUAGE);
-        String responseJson = null;
 
         Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
@@ -43,47 +44,54 @@ public class UpdateProfileCommand implements Command {
         User user = (User) session.getAttribute(USER);
         int roleId = user.getRole().getRoleId();
 
+        Map<String, String> requestData = UserValidator.validateParameters(login, email, firstName, lastName, telephoneNumber);
+
+        //if not correct request data
+        if (!UserValidator.defineIncorrectValues(requestData)) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
         try {
-            Map<String, String> requestData = userService.defineSignUpData(login, email, firstName, lastName, telephoneNumber);
-
-            if (UserValidator.defineIncorrectValues(requestData)) {
-
-                User newUser = new User(login, firstName, lastName, telephoneNumber, email,
-                        roleId,false);
-                userService.updateUser(newUser, oldLogin);
-
-                session.setAttribute(USER, newUser);
-
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-
-                JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);
-
-                if (requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE) && !user.getLogin().equals(login)) {
-                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.LOGIN_NOT_UNIQUE, error, ErrorKey.ERROR);
-                }
-                if (requestData.get(TELEPHONE_NUMBER_UNIQUE).equals(NOT_UNIQUE)
-                        && !user.getTelephoneNumber().equals(telephoneNumber)) {
-                    String error = ContentUtil.getWithLocale(language,
-                            PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ErrorKey.ERROR);
-                }
-                if (requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE) && !user.getEmail().equals(email)) {
-                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
-                    JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
-                }
-
-                responseJson = JsonUtil.jsonTreeToJson(jsonTree);
+            JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
+            //if login not unique and our user doesn't contain this login
+            if (!userService.isLoginUnique(login) && !user.getLogin().equals(login)) {
+                String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
             }
+            //if telephone number not unique and our user doesn't contain this telephone number
+            if (!userService.isTelephoneNumberUnique(telephoneNumber) &&
+                    !user.getTelephoneNumber().equals(telephoneNumber)) {
+                String error = ContentUtil.getWithLocale(language,
+                        PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
+            }
+            //if email not unique and our user doesn't contain this email
+            if (!userService.isEmailUnique(email) && !user.getEmail().equals(email)) {
+                String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
+            }
+
+
+            //if find some wrong datas
+            if (!jsonTree.path(ERROR).isEmpty()) {
+                String responseJson = JsonUtil.jsonTreeToJson(jsonTree);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setContentType(CONTENT_TYPE);
+                response.setCharacterEncoding(ENCODING);
+                response.getWriter().write(responseJson);
+                return;
+            }
+
+            //if everything is OK
+            User newUser = new User(login, firstName, lastName, telephoneNumber, email,
+                    roleId, false);
+            userService.updateUser(newUser, oldLogin);
+            session.setAttribute(USER, newUser);
+            response.setStatus(HttpServletResponse.SC_OK);
+
         } catch (ServiceException exp) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-        if (responseJson != null && !responseJson.isEmpty()) {
-            response.setContentType(CONTENT_TYPE);
-            response.setCharacterEncoding(ENCODING);
-            response.getWriter().write(responseJson);
         }
     }
 }

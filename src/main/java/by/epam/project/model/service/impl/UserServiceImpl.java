@@ -19,6 +19,7 @@ import static by.epam.project.controller.parameter.ParameterKey.NOT_UNIQUE;
 
 public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
+    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
 
     private UserServiceImpl() {
     }
@@ -29,92 +30,64 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> signInUser(String login, String password) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
         String encryptPassword = EncryptPassword.encryption(password);
+        Optional<User> foundUser;
+
         try {
-            Optional<User> foundUser = userDao.findByLoginAndPassword(login, encryptPassword);
-            return foundUser;
+            foundUser = userDao.findByLoginAndPassword(login, encryptPassword);
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign in user", exp);
         }
+
+        return foundUser;
     }
 
     @Override
     public boolean updateAvatarByLogin(String login, InputStream inputStream) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
         boolean isUpdated;
+
         try {
             isUpdated = userDao.updateAvatarByLogin(login, inputStream);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during updating avatar", exp);
+            throw new ServiceException("Error during updating user's avatar", exp);
         }
+
         return isUpdated;
     }
 
     @Override
     public boolean signUpUser(User user, String password) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
         boolean isSignedUp;
         String encryptPassword = EncryptPassword.encryption(password);
+
         try {
             isSignedUp = userDao.add(user, encryptPassword);
         } catch (DaoException exp) {
             throw new ServiceException("Error during sign up user", exp);
         }
+
         return isSignedUp;
     }
 
     @Override
-    public Map<String, String> defineSignUpData(String login, String password, String email, String firstName,
-                                                String lastName, String phone) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
-
-        Map<String, String> signUpData =
-                UserValidator.validateParameters(login, password, email, firstName, lastName, phone);
-        try {
-            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
-                    .isEmpty()
-                    ? (login == null ? EMPTY_STRING : login)
-                    : NOT_UNIQUE);
-            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
-                    .isEmpty()
-                    ? (email == null ? EMPTY_STRING : email)
-                    : NOT_UNIQUE);
-            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
-                    .isEmpty()
-                    ? (phone == null ? EMPTY_STRING : phone)
-                    : NOT_UNIQUE);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during define sign up data", exp);
-        }
-        return signUpData;
-    }
-
-    @Override
     public boolean updateUser(User newUser, String oldLogin) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
         boolean isUpdated;
 
         try {
             isUpdated = userDao.updateUser(newUser, oldLogin);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during updating user", exp);
+            throw new ServiceException("Error during updating info about user", exp);
         }
-        return isUpdated;
-    }
 
-    @Override
-    public Map<String, String> defineUniqueData(String login, String email, String phone) throws ServiceException {
-        return null;
+        return isUpdated;
     }
 
     @Override
     public Map<String, String> defineSignUpData(String login, String email, String firstName,
                                                 String lastName, String phone) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
-
         Map<String, String> signUpData =
                 UserValidator.validateParameters(login, email, firstName, lastName, phone);
+
         try {
             signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
                     .isEmpty()
@@ -124,13 +97,40 @@ public class UserServiceImpl implements UserService {
                     .isEmpty()
                     ? (email == null ? EMPTY_STRING : email)
                     : NOT_UNIQUE);
-            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByPhone(phone)
+            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByTelephoneNumber(phone)
                     .isEmpty()
                     ? (phone == null ? EMPTY_STRING : phone)
                     : NOT_UNIQUE);
         } catch (DaoException exp) {
             throw new ServiceException("Error during define sign up data", exp);
         }
+
+        return signUpData;
+    }
+
+    @Override
+    public Map<String, String> defineSignUpData(String login, String password, String email, String firstName,
+                                                String lastName, String phone) throws ServiceException {
+        Map<String, String> signUpData =
+                UserValidator.validateParameters(login, password, email, firstName, lastName, phone);
+
+        try {
+            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
+                    .isEmpty()
+                    ? (login == null ? EMPTY_STRING : login)
+                    : NOT_UNIQUE);
+            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
+                    .isEmpty()
+                    ? (email == null ? EMPTY_STRING : email)
+                    : NOT_UNIQUE);
+            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByTelephoneNumber(phone)
+                    .isEmpty()
+                    ? (phone == null ? EMPTY_STRING : phone)
+                    : NOT_UNIQUE);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during define sign up data", exp);
+        }
+
         return signUpData;
     }
 
@@ -161,57 +161,100 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByLogin(String login) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
         Optional<User> user;
+
         try {
             user = userDao.findByLogin(login);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during define data", exp);
+            throw new ServiceException("Error during finding user by login", exp);
         }
+
         return user;
     }
 
     @Override
     public boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        Optional<String> userPassword;
+
         try {
-            Optional<String> userPassword = userDao.findPasswordByLogin(login);
-            if (userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get())) {
-                return false;
-            }else {
-                return true;
-            }
+            userPassword = userDao.findPasswordByLogin(login);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during sign in user", exp);
+            throw new ServiceException("Error during checking is password equal Login's password", exp);
         }
+
+        return userPassword.isEmpty() || !EncryptPassword.encryption(password).equals(userPassword.get());
     }
 
     @Override
     public boolean updatePasswordByLogin(String login, String password) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
         boolean isUpdated;
         String encryptPassword = EncryptPassword.encryption(password);
+
         try {
             isUpdated = userDao.updatePasswordByLogin(login, encryptPassword);
-            return isUpdated;
         } catch (DaoException exp) {
-            throw new ServiceException("Error during sign in user", exp);
+            throw new ServiceException("Error during updating user password by login", exp);
         }
+
+        return isUpdated;
     }
 
     @Override
     public boolean isActivated(String login) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
-        boolean isActivated;
+        Optional<User> userOptional;
+
         try {
-            Optional<User> userOptional = userDao.findByLogin(login);
-            if(userOptional.isEmpty()){
-                return false;
-            }
-            User user = userOptional.get();
-            return user.isActivated();
+            userOptional = userDao.findByLogin(login);
         } catch (DaoException exp) {
             throw new ServiceException("Error during checking user activated status", exp);
         }
+
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+        User user = userOptional.get();
+        return user.isActivated();
+    }
+
+    @Override
+    public boolean isLoginUnique(String login) throws ServiceException {
+        boolean isUnique;
+        Optional<User> userOptional;
+
+        try {
+            userOptional = userDao.findByLogin(login);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during checking is login unique", exp);
+        }
+
+        return userOptional.isEmpty();
+    }
+
+    @Override
+    public boolean isEmailUnique(String email) throws ServiceException {
+        boolean isUnique;
+        Optional<User> userOptional;
+
+        try {
+            userOptional = userDao.findByEmail(email);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during checking is email unique", exp);
+        }
+
+        return userOptional.isEmpty();
+    }
+
+    @Override
+    public boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException {
+        boolean isUnique;
+        Optional<User> userOptional;
+
+        try {
+            userOptional = userDao.findByTelephoneNumber(telephoneNumber);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during checking is telephone number unique", exp);
+        }
+
+        return userOptional.isEmpty();
     }
 }

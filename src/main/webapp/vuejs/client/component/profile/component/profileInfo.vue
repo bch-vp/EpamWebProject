@@ -95,17 +95,6 @@ export default {
       pathh: "ajax?command=load_file",
     }
   },
-  created() {
-    this.axios({
-      method: 'post',
-      url: '/ajax?command=load_file',
-    }).then(response => {
-      console.log('SUCCESS!!');
-
-    }, ex => {
-      console.log('FAILURE!!');
-    })
-  },
   methods: {
     handleFileUpload() {
 
@@ -125,8 +114,6 @@ export default {
       }, ex => {
         console.log('FAILURE!!');
       })
-
-
     }
   }
 

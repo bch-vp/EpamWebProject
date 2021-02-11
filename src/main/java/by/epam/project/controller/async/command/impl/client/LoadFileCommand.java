@@ -35,7 +35,6 @@ public class LoadFileCommand implements Command {
         }
 
 //        response.setHeader(CONTENT_TYPE, "image/jpeg");
-        System.out.println(response.getContentType());
         response.getOutputStream().write(bytes);
 //        response.setHeader(CONTENT_LENGTH, St
 //        ring.valueOf(Files.size(path)));
