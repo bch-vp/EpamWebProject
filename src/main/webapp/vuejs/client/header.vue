@@ -28,7 +28,8 @@
       <!--      </v-btn>-->
 
       <v-btn rounded text>
-        <v-icon>
+        <img v-if="$store.state.Profile.isAvatarExists" :src="$store.state.Profile.avatarUrl" class="avatar"/>
+        <v-icon v-if="!$store.state.Profile.isAvatarExists">
           perm_identity
         </v-icon>
         &nbsp
@@ -76,7 +77,8 @@
 export default {
   data(){
     return{
-      text_page:text_page
+      text_page:text_page,
+      isAvatarExists:undefined,
     }
   },
   methods: {
@@ -90,5 +92,11 @@ export default {
 <style scoped>
 .list-item {
   justify-content: center;
+}
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 </style>

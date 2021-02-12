@@ -1,7 +1,7 @@
 package by.epam.project.controller.sync.command.impl;
 
 import by.epam.project.controller.parameter.ErrorKey;
-import by.epam.project.controller.parameter.PropertieKey;
+import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.*;
 import by.epam.project.exception.ServiceException;
@@ -60,7 +60,7 @@ public class SignInCommand implements Command {
                     return router;
 
                 } else {
-                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_IN_NOT_FOUND);
+                    String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_IN_NOT_FOUND);
                     session.setAttribute(ErrorKey.LOGIN_NOT_FOUND, error);
 
                     router.setRedirect();

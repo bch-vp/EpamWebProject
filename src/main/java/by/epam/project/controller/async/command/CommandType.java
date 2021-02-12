@@ -1,11 +1,6 @@
 package by.epam.project.controller.async.command;
 
-import by.epam.project.controller.async.command.impl.CheckLoginExistenceCommand;
-import by.epam.project.controller.async.command.impl.UpdateProfileCommand;
-import by.epam.project.controller.async.command.impl.LoadProfileImageCommand;
-import by.epam.project.controller.async.command.impl.UploadProfileImageCommand;
-import by.epam.project.controller.async.command.impl.ChangePasswordByEmailCommand;
-import by.epam.project.controller.async.command.impl.SignUpCommand;
+import by.epam.project.controller.async.command.impl.*;
 
 public enum CommandType {
     SIGN_UP(new SignUpCommand()),
@@ -13,7 +8,8 @@ public enum CommandType {
     CHANGE_PASSWORD_BY_EMAIL(new ChangePasswordByEmailCommand()),
     UPDATE_PROFILE(new UpdateProfileCommand()),
     LOAD_PROFILE_IMAGE(new LoadProfileImageCommand()),
-    UPLOAD_PROFILE_IMAGE(new UploadProfileImageCommand());
+    UPLOAD_PROFILE_IMAGE(new UploadProfileImageCommand()),
+    DELETE_PROFILE_IMAGE(new DeleteProfileImage());
 
     private final Command command;
 

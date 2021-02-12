@@ -20,4 +20,5 @@ public interface UserDao extends BaseDao<User>{
     Optional<String> findPasswordByLogin(String login) throws DaoException;
     boolean activateUser(String login) throws DaoException;
     Optional<User> findByLoginAndPassword(String login, String password) throws DaoException;
+    boolean removeAvatarByLogin(String login) throws DaoException;
 }

@@ -1,6 +1,6 @@
 package by.epam.project.controller.parameter;
 
-public class PropertieKey {
+public class ContentKey {
     public static final String INFO_CHANGING_PASSWORD_EMAIL_CONFIRMATION = "form_component.info.check_email.unique_code";
     public static final String ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT =
             "form_component.error.email_incorrect";
@@ -27,6 +27,6 @@ public class PropertieKey {
     public static final String ERROR_PROFILE_AVATAR_PARSE_REQUEST = "profile_component.avatar.error.parse_request";
 
 
-    private PropertieKey() {
+    private ContentKey() {
     }
 }

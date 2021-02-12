@@ -135,6 +135,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean removeAvatarByLogin(String login) throws ServiceException {
+        boolean isDeleted;
+
+        try {
+            isDeleted = userDao.removeAvatarByLogin(login);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during remove user's avatar", exp);
+        }
+
+        return isDeleted;
+    }
+
+    @Override
     public List<User> findAllUsers() throws ServiceException {
         return null;
     }

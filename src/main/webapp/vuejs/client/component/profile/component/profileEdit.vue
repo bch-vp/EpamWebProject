@@ -21,35 +21,19 @@
         </div>
       </v-col>
     </v-row>
-    <div v-if="error.login_not_unique">
-      <v-row justify="center">
-        <div class="title font-weight-regular" style="color: green">{{ success }}</div>
-      </v-row>
-      <br><br>
-    </div>
-    <div v-if="error.login_not_unique">
-      <v-row>
-        <div style="color: red">{{ error.login_not_unique }}</div>
-      </v-row>
-      <br>
-    </div>
-    <div v-if="error.telephone_number_not_unique">
-      <v-row>
-        <div style="color: red">{{ error.telephone_number_not_unique }}</div>
-      </v-row>
-      <br>
-    </div>
-    <div v-if="error.email_not_unique">
-      <v-row>
-        <div style="color: red">{{ error.email_not_unique }}</div>
-      </v-row>
-    </div>
+
+    <div align="center" class="text-h6 font-weight-regular center" style="color: green">{{ success }}</div>
+    <div style="color: red">{{ error.login_not_unique }}</div>
+    <div style="color: red">{{ error.telephone_number_not_unique }}</div>
+    <div style="color: red">{{ error.email_not_unique }}</div>
+    <br>
 
 
     <v-row>
       <v-col>
         <div align="center">
-          <img src="ajax?command=load_profile_image" alt="Problem with loading of photo" class="profile-image"/>
+          <img v-if="$store.state.Profile.isAvatarExists" :src="$store.state.Profile.avatarUrl" class="profile-image"/>
+          <div v-if="!$store.state.Profile.isAvatarExists" class="profile-standard-image"/>
         </div>
       </v-col>
       <v-col>
@@ -152,8 +136,6 @@ export default {
       email: text_page.profile_component.email.value,
       valid: false,
 
-      validCount:0,
-
       rules: {
         login: [
           v => !!v || this.text_page.form_component.input.login.error.required,
@@ -211,6 +193,7 @@ export default {
     }
   },
   created() {
+    //info
     this.valid = false
     this.axios.interceptors.request.use(
         conf => {
@@ -234,7 +217,7 @@ export default {
     );
   },
   beforeUpdate() {
-      this.checkChange()
+    this.checkChange()
   },
   methods: {
     submit() {
@@ -251,6 +234,8 @@ export default {
             email: this.email
           }
         }).then(response => {
+              this.reset()
+              this.success = this.text_page.form_component.info.success
               this.error.login_not_unique = undefined
               this.error.telephone_number_not_unique = undefined
               this.error.email_not_unique = undefined
@@ -265,6 +250,7 @@ export default {
             },
             ex => {
               if (ex.response.status === 400) {
+                this.reset()
                 this.login = this.text_page.profile_component.login.value
                 this.first_name = this.text_page.profile_component.first_name.value
                 this.last_name = this.text_page.profile_component.last_name.value
@@ -297,8 +283,12 @@ export default {
           && this.telephone_number === this.text_page.profile_component.telephone_number.value
           && this.email === this.text_page.profile_component.email.value) {
         this.valid = false
-      }else{
-        this.valid = true
+      } else {
+        if (this.$refs.form.validate()) {
+          this.valid = true
+        } else {
+          this.valid = false
+        }
       }
     },
     showSpinner() {
@@ -314,6 +304,18 @@ export default {
 <style scoped>
 .profile-image {
   background-color: black;
+  height: 14em;
+  width: 15em;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.profile-standard-image {
+  background-color: black;
+  border: 1px solid;
+  border-color: white;
   height: 14em;
   width: 15em;
   background-position: center;

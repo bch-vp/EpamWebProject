@@ -60,12 +60,25 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                bytesOptional =  Optional.of(resultSet.getBytes(AVATAR));
+                bytesOptional =  Optional.ofNullable(resultSet.getBytes(AVATAR));
             }
         } catch (SQLException exp) {
             throw new DaoException(exp);
         }
         return bytesOptional;
+    }
+
+    @Override
+    public boolean removeAvatarByLogin(String login) throws DaoException {
+        boolean isRemoved;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.REMOVE_AVATAR_BY_LOGIN)) {
+            statement.setString(1, login);
+            isRemoved = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return isRemoved;
     }
 
     @Override

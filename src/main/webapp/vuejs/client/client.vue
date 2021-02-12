@@ -29,6 +29,17 @@ export default {
     }
   },
   created() {
+    //avatar
+    this.axios({
+      method: 'get',
+      url: '/ajax?command=load_profile_image',
+    }).then(response => {
+      console.log('avatar exist')
+      this.isAvatarExists = true
+    }, ex => {
+      console.log('avatar exist')
+      this.isAvatarExists = false
+    })
   },
   methods: {
   }

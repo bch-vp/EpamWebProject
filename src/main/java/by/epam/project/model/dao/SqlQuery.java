@@ -17,6 +17,7 @@ public class SqlQuery {
             " last_name = ?, telephone_number = ?, email = ? WHERE login = ?";
     public static final String FIND_AVATAR_BY_LOGIN = "SELECT avatar FROM users WHERE login = ?";
     public static final String UPDATE_AVATAR_BY_LOGIN = "UPDATE users SET avatar = ? WHERE login = ?";
+    public static final String REMOVE_AVATAR_BY_LOGIN = "UPDATE users SET avatar = NULL where login = ?";
 
 
     private SqlQuery() {

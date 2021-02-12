@@ -31,4 +31,5 @@ public interface UserService {
     boolean isLoginUnique(String login) throws ServiceException;
     boolean isEmailUnique(String email) throws ServiceException;
     boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException;
+    boolean removeAvatarByLogin(String login) throws ServiceException;
 }

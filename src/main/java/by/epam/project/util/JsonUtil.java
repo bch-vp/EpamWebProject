@@ -1,6 +1,5 @@
 package by.epam.project.util;
 
-import by.epam.project.controller.parameter.PropertieKey;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,9 +8,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-
-import static by.epam.project.controller.parameter.ErrorKey.ERROR;
-import static by.epam.project.controller.parameter.ErrorKey.LOGIN_NOT_UNIQUE;
 
 public class JsonUtil {
     private static final JsonUtil instance = new JsonUtil();

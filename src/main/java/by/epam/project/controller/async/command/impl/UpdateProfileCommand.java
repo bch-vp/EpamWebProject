@@ -2,7 +2,7 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
-import by.epam.project.controller.parameter.PropertieKey;
+import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.ErrorKey.ERROR;
-import static by.epam.project.controller.parameter.ErrorKey.LOGIN_NOT_UNIQUE;
+import static by.epam.project.controller.parameter.ErrorKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UpdateProfileCommand implements Command {
@@ -60,20 +59,20 @@ public class UpdateProfileCommand implements Command {
             JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
             //if login not unique and our user doesn't contain this login
             if (!userService.isLoginUnique(login) && !user.getLogin().equals(login)) {
-                String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
                 JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
             }
             //if telephone number not unique and our user doesn't contain this telephone number
             if (!userService.isTelephoneNumberUnique(telephoneNumber) &&
                     !user.getTelephoneNumber().equals(telephoneNumber)) {
                 String error = ContentUtil.getWithLocale(language,
-                        PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+                        ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
                 JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
             }
             //if email not unique and our user doesn't contain this email
             if (!userService.isEmailUnique(email) && !user.getEmail().equals(email)) {
-                String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
+                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
             }
 
 

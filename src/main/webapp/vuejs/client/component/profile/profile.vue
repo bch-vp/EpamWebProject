@@ -22,9 +22,6 @@ import ProfileEdit from 'vuejs/client/component/profile/component/profileEdit.vu
 
 export default {
   components: {ProfileInfo, ProfileEdit},
-  created() {
-    this.showProfileInfo()
-  },
   data() {
     return {
       text_page: text_page,
@@ -32,6 +29,21 @@ export default {
       isProfileInfo: false,
       isProfileEdit: false
     }
+  },
+  created() {
+    this.showProfileInfo()
+
+    //avatar
+    this.axios({
+      method: 'get',
+      url: '/ajax?command=load_profile_image',
+    }).then(response => {
+      console.log('avatar exist')
+      this.$store.commit('set_isAvatarExists', true)
+    }, ex => {
+      console.log('avatar exist')
+      this.$store.commit('set_isAvatarExists', false)
+    })
   },
   methods: {
     clearAllComponents() {

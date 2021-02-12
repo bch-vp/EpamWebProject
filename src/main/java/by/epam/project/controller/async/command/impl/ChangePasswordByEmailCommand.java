@@ -2,7 +2,7 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
-import by.epam.project.controller.parameter.PropertieKey;
+import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.EmailService;
@@ -64,7 +64,7 @@ public class ChangePasswordByEmailCommand implements Command {
             if (!user.getEmail().equals(email)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 String errorEmailIncorrect = ContentUtil.getWithLocale(locale,
-                        PropertieKey.ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT);
+                        ContentKey.ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT);
 
                 Map<String, String> responseMap = new HashMap<>();
                 responseMap.put(ErrorKey.ERROR, errorEmailIncorrect);
@@ -83,15 +83,15 @@ public class ChangePasswordByEmailCommand implements Command {
                 session.setAttribute(UNIQUE_KEY, uniqueKey);
 
                 String emailSubjectWithLocale = ContentUtil.getWithLocale(locale,
-                        PropertieKey.EMAIL_SUBJECT_GUEST_CHANGING_PASSWORD);
+                        ContentKey.EMAIL_SUBJECT_GUEST_CHANGING_PASSWORD);
                 String emailBodyWithLocale = ContentUtil.getWithLocale(locale,
-                        PropertieKey.EMAIL_BODY_GUEST_CHANGING_PASSWORD);
+                        ContentKey.EMAIL_BODY_GUEST_CHANGING_PASSWORD);
 
                 emailService.sendConfirmationChangingPassword(user, emailSubjectWithLocale,
                         emailBodyWithLocale, uniqueKey);
 
                 String emailNotificationWithLocale = ContentUtil.getWithLocale(locale,
-                        PropertieKey.INFO_CHANGING_PASSWORD_EMAIL_CONFIRMATION);
+                        ContentKey.INFO_CHANGING_PASSWORD_EMAIL_CONFIRMATION);
 
                 Map<String, String> responseMap = new HashMap<>();
                 responseMap.put(ErrorKey.ERROR, emailNotificationWithLocale);
@@ -106,7 +106,7 @@ public class ChangePasswordByEmailCommand implements Command {
             // if uniqueKey from request not equal session uniqueKey
             if (!requestUniqueKey.equals(sessionUniqueKey)) {
                 String emailNotificationWithLocale = ContentUtil.getWithLocale(locale,
-                        PropertieKey.ERROR_CHANGING_PASSWORD_UNIQUE_KEY_INCORRECT);
+                        ContentKey.ERROR_CHANGING_PASSWORD_UNIQUE_KEY_INCORRECT);
 
                 Map<String, String> responseMap = new HashMap<>();
                 responseMap.put(ErrorKey.ERROR, emailNotificationWithLocale);
@@ -127,7 +127,7 @@ public class ChangePasswordByEmailCommand implements Command {
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
                 String errorTimeExpired = ContentUtil.getWithLocale(locale,
-                        PropertieKey.ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED);
+                        ContentKey.ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED);
 
                 Map<String, String> responseMap = new HashMap<>();
                 responseMap.put(ErrorKey.ERROR, errorTimeExpired);

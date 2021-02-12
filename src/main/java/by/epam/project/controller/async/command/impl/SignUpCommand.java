@@ -3,7 +3,7 @@ package by.epam.project.controller.async.command.impl;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.PagePath;
-import by.epam.project.controller.parameter.PropertieKey;
+import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.EmailServiceImpl;
@@ -57,9 +57,9 @@ public class SignUpCommand implements Command {
                 String locale = (String) session.getAttribute(LANGUAGE);
 
                 String emailSubjectWithLocale = ContentUtil.getWithLocale(locale,
-                        PropertieKey.EMAIL_SUBJECT_ACTIVATION_SIGN_UP);
+                        ContentKey.EMAIL_SUBJECT_ACTIVATION_SIGN_UP);
                 String emailBodyWithLocale = ContentUtil.getWithLocale(locale,
-                        PropertieKey.EMAIL_BODY_ACTIVATION_SIGN_UP);
+                        ContentKey.EMAIL_BODY_ACTIVATION_SIGN_UP);
 
                 emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
                         emailBodyWithLocale, PagePath.EMAIL_ACTIVATION_LINK);
@@ -71,16 +71,16 @@ public class SignUpCommand implements Command {
                 JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);
 
                 if (requestData.get(LOGIN_UNIQUE).equals(NOT_UNIQUE)) {
-                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                    String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.LOGIN_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
                 if (requestData.get(TELEPHONE_NUMBER_UNIQUE).equals(NOT_UNIQUE)) {
                     String error = ContentUtil.getWithLocale(language,
-                            PropertieKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+                            ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
                 if (requestData.get(EMAIL_UNIQUE).equals(NOT_UNIQUE)) {
-                    String error = ContentUtil.getWithLocale(language, PropertieKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+                    String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
 

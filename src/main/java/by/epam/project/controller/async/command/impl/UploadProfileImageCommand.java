@@ -1,10 +1,11 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.parameter.ErrorKey;
+import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -23,8 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
+import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
-import static by.epam.project.controller.parameter.PropertieKey.*;
+import static by.epam.project.controller.parameter.ContentKey.*;
 
 public class UploadProfileImageCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -40,6 +42,7 @@ public class UploadProfileImageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
+        String language = (String) session.getAttribute(LANGUAGE);
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
@@ -57,14 +60,14 @@ public class UploadProfileImageCommand implements Command {
                 fileItems = upload.parseRequest(request);
             } catch (FileUploadException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_PARSE_REQUEST);
+                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_PARSE_REQUEST, language);
                 return;
             }
 
             //allowed only 1 file
             if (fileItems.size() != FILES_COUNT) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES);
+                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES, language);
                 return;
             }
 
@@ -72,7 +75,7 @@ public class UploadProfileImageCommand implements Command {
             FileItem file = fileItems.get(0);
             if (file.getSize() > FILE_MAX_SIZE) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_MAX_SIZE);
+                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_MAX_SIZE, language);
                 return;
             }
 
@@ -80,16 +83,15 @@ public class UploadProfileImageCommand implements Command {
             //can't be form field
             if (file.isFormField()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD);
+                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD, language);
                 return;
             }
-
 
             //wrong format file
             String contentType = file.getContentType();
             if (!FILE_TYPE.contains(contentType)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORMAT);
+                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORMAT, language);
                 return;
             }
 
@@ -101,9 +103,13 @@ public class UploadProfileImageCommand implements Command {
         }
     }
 
-    private void writeJsonToResponse(HttpServletResponse response, String key, String value) throws IOException {
+    private void writeJsonToResponse(HttpServletResponse response, String errorKey, String contentKey,
+                                     String language) throws IOException {
         Map<String, String> responseMap = new HashMap<>();
-        responseMap.put(key, value);
+
+        String contentValue = ContentUtil.getWithLocale(language, contentKey);
+
+        responseMap.put(errorKey, contentValue);
 
         String json = JsonUtil.toJson(responseMap);
 

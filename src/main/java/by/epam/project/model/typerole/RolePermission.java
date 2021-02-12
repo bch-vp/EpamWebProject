@@ -17,6 +17,7 @@ public enum RolePermission {
             "UPDATE_PROFILE",
             "LOAD_PROFILE_IMAGE",
             "UPLOAD_PROFILE_IMAGE",
+            "DELETE_PROFILE_IMAGE",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",// TODO
             "CHECK_LOGIN_EXISTENCE",
             "SIGN_OUT"
