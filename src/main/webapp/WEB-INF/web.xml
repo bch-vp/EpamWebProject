@@ -8,6 +8,18 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <!--type command filter-->
+    <filter>
+        <filter-name>commandTypeSecurityFilter</filter-name>
+        <filter-class>by.epam.project.controller.filter.CommandTypeSecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>commandTypeSecurityFilter</filter-name>
+        <url-pattern>/do</url-pattern>
+        <url-pattern>/ajax</url-pattern>
+    </filter-mapping>
+
+    <!--empty command filter-->
     <filter>
         <filter-name>emptyCommandRoleSecurityFilter</filter-name>
         <filter-class>by.epam.project.controller.filter.EmptyCommandRoleSecurityFilter</filter-class>
@@ -15,8 +27,10 @@
     <filter-mapping>
         <filter-name>emptyCommandRoleSecurityFilter</filter-name>
         <url-pattern>/do</url-pattern>
+        <url-pattern>/ajax</url-pattern>
     </filter-mapping>
 
+    <!--role command filter-->
     <filter>
         <filter-name>commandRoleSecurityFilter</filter-name>
         <filter-class>by.epam.project.controller.filter.CommandRoleSecurityFilter</filter-class>
@@ -24,19 +38,10 @@
     <filter-mapping>
         <filter-name>commandRoleSecurityFilter</filter-name>
         <url-pattern>/do</url-pattern>
-    </filter-mapping>
-
-    //
-    <filter-mapping>
-        <filter-name>emptyCommandRoleSecurityFilter</filter-name>
         <url-pattern>/ajax</url-pattern>
     </filter-mapping>
 
-    <filter-mapping>
-        <filter-name>commandRoleSecurityFilter</filter-name>
-        <url-pattern>/ajax</url-pattern>
-    </filter-mapping>
-
+    <!--encoding filter-->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>by.epam.project.controller.filter.EncodingFilter</filter-class>
@@ -47,9 +52,11 @@
     </filter>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/do</url-pattern>
+        <url-pattern>/ajax</url-pattern>
     </filter-mapping>
 
+    <!--sync servlet-->
     <servlet>
         <servlet-name>SyncServlet</servlet-name>
         <servlet-class>by.epam.project.controller.sync.Controller</servlet-class>
@@ -59,6 +66,7 @@
         <url-pattern>/do</url-pattern>
     </servlet-mapping>
 
+    <!--async servlet-->
     <servlet>
         <servlet-name>AsyncServlet</servlet-name>
         <servlet-class>by.epam.project.controller.async.Controller</servlet-class>
@@ -68,6 +76,7 @@
         <url-pattern>/ajax</url-pattern>
     </servlet-mapping>
 
+    <!--error pages-->
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/jsp/error404.jsp</location>

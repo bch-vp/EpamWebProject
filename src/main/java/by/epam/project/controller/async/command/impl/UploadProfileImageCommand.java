@@ -31,7 +31,7 @@ public class UploadProfileImageCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
 
-    static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
+    static final int FILE_MAX_SIZE = 1024 * 512;
     private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
 
     private static final int FILES_COUNT = 1;

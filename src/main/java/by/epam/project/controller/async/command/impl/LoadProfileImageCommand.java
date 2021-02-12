@@ -37,7 +37,6 @@ public class LoadProfileImageCommand implements Command {
         }
 
         if(bytesOptional.isEmpty()){
-            //error avatar not found for this login TODO
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }

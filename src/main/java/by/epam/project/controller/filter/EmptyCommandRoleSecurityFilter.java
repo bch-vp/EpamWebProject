@@ -17,9 +17,7 @@ import static by.epam.project.controller.parameter.ParameterKey.USER;
 public class EmptyCommandRoleSecurityFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
+    public void init(FilterConfig filterConfig){}
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
