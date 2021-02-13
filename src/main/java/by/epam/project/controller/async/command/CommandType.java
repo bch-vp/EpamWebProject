@@ -9,6 +9,7 @@ public enum CommandType {
     UPDATE_PROFILE(new UpdateProfileCommand()),
     LOAD_PROFILE_IMAGE(new LoadProfileImageCommand()),
     UPLOAD_PROFILE_IMAGE(new UploadProfileImageCommand()),
+    CHANGE_PASSWORD_BY_OLD_PASSWORD(new ChangePasswordByOldPassCommand()),
     DELETE_PROFILE_IMAGE(new DeleteProfileImage());
 
     private final Command command;

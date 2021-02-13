@@ -1,17 +1,24 @@
-package by.epam.project.util;
+package by.epam.project.controller.async.command.impl.util;
 
+import by.epam.project.util.ContentUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 public class JsonUtil {
     private static final JsonUtil instance = new JsonUtil();
     private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final String COMMAND_NAME = "command";
+    private static final String CONTENT_TYPE = "application/json";
+    private static final String ENCODING = "UTF-8";
 
     private JsonUtil() {
     }
@@ -29,7 +36,7 @@ public class JsonUtil {
         }
     }
 
-    public static String toJson(Map map) throws JsonProcessingException {
+    public static String toJson(Map<String, String> map) throws JsonProcessingException {
         return objectMapper.writeValueAsString(map);
     }
 
@@ -43,26 +50,30 @@ public class JsonUtil {
         }
     }
 
-    public static <T> T toMap(InputStream inputStream, Class<T> clazz)
+    public static void writeJsonToResponse(HttpServletResponse response, String errorKey, String contentKey, String language)
             throws IOException {
-        return objectMapper.readValue(inputStream, clazz);
+        Map<String, String> responseMap = new HashMap<>();
+        String contentValue = ContentUtil.getWithLocale(language, contentKey);
+        responseMap.put(errorKey, contentValue);
+
+        String json = JsonUtil.toJson(responseMap);
+
+        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(ENCODING);
+        response.getWriter().write(json);
     }
 
-//    public static void main(String[] args) {
-//        JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
-//        System.out.println(jsonTree.isEmpty());
-////        JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, "error", ERROR);
-//
-//        JsonNode jsonNode = jsonTree.path("error");
-//        System.out.println(jsonTree.path("error").isEmpty());
-//
-//
-//        System.out.println(jsonTree.size());
-//        System.out.println(jsonTree.path(0));
-//        System.out.println(jsonTree.path(1));
-////        System.out.println(jsonTree.path(ERROR).equals(EMPTY_JSON_TREE_OBJECT));
-//        System.out.println(jsonTree.path(ERROR).isEmpty());
-//    }
+    public static void writeJsonToResponse(HttpServletResponse response, String json) throws IOException {
+        if(json != null && !json.isEmpty()) {
+            response.setContentType(CONTENT_TYPE);
+            response.setCharacterEncoding(ENCODING);
+            response.getWriter().write(json);
+        }
+    }
+
+    public static <T> T toMap(InputStream inputStream, Class<T> clazz) throws IOException {
+        return objectMapper.readValue(inputStream, clazz);
+    }
 
     public static JsonNode addNodeToJsonTree(JsonNode rootNode, String key, String value, String... paths) {
         if(rootNode == null){

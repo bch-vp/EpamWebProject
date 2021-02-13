@@ -9,7 +9,7 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.EmailServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
-import by.epam.project.util.JsonUtil;
+import by.epam.project.controller.async.command.impl.util.JsonUtil;
 import by.epam.project.validator.UserValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.logging.log4j.LogManager;
@@ -85,19 +85,11 @@ public class SignUpCommand implements Command {
                 }
 
                 String responseJson = JsonUtil.jsonTreeToJson(jsonTree);
-                writeJsonToResponse(response, responseJson);
+                JsonUtil.writeJsonToResponse(response, responseJson);
             }
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    private void writeJsonToResponse(HttpServletResponse response, String json) throws IOException {
-        if(json != null && !json.isEmpty()) {
-            response.setContentType(CONTENT_TYPE);
-            response.setCharacterEncoding(ENCODING);
-            response.getWriter().write(json);
         }
     }
 }

@@ -1,12 +1,11 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
-import by.epam.project.util.JsonUtil;
+import by.epam.project.controller.async.command.impl.util.JsonUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -37,6 +36,7 @@ public class UploadProfileImageCommand implements Command {
     private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
 
     private static final int FILES_COUNT = 1;
+    private static final int FIRST = 0;
 
 
     @Override
@@ -60,38 +60,33 @@ public class UploadProfileImageCommand implements Command {
                 fileItems = upload.parseRequest(request);
             } catch (FileUploadException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_PARSE_REQUEST, language);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_PARSE_REQUEST, language);
                 return;
             }
 
-            //allowed only 1 file
             if (fileItems.size() != FILES_COUNT) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES, language);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES, language);
                 return;
             }
 
-            //file bigger then max size
-            FileItem file = fileItems.get(0);
+            FileItem file = fileItems.get(FIRST);
             if (file.getSize() > FILE_MAX_SIZE) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_MAX_SIZE, language);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_MAX_SIZE, language);
                 return;
             }
 
-
-            //can't be form field
             if (file.isFormField()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD, language);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD, language);
                 return;
             }
 
-            //wrong format file
             String contentType = file.getContentType();
             if (!FILE_TYPE.contains(contentType)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORMAT, language);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORMAT, language);
                 return;
             }
 
@@ -101,20 +96,5 @@ public class UploadProfileImageCommand implements Command {
             logger.error(e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private void writeJsonToResponse(HttpServletResponse response, String errorKey, String contentKey,
-                                     String language) throws IOException {
-        Map<String, String> responseMap = new HashMap<>();
-
-        String contentValue = ContentUtil.getWithLocale(language, contentKey);
-
-        responseMap.put(errorKey, contentValue);
-
-        String json = JsonUtil.toJson(responseMap);
-
-        response.setContentType(CONTENT_TYPE);
-        response.setCharacterEncoding(ENCODING);
-        response.getWriter().write(json);
     }
 }

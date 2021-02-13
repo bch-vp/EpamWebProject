@@ -7,6 +7,7 @@ public enum RolePermission {
     GUEST(Set.of(
             "PASSING_BY_GUEST",
             "CHANGE_LANGUAGE",
+            "CHECK_LOGIN_EXISTENCE",
             "SIGN_IN",
             "SIGN_UP",
             "CHANGE_PASSWORD_BY_EMAIL"
@@ -18,14 +19,13 @@ public enum RolePermission {
             "LOAD_PROFILE_IMAGE",
             "UPLOAD_PROFILE_IMAGE",
             "DELETE_PROFILE_IMAGE",
-            "CHANGE_PASSWORD_BY_OLD_PASSWORD",// TODO
-            "CHECK_LOGIN_EXISTENCE",
+            "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "SIGN_OUT"
     )),
     ADMIN(Set.of(
-            "PASSING_BY_ADMIN",
-            "CHANGE_LANGUAGE",
-            "SIGN_OUT"
+//            "PASSING_BY_ADMIN",
+//            "CHANGE_LANGUAGE",
+//            "SIGN_OUT"
     ));
 
     private final Set<String> commands;

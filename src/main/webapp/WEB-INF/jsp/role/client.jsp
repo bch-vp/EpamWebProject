@@ -82,6 +82,32 @@
                         one_upper_case_letter: "<fmt:message key="form_component.input.password.error.one_upper_case_letter"/>",
                     }
                 },
+                old_password: {
+                    name: "<fmt:message key="form_component.input.old_password"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.old_password.error.required"/>",
+                        valid_characters:"<fmt:message key="form_component.input.old_password.error.valid_characters"/>",
+                        min_length: "<fmt:message key="form_component.input.old_password.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.old_password.error.max_length"/>",
+                        spaces_prohibited: "<fmt:message key="form_component.input.old_password.error.spaces_prohibited"/>",
+                        one_digit: "<fmt:message key="form_component.input.old_password.error.one_digit"/>",
+                        one_lower_case_letter: "<fmt:message key="form_component.input.old_password.error.one_lower_case_letter"/>",
+                        one_upper_case_letter: "<fmt:message key="form_component.input.old_password.error.one_upper_case_letter"/>",
+                    }
+                },
+                new_password: {
+                    name: "<fmt:message key="form_component.input.new_password"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.new_password.error.required"/>",
+                        valid_characters:"<fmt:message key="form_component.input.new_password.error.valid_characters"/>",
+                        min_length: "<fmt:message key="form_component.input.new_password.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.new_password.error.max_length"/>",
+                        spaces_prohibited: "<fmt:message key="form_component.input.new_password.error.spaces_prohibited"/>",
+                        one_digit: "<fmt:message key="form_component.input.new_password.error.one_digit"/>",
+                        one_lower_case_letter: "<fmt:message key="form_component.input.new_password.error.one_lower_case_letter"/>",
+                        one_upper_case_letter: "<fmt:message key="form_component.input.new_password.error.one_upper_case_letter"/>",
+                    }
+                },
                 password_repeat: {
                     name: "<fmt:message key="form_component.input.password_repeat"/>",
                     error: {
@@ -147,6 +173,8 @@
             },
             error: {
                 login_not_found: "${login_not_found}",
+                old_password_not_equal_login_password:
+                    "<fmt:message key="form_component.error.old_password_not_equal_login_password"/>",
                 not_found: "<fmt:message key="form_component.error.not_found"/>",
                 time_expired: "<fmt:message key="form_component.error.time_expired"/>",
                 email_incorrect: "<fmt:message key="form_component.error.email_incorrect"/>",
@@ -154,6 +182,10 @@
             },
             button: {
                 submit: "<fmt:message key="form_component.button.submit"/>",
+                exit: "<fmt:message key="form_component.button.exit"/>",
+                change_password: "<fmt:message key="form_component.button.change_password"/>",
+                delete_avatar: "<fmt:message key="form_component.button.delete_avatar"/>",
+                edit_profile_info: "<fmt:message key="form_component.button.edit_profile_info"/>",
                 go_to_component: {
                     sign_up: "<fmt:message key="form_component.button.go_to_component.sign_up"/>",
                     sign_in: "<fmt:message key="form_component.button.go_to_component.sign_in"/>",

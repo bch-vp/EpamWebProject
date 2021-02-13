@@ -8,6 +8,8 @@ public class ContentKey {
             "form_component.error.unique_key_incorrect";
     public static final String ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED =
             "form_component.error.time_expired";
+    public static final String ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD =
+            "form_component.error.old_password_not_equal_login_password";
 
     public static final String EMAIL_SUBJECT_ACTIVATION_SIGN_UP = "email.subject.activation_sign_up";
     public static final String EMAIL_SUBJECT_GUEST_CHANGING_PASSWORD = "email.subject.guest.changing_password";
@@ -25,7 +27,6 @@ public class ContentKey {
     public static final String ERROR_PROFILE_AVATAR_FORMAT = "profile_component.avatar.error.format";
     public static final String ERROR_PROFILE_AVATAR_FORM_FIELD = "profile_component.avatar.error.form_field";
     public static final String ERROR_PROFILE_AVATAR_PARSE_REQUEST = "profile_component.avatar.error.parse_request";
-
 
     private ContentKey() {
     }

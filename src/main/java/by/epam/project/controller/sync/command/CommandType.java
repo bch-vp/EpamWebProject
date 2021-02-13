@@ -1,5 +1,6 @@
 package by.epam.project.controller.sync.command;
 
+import by.epam.project.controller.async.command.impl.ChangePasswordByOldPassCommand;
 import by.epam.project.controller.sync.command.impl.ChangeLanguageCommand;
 import by.epam.project.controller.sync.command.impl.PassingByAdminCommand;
 import by.epam.project.controller.sync.command.impl.SignOutCommand;

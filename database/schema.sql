@@ -3,20 +3,24 @@ CREATE SCHEMA IF NOT EXISTS `web_database` DEFAULT CHARACTER SET utf8mb4;
 
 USE `web_database`;
 
+DROP TABLE IF EXISTS `web_database`.`users`;
 CREATE TABLE IF NOT EXISTS `web_database`.`users`
 (
-    `id`       BIGINT      NOT NULL AUTO_INCREMENT,
-    `login`    VARCHAR(10) NOT NULL,
-    `password` VARCHAR(10) NOT NULL,
-    `name`    VARCHAR(10) NOT NULL,
-    `surname` VARCHAR(10) NOT NULL,
-    `phone`    VARCHAR(17) NOT NULL,
-    `email` VARCHAR(35) NOT NULL,
+    `id`               BIGINT      NOT NULL AUTO_INCREMENT,
+    `login`            VARCHAR(15) NOT NULL,
+    `password`         VARCHAR(50) NOT NULL,
+    `first_name`       VARCHAR(15) NOT NULL,
+    `last_name`        VARCHAR(15) NOT NULL,
+    `telephone_number` VARCHAR(17) NOT NULL,
+    `email`            VARCHAR(55) NOT NULL,
+    `role`             tinyint     NOT NULL,
+    `is_activated`     boolean DEFAULT FALSE,
+    `avatar`           MEDIUMBLOB,
     UNIQUE (`login`),
-    UNIQUE (`phone`),
+    UNIQUE (`telephone_number`),
     UNIQUE (`email`),
     PRIMARY KEY (`id`)
-)ENGINE = InnoDB;
+) ENGINE = InnoDB;
 
 # DROP TABLE IF EXISTS `web_database`.`details`;
 # CREATE TABLE IF NOT EXISTS `web_database`.`details`

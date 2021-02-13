@@ -9,7 +9,7 @@ import by.epam.project.model.service.EmailService;
 import by.epam.project.model.service.impl.EmailServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
-import by.epam.project.util.JsonUtil;
+import by.epam.project.controller.async.command.impl.util.JsonUtil;
 import by.epam.project.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
+import static by.epam.project.controller.parameter.ContentKey.*;
+import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ChangePasswordByEmailCommand implements Command {
@@ -33,6 +35,7 @@ public class ChangePasswordByEmailCommand implements Command {
     private static final int DIFF_RANGE = 900_000;
     private static final int MIN_RANGE = 100_000;
     private static final int TIMER_SEC = 300;
+    private static final int MILLISECONDS_PER_SECOND = 1000;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -40,15 +43,12 @@ public class ChangePasswordByEmailCommand implements Command {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
             HttpSession session = request.getSession();
 
-            String locale = (String) session.getAttribute(LANGUAGE);
-            String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
+            String language = (String) session.getAttribute(LANGUAGE);
 
             String login = (String) requestParameters.get(LOGIN);
             String email = (String) requestParameters.get(EMAIL);
             String newPassword = (String) requestParameters.get(NEW_PASSWORD);
-            String requestUniqueKey = (String) requestParameters.get(UNIQUE_KEY);
 
-            // if data not correct
             if (!UserValidator.isLoginCorrect(login)
                     || !UserValidator.isEmailCorrect(email)
                     || !UserValidator.isPasswordCorrect(newPassword)) {
@@ -56,97 +56,59 @@ public class ChangePasswordByEmailCommand implements Command {
                 return;
             }
 
-
             Optional<User> userOptional = userService.findUserByLogin(login);
             User user = userOptional.get();
 
-            // if email not equal with user's email
             if (!user.getEmail().equals(email)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                String errorEmailIncorrect = ContentUtil.getWithLocale(locale,
-                        ContentKey.ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT);
-
-                Map<String, String> responseMap = new HashMap<>();
-                responseMap.put(ErrorKey.ERROR, errorEmailIncorrect);
-
-                String json = JsonUtil.toJson(responseMap);
-                writeJsonToResponse(response, json);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT, language);
                 return;
             }
 
-            // if session not contain uniqueKey, that's why need to send new CODE to email
+            String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
             if (sessionUniqueKey == null || sessionUniqueKey.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                JsonUtil.writeJsonToResponse(response, ERROR, INFO_CHANGING_PASSWORD_EMAIL_CONFIRMATION, language);
+
                 int key = MIN_RANGE + new Random().nextInt(DIFF_RANGE);
                 String uniqueKey = String.valueOf(key);
 
                 session.setAttribute(TIME_CREATED, System.currentTimeMillis());
                 session.setAttribute(UNIQUE_KEY, uniqueKey);
 
-                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale,
+                String emailSubjectWithLocale = ContentUtil.getWithLocale(language,
                         ContentKey.EMAIL_SUBJECT_GUEST_CHANGING_PASSWORD);
-                String emailBodyWithLocale = ContentUtil.getWithLocale(locale,
+                String emailBodyWithLocale = ContentUtil.getWithLocale(language,
                         ContentKey.EMAIL_BODY_GUEST_CHANGING_PASSWORD);
 
                 emailService.sendConfirmationChangingPassword(user, emailSubjectWithLocale,
                         emailBodyWithLocale, uniqueKey);
-
-                String emailNotificationWithLocale = ContentUtil.getWithLocale(locale,
-                        ContentKey.INFO_CHANGING_PASSWORD_EMAIL_CONFIRMATION);
-
-                Map<String, String> responseMap = new HashMap<>();
-                responseMap.put(ErrorKey.ERROR, emailNotificationWithLocale);
-
-                String json = JsonUtil.toJson(responseMap);
-                writeJsonToResponse(response, json);
-
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
 
-            // if uniqueKey from request not equal session uniqueKey
+            String requestUniqueKey = (String) requestParameters.get(UNIQUE_KEY);
             if (!requestUniqueKey.equals(sessionUniqueKey)) {
-                String emailNotificationWithLocale = ContentUtil.getWithLocale(locale,
-                        ContentKey.ERROR_CHANGING_PASSWORD_UNIQUE_KEY_INCORRECT);
-
-                Map<String, String> responseMap = new HashMap<>();
-                responseMap.put(ErrorKey.ERROR, emailNotificationWithLocale);
-
-                String json = JsonUtil.toJson(responseMap);
-                writeJsonToResponse(response, json);
-
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_CHANGING_PASSWORD_UNIQUE_KEY_INCORRECT, language);
                 return;
             }
 
             long timeCreated = (long) session.getAttribute(TIME_CREATED);
             long timeNow = System.currentTimeMillis();
-            long diff = (timeNow - timeCreated) / 1000;
-            boolean isTimeNotExpired = diff <= TIMER_SEC;
-            if (isTimeNotExpired) {
-                userService.updatePasswordByLogin(login, newPassword);
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                String errorTimeExpired = ContentUtil.getWithLocale(locale,
-                        ContentKey.ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED);
-
-                Map<String, String> responseMap = new HashMap<>();
-                responseMap.put(ErrorKey.ERROR, errorTimeExpired);
-
-                String json = JsonUtil.toJson(responseMap);
-                writeJsonToResponse(response, json);
-
+            long diff = (timeNow - timeCreated) / MILLISECONDS_PER_SECOND;
+            boolean isTimeExpired = diff > TIMER_SEC;
+            if (isTimeExpired) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED, language);
             }
+
+            userService.updatePasswordByLogin(login, newPassword);
+            response.setStatus(HttpServletResponse.SC_OK);
             session.removeAttribute(UNIQUE_KEY);
+
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private void writeJsonToResponse(HttpServletResponse response, String json) throws IOException {
-            response.setContentType(CONTENT_TYPE);
-            response.setCharacterEncoding(ENCODING);
-            response.getWriter().write(json);
     }
 }
