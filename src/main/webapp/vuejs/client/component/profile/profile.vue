@@ -64,8 +64,6 @@ export default {
 
 <style scoped>
 @media screen and (min-width: 400px) {
-
-
   .profile-wrapper {
     width: 100%;
     margin: 0;

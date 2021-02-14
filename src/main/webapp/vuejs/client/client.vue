@@ -2,11 +2,13 @@
   <v-app>
     <div class="background-image">
       <v-container>
-        <v-row style="height: 2em">
+        <v-row style="height: 2em;margin-top: 2em">
           <CustomHeader/>
+
         </v-row>
         <v-row>
-          <profile/>
+          <profile v-if="$store.state.App.isProfile"/>
+          <home v-if="$store.state.App.isHome"/>
         </v-row>
       </v-container>
     </div>
@@ -17,11 +19,13 @@
 <script>
 import CustomHeader from 'vuejs/client/header.vue'
 import Profile from 'vuejs/client/component/profile/profile.vue'
+import Home from 'vuejs/client/component/home/home.vue'
 
 export default {
   components: {
     CustomHeader,
-    Profile
+    Profile,
+    Home
   },
   data() {
     return {
@@ -29,20 +33,17 @@ export default {
     }
   },
   created() {
-    //avatar
+    this.$store.commit('show_home') // cahnge
+
     this.axios({
-      method: 'get',
+      method: 'post',
       url: '/ajax?command=load_profile_image',
     }).then(response => {
-      console.log('avatar exist')
-      this.isAvatarExists = true
+      this.$store.commit('set_isAvatarExists', true)
     }, ex => {
-      console.log('avatar exist')
-      this.isAvatarExists = false
+      this.$store.commit('set_isAvatarExists', false)
     })
   },
-  methods: {
-  }
 }
 </script>
 

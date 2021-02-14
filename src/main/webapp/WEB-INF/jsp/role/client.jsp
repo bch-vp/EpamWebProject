@@ -172,7 +172,6 @@
                 check_email: "<fmt:message key="form_component.info.check_email.unique_code"/>",
             },
             error: {
-                login_not_found: "${login_not_found}",
                 old_password_not_equal_login_password:
                     "<fmt:message key="form_component.error.old_password_not_equal_login_password"/>",
                 not_found: "<fmt:message key="form_component.error.not_found"/>",
@@ -183,6 +182,7 @@
             button: {
                 submit: "<fmt:message key="form_component.button.submit"/>",
                 exit: "<fmt:message key="form_component.button.exit"/>",
+                choose_category: "<fmt:message key="form_component.button.choose_category"/>",
                 change_password: "<fmt:message key="form_component.button.change_password"/>",
                 delete_avatar: "<fmt:message key="form_component.button.delete_avatar"/>",
                 edit_profile_info: "<fmt:message key="form_component.button.edit_profile_info"/>",

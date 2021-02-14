@@ -1,6 +1,6 @@
 <template>
   <div style="color: white; ">
-  <v-app-bar absolute flat fixed dark color="transparent" style="box-shadow: 0 0 50px black; ">
+  <v-app-bar absolute flat fixed dark color="transparent" style="box-shadow: 0 0 50px black;  padding-top: 1em ">
     <v-toolbar-title class="font-weight-medium"
                      style="margin-left: 2%; font-size: 40px; font-family: 'Monoton', cursive;">
       HOTEL
@@ -9,7 +9,7 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn v-on:click="showHome" :disabled="this.$parent.isHome" text rounded
+    <v-btn v-on:click="showHome" :disabled="this.$parent.isHome" text rounded fab outlined small
            style="margin-left: 3%; margin-right: 3%">
       <v-icon v-if="this.$parent.isHome" color="#616161">home</v-icon>
       <div v-else class="text-subtitle-1 font-weight-black">
@@ -17,11 +17,11 @@
       </div>
     </v-btn>
 
-    <v-btn v-on:click="showSignIn" :disabled="this.$parent.isSignIn" rounded text style="margin-right: 1%">
+    <v-btn v-on:click="showSignIn" :disabled="this.$parent.isSignIn" rounded text >
       <div v-if="this.$parent.isSignIn" style="color: #616161">{{ text_page.header.sing_in }}</div>
       <div v-else class="text-subtitle-1 font-weight-black"> {{ text_page.header.sing_in }}</div>
     </v-btn>
-
+    |
     <v-btn v-on:click="showSignUp" :disabled="this.$parent.isSignUp" text rounded style="margin-right: 3%">
       <div v-if="this.$parent.isSignUp" style="color: #616161">{{ text_page.header.sing_up }}</div>
       <div v-else class="text-subtitle-1 font-weight-black">{{ text_page.header.sing_up }}</div>

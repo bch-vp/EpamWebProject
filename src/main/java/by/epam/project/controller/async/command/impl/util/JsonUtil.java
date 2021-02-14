@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JsonUtil {
-    private static final JsonUtil instance = new JsonUtil();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String COMMAND_NAME = "command";
@@ -23,31 +22,8 @@ public class JsonUtil {
     private JsonUtil() {
     }
 
-    public static JsonUtil getInstance() {
-        return instance;
-    }
-
-    public static <T> T toObject(String json, Class<T> clazz) throws JsonProcessingException {
-        try {
-            return objectMapper.readValue(json, clazz);
-        } catch (IOException e) {
-            throw e;
-//            logger.error(e.getMessage(), e);
-        }
-    }
-
     public static String toJson(Map<String, String> map) throws JsonProcessingException {
         return objectMapper.writeValueAsString(map);
-    }
-
-
-    public static <T> String toJson(T entity) throws JsonProcessingException {
-        try {
-            return objectMapper.writeValueAsString(entity);
-        } catch (IOException e) {
-            throw e;
-//            logger.error(e.getMessage(), e);
-        }
     }
 
     public static void writeJsonToResponse(HttpServletResponse response, String errorKey, String contentKey, String language)
@@ -56,7 +32,7 @@ public class JsonUtil {
         String contentValue = ContentUtil.getWithLocale(language, contentKey);
         responseMap.put(errorKey, contentValue);
 
-        String json = JsonUtil.toJson(responseMap);
+        String json = toJson(responseMap);
 
         response.setContentType(CONTENT_TYPE);
         response.setCharacterEncoding(ENCODING);
