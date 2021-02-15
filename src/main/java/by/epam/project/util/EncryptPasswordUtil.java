@@ -2,8 +2,8 @@ package by.epam.project.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class EncryptPassword {
-    private EncryptPassword() {
+public class EncryptPasswordUtil {
+    private EncryptPasswordUtil() {
     }
 
     public static String encryption(String password) {

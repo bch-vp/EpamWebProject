@@ -10,6 +10,7 @@ public enum RolePermission {
             "CHECK_LOGIN_EXISTENCE",
             "SIGN_IN",
             "SIGN_UP",
+            "CONFIRM_SIGN_UP",
             "CHANGE_PASSWORD_BY_EMAIL"
     )),
     CLIENT(Set.of(

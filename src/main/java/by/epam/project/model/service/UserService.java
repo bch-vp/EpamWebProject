@@ -26,6 +26,7 @@ public interface UserService {
     Optional<byte[]> findAvatarByLogin(String login) throws ServiceException;
     boolean updatePasswordByLogin(String login, String password) throws ServiceException;
     boolean updateAvatarByLogin(String login, InputStream inputStream) throws ServiceException;
+    boolean updateActivationStatusByLogin(String login, boolean status) throws ServiceException;
     boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
     boolean isActivated(String login) throws ServiceException;
     boolean isLoginUnique(String login) throws ServiceException;

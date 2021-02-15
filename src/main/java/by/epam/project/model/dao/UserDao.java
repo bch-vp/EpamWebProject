@@ -7,11 +7,12 @@ import by.epam.project.model.entity.User;
 import java.io.InputStream;
 import java.util.Optional;
 
-public interface UserDao extends BaseDao<User>{
+public interface UserDao{
     boolean add(User user, String password) throws DaoException;
     boolean updatePasswordByLogin(String login, String password) throws DaoException;
     boolean updateUser(User newUser, String oldLogin) throws DaoException;
     boolean updateAvatarByLogin(String login, InputStream inputStream) throws DaoException;
+    boolean updateActivationStatusByLogin(String login, boolean status) throws DaoException;
     Optional<User> findById(int id) throws DaoException;
     Optional<User> findByLogin(String login) throws DaoException;
     Optional<User> findByEmail(String email) throws DaoException;

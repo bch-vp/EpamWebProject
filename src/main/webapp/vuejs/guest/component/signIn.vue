@@ -10,13 +10,10 @@
                   {{ text_page.form_component.title.sign_in }}...
                 </span><br></div>
               <v-form
-                  @submit="submit"
-                  action="do?command=sign_in"
-                  method="post"
                   ref="formSignIn"
                   v-model="valid"
               >
-                <div style="color: red">{{ text_page.form_component.error.login_not_found }}</div>
+                <div style="color: red">{{ error }}</div>
                 <v-text-field
                     dark
                     name="login"
@@ -54,7 +51,15 @@
                 </v-row>
                 <br>
                 <div align="center">
-                  <v-btn type="submit" :disabled="!valid" dark small text rounded color="#8C9EFF">
+                  <v-progress-circular style="margin-right: 15px"
+                                       v-if="spinnerVisible"
+                                       indeterminate
+                                       color="#8C9EFF"
+                  ></v-progress-circular>
+                  <v-btn v-if="!spinnerVisible"
+                         @click="submit"
+                         :disabled="!valid"
+                         dark small text rounded color="#8C9EFF">
                     {{ text_page.form_component.button.submit }}
                   </v-btn>
                   <v-btn @click="reset" outlined small fab color="#8C9EFF">
@@ -72,10 +77,14 @@
 
 <script>
 export default {
-  props: ['error', 'showSignUp', 'showChangePassword'],
+  props: ['showSignUp', 'showChangePassword'],
   data() {
     return {
       text_page: text_page,
+
+      spinnerVisible: false,
+      error:undefined,
+
       value: String,
       valid: false,
       login: '',
@@ -102,9 +111,60 @@ export default {
     }
   },
   methods: {
-    submit: function (event) {
+    showSpinner() {
+      this.spinnerVisible = true;
+    },
+    hideSpinner() {
+      this.spinnerVisible = false;
+    },
+    submit: function () {
       if (this.$refs.formSignIn.validate()) {
-        this.$refs.formSignIn.submit()
+        this.axios.interceptors.request.use(
+            conf => {
+              this.showSpinner()
+              return conf;
+            },
+            error => {
+              this.hideSpinner()
+              return Promise.reject(error);
+            }
+        );
+        this.axios.interceptors.response.use(
+            response => {
+              this.hideSpinner()
+              return response;
+            },
+            error => {
+              this.hideSpinner()
+              return Promise.reject(error);
+            }
+        );
+        this.axios({
+          method: 'post',
+          url: '/ajax?command=sign_in',
+          data: {
+            login: this.login,
+            password: this.password,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            telephone_number: this.telephone_number,
+            email: this.email
+          }
+        }).then(response => {
+              console.log('200')
+              window.location.href = '/do?command=' + response.data.info;
+            },
+            ex => {
+          console.log(ex.response.status)
+              if (ex.response.status === 400) {
+                console.log('400')
+                this.$refs.formSignIn.reset()
+                this.error = ex.response.data.error
+              } else{
+                console.log('404')
+                this.error = this.text_page.form_component.error.not_found
+              }
+            })
       }
     },
     reset: function () {

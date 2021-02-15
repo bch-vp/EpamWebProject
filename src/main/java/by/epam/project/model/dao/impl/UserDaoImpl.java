@@ -5,6 +5,7 @@ import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.dao.UserDao;
 import by.epam.project.model.entity.User;
+import by.epam.project.util.ResultSetUtil;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -28,11 +29,6 @@ public class UserDaoImpl implements UserDao {
         return instance;
     }
 
-    @Override
-    public boolean add(User user) throws DaoException {
-        return false;
-    }
-
     public boolean add(User user, String password) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -44,7 +40,22 @@ public class UserDaoImpl implements UserDao {
             statement.setString(5, user.getTelephoneNumber());
             statement.setString(6, user.getEmail());
             statement.setInt(7, user.getRole().getRoleId());
+            statement.setBigDecimal(8, user.getBalance());
 
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateActivationStatusByLogin(String login, boolean status) throws DaoException {
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_ACTIVATION_STATUS_BY_LOGIN)) {
+            statement.setBoolean(1, status);
+            statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
             throw new DaoException(exp);
@@ -141,7 +152,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                userOptional = Optional.of(createUserFromResultSet(resultSet));
+                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
             throw new DaoException(exp);
@@ -159,7 +171,8 @@ public class UserDaoImpl implements UserDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                userOptional = Optional.of(createUserFromResultSet(resultSet));
+                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
             throw new DaoException(exp);
@@ -176,7 +189,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, phone);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                userOptional = Optional.of(createUserFromResultSet(resultSet));
+                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
             throw new DaoException(exp);
@@ -211,7 +225,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                userOptional = Optional.of(createUserFromResultSet(resultSet));
+                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
             throw new DaoException(exp);

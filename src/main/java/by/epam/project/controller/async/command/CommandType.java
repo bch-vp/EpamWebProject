@@ -1,9 +1,11 @@
 package by.epam.project.controller.async.command;
 
 import by.epam.project.controller.async.command.impl.*;
+import by.epam.project.controller.sync.command.impl.ConfirmSignUp;
 
 public enum CommandType {
     SIGN_UP(new SignUpCommand()),
+    SIGN_IN(new SignInCommand()),
     CHECK_LOGIN_EXISTENCE(new CheckLoginExistenceCommand()),
     CHANGE_PASSWORD_BY_EMAIL(new ChangePasswordByEmailCommand()),
     UPDATE_PROFILE(new UpdateProfileCommand()),

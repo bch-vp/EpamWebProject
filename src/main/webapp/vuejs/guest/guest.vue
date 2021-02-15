@@ -3,11 +3,18 @@
     <div class="background-image">
       <v-container>
         <v-row style="height: 2em">
-          <CustomHeader :showHome="showHome" :showSignIn="showSignIn" :showSignUp="showSignUp" :text_page="text_page"/>
+          <CustomHeader
+              :showHome="showHome"
+              :showSignIn="showSignIn"
+              :showSignUp="showSignUp"
+              :text_page="text_page"
+          :isHome="isHome"
+          :isSignUp="isSignUp"
+          :isSignIn="isSignIn"/>
         </v-row>
         <v-row>
           <home v-if="isHome"
-                :showSignUp="showSignUp"/>
+                :showSignIn="showSignIn"/>
           <sign-in v-if="isSignIn"
                    :error="text_page.form_component.input.error"
                    :showSignUp="showSignUp"

@@ -47,6 +47,18 @@ public class JsonUtil {
         }
     }
 
+    public static void writeJsonToResponse(HttpServletResponse response, String key, String value) throws IOException {
+        String json = toJson(key, value);
+        writeJsonToResponse(response, json);
+    }
+
+    public static String toJson(String key, String value) throws IOException {
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put(key, value);
+        String json = toJson(responseMap);
+        return json;
+    }
+
     public static <T> T toMap(InputStream inputStream, Class<T> clazz) throws IOException {
         return objectMapper.readValue(inputStream, clazz);
     }

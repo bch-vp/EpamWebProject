@@ -2,7 +2,7 @@ package by.epam.project.model.dao;
 
 public class SqlQuery {
     public static final String ADD_USER = "INSERT INTO users (login, password, first_name, last_name, " +
-            "telephone_number, email, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "telephone_number, email, role, balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String FIND_PASSWORD_BY_LOGIN = "SELECT password FROM users WHERE BINARY login = ?";
     public static final String FIND_USER_BY_LOGIN = "SELECT login, password, first_name, last_name, " +
             "telephone_number, email, role, is_activated FROM users WHERE BINARY login = ?";
@@ -18,7 +18,8 @@ public class SqlQuery {
     public static final String FIND_AVATAR_BY_LOGIN = "SELECT avatar FROM users WHERE BINARY login = ?";
     public static final String UPDATE_AVATAR_BY_LOGIN = "UPDATE users SET avatar = ? WHERE BINARY login = ?";
     public static final String REMOVE_AVATAR_BY_LOGIN = "UPDATE users SET avatar = NULL WHERE BINARY login = ?";
-
+    public static final String UPDATE_ACTIVATION_STATUS_BY_LOGIN = "UPDATE users SET is_activated = ? " +
+            "WHERE BINARY login = ?";
 
     private SqlQuery() {
     }

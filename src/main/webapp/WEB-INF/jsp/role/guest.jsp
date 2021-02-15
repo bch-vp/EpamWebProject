@@ -137,7 +137,6 @@
                 check_email: "<fmt:message key="form_component.info.check_email.unique_code"/>",
             },
             error: {
-                login_not_found: "${login_not_found}",
                 not_found: "<fmt:message key="form_component.error.not_found"/>",
                 time_expired: "<fmt:message key="form_component.error.time_expired"/>",
                 email_incorrect: "<fmt:message key="form_component.error.email_incorrect"/>",

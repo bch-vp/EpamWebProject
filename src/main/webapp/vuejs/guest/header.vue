@@ -9,22 +9,18 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn v-on:click="showHome" :disabled="this.$parent.isHome" text rounded fab outlined small
+    <v-btn v-on:click="showHome" :disabled="isHome"  rounded small outlined text
            style="margin-left: 3%; margin-right: 3%">
-      <v-icon v-if="this.$parent.isHome" color="#616161">home</v-icon>
-      <div v-else class="text-subtitle-1 font-weight-black">
-        <v-icon>home</v-icon>
-      </div>
+      <v-icon>home</v-icon>
+
     </v-btn>
 
-    <v-btn v-on:click="showSignIn" :disabled="this.$parent.isSignIn" rounded text >
-      <div v-if="this.$parent.isSignIn" style="color: #616161">{{ text_page.header.sing_in }}</div>
-      <div v-else class="text-subtitle-1 font-weight-black"> {{ text_page.header.sing_in }}</div>
+    <v-btn v-on:click="showSignIn" :disabled="isSignIn" rounded text >
+      <div class="text-subtitle-1 font-weight-black"> {{ text_page.header.sing_in }}</div>
     </v-btn>
     |
-    <v-btn v-on:click="showSignUp" :disabled="this.$parent.isSignUp" text rounded style="margin-right: 3%">
-      <div v-if="this.$parent.isSignUp" style="color: #616161">{{ text_page.header.sing_up }}</div>
-      <div v-else class="text-subtitle-1 font-weight-black">{{ text_page.header.sing_up }}</div>
+    <v-btn v-on:click="showSignUp" :disabled="isSignUp" text rounded style="margin-right: 3%">
+      <div class="text-subtitle-1 font-weight-black">{{ text_page.header.sing_up }}</div>
     </v-btn>
 
     <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
@@ -61,7 +57,7 @@
 
 <script>
 export default {
-  props:['text_page', 'showHome', 'showSignIn', 'showSignUp']
+  props:['text_page', 'showHome', 'showSignIn', 'showSignUp', 'isHome', 'isSignUp', 'isSignIn']
 }
 </script>
 

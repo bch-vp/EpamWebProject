@@ -5,7 +5,7 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
-import by.epam.project.util.EncryptPassword;
+import by.epam.project.util.EncryptPasswordUtil;
 import by.epam.project.validator.UserValidator;
 
 import java.io.InputStream;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> signInUser(String login, String password) throws ServiceException {
-        String encryptPassword = EncryptPassword.encryption(password);
+        String encryptPassword = EncryptPasswordUtil.encryption(password);
         Optional<User> userOptional;
 
         try {
@@ -40,6 +40,23 @@ public class UserServiceImpl implements UserService {
         }
 
         return userOptional;
+    }
+
+    @Override
+    public boolean updateActivationStatusByLogin(String login, boolean status) throws ServiceException {
+        boolean isUpdated;
+
+        if(!UserValidator.isLoginCorrect(login)){
+            return false;
+        }
+
+        try {
+            isUpdated = userDao.updateActivationStatusByLogin(login, status);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating user's activation status", exp);
+        }
+
+        return isUpdated;
     }
 
     @Override
@@ -58,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean signUpUser(User user, String password) throws ServiceException {
         boolean isSignedUp;
-        String encryptPassword = EncryptPassword.encryption(password);
+        String encryptPassword = EncryptPasswordUtil.encryption(password);
 
         try {
             isSignedUp = userDao.add(user, encryptPassword);
@@ -208,13 +225,13 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Error during checking is password equal Login's password", exp);
         }
 
-        return userPasswordOptional.isEmpty() || !EncryptPassword.encryption(password).equals(userPasswordOptional.get());
+        return userPasswordOptional.isEmpty() || !EncryptPasswordUtil.encryption(password).equals(userPasswordOptional.get());
     }
 
     @Override
     public boolean updatePasswordByLogin(String login, String password) throws ServiceException {
         boolean isUpdated;
-        String encryptPassword = EncryptPassword.encryption(password);
+        String encryptPassword = EncryptPasswordUtil.encryption(password);
 
         try {
             isUpdated = userDao.updatePasswordByLogin(login, encryptPassword);

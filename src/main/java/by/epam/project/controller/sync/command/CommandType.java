@@ -1,19 +1,13 @@
 package by.epam.project.controller.sync.command;
 
-import by.epam.project.controller.async.command.impl.ChangePasswordByOldPassCommand;
-import by.epam.project.controller.sync.command.impl.ChangeLanguageCommand;
-import by.epam.project.controller.sync.command.impl.PassingByAdminCommand;
-import by.epam.project.controller.sync.command.impl.SignOutCommand;
-import by.epam.project.controller.sync.command.impl.SignInCommand;
-import by.epam.project.controller.sync.command.impl.PassingByGuestCommand;
-import by.epam.project.controller.sync.command.impl.PassingByClientCommand;
+import by.epam.project.controller.sync.command.impl.*;
 
 public enum CommandType {
-    SIGN_IN(new SignInCommand()),
     PASSING_BY_GUEST(new PassingByGuestCommand()),
     PASSING_BY_CLIENT(new PassingByClientCommand()),
     PASSING_BY_ADMIN(new PassingByAdminCommand()),
     CHANGE_LANGUAGE(new ChangeLanguageCommand()),
+    CONFIRM_SIGN_UP(new ConfirmSignUp()),
     SIGN_OUT(new SignOutCommand());
 
     private final Command command;

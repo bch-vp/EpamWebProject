@@ -20,13 +20,13 @@
 <div id="app"/>
 <script>
     let text_page = {
-        notification_component: {
-            title: "<fmt:message key="notification_component.notification_component.title"/>",
-            text: "<fmt:message key="notification_component.notification_component.text"/>",
-            button: "<fmt:message key="notification_component.notification_component.button"/>",
+        notification_success_component: {
+            title: "<fmt:message key="notification_success_component.notification_component.title"/>",
+            text: "<fmt:message key="notification_success_component.notification_component.text"/>",
+            button: "<fmt:message key="notification_success_component.notification_component.button"/>",
         }
     }
 </script>
-<script src="http://localhost:8081/notification.js"></script>
+<script src="http://localhost:8081/notificationSuccess.js"></script>
 </body>
 </html>

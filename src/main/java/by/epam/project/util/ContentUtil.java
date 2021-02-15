@@ -13,13 +13,6 @@ public class ContentUtil {
     private static final String RESOURCES_LANGUAGE = "content.language";
     private static final Locale DEFAULT_LANGUAGE = new Locale(ENGLISH_LANGUAGE);
 
-    /**
-     * Make part with locale string.
-     *
-     * @param language the language
-     * @param key      the key
-     * @return the string
-     */
     public static String getWithLocale(String language, String key) {
         Locale currentLocale = DEFAULT_LANGUAGE;
         if (language != null) {

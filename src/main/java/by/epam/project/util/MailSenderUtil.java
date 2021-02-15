@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 import static by.epam.project.controller.parameter.ParameterKey.ENCODING;
 
 
-public class MailSender {
+public class MailSenderUtil {
     private String username;
     private String password;
     private final Properties properties;
@@ -28,7 +28,7 @@ public class MailSender {
     private static final String USER_PASSWORD_PROPERTIES = "mail.user.password";
     private static final Logger logger = LogManager.getLogger();
 
-    public MailSender() {
+    public MailSenderUtil() {
         properties = new Properties();
         try {
             properties.load(this.getClass().getClassLoader().getResourceAsStream(MAIL_PROPERTIES));

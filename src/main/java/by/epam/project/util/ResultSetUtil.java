@@ -1,21 +1,19 @@
-package by.epam.project.model.dao;
+package by.epam.project.util;
+
 
 import by.epam.project.exception.DaoException;
 import by.epam.project.model.creator.UserCreator;
-import by.epam.project.model.entity.Entity;
 import by.epam.project.model.entity.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public interface BaseDao<T extends Entity> {
-    Logger logger = LogManager.getLogger();
+public class ResultSetUtil {
+    private ResultSetUtil(){}
 
-    default User createUserFromResultSet(ResultSet resultSet) throws DaoException {
+    public static User createUserFromResultSet(ResultSet resultSet) throws DaoException {
         UserCreator creator = UserCreator.getInstance();
 
         try {
@@ -34,6 +32,4 @@ public interface BaseDao<T extends Entity> {
             throw new DaoException("Error while creating user from resultSet", exp);
         }
     }
-
-    boolean add(T t) throws DaoException;
 }

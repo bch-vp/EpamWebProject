@@ -90,5 +90,15 @@ var errorConfiq = Object.assign({}, config, {
     },
 });
 
+var notificationSuccessConfiq = Object.assign({}, config, {
+    name: "error",
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'notification', 'success', 'notificationSuccess.js'),
+    output: {
+        path: __dirname + "/build",
+        publicPath: "/",
+        filename: "notificationSuccess.js"
+    },
+});
+
 // Return Array of Configurations
-module.exports = [guestConfiq, clientConfiq, errorConfiq];
+module.exports = [guestConfiq, clientConfiq, errorConfiq, notificationSuccessConfiq];

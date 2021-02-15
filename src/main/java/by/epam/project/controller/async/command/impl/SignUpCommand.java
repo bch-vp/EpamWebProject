@@ -4,6 +4,7 @@ import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.parameter.ContentKey;
+import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.EmailServiceImpl;
@@ -49,23 +50,7 @@ public class SignUpCommand implements Command {
             Map<String, String> requestData = userService.defineSignUpData(login,
                     password, email, firstName, lastName, phone);
 
-            if (UserValidator.defineIncorrectValues(requestData)) {
-                User newUser = new User(login, firstName, lastName, phone, email,
-                        User.Role.CLIENT.getRoleId(), false);
-                userService.signUpUser(newUser, password);
-
-                String locale = (String) session.getAttribute(LANGUAGE);
-
-                String emailSubjectWithLocale = ContentUtil.getWithLocale(locale,
-                        ContentKey.EMAIL_SUBJECT_ACTIVATION_SIGN_UP);
-                String emailBodyWithLocale = ContentUtil.getWithLocale(locale,
-                        ContentKey.EMAIL_BODY_ACTIVATION_SIGN_UP);
-
-                emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
-                        emailBodyWithLocale, PagePath.EMAIL_ACTIVATION_LINK);
-
-                response.setStatus(HttpServletResponse.SC_CREATED);
-            } else {
+            if (!UserValidator.defineIncorrectValues(requestData)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
                 JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);
@@ -84,9 +69,31 @@ public class SignUpCommand implements Command {
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
 
-                String responseJson = JsonUtil.jsonTreeToJson(jsonTree);
-                JsonUtil.writeJsonToResponse(response, responseJson);
+                String json = JsonUtil.jsonTreeToJson(jsonTree);
+                JsonUtil.writeJsonToResponse(response, json);
             }
+
+            User newUser = new User(login, firstName, lastName, phone, email,
+                    User.Role.CLIENT.getRoleId(), false);
+            userService.signUpUser(newUser, password);
+
+            String locale = (String) session.getAttribute(LANGUAGE);
+
+            String emailSubjectWithLocale = ContentUtil.getWithLocale(locale,
+                    ContentKey.EMAIL_SUBJECT_ACTIVATION_SIGN_UP);
+            String emailBodyWithLocale = ContentUtil.getWithLocale(locale,
+                    ContentKey.EMAIL_BODY_ACTIVATION_SIGN_UP);
+
+            String URL = request.getRequestURL().toString();
+            String URI = request.getRequestURI();
+            String linkApp =  URL.replace(URI , EMPTY_STRING);
+
+            String command = CommandType.CONFIRM_SIGN_UP.toString().toLowerCase();
+
+            emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
+                    emailBodyWithLocale, linkApp, command);
+
+            response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

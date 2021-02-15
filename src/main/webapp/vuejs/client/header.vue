@@ -8,7 +8,7 @@
         HOTEL
       </v-toolbar-title>
 
-      <v-btn v-on:click="$store.commit('show_home')" :disabled="$store.state.App.isHome"  rounded small outlined fab
+      <v-btn v-on:click="$store.commit('show_home')" :disabled="$store.state.App.isHome" text rounded small outlined fab
              style="margin-left: 4%; margin-right: 1em ">
         <v-icon>home</v-icon>
       </v-btn>
@@ -41,7 +41,7 @@
       </v-btn>
       |
       <v-btn v-on:click="$store.commit('show_shoppingBasket')" :disabled="$store.state.App.isShoppingBasket"  rounded text>
-        <v-icon>
+        <v-icon >
           shopping_cart
         </v-icon>
         &nbsp

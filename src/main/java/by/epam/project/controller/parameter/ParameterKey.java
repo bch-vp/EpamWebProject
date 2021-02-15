@@ -6,8 +6,9 @@ public class ParameterKey {
     public static final String RUSSIAN_LANGUAGE = "ru";
 
     public static final String TIME_CREATED = "time_created";
+    public static final String INFO = "info";
 
-    public static final String CURRENT_PAGE = "current_page";
+//    public static final String CURRENT_PAGE = "current_page";
     public static final String PASSING_BY_GUEST = "passing_by_guest";
     public static final String PASSING_BY_CLIENT = "passing_by_client";
     public static final String PASSING_BY_ADMIN = "passing_by_admin";

@@ -16,7 +16,7 @@ public class ContentKey {
     public static final String EMAIL_BODY_ACTIVATION_SIGN_UP = "email.body.activation_sign_up";
     public static final String EMAIL_BODY_GUEST_CHANGING_PASSWORD = "email.body.guest.changing_password";
 
-    public static final String ERROR_SIGN_IN_NOT_FOUND = "form_component.error.not_found";
+    public static final String ERROR_SIGN_IN_NOT_ACTIVATED = "form_component.error.not_activated";
     public static final String ERROR_SIGN_UP_LOGIN_NOT_UNIQUE = "form_component.error.login_not_unique";
     public static final String ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE =
             "form_component.error.telephone_number_not_unique";

@@ -1,10 +1,19 @@
 package by.epam.project.model.entity;
 
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class User extends Entity {
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
     public enum Role {
         GUEST(0),
         CLIENT(1),
@@ -39,6 +48,7 @@ public class User extends Entity {
     private String lastName;
     private String telephoneNumber;
     private String email;
+    private BigDecimal balance;
     private Role role;
     private boolean isActivated;
 
@@ -51,6 +61,7 @@ public class User extends Entity {
         this.lastName = surname;
         this.telephoneNumber = phone;
         this.email = email;
+        this.balance = BigDecimal.valueOf(0);
         this.role = Role.getRoleById(role);
         this.isActivated = isActivated;
     }

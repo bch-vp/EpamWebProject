@@ -18,7 +18,7 @@
                   </span>
                 </v-row>
                 <v-row justify="center">
-                  <v-btn @click="showSignUp" color="green" style="margin-bottom: 3em" text outlined rounded>
+                  <v-btn @click="showSignIn" color="green" style="margin-bottom: 3em" text outlined rounded>
                     <span style="" class="text-h6 center">
                       {{ text_page.guest_home_component.greeting.button.submit }}
                     </span>
@@ -37,7 +37,7 @@
 import CustomHeader from 'vuejs/guest/header.vue'
 
 export default {
-  props: ['showSignUp'],
+  props: ['showSignIn'],
   components: {
     CustomHeader
   },
