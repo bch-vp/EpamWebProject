@@ -86,7 +86,7 @@
       <v-row>
 
 
-        <div class="mx-auto" style="margin-top: 1em">
+        <div class="mx-auto" style="padding-top: 1em">
           <v-pagination
               dark
               v-model="page"
@@ -161,17 +161,13 @@ export default {
 </script>
 
 <style scoped>
-.scroll {
-  padding-top: 4em;
-  padding-bottom: 4em;
-}
 
 @media screen and (min-height: 1100px) {
   .scroll {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 900px;
+    height: 850px;
     overflow-x: hidden;
     overflow-y: auto;
   }
