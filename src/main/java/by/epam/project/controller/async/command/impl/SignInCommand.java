@@ -1,15 +1,10 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.async.command.impl.util.JsonUtil;
-import by.epam.project.controller.parameter.ErrorKey;
-import by.epam.project.controller.parameter.ContentKey;
-import by.epam.project.controller.sync.Router;
+import by.epam.project.util.JsonUtil;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
-import by.epam.project.util.ContentUtil;
-import by.epam.project.util.URLUtil;
 import by.epam.project.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

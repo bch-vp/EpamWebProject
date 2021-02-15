@@ -1,4 +1,4 @@
-package by.epam.project.controller.async.command.impl.util;
+package by.epam.project.util;
 
 import by.epam.project.util.ContentUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;

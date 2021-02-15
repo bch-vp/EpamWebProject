@@ -51,7 +51,7 @@ export default {
 .background-image {
   background-image: url("/img/background.jpg");
   background-color: black;
-  height: 100vh;
+  height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
