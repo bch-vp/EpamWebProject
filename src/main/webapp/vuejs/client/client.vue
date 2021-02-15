@@ -2,7 +2,7 @@
   <v-app>
     <div class="background-image">
       <v-container>
-        <v-row style="height: 2em;margin-top: 2em">
+        <v-row style="height: 2em;padding-top: 2em">
           <CustomHeader/>
 
         </v-row>
