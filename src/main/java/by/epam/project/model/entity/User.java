@@ -6,13 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User extends Entity {
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
 
     public enum Role {
         GUEST(0),
@@ -64,6 +57,14 @@ public class User extends Entity {
         this.balance = BigDecimal.valueOf(0);
         this.role = Role.getRoleById(role);
         this.isActivated = isActivated;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public String getLogin() {

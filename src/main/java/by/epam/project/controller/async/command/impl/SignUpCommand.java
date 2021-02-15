@@ -70,6 +70,7 @@ public class SignUpCommand implements Command {
 
                 String json = JsonUtil.jsonTreeToJson(jsonTree);
                 JsonUtil.writeJsonToResponse(response, json);
+                return;
             }
 
             User newUser = new User(login, firstName, lastName, phone, email,
