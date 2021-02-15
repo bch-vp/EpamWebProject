@@ -12,7 +12,7 @@
 <!---->
 
 <template>
-  <div style="width: 100%; margin-top: 40px">
+  <div style="width: 100%; margin-top: 80px;">
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
