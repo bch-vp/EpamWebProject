@@ -154,16 +154,13 @@
         }
     }
 </script>
-
 <c:choose>
     <c:when test="${is_dev_mode}">
         <script src="http://localhost:8081/guest.js"></script>
     </c:when>
     <c:otherwise>
-        <script src="${pageContext.request.contextPath}/js/guest.js"></script>
+        <script src="js/guest.js"></script>
     </c:otherwise>
 </c:choose>
-
-<c:remove var="login_not_found" scope="session"/>
 </body>
 </html>

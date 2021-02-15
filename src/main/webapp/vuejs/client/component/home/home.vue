@@ -12,7 +12,7 @@
 <!---->
 
 <template>
-  <div style="width: 100%; height: 100%; padding-top: 90px">
+  <div style="width: 100%; margin-top: 40px">
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
@@ -29,12 +29,51 @@
                   <v-container>
                     <v-row>
                       <div class="col-md-4" v-for="post in displayedPosts">
-                        <div class="card mb-4 box-shadow post-cards">
-                          <div class="card-body">
-                            <h5 style="color: white" class="capitalize">{{ post.title }}</h5>
-                            <p style="color: white" class="card-text">{{ post.body.slice(0, 120) }}...</p>
-                          </div>
-                        </div>
+                        <v-card
+                            color="grey"
+                            class="mx-auto"
+                            max-width="400"
+                        >
+                          <v-img
+                              class="white--text align-end"
+                              height="200px"
+                              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                          >
+                            <v-card-title>Top 10 Australian beaches</v-card-title>
+                          </v-img>
+
+                          <v-card-subtitle class="pb-0">
+                            Number 10
+                          </v-card-subtitle>
+
+                          <v-card-text class="text--primary">
+                            <div>Whitehaven Beach</div>
+
+                            <div>Whitsunday Island, Whitsunday Islands</div>
+                          </v-card-text>
+
+                          <v-card-actions>
+                            <v-btn
+                                color="orange"
+                                text
+                            >
+                              Share
+                            </v-btn>
+
+                            <v-btn
+                                color="orange"
+                                text
+                            >
+                              Explore
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+<!--                        <div class="card mb-4 box-shadow post-cards">-->
+<!--                          <div class="card-body">-->
+<!--                            <h5 style="color: white" class="capitalize">{{ post.title }}</h5>-->
+<!--                            <p style="color: white" class="card-text">{{ post.body.slice(0, 120) }}...</p>-->
+<!--                          </div>-->
+<!--                        </div>-->
                       </div>
                     </v-row>
                   </v-container>
@@ -47,7 +86,7 @@
       <v-row>
 
 
-        <div class="mx-auto" style="margin-top: 2em">
+        <div class="mx-auto" style="margin-top: 1em">
           <v-pagination
               dark
               v-model="page"
@@ -70,7 +109,7 @@ export default {
       posts: [],
       baseUrl: '//jsonplaceholder.typicode.com/',
       page: 1,
-      perPage: 9,
+      perPage: 20,
       pages: [],
 
     }
@@ -127,12 +166,24 @@ export default {
   padding-bottom: 4em;
 }
 
-.scroll {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 900px;
-  overflow-x: hidden;
-  overflow-y: auto;
+@media screen and (min-height: 1100px) {
+  .scroll {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 1000px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+@media screen and (max-height: 1100px) {
+  .scroll {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 </style>
