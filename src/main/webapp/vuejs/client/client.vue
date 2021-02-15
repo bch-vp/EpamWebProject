@@ -2,7 +2,7 @@
   <v-app>
     <div class="background-image">
       <v-container>
-        <v-row style="height: 2em;padding-top: 2em">
+        <v-row style="height: 2em">
           <CustomHeader/>
 
         </v-row>
@@ -51,7 +51,7 @@ export default {
 .background-image {
   background-image: url("/img/background.jpg");
   background-color: black;
-  height: 100%;
+  height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
