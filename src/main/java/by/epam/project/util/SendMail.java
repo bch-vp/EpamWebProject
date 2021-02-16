@@ -56,8 +56,7 @@ public class SendMail {
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(SENDER_EMAIL_ADDRESS));
-            message.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(email));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("UGOBOSS");
             message.setText("Your new password \n "
                     +password+
