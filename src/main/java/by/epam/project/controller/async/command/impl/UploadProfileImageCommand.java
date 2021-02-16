@@ -3,6 +3,7 @@ package by.epam.project.controller.async.command.impl;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
+import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
 import org.apache.commons.fileupload.FileItem;
@@ -25,7 +26,7 @@ import static by.epam.project.controller.parameter.ParameterKey.USER;
 import static by.epam.project.controller.parameter.ContentKey.*;
 
 public class UploadProfileImageCommand implements Command {
-    private final UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
 
     private static final Logger logger = LogManager.getLogger();
 

@@ -3,6 +3,7 @@ package by.epam.project.controller.sync.command.impl;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +15,7 @@ import static by.epam.project.controller.parameter.PagePath.NOTIFICATION_SUCCESS
 import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
 
 public class ConfirmSignUpCommand implements Command {
-    private final UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
 
     private static final Logger logger = LogManager.getLogger();
 

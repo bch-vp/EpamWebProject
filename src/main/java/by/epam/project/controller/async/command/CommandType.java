@@ -11,6 +11,7 @@ public enum CommandType {
     LOAD_PROFILE_IMAGE(new LoadProfileImageCommand()),
     UPLOAD_PROFILE_IMAGE(new UploadProfileImageCommand()),
     CHANGE_PASSWORD_BY_OLD_PASSWORD(new ChangePasswordByOldPassCommand()),
+    LOAD_ALL_CATEGORIES(new LoadAllCategoriesCommand()),
     DELETE_PROFILE_IMAGE(new DeleteProfileImage());
 
     private final Command command;

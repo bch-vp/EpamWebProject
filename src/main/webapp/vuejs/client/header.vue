@@ -14,11 +14,10 @@
       <v-col cols="2">
         <v-select
             style="padding-left: 1em"
-            v-model="select"
+            v-model="selectCategory"
             hint="Please choose category"
-            :items="items"
-            item-text="state"
-            item-value="abbr"
+            :items="$store.state.App.categories"
+            item-text="name"
             label="Select"
             :disabled="!$store.state.App.isHome"
             persistent-hint
@@ -31,15 +30,16 @@
 
       <v-btn v-on:click="$store.commit('show_profile')" :disabled="$store.state.App.isProfile" rounded text>
         <img v-if="$store.state.Profile.isAvatarExists" :src="$store.state.Profile.avatarUrl" class="avatar"/>
-        <v-icon  v-if="!$store.state.Profile.isAvatarExists">
+        <v-icon v-if="!$store.state.Profile.isAvatarExists">
           perm_identity
         </v-icon>
         &nbsp
-        {{text_page.header.role}}
+        {{ text_page.header.role }}
       </v-btn>
       |
-      <v-btn v-on:click="$store.commit('show_shoppingBasket')" :disabled="$store.state.App.isShoppingBasket"  rounded text>
-        <v-icon >
+      <v-btn v-on:click="$store.commit('show_shoppingBasket')" :disabled="$store.state.App.isShoppingBasket" rounded
+             text>
+        <v-icon>
           shopping_cart
         </v-icon>
         &nbsp
@@ -82,30 +82,37 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
-  data(){
-    return{
-      text_page:text_page,
-      isAvatarExists:undefined,
+  data() {
+    return {
+      text_page: text_page,
+      isAvatarExists: undefined,
 
-
-      select:
-          { state: 'Please choose category', abbr: '' }
-          ,
-      items: [
-        { state: 'Florida', abbr: 'FL' },
-        { state: 'Georgia', abbr: 'GA' },
-        { state: 'Nebraska', abbr: 'NE' },
-        { state: 'California', abbr: 'CA' },
-        { state: 'New York', abbr: 'NY' },
-      ],
+      selectCategory:undefined
     }
   },
-  methods: {
-    accExit: function () {
 
+  watch: {
+    selectCategory() {
+      console.log('updating');
+      
     }
+  },
+  created() {
+    this.axios({
+      method: 'post',
+      url: '/ajax?command=load_all_categories'
+    }).then(response => {
+          this.$store.commit('set_categories', response.data.data)
+          console.log('success categories')
+        },
+        ex => {
+          console.log('error categories')
+        })
   }
+  ,
+  methods: {}
 }
 </script>
 
@@ -113,6 +120,7 @@ export default {
 .list-item {
   justify-content: center;
 }
+
 .avatar {
   vertical-align: middle;
   width: 50px;

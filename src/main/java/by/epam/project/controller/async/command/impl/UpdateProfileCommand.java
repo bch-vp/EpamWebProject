@@ -5,6 +5,7 @@ import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
+import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
@@ -26,7 +27,7 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 public class UpdateProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
-    private final UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
 
     private static final String EMPTY_JSON_TREE_OBJECT = "{}";
 

@@ -20,6 +20,7 @@ public enum RolePermission {
             "LOAD_PROFILE_IMAGE",
             "UPLOAD_PROFILE_IMAGE",
             "DELETE_PROFILE_IMAGE",
+            "LOAD_ALL_CATEGORIES",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "SIGN_OUT"
     )),

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JsonUtil {
@@ -20,10 +21,6 @@ public class JsonUtil {
     private static final String ENCODING = "UTF-8";
 
     private JsonUtil() {
-    }
-
-    public static String toJson(Map<String, String> map) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(map);
     }
 
     public static void writeJsonToResponse(HttpServletResponse response, String errorKey, String contentKey, String language)
@@ -57,6 +54,17 @@ public class JsonUtil {
         responseMap.put(key, value);
         String json = toJson(responseMap);
         return json;
+    }
+
+    public static<T> String toJson(String key, List<T> list) throws IOException {
+        Map<String, List<T>> responseMap = new HashMap<>();
+        responseMap.put(key, list);
+        String json = toJson(responseMap);
+        return json;
+    }
+
+    public static String toJson(Map map) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(map);
     }
 
     public static <T> T toMap(InputStream inputStream, Class<T> clazz) throws IOException {

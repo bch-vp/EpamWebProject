@@ -2,7 +2,9 @@ export default {
     state: {
         isHome:false,
         isShoppingBasket:false,
-        isProfile:false
+        isProfile:false,
+
+        categories: undefined,
 
     },
     mutations: {
@@ -31,6 +33,10 @@ export default {
             state.isShoppingBasket = false
             state.isProfile = false
 
-        }
+        },
+
+        set_categories(state, data){
+            state.categories=data
+        },
     }
 }

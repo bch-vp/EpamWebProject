@@ -3,6 +3,7 @@ package by.epam.project.controller.async.command.impl;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
+import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +18,7 @@ import static by.epam.project.controller.parameter.ParameterKey.USER;
 public class DeleteProfileImage implements Command {
     private static final Logger logger = LogManager.getLogger();
 
-    private final UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

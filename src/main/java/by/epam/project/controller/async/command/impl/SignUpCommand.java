@@ -6,6 +6,8 @@ import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
+import by.epam.project.model.service.EmailService;
+import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.EmailServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
@@ -28,8 +30,8 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 public class SignUpCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
-    private final UserServiceImpl userService = UserServiceImpl.getInstance();
-    private final EmailServiceImpl emailService = EmailServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
+    private final EmailService emailService = EmailServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

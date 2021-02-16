@@ -13,7 +13,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryDaoImpl categoryDao = CategoryDaoImpl.getInstance();
 
-    private static CategoryServiceImpl getInstance() {
+    public static CategoryServiceImpl getInstance() {
         return instance;
     }
 
