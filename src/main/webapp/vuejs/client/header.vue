@@ -96,7 +96,7 @@ export default {
   watch: {
     selectCategory() {
       console.log('updating');
-      
+
     }
   },
   created() {
