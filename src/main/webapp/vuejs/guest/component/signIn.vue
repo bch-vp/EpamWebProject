@@ -157,11 +157,10 @@ export default {
             ex => {
           console.log(ex.response.status)
               if (ex.response.status === 400) {
-                console.log('400')
                 this.$refs.formSignIn.reset()
                 this.error = ex.response.data.error
               } else{
-                console.log('404')
+                this.$refs.formSignIn.reset()
                 this.error = this.text_page.form_component.error.not_found
               }
             })

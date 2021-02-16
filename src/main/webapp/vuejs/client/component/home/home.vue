@@ -167,7 +167,7 @@ export default {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 900px;
+    height: 950px;
     overflow-x: hidden;
     overflow-y: auto;
   }

@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, user.getLastName());
             statement.setString(5, user.getTelephoneNumber());
             statement.setString(6, user.getEmail());
-            statement.setInt(7, user.getRole().getRoleId());
+            statement.setString(7, user.getRole().name());
             statement.setBigDecimal(8, user.getBalance());
 
             isUpdated = statement.executeUpdate() == 1;
@@ -152,7 +152,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                User user = ResultSetUtil.toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -171,7 +171,7 @@ public class UserDaoImpl implements UserDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                User user = ResultSetUtil.toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -189,7 +189,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, phone);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                User user = ResultSetUtil.toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -225,7 +225,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.createUserFromResultSet(resultSet);
+                User user = ResultSetUtil.toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {

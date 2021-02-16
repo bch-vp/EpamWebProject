@@ -4,7 +4,6 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.User;
-import by.epam.project.model.service.UserService;
 import by.epam.project.util.EncryptPasswordUtil;
 import by.epam.project.validator.UserValidator;
 
@@ -17,9 +16,9 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.NOT_UNIQUE;
 
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements by.epam.project.model.service.UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
-    private  final UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
 
     private UserServiceImpl() {
     }

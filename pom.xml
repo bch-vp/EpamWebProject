@@ -26,6 +26,12 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.4</version>
         </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.sendgrid</groupId>-->
+<!--            <artifactId>sendgrid-java</artifactId>-->
+<!--            <version>4.7.1</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -61,8 +67,9 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.12.1</version>
+            <version>2.12.0</version>
         </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -70,54 +77,8 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
-            <!--Плагин для инсталла yarn-->
-<!--            <plugin>-->
-<!--                <groupId>com.github.eirslett</groupId>-->
-<!--                <artifactId>frontend-maven-plugin</artifactId>-->
-<!--                <version>1.6</version>-->
-
-<!--                <configuration>-->
-<!--                    <workingDirectory>target</workingDirectory>-->
-<!--                    <environmentVariables>-->
-<!--                        &lt;!&ndash; Avoid certificates issues, needed behind a corporate proxy &ndash;&gt;-->
-<!--                        <NODE_TLS_REJECT_UNAUTHORIZED>0</NODE_TLS_REJECT_UNAUTHORIZED>-->
-<!--                    </environmentVariables>-->
-<!--                </configuration>-->
-
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>install node and yarn</id>-->
-<!--                        <goals>-->
-<!--                            <goal>install-node-and-yarn</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <nodeVersion>v11.0.0</nodeVersion>-->
-<!--                            <yarnVersion>v1.22.10</yarnVersion>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-<!--                    <execution>-->
-<!--                        <id>yarn install &#45;&#45;network-timeout 1000000 </id>-->
-<!--                        <goals>-->
-<!--                            <goal>yarn</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-
-<!--                    <execution>-->
-<!--                        <id>yarn build</id>-->
-<!--                        <goals>-->
-<!--                            <goal>yarn</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <arguments>build</arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

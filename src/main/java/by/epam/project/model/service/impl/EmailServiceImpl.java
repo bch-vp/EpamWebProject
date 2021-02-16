@@ -1,13 +1,12 @@
 package by.epam.project.model.service.impl;
 
 import by.epam.project.model.entity.User;
-import by.epam.project.model.service.EmailService;
 import by.epam.project.util.MailSenderUtil;
 
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
 
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl implements by.epam.project.model.service.EmailService {
     private static final EmailServiceImpl instance = new EmailServiceImpl();
 
     private static final String SEPARATOR_SIGN = "/";

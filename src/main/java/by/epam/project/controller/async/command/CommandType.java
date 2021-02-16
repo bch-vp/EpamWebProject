@@ -1,7 +1,6 @@
 package by.epam.project.controller.async.command;
 
 import by.epam.project.controller.async.command.impl.*;
-import by.epam.project.controller.sync.command.impl.ConfirmSignUp;
 
 public enum CommandType {
     SIGN_UP(new SignUpCommand()),

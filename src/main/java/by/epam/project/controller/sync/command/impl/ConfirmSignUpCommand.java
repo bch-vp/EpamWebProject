@@ -13,7 +13,7 @@ import static by.epam.project.controller.parameter.PagePath.ERROR_500;
 import static by.epam.project.controller.parameter.PagePath.NOTIFICATION_SUCCESS;
 import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
 
-public class ConfirmSignUp implements Command {
+public class ConfirmSignUpCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     private static final Logger logger = LogManager.getLogger();

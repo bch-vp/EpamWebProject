@@ -21,6 +21,8 @@ public class SqlQuery {
     public static final String UPDATE_ACTIVATION_STATUS_BY_LOGIN = "UPDATE users SET is_activated = ? " +
             "WHERE BINARY login = ?";
 
+    public static final String FIND_ALL_CATEGORIES = "SELECT name FROM categories";
+
     private SqlQuery() {
     }
 }

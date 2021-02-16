@@ -5,35 +5,12 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User extends Entity {
+public class User {
 
     public enum Role {
-        GUEST(0),
-        CLIENT(1),
-        ADMIN(2);
-
-        private final int roleId;
-
-        Role(int roleId) {
-            this.roleId = roleId;
-        }
-
-        public int getRoleId() {
-            return roleId;
-        }
-
-
-        private static final Map<Integer, Role> LOOKUP_MAP = new HashMap<>();
-
-        static {
-            for (Role element : values()) {
-                LOOKUP_MAP.put(element.getRoleId(), element);
-            }
-        }
-
-        public static Role getRoleById(int roleId) {
-            return LOOKUP_MAP.get(roleId);
-        }
+        GUEST,
+        CLIENT,
+        ADMIN
     }
 
     private String login;
@@ -48,14 +25,14 @@ public class User extends Entity {
     public User() {
     }
 
-    public User(String login, String name, String surname, String phone, String email, int role, boolean isActivated) {
+    public User(String login, String name, String surname, String phone, String email, Role role, boolean isActivated) {
         this.login = login;
         this.firstName = name;
         this.lastName = surname;
         this.telephoneNumber = phone;
         this.email = email;
         this.balance = BigDecimal.valueOf(0);
-        this.role = Role.getRoleById(role);
+        this.role = role;
         this.isActivated = isActivated;
     }
 
@@ -163,8 +140,7 @@ public class User extends Entity {
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        long temp;
+        int result = 1;
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
@@ -172,5 +148,20 @@ public class User extends Entity {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("login='").append(login).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", telephoneNumber='").append(telephoneNumber).append('\'');
+        sb.append(", email=").append(email);
+        sb.append(", balance=").append(balance);
+        sb.append(", isActivated=").append(isActivated);
+        sb.append(", role=").append(role);
+        sb.append('}');
+        return sb.toString();
     }
 }

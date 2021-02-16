@@ -49,7 +49,7 @@ public class MailSenderUtil {
 
         try {
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
+            message.setFrom(new InternetAddress("epam.web.project@gmail.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(subject, ENCODING);
             message.setText(body,  ENCODING);

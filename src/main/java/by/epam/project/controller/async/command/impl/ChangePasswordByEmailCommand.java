@@ -4,7 +4,6 @@ import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
-import by.epam.project.model.service.EmailService;
 import by.epam.project.model.service.impl.EmailServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
@@ -30,7 +29,7 @@ public class ChangePasswordByEmailCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
-    private final EmailService emailService = EmailServiceImpl.getInstance();
+    private final by.epam.project.model.service.EmailService emailService = EmailServiceImpl.getInstance();
     private static final int DIFF_RANGE = 900_000;
     private static final int MIN_RANGE = 100_000;
     private static final int TIMER_SEC = 300;

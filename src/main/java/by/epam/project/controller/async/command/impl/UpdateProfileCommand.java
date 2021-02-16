@@ -46,9 +46,10 @@ public class UpdateProfileCommand implements Command {
             String email = (String) requestParameters.get(EMAIL);
 
             User user = (User) session.getAttribute(USER);
-            int roleId = user.getRole().getRoleId();
+            User.Role role = user.getRole();
 
-            Map<String, String> requestData = UserValidator.validateParameters(login, email, firstName, lastName, telephoneNumber);
+            Map<String, String> requestData = UserValidator.validateParameters(login, email, firstName, lastName,
+                    telephoneNumber);
 
             if (!UserValidator.defineIncorrectValues(requestData)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -80,8 +81,7 @@ public class UpdateProfileCommand implements Command {
                 return;
             }
 
-            User newUser = new User(login, firstName, lastName, telephoneNumber, email,
-                    roleId, false);
+            User newUser = new User(login, firstName, lastName, telephoneNumber, email, role, false);
             userService.updateUser(newUser, oldLogin);
             session.setAttribute(USER, newUser);
             response.setStatus(HttpServletResponse.SC_OK);
