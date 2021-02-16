@@ -10,8 +10,8 @@ import java.util.Properties;
 
 public class SendMail {
     private final static Logger log = LogManager.getLogger(SendMail.class);
-    static final String SENDER_EMAIL_ADDRESS = "mailforwebproject31@gmail.com";
-    private static final String SENDER_EMAIL_PASSWORD = "3114928Denis";
+    static final String SENDER_EMAIL_ADDRESS = "epam.web.project@gmail.com";
+    private static final String SENDER_EMAIL_PASSWORD = "epam.web.project123";
     private static final String SENDER_HOST = "smtp.gmail.com";
     private static final String SENDER_PORT = "587";
     private static final String ACTIVATION_URL = "http://localhost:8081/store_war_exploded/controller?command=activation&activation_code=";
