@@ -1,21 +1,12 @@
-<template>
-  <div class="container">
-    <div class="row">
-
-    </div>
-    <!--     Перебираем через цикл массив pages, чтобы вывести каждый номер страницы -->
-
-  </div>
-</template>
-
-
 <!---->
 
 <template>
+
   <div style="width: 100%; margin-top: 80px;">
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
+
           <v-card
               style="box-shadow: 0 0 25px;background: rgba(0, 0, 0, 0.93);border-radius: 20px;"
               dark
@@ -28,52 +19,8 @@
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
-                      <div class="col-md-4" v-for="post in displayedPosts">
-                        <v-card
-                            color="grey"
-                            class="mx-auto"
-                            max-width="400"
-                        >
-                          <v-img
-                              class="white--text align-end"
-                              height="200px"
-                              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                          >
-                            <v-card-title>Top 10 Australian beaches</v-card-title>
-                          </v-img>
-
-                          <v-card-subtitle class="pb-0">
-                            Number 10
-                          </v-card-subtitle>
-
-                          <v-card-text class="text--primary">
-                            <div>Whitehaven Beach</div>
-
-                            <div>Whitsunday Island, Whitsunday Islands</div>
-                          </v-card-text>
-
-                          <v-card-actions>
-                            <v-btn
-                                color="orange"
-                                text
-                            >
-                              Share
-                            </v-btn>
-
-                            <v-btn
-                                color="orange"
-                                text
-                            >
-                              Explore
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-<!--                        <div class="card mb-4 box-shadow post-cards">-->
-<!--                          <div class="card-body">-->
-<!--                            <h5 style="color: white" class="capitalize">{{ post.title }}</h5>-->
-<!--                            <p style="color: white" class="card-text">{{ post.body.slice(0, 120) }}...</p>-->
-<!--                          </div>-->
-<!--                        </div>-->
+                      <div class="col-md-4" v-for="product in  displayedPosts">
+                        <ProductCard :product="product"/>
                       </div>
                     </v-row>
                   </v-container>
@@ -81,54 +28,83 @@
               </div>
             </div>
           </v-card>
+          <v-row style="padding-top: 2em;">
+            <v-col>
+              <v-select
+                  style="max-width: 320px"
+                  dark
+                  v-model="filtersValue"
+                  :items="filtersItems"
+                  chips
+                  label="Choose to show only..."
+                  multiple
+                  outlined
+              ></v-select>
+            </v-col>
+            <v-col>
+              <div align="center">
+                <v-btn dark style="color: white;" :disabled="page === 1" @click="page--">
+                  <v-icon>navigate_before</v-icon>
+                </v-btn>
+                <v-btn dark style="color: white">
+            <span style="color: orange;">
+                   {{ page }}
+                 </span>
+                </v-btn>
+                <v-btn dark style="color: white" @click="page++" :disabled="page >= pages.length">
+                  <v-icon>navigate_next</v-icon>
+                </v-btn>
+              </div>
+            </v-col>
+            <v-col>
+              <div align="right">
+              <span style="color: white;" class="text-h5">
+                   Pages: {{ pages.length }}
+                 </span>
+              </div>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
       <v-row>
-
-
-        <div class="mx-auto" style="padding-top: 1em">
-          <v-pagination
-              dark
-              v-model="page"
-              :length="pages.length"
-              :total-visible="7"
-              prev-icon="navigate_before"
-              next-icon="navigate_next"
-          ></v-pagination>
-        </div>
       </v-row>
     </v-container>
   </div>
-
 </template>
 
 <script>
+import ProductCard from "vuejs/client/component/home/component/ProductCard.vue";
+
 export default {
+  components: {
+    ProductCard
+  },
   data() {
     return {
-      posts: [],
-      baseUrl: '//jsonplaceholder.typicode.com/',
-      page: 1,
-      perPage: 20,
-      pages: [],
+      filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
+      filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
+      selectedMethod: undefined,
 
+      page: 1,
+      perPage: 1,
+      pages: [],
     }
   },
   methods: {
-    getPosts() {
-      this.axios.get(this.baseUrl + 'posts')
-          .then(response => {
-            this.posts = response.data;
-          })
-          .catch(response => {
-            console.log(response);
-          });
-    },
+
+    // filterByStatus(status) {
+    //   return this.products.filter(function (product) {
+    //     return product.status === status;
+    //
+    //   })
+    // },
     setPages() {
-      let numberOfPages = Math.ceil(this.posts.length / this.perPage);
+      let numberOfPages = Math.ceil(this.products.length / this.perPage);
+      this.pages = []
       for (let index = 1; index <= numberOfPages; index++) {
         this.pages.push(index);
       }
+      this.page = 1
     },
     paginate(posts) {
       let page = this.page;
@@ -139,21 +115,48 @@ export default {
     }
   },
   computed: {
-    items() {
-      return Array.from({length: this.length}, (k, v) => v + 1)
+    filters(){
+      let array = [];
+      this.filtersValue.forEach(function(filterValue) {
+        if(filterValue === 'ACTIVE') {
+          array += this.filterActive()
+        } else if (filterValue === 'INACTIVE'){
+          array += this.filterInactive()
+        } else  if (filterValue === 'BLOCKED'){
+          array += this.filterBlocked()
+        }
+        return array
+      })
     },
-    length() {
-      return 9
+    filterActive(){
+      return this.products.filter(function (product) {
+        return product.status === 'ACTIVE';
+      })
+    },
+    filterInactive(){
+      return this.products.filter(function (product) {
+        return product.status === 'INACTIVE';
+      })
+    },
+    filterBlocked(){
+      return this.products.filter(function (product) {
+        return product.status === 'BLOCKED';
+      })
+    },
+    products() {
+      return this.$store.getters.products
     },
     displayedPosts() {
-      return this.paginate(this.posts);
+      return this.paginate(this.$store.getters.products);
     }
   },
   created() {
-    this.getPosts();
+    // this.posts = this.products
+    this.setPages();
   },
   watch: {
-    posts() {
+    products() {
+      this.$store.state.App.categories
       this.setPages();
     }
   },
@@ -172,6 +175,7 @@ export default {
     overflow-y: auto;
   }
 }
+
 @media screen and (max-height: 1100px) {
   .scroll {
     margin: 0;

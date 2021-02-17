@@ -18,7 +18,6 @@ public class User {
     private String lastName;
     private String telephoneNumber;
     private String email;
-    private BigDecimal balance;
     private Role role;
     private boolean isActivated;
 
@@ -31,17 +30,8 @@ public class User {
         this.lastName = surname;
         this.telephoneNumber = phone;
         this.email = email;
-        this.balance = BigDecimal.valueOf(0);
         this.role = role;
         this.isActivated = isActivated;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
     }
 
     public String getLogin() {
@@ -158,7 +148,6 @@ public class User {
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", telephoneNumber='").append(telephoneNumber).append('\'');
         sb.append(", email=").append(email);
-        sb.append(", balance=").append(balance);
         sb.append(", isActivated=").append(isActivated);
         sb.append(", role=").append(role);
         sb.append('}');

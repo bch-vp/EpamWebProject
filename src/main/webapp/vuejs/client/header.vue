@@ -82,21 +82,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 export default {
   data() {
     return {
       text_page: text_page,
       isAvatarExists: undefined,
 
-      selectCategory:undefined
+      selectCategory: undefined
     }
   },
 
   watch: {
     selectCategory() {
       console.log('updating');
-
+      this.axios({
+        method: 'post',
+        url: '/ajax?command=load_all_products_by_category',
+        data: this.selectCategory
+      }).then(response => {
+            this.$store.commit('set_products', response.data.data)
+            console.log('success products')
+          },
+          ex => {
+            console.log('error products')
+          })
     }
   },
   created() {
@@ -105,13 +114,13 @@ export default {
       url: '/ajax?command=load_all_categories'
     }).then(response => {
           this.$store.commit('set_categories', response.data.data)
+          this.selectCategory = response.data.data[0]
           console.log('success categories')
         },
         ex => {
           console.log('error categories')
         })
-  }
-  ,
+  },
   methods: {}
 }
 </script>

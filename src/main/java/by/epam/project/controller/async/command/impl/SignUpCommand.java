@@ -6,12 +6,11 @@ import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
-import by.epam.project.model.service.EmailService;
 import by.epam.project.model.service.UserService;
-import by.epam.project.model.service.impl.EmailServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
+import by.epam.project.util.MailSenderUtil;
 import by.epam.project.validator.UserValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +30,6 @@ public class SignUpCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final UserService userService = UserServiceImpl.getInstance();
-    private final EmailService emailService = EmailServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -92,7 +90,7 @@ public class SignUpCommand implements Command {
 
             String command = CommandType.CONFIRM_SIGN_UP.toString().toLowerCase();
 
-            emailService.sendActivationEmail(newUser, emailSubjectWithLocale,
+            MailSenderUtil.sendActivationEmail(newUser, emailSubjectWithLocale,
                     emailBodyWithLocale, linkApp, command);
 
             response.setStatus(HttpServletResponse.SC_CREATED);

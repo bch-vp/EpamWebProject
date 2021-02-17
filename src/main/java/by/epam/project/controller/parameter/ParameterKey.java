@@ -6,7 +6,6 @@ public class ParameterKey {
     public static final String RUSSIAN_LANGUAGE = "ru";
 
     public static final String TIME_CREATED = "time_created";
-    public static final String INFO = "info";
     public static final String DATA = "data";
 
     public static final String PASSING_BY_GUEST = "passing_by_guest";
@@ -29,6 +28,11 @@ public class ParameterKey {
     public static final String UNIQUE_KEY = "unique_key";
 
     public static final String NAME = "name";
+    public static final String INFO = "info";
+    public static final String STATUS = "status";
+    public static final String PRICE = "price";
+
+    public static final String CATEGORY = "category";
 
     public static final String LOGIN_UNIQUE = "login_unique";
     public static final String EMAIL_UNIQUE = "email_unique";

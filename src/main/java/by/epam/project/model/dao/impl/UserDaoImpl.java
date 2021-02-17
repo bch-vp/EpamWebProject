@@ -40,7 +40,6 @@ public class UserDaoImpl implements UserDao {
             statement.setString(5, user.getTelephoneNumber());
             statement.setString(6, user.getEmail());
             statement.setString(7, user.getRole().name());
-            statement.setBigDecimal(8, user.getBalance());
 
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {

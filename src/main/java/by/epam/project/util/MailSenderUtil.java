@@ -1,9 +1,9 @@
 package by.epam.project.util;
 
+import by.epam.project.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -15,35 +15,38 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import static by.epam.project.controller.parameter.ParameterKey.ENCODING;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 
 
 public class MailSenderUtil {
-    private String username;
-    private String password;
-    private final Properties properties;
+    private final static Logger logger = LogManager.getLogger();
+    private static final String ADDRESS = "mailforwebproject31@gmail.com";
+    private static final String PASSWORD = "3114928Denis";
+    private static final String HOST = "smtp.gmail.com";
+    private static final String PORT = "587";
+    private static final Properties properties = new Properties();
 
-    private static final String MAIL_PROPERTIES = "mail.properties";
-    private static final String USER_NAME_PROPERTIES = "mail.user.name";
-    private static final String USER_PASSWORD_PROPERTIES = "mail.user.password";
-    private static final Logger logger = LogManager.getLogger();
+    private static final String SEPARATOR_SIGN = "/";
+    private static final String AMPERSAND_SIGN = "&";
+    private static final String EQUAL_SIGN = "=";
+    private static final String QUESTION_MARK = "?";
+    private static final String COMMAND_TYPE = "do";
 
-    public MailSenderUtil() {
-        properties = new Properties();
-        try {
-            properties.load(this.getClass().getClassLoader().getResourceAsStream(MAIL_PROPERTIES));
-        } catch (IOException exp) {
-            logger.error("Error uploading a file", exp);
-        }
+    static {
+        properties.put("mail.smtp.host", HOST);
+        properties.put("mail.smtp.port", PORT);
+        properties.put("mail.from", ADDRESS);
+        properties.put("mail.smtp.password", PASSWORD);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
     }
 
-    public void sendMessage(String subject, String body, String email) {
-        username = properties.getProperty(USER_NAME_PROPERTIES);
-        password = properties.getProperty(USER_PASSWORD_PROPERTIES);
+
+    public static void sendMessage(String subject, String body, String email) {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(ADDRESS, PASSWORD);
             }
         });
 
@@ -57,5 +60,17 @@ public class MailSenderUtil {
         } catch (MessagingException exp) {
             logger.error("Error sending a message", exp);
         }
+    }
+
+    public static void sendConfirmationChangingPassword(User user, String subject, String body, String uniqueKey) {
+        String bodyEmail = String.format(body, user.getFirstName(), uniqueKey);
+        sendMessage(subject, bodyEmail, user.getEmail());
+    }
+
+    public static void sendActivationEmail(User user, String subject, String body, String linkApp, String command) {
+        String bodyEmail = String.format(body, user.getFirstName(), linkApp
+                + SEPARATOR_SIGN + COMMAND_TYPE + QUESTION_MARK + COMMAND + EQUAL_SIGN + command
+                + AMPERSAND_SIGN + LOGIN + EQUAL_SIGN + user.getLogin());
+        sendMessage(subject, bodyEmail, user.getEmail());
     }
 }

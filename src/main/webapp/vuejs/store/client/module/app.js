@@ -4,8 +4,14 @@ export default {
         isShoppingBasket:false,
         isProfile:false,
 
-        categories: undefined,
+        categories: [],
+        products: []
 
+    },
+    getters: {
+        products: state => {
+            return state.products
+        }
     },
     mutations: {
         set_isProfile(state, data){
@@ -37,6 +43,9 @@ export default {
 
         set_categories(state, data){
             state.categories=data
+        },
+        set_products(state, data){
+            state.products=data
         },
     }
 }

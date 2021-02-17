@@ -2,7 +2,7 @@ package by.epam.project.model.dao;
 
 public class SqlQuery {
     public static final String ADD_USER = "INSERT INTO users (login, password, first_name, last_name, " +
-            "telephone_number, email, role, balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            "telephone_number, email, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
     public static final String FIND_PASSWORD_BY_LOGIN = "SELECT password FROM users WHERE BINARY login = ?";
     public static final String FIND_USER_BY_LOGIN = "SELECT login, password, first_name, last_name, " +
             "telephone_number, email, role, is_activated FROM users WHERE BINARY login = ?";
@@ -22,6 +22,11 @@ public class SqlQuery {
             "WHERE BINARY login = ?";
 
     public static final String FIND_ALL_CATEGORIES = "SELECT name FROM categories";
+
+    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY = "SELECT products.name AS name, products.info AS info, " +
+            "products.status AS status, products.price AS price FROM products " +
+            "JOIN categories on categories.id = products.category_id WHERE categories.name = ?";
+
 
     private SqlQuery() {
     }

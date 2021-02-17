@@ -5,10 +5,10 @@ import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
-import by.epam.project.model.service.impl.EmailServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
+import by.epam.project.util.MailSenderUtil;
 import by.epam.project.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +30,6 @@ public class ChangePasswordByEmailCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final UserService userService = UserServiceImpl.getInstance();
-    private final by.epam.project.model.service.EmailService emailService = EmailServiceImpl.getInstance();
     private static final int DIFF_RANGE = 900_000;
     private static final int MIN_RANGE = 100_000;
     private static final int TIMER_SEC = 300;
@@ -80,7 +79,7 @@ public class ChangePasswordByEmailCommand implements Command {
                 String emailBodyWithLocale = ContentUtil.getWithLocale(language,
                         ContentKey.EMAIL_BODY_GUEST_CHANGING_PASSWORD);
 
-                emailService.sendConfirmationChangingPassword(user, emailSubjectWithLocale,
+                MailSenderUtil.sendConfirmationChangingPassword(user, emailSubjectWithLocale,
                         emailBodyWithLocale, uniqueKey);
                 return;
             }
