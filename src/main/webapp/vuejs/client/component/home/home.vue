@@ -83,21 +83,13 @@ export default {
     return {
       filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
       filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
-      selectedMethod: undefined,
 
       page: 1,
-      perPage: 1,
+      perPage: 5,
       pages: [],
     }
   },
   methods: {
-
-    // filterByStatus(status) {
-    //   return this.products.filter(function (product) {
-    //     return product.status === status;
-    //
-    //   })
-    // },
     setPages() {
       let numberOfPages = Math.ceil(this.products.length / this.perPage);
       this.pages = []
@@ -116,38 +108,38 @@ export default {
   },
   computed: {
     filters(){
-      let array = [];
-      this.filtersValue.forEach(function(filterValue) {
-        if(filterValue === 'ACTIVE') {
-          array += this.filterActive()
-        } else if (filterValue === 'INACTIVE'){
-          array += this.filterInactive()
-        } else  if (filterValue === 'BLOCKED'){
-          array += this.filterBlocked()
+      var array = [];
+
+      for(var i= 0; i< this.filtersValue.length;i++) {
+        if(this.filtersValue[i] === 'ACTIVE') {
+          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+            return product.status === 'ACTIVE';
+          })
+          array = array.concat(arrayConcat)
+
+        } else if (this.filtersValue[i] === 'INACTIVE'){
+          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+            return product.status === 'INACTIVE';
+          })
+          array = array.concat(arrayConcat)
+
+        } else  if (this.filtersValue[i] === 'BLOCKED'){
+          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+            return product.status === 'BLOCKED';
+          })
+          array = array.concat(arrayConcat)
         }
-        return array
-      })
-    },
-    filterActive(){
-      return this.products.filter(function (product) {
-        return product.status === 'ACTIVE';
-      })
-    },
-    filterInactive(){
-      return this.products.filter(function (product) {
-        return product.status === 'INACTIVE';
-      })
-    },
-    filterBlocked(){
-      return this.products.filter(function (product) {
-        return product.status === 'BLOCKED';
-      })
+      }
+      return array
     },
     products() {
       return this.$store.getters.products
     },
+    productsWithFilter() {
+      return this.$store.getters.products
+    },
     displayedPosts() {
-      return this.paginate(this.$store.getters.products);
+      return this.paginate(this.filters);
     }
   },
   created() {
