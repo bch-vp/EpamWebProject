@@ -12,7 +12,8 @@ public enum CommandType {
     UPLOAD_PROFILE_IMAGE(new UploadProfileImageCommand()),
     CHANGE_PASSWORD_BY_OLD_PASSWORD(new ChangePasswordByOldPassCommand()),
     LOAD_ALL_CATEGORIES(new LoadAllCategoriesCommand()),
-    LOAD_ALL_PRODUCTS_BY_CATEGORY(new LoadAllProductsByCategoryCommand()),
+    LOAD_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT(new LoadAllProductsByCategoryToClientCommand()),
+    ADD_PRODUCT_TO_SHOPPING_CART(new AddProductToShoppingCart()),
     DELETE_PROFILE_IMAGE(new DeleteProfileImage());
 
     private final Command command;

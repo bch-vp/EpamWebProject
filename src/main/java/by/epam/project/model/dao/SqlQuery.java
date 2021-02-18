@@ -23,9 +23,13 @@ public class SqlQuery {
 
     public static final String FIND_ALL_CATEGORIES = "SELECT name FROM categories";
 
-    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY = "SELECT products.name AS name, products.info AS info, " +
-            "products.status AS status, products.price AS price FROM products " +
-            "JOIN categories on categories.id = products.category_id WHERE categories.name = ?";
+    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT = "SELECT products.name AS name, products.info " +
+            "AS info, products.status AS status, products.price AS price FROM products " +
+            "JOIN categories on categories.id = products.category_id WHERE categories.name = ? AND " +
+            "(products.status != 'BLOCKED')";
+    public static final String FIND_PRODUCT_BY_NAME = "SELECT name, info, status, price, " +
+            "FROM products WHERE BINARY name = ?";
+
 
 
     private SqlQuery() {

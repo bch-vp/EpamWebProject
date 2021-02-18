@@ -27,6 +27,7 @@ public class ParameterKey {
     public static final String IS_ACTIVATED = "is_activated";
     public static final String UNIQUE_KEY = "unique_key";
 
+    public static final String SHOPPING_CART = "shopping_cart";
     public static final String NAME = "name";
     public static final String INFO = "info";
     public static final String STATUS = "status";

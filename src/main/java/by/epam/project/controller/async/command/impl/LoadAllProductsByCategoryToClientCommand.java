@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class LoadAllProductsByCategoryCommand implements Command {
+public class LoadAllProductsByCategoryToClientCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final ProductService productService = ProductServiceImpl.getInstance();
@@ -30,7 +29,7 @@ public class LoadAllProductsByCategoryCommand implements Command {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
             String category = (String) requestParameters.get(NAME);
 
-            List<Product> products = productService.findAllProductsByCategory(category);
+            List<Product> products = productService.findAllProductsByCategoryToClient(category);
 
             String json = JsonUtil.toJson(DATA, products);
             JsonUtil.writeJsonToResponse(response, json);

@@ -37,7 +37,7 @@
         {{ text_page.header.role }}
       </v-btn>
       |
-      <v-btn v-on:click="$store.commit('show_shoppingBasket')" :disabled="$store.state.App.isShoppingBasket" rounded
+      <v-btn v-on:click="$store.commit('show_shoppingCart')" :disabled="$store.state.App.isShoppingBasket" rounded
              text>
         <v-icon>
           shopping_cart
@@ -97,7 +97,7 @@ export default {
       console.log('updating');
       this.axios({
         method: 'post',
-        url: '/ajax?command=load_all_products_by_category',
+        url: '/ajax?command=load_all_products_by_category_to_client',
         data: this.selectCategory
       }).then(response => {
             this.$store.commit('set_products', response.data.data)

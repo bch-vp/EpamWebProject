@@ -9,6 +9,7 @@
         <v-row>
           <profile v-if="$store.state.App.isProfile"/>
           <home v-if="$store.state.App.isHome"/>
+          <shopping-cart v-if="$store.state.App.isShoppingCart"/>
         </v-row>
       </v-container>
     </div>
@@ -20,12 +21,14 @@
 import CustomHeader from 'vuejs/client/header.vue'
 import Profile from 'vuejs/client/component/profile/profile.vue'
 import Home from 'vuejs/client/component/home/home.vue'
+import ShoppingCart from 'vuejs/client/component/shoppingcart/shoppingCart.vue'
 
 export default {
   components: {
     CustomHeader,
     Profile,
-    Home
+    Home,
+    ShoppingCart
   },
   data() {
     return {

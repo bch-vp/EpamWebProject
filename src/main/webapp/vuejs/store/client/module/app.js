@@ -1,11 +1,12 @@
 export default {
     state: {
         isHome:false,
-        isShoppingBasket:false,
+        isShoppingCart:false,
         isProfile:false,
 
         categories: [],
-        products: []
+        products: [],
+        shoppingCart:[]
 
     },
     getters: {
@@ -14,20 +15,20 @@ export default {
         }
     },
     mutations: {
-        set_isProfile(state, data){
-            state.isAvatarExists=data
-        },
-        set_isHome(state, data){
-            state.isAvatarExists=data
-        },
+        // set_isProfile(state, data){
+        //     state.isAvatarExists=data
+        // },
+        // set_isHome(state, data){
+        //     state.isAvatarExists=data
+        // },
 
         show_home(state) {
             this.commit('off_allComponents')
             state.isHome = true
         },
-        show_shoppingBasket(state) {
+        show_shoppingCart(state) {
             this.commit('off_allComponents')
-            state.isShoppingBasket = true
+            state.isShoppingCart = true
         },
         show_profile(state) {
             this.commit('off_allComponents')
@@ -36,9 +37,8 @@ export default {
 
         off_allComponents(state) {
             state.isHome = false
-            state.isShoppingBasket = false
+            state.isShoppingCart = false
             state.isProfile = false
-
         },
 
         set_categories(state, data){
@@ -46,6 +46,13 @@ export default {
         },
         set_products(state, data){
             state.products=data
+        },
+
+        add_productToShoppingCart(state, data){
+            state.shoppingCart.push(data)
+        },
+        remove_productToShoppingCart(state, data){
+            state.shoppingCart.t.splice(t.indexOf(data), 1)
         },
     }
 }

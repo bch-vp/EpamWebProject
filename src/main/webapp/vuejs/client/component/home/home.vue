@@ -31,7 +31,7 @@
           <v-row style="padding-top: 2em;">
             <v-col>
               <v-select
-                  style="max-width: 320px"
+                  style="max-width: 230px"
                   dark
                   v-model="filtersValue"
                   :items="filtersItems"
@@ -87,12 +87,12 @@ export default {
   },
   data() {
     return {
-      filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
-      filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
+      filtersItems: ['ACTIVE', 'INACTIVE'],
+      filtersValue: ['ACTIVE', 'INACTIVE'],
 
       oldPage: 1,
       page: 1,
-      perPage: 5,
+      perPage: 9,
       pages: [],
     }
   },
@@ -111,12 +111,6 @@ export default {
         } else if (this.filtersValue[i] === 'INACTIVE') {
           var arrayConcat = this.$store.state.App.products.filter(function (product) {
             return product.status === 'INACTIVE';
-          })
-          array = array.concat(arrayConcat)
-
-        } else if (this.filtersValue[i] === 'BLOCKED') {
-          var arrayConcat = this.$store.state.App.products.filter(function (product) {
-            return product.status === 'BLOCKED';
           })
           array = array.concat(arrayConcat)
         }
