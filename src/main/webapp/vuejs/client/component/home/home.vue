@@ -19,7 +19,7 @@
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
-                      <div class="col-md-4" v-for="product in  displayedPosts">
+                      <div class="col-md-4" v-for="product in  productsWithFiltersAndPagination">
                         <ProductCard :product="product"/>
                       </div>
                     </v-row>
@@ -58,9 +58,15 @@
             </v-col>
             <v-col>
               <div align="right">
-              <span style="color: white;" class="text-h5">
-                   Pages: {{ pages.length }}
-                 </span>
+              <span style="color: white; padding-right: 5px" class="text-h5">
+                Pages: {{ pages.length }}
+              </span>
+                <span style="color: white;" class="text-h5">
+                |
+              </span>
+                <span style="color: white; padding-left: 5px" class="text-h5">
+                Products: {{ productsWithFilters.length }}
+              </span>
               </div>
             </v-col>
           </v-row>
@@ -84,46 +90,31 @@ export default {
       filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
       filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
 
+      oldPage: 1,
       page: 1,
       perPage: 5,
       pages: [],
     }
   },
-  methods: {
-    setPages() {
-      let numberOfPages = Math.ceil(this.products.length / this.perPage);
-      this.pages = []
-      for (let index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
-      }
-      this.page = 1
-    },
-    paginate(posts) {
-      let page = this.page;
-      let perPage = this.perPage;
-      let from = (page * perPage) - perPage;
-      let to = (page * perPage);
-      return posts.slice(from, to);
-    }
-  },
   computed: {
-    filters(){
+    productsWithFilters() {
       var array = [];
 
-      for(var i= 0; i< this.filtersValue.length;i++) {
-        if(this.filtersValue[i] === 'ACTIVE') {
+      this.filtersValue = this.filtersValue.sort()
+      for (var i = 0; i < this.filtersValue.length; i++) {
+        if (this.filtersValue[i] === 'ACTIVE') {
           var arrayConcat = this.$store.state.App.products.filter(function (product) {
             return product.status === 'ACTIVE';
           })
           array = array.concat(arrayConcat)
 
-        } else if (this.filtersValue[i] === 'INACTIVE'){
+        } else if (this.filtersValue[i] === 'INACTIVE') {
           var arrayConcat = this.$store.state.App.products.filter(function (product) {
             return product.status === 'INACTIVE';
           })
           array = array.concat(arrayConcat)
 
-        } else  if (this.filtersValue[i] === 'BLOCKED'){
+        } else if (this.filtersValue[i] === 'BLOCKED') {
           var arrayConcat = this.$store.state.App.products.filter(function (product) {
             return product.status === 'BLOCKED';
           })
@@ -132,26 +123,30 @@ export default {
       }
       return array
     },
-    products() {
-      return this.$store.getters.products
-    },
-    productsWithFilter() {
-      return this.$store.getters.products
-    },
-    displayedPosts() {
-      return this.paginate(this.filters);
+    productsWithFiltersAndPagination() {
+      var array = this.productsWithFilters;
+
+      let numberOfPages = Math.ceil(array.length / this.perPage);
+      this.pages = []
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+
+      if (this.page === this.oldPage + 1 || this.page === this.oldPage - 1) {
+        this.oldPage = this.page
+      } else {
+        this.page = 1
+        this.oldPage = 1
+      }
+
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+
+      return array.slice(from, to);
     }
-  },
-  created() {
-    // this.posts = this.products
-    this.setPages();
-  },
-  watch: {
-    products() {
-      this.$store.state.App.categories
-      this.setPages();
-    }
-  },
+  }
 }
 </script>
 
