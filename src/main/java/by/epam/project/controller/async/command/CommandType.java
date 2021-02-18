@@ -14,6 +14,7 @@ public enum CommandType {
     LOAD_ALL_CATEGORIES(new LoadAllCategoriesCommand()),
     LOAD_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT(new LoadAllProductsByCategoryToClientCommand()),
     ADD_PRODUCT_TO_SHOPPING_CART(new AddProductToShoppingCart()),
+    LOAD_SHOPPING_CART(new LoadShoppingCartCommand()),
     DELETE_PROFILE_IMAGE(new DeleteProfileImage());
 
     private final Command command;

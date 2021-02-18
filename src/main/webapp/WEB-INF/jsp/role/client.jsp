@@ -177,6 +177,8 @@
                 not_found: "<fmt:message key="form_component.error.not_found"/>",
                 time_expired: "<fmt:message key="form_component.error.time_expired"/>",
                 email_incorrect: "<fmt:message key="form_component.error.email_incorrect"/>",
+                notification: "<fmt:message key="form_component.error.notification"/>",
+                need_reload_page: "<fmt:message key="form_component.error.need_reload_page"/>",
                 unique_key_incorrect: "<fmt:message key="form_component.error.unique_key_incorrect"/>",
             },
             button: {

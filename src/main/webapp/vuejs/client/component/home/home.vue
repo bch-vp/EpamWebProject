@@ -1,7 +1,6 @@
 <!---->
 
 <template>
-
   <div style="width: 100%; margin-top: 80px;">
     <v-container>
       <v-row justify="center" row>
@@ -47,7 +46,7 @@
                   <v-icon>navigate_before</v-icon>
                 </v-btn>
                 <v-btn dark style="color: white">
-            <span style="color: orange;">
+            <span class="light-green--text text--lighten-1" >
                    {{ page }}
                  </span>
                 </v-btn>
@@ -72,8 +71,6 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row>
-      </v-row>
     </v-container>
   </div>
 </template>
@@ -92,7 +89,7 @@ export default {
 
       oldPage: 1,
       page: 1,
-      perPage: 9,
+      perPage: 12,
       pages: [],
     }
   },

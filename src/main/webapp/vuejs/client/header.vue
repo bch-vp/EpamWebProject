@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-app-bar absolute flat fixed dark color="transparent" style="box-shadow: 0 0 50px black; padding-top: 1em ">
-      <v-toolbar-title class="font-weight-medium"
-                       style="margin-left: 2%; font-size: 40px; font-family: 'Monoton', cursive;">
-        HOTEL
+      <v-toolbar-title class="font-weight-medium light-green--text text--lighten-2"
+                       style="margin-left: 2%; font-size: 40px; font-family: 'Monoton', cursive; ">
+        JEWELRY
       </v-toolbar-title>
 
       <v-btn v-on:click="$store.commit('show_home')" :disabled="$store.state.App.isHome" text rounded small outlined fab
@@ -42,7 +42,7 @@
         <v-icon>
           shopping_cart
         </v-icon>
-        &nbsp
+        &nbsp{{ $store.state.App.shoppingCart.length }}
       </v-btn>
       |
       <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
@@ -119,6 +119,16 @@ export default {
         },
         ex => {
           console.log('error categories')
+        })
+
+    this.axios({
+      method: 'post',
+      url: '/ajax?command=load_shopping_cart'
+    }).then(response => {
+          this.$store.commit('set_shoppingCart', response.data.data)
+        },
+        ex => {
+
         })
   },
   methods: {}

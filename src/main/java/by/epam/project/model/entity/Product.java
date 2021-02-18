@@ -61,9 +61,6 @@ public class Product {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
         Product user = (Product) o;
 
@@ -94,7 +91,7 @@ public class Product {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
+        final StringBuilder sb = new StringBuilder("Product{");
         sb.append("name='").append(name).append('\'');
         sb.append(", info='").append(info).append('\'');
         sb.append(", status='").append(status).append('\'');

@@ -24,6 +24,7 @@ public enum RolePermission {
             "LOAD_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "ADD_PRODUCT_TO_SHOPPING_CART",
+            "LOAD_SHOPPING_CART",
             "SIGN_OUT"
     )),
     ADMIN(Set.of(

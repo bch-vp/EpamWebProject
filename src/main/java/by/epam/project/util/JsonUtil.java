@@ -16,7 +16,6 @@ import java.util.Map;
 public class JsonUtil {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private static final String COMMAND_NAME = "command";
     private static final String CONTENT_TYPE = "application/json";
     private static final String ENCODING = "UTF-8";
 

@@ -98,9 +98,6 @@ public class User {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
         User user = (User) o;
 

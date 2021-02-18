@@ -44,15 +44,25 @@ export default {
         set_categories(state, data){
             state.categories=data
         },
+
         set_products(state, data){
             state.products=data
         },
+        add_productToProducts(state, data){
+            state.products.push(data)
+        },
+        remove_productToProducts(state, data){
+            state.products.splice(state.products.indexOf(data), 1)
+        },
 
+        set_shoppingCart(state, data){
+            state.shoppingCart=data
+        },
         add_productToShoppingCart(state, data){
             state.shoppingCart.push(data)
         },
         remove_productToShoppingCart(state, data){
-            state.shoppingCart.t.splice(t.indexOf(data), 1)
+            state.shoppingCart.splice(state.shoppingCart.indexOf(data), 1)
         },
     }
 }
