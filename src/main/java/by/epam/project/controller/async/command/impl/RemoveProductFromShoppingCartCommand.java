@@ -13,14 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.NAME;
+import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
-public class LoadAllProductsByCategoryToClientCommand implements Command {
+public class RemoveProductFromShoppingCartCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final ProductService productService = ProductServiceImpl.getInstance();
@@ -29,21 +27,29 @@ public class LoadAllProductsByCategoryToClientCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
 
+        List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
+        if(shoppingCart == null){
+            session.setAttribute(SHOPPING_CART, new ArrayList<String>());
+            shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
+        }
+
         try {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
-            String category = (String) requestParameters.get(NAME);
+            String productName = (String) requestParameters.get(NAME);
 
-            List<Product> products = productService.findAllProductsByCategoryToClient(category);
-
-            List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
-            if(shoppingCart != null){
-                shoppingCart.forEach(productFromShoppingCart -> {
-                    products.remove(productFromShoppingCart);
-                });
+            Optional<Product> productOptional = productService.findProductByName(productName);
+            if(productOptional.isEmpty()){
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
             }
 
-            String json = JsonUtil.toJson(DATA, products);
-            JsonUtil.writeJsonToResponse(response, json);
+            Product product = productOptional.get();
+            if(!shoppingCart.contains(product)){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            shoppingCart.remove(product);
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

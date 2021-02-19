@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface ProductService {
     List<Product> findAllProductsByCategoryToClient(String category) throws ServiceException;
+    List<Product> findAllProductsByCategoryToAdmin(String category) throws ServiceException;
     Optional<Product> findProductByName(String name)  throws ServiceException;
 }

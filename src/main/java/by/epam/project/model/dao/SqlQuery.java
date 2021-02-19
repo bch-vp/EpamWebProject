@@ -27,8 +27,12 @@ public class SqlQuery {
             "AS info, products.status AS status, products.price AS price FROM products " +
             "JOIN categories on categories.id = products.category_id WHERE categories.name = ? AND " +
             "(products.status != 'BLOCKED')";
+    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_ADMIN = "SELECT products.name AS name, products.info " +
+            "AS info, products.status AS status, products.price AS price FROM products " +
+            "JOIN categories on categories.id = products.category_id WHERE categories.name = ?";
     public static final String FIND_PRODUCT_BY_NAME = "SELECT name, info, status, price " +
             "FROM products WHERE BINARY name = ?";
+
 
 
 

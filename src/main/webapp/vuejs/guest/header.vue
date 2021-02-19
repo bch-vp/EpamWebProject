@@ -3,7 +3,7 @@
   <v-app-bar absolute flat fixed dark color="transparent" style="box-shadow: 0 0 50px black;  padding-top: 1em ">
     <v-toolbar-title class="font-weight-medium"
                      style="margin-left: 2%; font-size: 40px; font-family: 'Monoton', cursive;">
-      HOTEL
+      JEWELRY
     </v-toolbar-title>
 
 

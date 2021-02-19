@@ -43,6 +43,25 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public List<Product> findAllProductsByCategoryToAdmin(String category) throws DaoException {
+        List<Product> products = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_PRODUCTS_BY_CATEGORY_TO_ADMIN)) {
+            statement.setString(1, category);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Product product = ResultSetUtil.toProduct(resultSet);
+                products.add(product);
+            }
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return products;
+    }
+
+    @Override
     public Optional<Product> findProductByName(String name) throws DaoException {
         Optional<Product> productOptional = Optional.empty();
 

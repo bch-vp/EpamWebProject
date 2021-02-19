@@ -21,16 +21,24 @@ public enum RolePermission {
             "UPLOAD_PROFILE_IMAGE",
             "DELETE_PROFILE_IMAGE",
             "LOAD_ALL_CATEGORIES",
-            "LOAD_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT",
+            "LOAD_ALL_PRODUCTS_BY_CATEGORY",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "ADD_PRODUCT_TO_SHOPPING_CART",
             "LOAD_SHOPPING_CART",
+            "REMOVE_PRODUCT_FROM_SHOPPING_CART",
             "SIGN_OUT"
     )),
     ADMIN(Set.of(
-//            "PASSING_BY_ADMIN",
-//            "CHANGE_LANGUAGE",
-//            "SIGN_OUT"
+            "PASSING_BY_ADMIN",
+            "CHANGE_LANGUAGE",
+            "LOAD_PROFILE_IMAGE",
+            "UPLOAD_PROFILE_IMAGE",
+            "UPDATE_PROFILE",
+            "DELETE_PROFILE_IMAGE",
+            "LOAD_ALL_CATEGORIES",
+            "LOAD_ALL_PRODUCTS_BY_CATEGORY",
+            "CHANGE_PASSWORD_BY_OLD_PASSWORD",
+            "SIGN_OUT"
     ));
 
     private final Set<String> commands;

@@ -1,5 +1,5 @@
 var path = require('path')
-const VueLoaderPlugin = require('vue-loader/lib/plugin'); // плагин для загрузки кода Vue
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 
 const webpack = require("webpack");
@@ -17,12 +17,6 @@ var config = {
                     'css-loader',
                     {
                         loader: 'sass-loader',
-                        // Requires sass-loader@^7.0.0
-                        options: {
-                            implementation: require('sass'),
-                            indentedSyntax: true // optional
-                        },
-                        // Requires sass-loader@^8.0.0
                         options: {
                             implementation: require('sass'),
                             sassOptions: {
@@ -76,6 +70,16 @@ var clientConfiq = Object.assign({}, config, {
     },
 });
 
+var adminConfiq = Object.assign({}, config, {
+    name: "admin",
+    entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'admin', 'admin.js'),
+    output: {
+        path: __dirname + "/build",
+        publicPath: "/",
+        filename: "admin.js"
+    },
+});
+
 var errorConfiq = Object.assign({}, config, {
     name: "error",
     entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'error', 'error.js'),
@@ -97,4 +101,4 @@ var notificationSuccessConfiq = Object.assign({}, config, {
 });
 
 // Return Array of Configurations
-module.exports = [guestConfiq, clientConfiq, errorConfiq, notificationSuccessConfiq];
+module.exports = [guestConfiq, clientConfiq, adminConfiq, errorConfiq, notificationSuccessConfiq];

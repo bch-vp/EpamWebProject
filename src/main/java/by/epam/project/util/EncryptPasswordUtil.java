@@ -10,8 +10,4 @@ public class EncryptPasswordUtil {
         String encryptPassword = DigestUtils.md5Hex(password);
         return encryptPassword;
     }
-
-//    public static void main(String[] args) {
-//        System.out.println(encryption("Aa123"));
-//    }
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface ProductDao {
     List<Product> findAllProductsByCategoryToClient(String category) throws DaoException;
+    List<Product> findAllProductsByCategoryToAdmin(String category) throws DaoException;
     Optional<Product> findProductByName(String name)  throws DaoException;
 
 }

@@ -26,7 +26,20 @@ public class ProductServiceImpl implements ProductService {
         try {
             products = productDao.findAllProductsByCategoryToClient(category);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all products by category", exp);
+            throw new ServiceException("Error during finding all products by category to client", exp);
+        }
+
+        return products;
+    }
+
+    @Override
+    public List<Product> findAllProductsByCategoryToAdmin(String category) throws ServiceException {
+        List<Product> products;
+
+        try {
+            products = productDao.findAllProductsByCategoryToAdmin(category);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding all products by category to admin", exp);
         }
 
         return products;

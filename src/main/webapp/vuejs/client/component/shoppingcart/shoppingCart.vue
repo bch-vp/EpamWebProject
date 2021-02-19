@@ -26,48 +26,30 @@
               </div>
             </div>
           </v-card>
-<!--          <v-row style="padding-top: 2em;">-->
-<!--            <v-col>-->
-<!--              <v-select-->
-<!--                  style="max-width: 230px"-->
-<!--                  dark-->
-<!--                  v-model="filtersValue"-->
-<!--                  :items="filtersItems"-->
-<!--                  chips-->
-<!--                  label="Choose to show only..."-->
-<!--                  multiple-->
-<!--                  outlined-->
-<!--              ></v-select>-->
-<!--            </v-col>-->
-<!--            <v-col>-->
-<!--              <div align="center">-->
-<!--                <v-btn dark style="color: white;" :disabled="page === 1" @click="page&#45;&#45;">-->
-<!--                  <v-icon>navigate_before</v-icon>-->
-<!--                </v-btn>-->
-<!--                <v-btn dark style="color: white">-->
-<!--            <span style="color: orange;">-->
-<!--                   {{ page }}-->
-<!--                 </span>-->
-<!--                </v-btn>-->
-<!--                <v-btn dark style="color: white" @click="page++" :disabled="page >= pages.length">-->
-<!--                  <v-icon>navigate_next</v-icon>-->
-<!--                </v-btn>-->
-<!--              </div>-->
-<!--            </v-col>-->
-<!--            <v-col>-->
-<!--              <div align="right">-->
-<!--              <span style="color: white; padding-right: 5px" class="text-h5">-->
-<!--                Pages: {{ pages.length }}-->
-<!--              </span>-->
-<!--                <span style="color: white;" class="text-h5">-->
-<!--                |-->
-<!--              </span>-->
-<!--                <span style="color: white; padding-left: 5px" class="text-h5">-->
-<!--                Products: {{ productsWithFilters.length }}-->
-<!--              </span>-->
-<!--              </div>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
+          <v-row style="padding-top: 2em;">
+            <v-col>
+              <span style="color: white; padding-left: 5px" class="text-h5">
+                Total price:&nbsp {{ calculateOrderPrice }}
+                <span class="light-green--text text--lighten-2">
+                  $
+                </span>
+              </span>
+            </v-col>
+            <v-col>
+              <div align="center">
+                <v-btn @click="" dark rounded outlined color="light-green accent-2" class="text-h6 white--text" text>
+                  ORDER PRODUCTS
+                </v-btn>
+              </div>
+            </v-col>
+            <v-col>
+              <div align="right">
+                <span style="color: white; padding-left: 5px" class="text-h5">
+                Products:&nbsp {{ $store.state.App.shoppingCart.length }}
+              </span>
+              </div>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -83,8 +65,17 @@
 import ProductCard from "vuejs/client/component/shoppingcart/component/ProductCard.vue";
 
 export default {
-  components:{
+  components: {
     ProductCard
+  },
+  computed:{
+    calculateOrderPrice(){
+      var orderPrice = 0
+      this.$store.state.App.shoppingCart.forEach(function (product) {
+        orderPrice += product.price
+      })
+      return orderPrice
+    }
   }
 }
 </script>
