@@ -14,9 +14,10 @@ CREATE TABLE IF NOT EXISTS `user_roles`
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
 ) ENGINE = InnoDB;
-INSERT INTO `user_roles`(`name`) VALUES ('GUEST'),
-                                        ('CLIENT'),
-                                        ('ADMIN');
+INSERT INTO `user_roles`(`name`)
+VALUES ('GUEST'),
+       ('CLIENT'),
+       ('ADMIN');
 
 -- -----------------------------------------------------
 -- Table `user_statuses`
@@ -24,14 +25,15 @@ INSERT INTO `user_roles`(`name`) VALUES ('GUEST'),
 DROP TABLE IF EXISTS `user_statuses`;
 CREATE TABLE IF NOT EXISTS `user_statuses`
 (
-    `id`   BIGINT     NOT NULL AUTO_INCREMENT,
+    `id`   BIGINT      NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(15) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
 ) ENGINE = InnoDB;
-INSERT INTO `user_statuses`(`name`) VALUES ('ACTIVATED'),
-                                           ('NOT_ACTIVATED'),
-                                           ('BANNED');
+INSERT INTO `user_statuses`(`name`)
+VALUES ('ACTIVATED'),
+       ('NOT_ACTIVATED'),
+       ('BANNED');
 
 -- -----------------------------------------------------
 -- Table `users`
@@ -68,14 +70,15 @@ CREATE TABLE IF NOT EXISTS `users`
 DROP TABLE IF EXISTS `product_statuses`;
 CREATE TABLE IF NOT EXISTS `product_statuses`
 (
-    `id`   BIGINT     NOT NULL AUTO_INCREMENT,
+    `id`   BIGINT      NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(15) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
 ) ENGINE = InnoDB;
-INSERT INTO `product_statuses`(`name`) VALUES ('ACTIVE'),
-                                              ('INACTIVE'),
-                                              ('BLOCKED');
+INSERT INTO `product_statuses`(`name`)
+VALUES ('ACTIVE'),
+       ('INACTIVE'),
+       ('BLOCKED');
 
 -- -----------------------------------------------------
 -- Table `categories`
@@ -88,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `categories`
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
 ) ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `products`
@@ -119,13 +123,14 @@ CREATE TABLE IF NOT EXISTS `products`
 DROP TABLE IF EXISTS `order_statuses`;
 CREATE TABLE IF NOT EXISTS `order_statuses`
 (
-    `id`               BIGINT      NOT NULL AUTO_INCREMENT,
+    `id`   BIGINT      NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(15) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
-)ENGINE = InnoDB;
-INSERT INTO `order_statuses`(`name`) VALUES ('CONFIRMED'),
-                                            ('NOT_CONFIRMED');
+) ENGINE = InnoDB;
+INSERT INTO `order_statuses`(`name`)
+VALUES ('CONFIRMED'),
+       ('NOT_CONFIRMED');
 
 -- -----------------------------------------------------
 -- Table `orders`
@@ -166,3 +171,45 @@ CREATE TABLE IF NOT EXISTS `orders_products`
         ON DELETE NO ACTION
         ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
+
+
+# -------------------------------------
+INSERT INTO categories(name)
+VALUES ('others'),
+       ('category_1'),
+       ('category_2'),
+       ('category_3');
+
+INSERT INTO products(name, info, price, category_id, status_id)
+VALUES ('product_1', 'Some description of product', 243, 1, 1),
+       ('product_2', 'Some description of product', 2243, 1, 1),
+       ('product_3', 'Some description of product', 343, 1, 1),
+       ('product_4', 'Some description of product', 243, 1, 1),
+       ('product_5', 'Some adescription of product', 243, 1, 1),
+       ('product_6', 'Some description of product', 3, 1, 1),
+       ('product_7', 'Some description of product', 223, 1, 1),
+       ('product_8', 'Some description of product', 23, 1, 1),
+       ('product_9', 'Some description of product', 253, 1, 1),
+       ('product_10', 'Some description of product', 23, 1, 1),
+       ('product_11', 'Some description of product', 2243, 1, 1),
+       ('product_12', 'Some description of product', 23, 1, 1),
+       ('product_13', 'Some description of product', 23, 1, 1),
+       ('product_14', 'Some description of product', 223, 1, 1),
+       ('product_15', 'Some description of product', 23, 1, 1),
+       ('product_16', 'Some description of product', 23, 1, 1),
+       ('product_17', 'Some description of product', 223, 2, 1),
+       ('product_18', 'Some description of product', 223, 2, 1),
+       ('product_19', 'Some description of product', 28, 2, 1),
+       ('product_20', 'Some description of product', 13, 2, 1),
+       ('product_21', 'Some description of product', 873, 2, 1),
+       ('product_22', 'Some description of product', 64, 2, 1),
+       ('product_23', 'Some description of product', 463, 3, 1),
+       ('product_24', 'Some description of product', 463, 3, 1),
+       ('product_25', 'Some description of product', 643, 3, 1),
+       ('product_26', 'Some description of product', 2, 3, 1),
+       ('product_27', 'Some description of product', 243, 3, 1),
+       ('product_28', 'Some description of product', 2, 3, 1),
+       ('product_29', 'Some description of product', 63, 3, 1),
+       ('product_30', 'Some description of product', 23, 4, 1),
+       ('product_31', 'Some description of product', 73, 4, 1),
+       ('product_32', 'Some description of product', 223, 4, 1);

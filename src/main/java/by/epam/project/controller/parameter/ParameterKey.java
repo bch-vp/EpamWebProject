@@ -27,6 +27,9 @@ public class ParameterKey {
     public static final String ROLE = "role";
     public static final String UNIQUE_KEY = "unique_key";
 
+    public static final String COMMENT = "comment";
+    public static final String ADDRESS = "address";
+
     public static final String SHOPPING_CART = "shopping_cart";
     public static final String NAME = "name";
     public static final String INFO = "info";

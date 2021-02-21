@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import ProductCard from "vuejs/client/component/home/component/ProductCard.vue";
+import ProductCard from "vuejs/admin/component/home/component/ProductCard.vue";
 
 export default {
   components: {
