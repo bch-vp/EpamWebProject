@@ -4,6 +4,7 @@ import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Product;
+import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +38,7 @@ public class ConfirmSignUpCommand implements Command {
         session.setAttribute(SHOPPING_CART, new ArrayList<String>());
 
         try {
-            userService.updateActivationStatusByLogin(login, ACTIVATED);
+            userService.updateActivationStatusByLogin(login, User.Status.ACTIVATED);
         } catch (ServiceException exp) {
             router.setCurrentPage(ERROR_500);
             logger.error(exp);

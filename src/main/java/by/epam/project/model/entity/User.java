@@ -1,10 +1,5 @@
 package by.epam.project.model.entity;
 
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 public class User {
 
     public enum Role {
@@ -13,25 +8,60 @@ public class User {
         ADMIN
     }
 
+    public enum Status {
+        ACTIVATED,
+        NOT_ACTIVATED,
+        BANNED
+    }
+
+    private long id;
     private String login;
     private String firstName;
     private String lastName;
     private String telephoneNumber;
     private String email;
     private Role role;
-    private boolean isActivated;
+    private Status status;
 
     public User() {
     }
 
-    public User(String login, String name, String surname, String phone, String email, Role role, boolean isActivated) {
+    public User(long id, String login, String firstName, String lastName, String telephoneNumber, String email,
+                Role role, Status status) {
+        this.id = id;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.telephoneNumber = telephoneNumber;
+        this.email = email;
+        this.role = role;
+        this.status = status;
+    }
+
+    public User(String login, String name, String surname, String phone, String email, Role role, Status status) {
         this.login = login;
         this.firstName = name;
         this.lastName = surname;
         this.telephoneNumber = phone;
         this.email = email;
         this.role = role;
-        this.isActivated = isActivated;
+        this.status = status;
+    }
+
+    public User(String login, String firstName, String lastName, String telephoneNumber, String email) {
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.telephoneNumber = telephoneNumber;
+        this.email = email;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -82,12 +112,12 @@ public class User {
         this.role = role;
     }
 
-    public boolean isActivated() {
-        return isActivated;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setActivated(boolean activated) {
-        isActivated = activated;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -101,6 +131,9 @@ public class User {
 
         User user = (User) o;
 
+        if (id != user.id) {
+            return false;
+        }
         if (login != null ? !login.equals(user.login) : user.login != null) {
             return false;
         }
@@ -119,7 +152,7 @@ public class User {
         if (role != null ? !role.equals(user.role) : user.role != null) {
             return false;
         }
-        if (isActivated != user.isActivated) {
+        if (status != null ? !status.equals(user.status) : user.status != null) {
             return false;
         }
         return true;
@@ -127,26 +160,28 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = 1;
+        int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (telephoneNumber != null ? telephoneNumber.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id='").append(id).append('\'');
         sb.append("login='").append(login).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", telephoneNumber='").append(telephoneNumber).append('\'');
         sb.append(", email=").append(email);
-        sb.append(", isActivated=").append(isActivated);
         sb.append(", role=").append(role);
+        sb.append(", status=").append(status);
         sb.append('}');
         return sb.toString();
     }

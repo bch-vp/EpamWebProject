@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS `user_statuses`
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
 ) ENGINE = InnoDB;
-INSERT INTO `user_statuses`(`name`) VALUES ('NOT_ACTIVATED'),
-                                           ('ACTIVATED'),
+INSERT INTO `user_statuses`(`name`) VALUES ('ACTIVATED'),
+                                           ('NOT_ACTIVATED'),
                                            ('BANNED');
 
 -- -----------------------------------------------------
@@ -40,14 +40,14 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users`
 (
     `id`               BIGINT      NOT NULL AUTO_INCREMENT,
-    `role_id`          BIGINT DEFAULT 1,
-    `status_id`        BIGINT DEFAULT 1,
     `login`            VARCHAR(15) NOT NULL,
-    `password`         VARCHAR(20) NOT NULL,
+    `password`         VARCHAR(32) NOT NULL,
     `first_name`       VARCHAR(15) NOT NULL,
     `last_name`        VARCHAR(15) NOT NULL,
     `telephone_number` VARCHAR(17) NOT NULL,
     `email`            VARCHAR(55) NOT NULL,
+    `role_id`          BIGINT DEFAULT 1,
+    `status_id`        BIGINT DEFAULT 1,
     `avatar`           MEDIUMBLOB,
     PRIMARY KEY (`id`),
     UNIQUE (`login`),
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `product_statuses`
     UNIQUE (`name`)
 ) ENGINE = InnoDB;
 INSERT INTO `product_statuses`(`name`) VALUES ('ACTIVE'),
-                                              ('NOT_ACTIVE'),
+                                              ('INACTIVE'),
                                               ('BLOCKED');
 
 -- -----------------------------------------------------
@@ -96,11 +96,11 @@ DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products`
 (
     `id`          BIGINT         NOT NULL AUTO_INCREMENT,
-    `category_id` BIGINT DEFAULT 1,
-    `status_id`   BIGINT DEFAULT 1,
     `name`        VARCHAR(15)    NOT NULL,
     `info`        VARCHAR(100)   NOT NULL,
     `price`       DECIMAL(10, 2) NOT NULL,
+    `category_id` BIGINT DEFAULT 1,
+    `status_id`   BIGINT DEFAULT 1,
     `image`       MEDIUMBLOB,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)

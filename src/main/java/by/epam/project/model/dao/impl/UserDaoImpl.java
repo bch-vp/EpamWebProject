@@ -22,6 +22,8 @@ import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_BY_LOGIN;
 public class UserDaoImpl implements UserDao {
     private static final UserDaoImpl instance = new UserDaoImpl();
 
+    private static final int CALCULUS_FROM_ONE = 1;
+
     private UserDaoImpl() {
     }
 
@@ -39,7 +41,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, user.getLastName());
             statement.setString(5, user.getTelephoneNumber());
             statement.setString(6, user.getEmail());
-            statement.setString(7, user.getRole().name());
+            statement.setLong(7, user.getRole().ordinal() + CALCULUS_FROM_ONE);
+            statement.setLong(8, user.getStatus().ordinal() + CALCULUS_FROM_ONE);
 
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
@@ -49,11 +52,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateActivationStatusByLogin(String login, boolean status) throws DaoException {
+    public boolean updateActivationStatusByLogin(String login, User.Status status) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_ACTIVATION_STATUS_BY_LOGIN)) {
-            statement.setBoolean(1, status);
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_STATUS_BY_LOGIN)) {
+            statement.setLong(1, status.ordinal() + CALCULUS_FROM_ONE);
             statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
@@ -135,11 +138,6 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(exp);
         }
         return isUpdated;
-    }
-
-    @Override
-    public Optional<User> findById(int id) throws DaoException {
-        return Optional.empty();
     }
 
     @Override

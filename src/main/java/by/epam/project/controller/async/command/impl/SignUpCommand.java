@@ -74,7 +74,8 @@ public class SignUpCommand implements Command {
             }
 
             User newUser = new User(login, firstName, lastName, phone, email,
-                    User.Role.CLIENT, false);
+                    User.Role.CLIENT, User.Status.NOT_ACTIVATED);
+
             userService.signUpUser(newUser, password);
 
             String locale = (String) session.getAttribute(LANGUAGE);

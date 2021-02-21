@@ -42,7 +42,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public boolean updateActivationStatusByLogin(String login, boolean status) throws ServiceException {
+    public boolean updateActivationStatusByLogin(String login, User.Status status) throws ServiceException {
         boolean isUpdated;
 
         if(!UserValidator.isLoginCorrect(login)){
@@ -242,7 +242,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public boolean isActivated(String login) throws ServiceException {
+    public boolean isStatusEqualUserStatus(String login, User.Status status) throws ServiceException {
         Optional<User> userOptional;
 
         try {
@@ -255,7 +255,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
             return false;
         }
         User user = userOptional.get();
-        return user.isActivated();
+        return user.getStatus().equals(status);
     }
 
     @Override

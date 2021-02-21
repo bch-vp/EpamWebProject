@@ -82,7 +82,7 @@ public class UpdateProfileCommand implements Command {
                 return;
             }
 
-            User newUser = new User(login, firstName, lastName, telephoneNumber, email, role, false);
+            User newUser = new User(login, firstName, lastName, telephoneNumber, email);
             userService.updateUser(newUser, oldLogin);
             session.setAttribute(USER, newUser);
             response.setStatus(HttpServletResponse.SC_OK);

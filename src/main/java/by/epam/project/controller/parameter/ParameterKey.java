@@ -12,6 +12,7 @@ public class ParameterKey {
     public static final String PASSING_BY_CLIENT = "passing_by_client";
     public static final String PASSING_BY_ADMIN = "passing_by_admin";
 
+    public static final String ID = "id";
     public static final String USER = "user";
     public static final String LOGIN = "login";
     public static final String OLD_LOGIN = "old_login";
@@ -24,7 +25,6 @@ public class ParameterKey {
     public static final String TELEPHONE_NUMBER = "telephone_number";
     public static final String AVATAR = "avatar";
     public static final String ROLE = "role";
-    public static final String IS_ACTIVATED = "is_activated";
     public static final String UNIQUE_KEY = "unique_key";
 
     public static final String SHOPPING_CART = "shopping_cart";

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static by.epam.project.controller.parameter.ContentKey.ERROR_SIGN_IN_BANNED;
 import static by.epam.project.controller.parameter.ContentKey.ERROR_SIGN_IN_NOT_ACTIVATED;
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ParameterKey.*;
@@ -51,9 +52,15 @@ public class SignInCommand implements Command {
             }
 
             User user = userOptional.get();
-            if(!user.isActivated()){
+            if(!user.getStatus().equals(User.Status.ACTIVATED)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToResponse(response, ERROR, ERROR_SIGN_IN_NOT_ACTIVATED, language);
+                return;
+            }
+
+            if(user.getStatus().equals(User.Status.BANNED)){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_SIGN_IN_BANNED, language);
                 return;
             }
 

@@ -1,17 +1,31 @@
 package by.epam.project.model.entity;
 
 public class Category {
+    private long id;
     private String name;
+
+    public Category(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category(String name) {
         this.name = name;
     }
 
@@ -26,6 +40,10 @@ public class Category {
 
         Category user = (Category) o;
 
+        if (id != user.id) {
+            return false;
+        }
+
         if (name != null ? !name.equals(user.name) : user.name != null) {
             return false;
         }
@@ -34,7 +52,7 @@ public class Category {
 
     @Override
     public int hashCode() {
-        int result = 1;
+        int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
@@ -42,6 +60,7 @@ public class Category {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Category{");
+        sb.append("id='").append(id).append('\'');
         sb.append("name='").append(name).append('\'');
         sb.append('}');
         return sb.toString();

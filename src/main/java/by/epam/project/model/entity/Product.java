@@ -9,16 +9,33 @@ public class Product {
         BLOCKED
     }
 
+    private long id;
     private String name;
     private String info;
     private Status status;
     private BigDecimal price;
+
+    public Product(long id, String name, String info, Status status, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.info = info;
+        this.status = status;
+        this.price = price;
+    }
 
     public Product(String name, String info, Status status, BigDecimal price) {
         this.name = name;
         this.info = info;
         this.status = status;
         this.price = price;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,6 +81,10 @@ public class Product {
 
         Product user = (Product) o;
 
+        if (id != user.id) {
+            return false;
+        }
+
         if (name != null ? !name.equals(user.name) : user.name != null) {
             return false;
         }
@@ -81,7 +102,7 @@ public class Product {
 
     @Override
     public int hashCode() {
-        int result = 1;
+        int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (info != null ? info.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
@@ -92,6 +113,7 @@ public class Product {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Product{");
+        sb.append("id='").append(id).append('\'');
         sb.append("name='").append(name).append('\'');
         sb.append(", info='").append(info).append('\'');
         sb.append(", status='").append(status).append('\'');
