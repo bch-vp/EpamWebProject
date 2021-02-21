@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CategoryDaoImpl implements CategoryDao {
     private static final CategoryDaoImpl instance = new CategoryDaoImpl();
@@ -39,5 +40,41 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
         return categories;
+    }
+
+    @Override
+    public Optional<Category> findCategoryByName(String name) throws DaoException {
+        Optional<Category> categoryOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_CATEGORY_BY_NAME)) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                categoryOptional = Optional.of(ResultSetUtil.toCategory(resultSet));
+            }
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return categoryOptional;
+    }
+
+    @Override
+    public Optional<Category> findCategoryById(long id) throws DaoException {
+        Optional<Category> categoryOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_CATEGORY_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                categoryOptional = Optional.of(ResultSetUtil.toCategory(resultSet));
+            }
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return categoryOptional;
     }
 }

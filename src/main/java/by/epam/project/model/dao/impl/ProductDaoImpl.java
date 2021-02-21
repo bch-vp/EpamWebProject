@@ -1,6 +1,7 @@
 package by.epam.project.model.dao.impl;
 
 import by.epam.project.exception.DaoException;
+import by.epam.project.exception.ServiceException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.ProductDao;
 import by.epam.project.model.dao.SqlQuery;
@@ -15,6 +16,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static by.epam.project.controller.parameter.ParameterKey.NAME;
+import static by.epam.project.controller.parameter.ParameterKey.STATUS;
 
 public class ProductDaoImpl implements ProductDao {
     private static final ProductDaoImpl instance = new ProductDaoImpl();
@@ -40,6 +44,56 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         return products;
+    }
+
+    @Override
+    public boolean updateProductInfo(Product product) throws DaoException {
+       boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_INFO)) {
+            statement.setString(1, product.getName());
+            statement.setString(2, product.getInfo());
+            statement.setBigDecimal(4, product.getPrice());
+            statement.setLong(5, product.getId());
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateProductCategory(long idProduct, long idCategory) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_CATEGORY)) {
+            statement.setLong(1, idCategory);
+            statement.setLong(2, idProduct);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateProductStatus(long idProduct, long idStatus) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_STATUS)) {
+            statement.setLong(1, idStatus);
+            statement.setLong(2, idProduct);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
     }
 
     @Override
@@ -80,5 +134,47 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         return productOptional;
+    }
+
+    @Override
+    public Optional<Product> findProductById(long id) throws DaoException {
+        Optional<Product> productOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_STATUS_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Product product = ResultSetUtil.toProduct(resultSet);
+                productOptional = Optional.of(product);
+            }
+
+        } catch (
+                SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return productOptional;
+    }
+
+    @Override
+    public Optional<Product.Status> findStatusById(long id) throws DaoException {
+        Optional<Product.Status> statusOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_STATUS_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Product.Status status = Product.Status.valueOf(resultSet.getString(NAME));
+                statusOptional = Optional.of(status);
+            }
+
+        } catch (
+                SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return statusOptional;
     }
 }

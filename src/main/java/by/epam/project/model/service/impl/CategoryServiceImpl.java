@@ -8,6 +8,7 @@ import by.epam.project.model.entity.Category;
 import by.epam.project.model.service.CategoryService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CategoryServiceImpl implements CategoryService {
     private static final CategoryServiceImpl instance = new CategoryServiceImpl();
@@ -29,5 +30,31 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categories;
+    }
+
+    @Override
+    public Optional<Category> findCategoryByName(String name) throws ServiceException {
+        Optional<Category> categoryOptional;
+
+        try {
+            categoryOptional = categoryDao.findCategoryByName(name);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding category by name", exp);
+        }
+
+        return categoryOptional;
+    }
+
+    @Override
+    public Optional<Category> findCategoryById(long id) throws ServiceException {
+        Optional<Category> categoryOptional;
+
+        try {
+            categoryOptional = categoryDao.findCategoryById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding category by id", exp);
+        }
+
+        return categoryOptional;
     }
 }

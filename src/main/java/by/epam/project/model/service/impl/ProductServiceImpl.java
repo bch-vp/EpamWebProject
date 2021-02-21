@@ -33,6 +33,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean updateProductInfo(Product product) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = productDao.updateProductInfo(product);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating product info", exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
     public List<Product> findAllProductsByCategoryToAdmin(String category) throws ServiceException {
         List<Product> products;
 
@@ -56,5 +69,57 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return productOptional;
+    }
+
+    @Override
+    public Optional<Product> findProductById(long id) throws ServiceException {
+        Optional<Product> productOptional = Optional.empty();
+
+        try {
+            productOptional = productDao.findProductById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding product by id", exp);
+        }
+
+        return productOptional;
+    }
+
+    @Override
+    public Optional<Product.Status> findStatusById(long id) throws ServiceException {
+        Optional<Product.Status> statusOptional = Optional.empty();
+
+        try {
+            statusOptional = productDao.findStatusById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding product by name", exp);
+        }
+
+        return statusOptional;
+    }
+
+    @Override
+    public boolean updateProductCategory(long idProduct, long idCategory) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = productDao.updateProductCategory(idProduct, idCategory);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating product category", exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateProductStatus(long idProduct, long idStatus) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = productDao.updateProductStatus(idProduct, idStatus);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating product status", exp);
+        }
+
+        return isUpdated;
     }
 }

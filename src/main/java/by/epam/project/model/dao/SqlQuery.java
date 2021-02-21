@@ -43,7 +43,11 @@ public class SqlQuery {
 
     public static final String UPDATE_STATUS_BY_LOGIN = "UPDATE users SET status_id = ? WHERE BINARY login = ?";
 
+
     public static final String FIND_ALL_CATEGORIES = "SELECT id, name FROM categories";
+    public static final String FIND_CATEGORY_BY_NAME = "SELECT id, name FROM categories WHERE name = ?";
+    public static final String FIND_CATEGORY_BY_ID = "SELECT id, name FROM categories WHERE id = ?";
+
 
     public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT = "SELECT products.id ,products.name AS name, " +
             "products.info AS info, product_statuses.name AS status, products.price AS price FROM products " +
@@ -61,6 +65,16 @@ public class SqlQuery {
             "products.info AS info, product_statuses.name AS status, products.price AS price FROM products " +
             "JOIN product_statuses ON products.status_id = product_statuses.id " +
             "WHERE products.name = ?";
+
+    public static final String FIND_STATUS_BY_ID = "SELECT name FROM product_statuses WHERE id = ?";
+
+    public static final String UPDATE_PRODUCT_INFO = "UPDATE products SET name = ?, info = ?, price = ? " +
+            "WHERE id = ?";
+
+    public static final String UPDATE_PRODUCT_CATEGORY = "UPDATE products SET category_id = ? WHERE id = ?";
+
+    public static final String UPDATE_PRODUCT_STATUS = "UPDATE products SET status_id = ? WHERE id = ?";
+
 
 
 

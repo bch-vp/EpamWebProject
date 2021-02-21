@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface CategoryService {
     List<Category> findAllCategories() throws ServiceException;
+    Optional<Category> findCategoryByName(String name) throws ServiceException;
+    Optional<Category> findCategoryById(long id) throws ServiceException;
 }

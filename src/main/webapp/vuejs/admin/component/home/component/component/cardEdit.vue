@@ -37,34 +37,26 @@
               required
           ></v-text-field>
         </div>
-<!--        <v-row>-->
-<!--          <v-col>-->
-<!--            <v-text-field-->
-<!--                dark-->
-<!--                v-model="newPassword"-->
-<!--                :counter="20"-->
-<!--                :rules="rules.new_password"-->
-<!--                :append-icon="valueNewPassword ? 'visibility' : 'visibility_off'"-->
-<!--                @click:append="() => (valueNewPassword = !valueNewPassword)"-->
-<!--                :type="valueNewPassword ? 'password' : 'text'"-->
-<!--                v-bind:label=text_page.form_component.input.new_password.name-->
-<!--                required-->
-<!--            ></v-text-field>-->
-<!--          </v-col>-->
-<!--          <v-col>-->
-<!--            <v-text-field-->
-<!--                dark-->
-<!--                v-model="passwordRepeat"-->
-<!--                :counter="20"-->
-<!--                :rules="rules.password_repeat"-->
-<!--                :append-icon="valuePasswordRepeat ? 'visibility' : 'visibility_off'"-->
-<!--                @click:append="() => (valuePasswordRepeat = !valuePasswordRepeat)"-->
-<!--                :type="valuePasswordRepeat ? 'password' : 'text'"-->
-<!--                v-bind:label=text_page.form_component.input.password_repeat.name-->
-<!--                required-->
-<!--            ></v-text-field>-->
-<!--          </v-col>-->
-<!--        </v-row>-->
+        <div>
+          <v-text-field
+              dark
+              v-model="info"
+              :counter="100"
+              :rules="rules.info"
+              label="Info"
+              required
+          ></v-text-field>
+        </div>
+        <div>
+          <v-text-field
+              dark
+              v-model="price"
+              :counter="10"
+              :rules="rules.price"
+              label="Price"
+              required
+          ></v-text-field>
+        </div>
         <br>
         <div align="center">
           <v-progress-circular style="margin-right: 15px"
@@ -92,12 +84,17 @@
 <script>
 export default {
   props: ['showCardInfo', 'product'],
-  data(){
-    return{
+  data() {
+    return {
       valid: false,
-      text_page:text_page,
+      text_page: text_page,
+
       spinnerVisible: false,
+
       name: this.product.name,
+      info: this.product.info,
+      price: this.product.price,
+
       rules: {
         name: [
           v => !!v || this.text_page.form_component.input.first_name.error.required,
@@ -106,14 +103,79 @@ export default {
           v => /^\S*$/.test(v) || this.text_page.form_component.input.first_name.error.spaces_prohibited,
           v => /^[a-zA-Z]+$/.test(v) || this.text_page.form_component.input.first_name.error.only_letters
         ],
+        info: [
+          v => !!v || this.text_page.form_component.input.first_name.error.required,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.first_name.error.min_length,
+          v => (v && v.length <= 100) || this.text_page.form_component.input.first_name.error.max_length,
+          // v => /^\S*$/.test(v) || this.text_page.form_component.input.first_name.error.spaces_prohibited,
+          // v => /^[a-zA-Z]+$/.test(v) || this.text_page.form_component.input.first_name.error.only_letters
+        ],
+        price: [
+          v => !!v || this.text_page.form_component.input.first_name.error.required,
+          v => (v && v.length >= 1) || this.text_page.form_component.input.first_name.error.min_length,
+          v => (v && v.length <= 10) || this.text_page.form_component.input.first_name.error.max_length,
+          // v => /^\S*$/.test(v) || this.text_page.form_component.input.first_name.error.spaces_prohibited,
+          // v => /^[a-zA-Z]+$/.test(v) || this.text_page.form_component.input.first_name.error.only_letters
+        ],
       }
     }
   },
-  methods:{
-    reset() {
-      this.$refs.form.reset()
+  methods: {
+
+    showSpinner() {
+      this.spinnerVisible = true;
     },
-  }
+    hideSpinner() {
+      this.spinnerVisible = false;
+    },
+    submit: function () {
+      if (this.$refs.form.validate()) {
+        this.axios.interceptors.request.use(
+            conf => {
+              this.showSpinner()
+              return conf;
+            },
+            error => {
+              this.hideSpinner()
+              return Promise.reject(error);
+            }
+        );
+        this.axios.interceptors.response.use(
+            response => {
+              this.hideSpinner()
+              return response;
+            },
+            error => {
+              this.hideSpinner()
+              return Promise.reject(error);
+            }
+        );
+        this.axios({
+          method: 'post',
+          url: '/ajax?command=update_product',
+          data: {
+            name: this.name,
+            info: this.info,
+            price: this.price
+          }
+        }).then(response => {
+              this.showNotification()
+            },
+            ex => {
+              if (ex.response.status === 400) {
+                this.$refs.formSignUp.reset()
+                this.error.login_not_unique = ex.response.data.error.login_not_unique
+                this.error.telephone_number_not_unique = ex.response.data.error.telephone_number_not_unique
+                this.error.email_not_unique = ex.response.data.error.email_not_unique
+              }
+            })
+      }
+    },
+  },
+  reset() {
+    this.$refs.form.reset()
+  },
+}
 }
 </script>
 

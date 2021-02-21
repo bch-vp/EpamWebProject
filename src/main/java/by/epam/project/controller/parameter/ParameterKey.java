@@ -30,6 +30,10 @@ public class ParameterKey {
     public static final String COMMENT = "comment";
     public static final String ADDRESS = "address";
 
+    public static final String ID_PRODUCT = "id_product";
+    public static final String ID_STATUS = "id_status";
+    public static final String ID_CATEGORY = "id_category";
+
     public static final String SHOPPING_CART = "shopping_cart";
     public static final String NAME = "name";
     public static final String INFO = "info";

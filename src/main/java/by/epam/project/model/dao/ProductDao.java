@@ -9,7 +9,18 @@ import java.util.Optional;
 
 public interface ProductDao {
     List<Product> findAllProductsByCategoryToClient(String category) throws DaoException;
-    List<Product> findAllProductsByCategoryToAdmin(String category) throws DaoException;
-    Optional<Product> findProductByName(String name)  throws DaoException;
 
+    List<Product> findAllProductsByCategoryToAdmin(String category) throws DaoException;
+
+    Optional<Product> findProductByName(String name) throws DaoException;
+
+    Optional<Product.Status> findStatusById(long id) throws DaoException;
+
+    boolean updateProductInfo(Product product) throws DaoException;
+
+    boolean updateProductCategory(long idProduct, long idCategory) throws DaoException;
+
+    boolean updateProductStatus(long idProduct, long idStatus) throws DaoException;
+
+    Optional<Product> findProductById(long id) throws DaoException;
 }

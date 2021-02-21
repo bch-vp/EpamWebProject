@@ -30,6 +30,12 @@ public class Product {
         this.price = price;
     }
 
+    public Product(String name, String info, BigDecimal price) {
+        this.name = name;
+        this.info = info;
+        this.price = price;
+    }
+
     public long getId() {
         return id;
     }
