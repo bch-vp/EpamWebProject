@@ -9,7 +9,7 @@ import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.util.MailSenderUtil;
-import by.epam.project.validator.UserValidator;
+import by.epam.project.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,9 +47,9 @@ public class ChangePasswordByEmailCommand implements Command {
             String email = (String) requestParameters.get(EMAIL);
             String newPassword = (String) requestParameters.get(NEW_PASSWORD);
 
-            if (!UserValidator.isLoginCorrect(login)
-                    || !UserValidator.isEmailCorrect(email)
-                    || !UserValidator.isPasswordCorrect(newPassword)) {
+            if (!ServiceValidator.isLoginCorrect(login)
+                    || !ServiceValidator.isEmailCorrect(email)
+                    || !ServiceValidator.isPasswordCorrect(newPassword)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }

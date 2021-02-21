@@ -5,7 +5,7 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.EncryptPasswordUtil;
-import by.epam.project.validator.UserValidator;
+import by.epam.project.validator.ServiceValidator;
 
 import java.io.InputStream;
 import java.util.List;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     public boolean updateActivationStatusByLogin(String login, User.Status status) throws ServiceException {
         boolean isUpdated;
 
-        if(!UserValidator.isLoginCorrect(login)){
+        if(!ServiceValidator.isLoginCorrect(login)){
             return false;
         }
 
@@ -102,7 +102,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     public Map<String, String> defineSignUpData(String login, String email, String firstName,
                                                 String lastName, String phone) throws ServiceException {
         Map<String, String> signUpData =
-                UserValidator.validateParameters(login, email, firstName, lastName, phone);
+                ServiceValidator.validateParameters(login, email, firstName, lastName, phone);
 
         try {
             signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
@@ -128,7 +128,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     public Map<String, String> defineSignUpData(String login, String password, String email, String firstName,
                                                 String lastName, String phone) throws ServiceException {
         Map<String, String> signUpData =
-                UserValidator.validateParameters(login, password, email, firstName, lastName, phone);
+                ServiceValidator.validateParameters(login, password, email, firstName, lastName, phone);
 
         try {
             signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)

@@ -11,7 +11,7 @@ import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.util.MailSenderUtil;
-import by.epam.project.validator.UserValidator;
+import by.epam.project.validator.ServiceValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,7 +49,7 @@ public class SignUpCommand implements Command {
             Map<String, String> requestData = userService.defineSignUpData(login,
                     password, email, firstName, lastName, phone);
 
-            if (!UserValidator.defineIncorrectValues(requestData)) {
+            if (!ServiceValidator.defineIncorrectValues(requestData)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
                 JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ErrorKey.ERROR);

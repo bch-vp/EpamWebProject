@@ -9,7 +9,7 @@ import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
-import by.epam.project.validator.UserValidator;
+import by.epam.project.validator.ServiceValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,10 +49,10 @@ public class UpdateProfileCommand implements Command {
             User user = (User) session.getAttribute(USER);
             User.Role role = user.getRole();
 
-            Map<String, String> requestData = UserValidator.validateParameters(login, email, firstName, lastName,
+            Map<String, String> requestData = ServiceValidator.validateParameters(login, email, firstName, lastName,
                     telephoneNumber);
 
-            if (!UserValidator.defineIncorrectValues(requestData)) {
+            if (!ServiceValidator.defineIncorrectValues(requestData)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }

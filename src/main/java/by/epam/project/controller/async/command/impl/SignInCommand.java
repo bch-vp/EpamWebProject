@@ -6,7 +6,7 @@ import by.epam.project.util.JsonUtil;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
-import by.epam.project.validator.UserValidator;
+import by.epam.project.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,8 +39,8 @@ public class SignInCommand implements Command {
             String login = (String) requestParameters.get(LOGIN);
             String password = (String) requestParameters.get(PASSWORD);
 
-            if (!UserValidator.isLoginCorrect(login)
-                    || !UserValidator.isPasswordCorrect(password)) {
+            if (!ServiceValidator.isLoginCorrect(login)
+                    || !ServiceValidator.isPasswordCorrect(password)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }

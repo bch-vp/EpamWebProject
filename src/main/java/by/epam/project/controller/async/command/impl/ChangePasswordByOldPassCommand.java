@@ -6,7 +6,7 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
-import by.epam.project.validator.UserValidator;
+import by.epam.project.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,8 +41,8 @@ public class ChangePasswordByOldPassCommand implements Command {
             String oldPassword = (String) requestParameters.get(OLD_PASSWORD);
             String newPassword = (String) requestParameters.get(NEW_PASSWORD);
 
-            if (UserValidator.isPasswordCorrect(oldPassword)
-                    && UserValidator.isPasswordCorrect(newPassword)
+            if (ServiceValidator.isPasswordCorrect(oldPassword)
+                    && ServiceValidator.isPasswordCorrect(newPassword)
                     && oldPassword.equals(newPassword)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;

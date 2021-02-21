@@ -9,6 +9,7 @@ import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.CategoryServiceImpl;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
+import by.epam.project.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,20 +36,24 @@ public class UpdateProductCategoryCommand implements Command {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
             String idProductString = (String) requestParameters.get(ID_PRODUCT);
-            long idProduct = Long.parseLong(idProductString);
-
             String idCategoryString = (String) requestParameters.get(ID_CATEGORY);
-            long idCategory = Long.parseLong(idProductString);
-            //todo id validation
+            if (!ServiceValidator.isIdCorrect(idProductString)
+                    || ServiceValidator.isIdCorrect(idCategoryString)){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
 
-            Optional<Category> categoryOptional = categoryService.findCategoryById(idCategory);
-            if(categoryOptional.isEmpty()){
+            long idProduct = Long.parseLong(idProductString);
+            long idCategory = Long.parseLong(idProductString);
+
+            Optional<Product> productOptional = productService.findProductById(idProduct);
+            if (productOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
 
-            Optional<Product> productOptional = productService.findProductById(idProduct);
-            if(productOptional.isEmpty()){
+            Optional<Category> categoryOptional = categoryService.findCategoryById(idCategory);
+            if (categoryOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
@@ -56,7 +61,7 @@ public class UpdateProductCategoryCommand implements Command {
             Category category = categoryOptional.get();
 
             boolean isUpdated = productService.updateProductCategory(idProduct, category.getId());
-            if(!isUpdated){
+            if (!isUpdated) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
         } catch (ServiceException | IOException exp) {

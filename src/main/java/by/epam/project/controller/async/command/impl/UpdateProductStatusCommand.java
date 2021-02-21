@@ -9,6 +9,7 @@ import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.CategoryServiceImpl;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
+import by.epam.project.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,20 +34,24 @@ public class UpdateProductStatusCommand implements Command {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
             String idProductString = (String) requestParameters.get(ID_PRODUCT);
-            long idProduct = Long.parseLong(idProductString);
-
             String idStatusString = (String) requestParameters.get(ID_STATUS);
-            long idStatus = Long.parseLong(idProductString);
-            //todo id validation
+            if (!ServiceValidator.isIdCorrect(idProductString)
+                    || ServiceValidator.isIdCorrect(idStatusString)){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
 
-            Optional<Product.Status> statusOptional = productService.findStatusById(idStatus);
-            if(statusOptional.isEmpty()){
+            long idProduct = Long.parseLong(idProductString);
+            long idStatus = Long.parseLong(idStatusString);
+
+            Optional<Product> productOptional = productService.findProductById(idProduct);
+            if(productOptional.isEmpty()){
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
 
-            Optional<Product> productOptional = productService.findProductById(idProduct);
-            if(productOptional.isEmpty()){
+            Optional<Product.Status> statusOptional = productService.findStatusById(idStatus);
+            if(statusOptional.isEmpty()){
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }

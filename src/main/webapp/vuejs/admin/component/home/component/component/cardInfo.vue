@@ -22,7 +22,7 @@
 
         <v-btn @click="showCardEdit"
                absolute color="black" class="light-green--text text--lighten-2" fab  right top>
-          <v-icon>delete_outline</v-icon>
+          <v-icon>edit</v-icon>
         </v-btn>
         <div v-if="isError" class="text-subtitle-1 font-weight-medium mb-2">
           <span style="color: orangered">{{ text_page.form_component.error.notification }}:&nbsp
@@ -76,5 +76,12 @@ export default {
 </script>
 
 <style scoped>
-
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .5;
+  position: absolute;
+  width: 100%;
+}
 </style>

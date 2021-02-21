@@ -6,7 +6,7 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
-import by.epam.project.validator.UserValidator;
+import by.epam.project.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +31,7 @@ public class CheckLoginExistenceCommand implements Command {
 
             String login = (String) requestParameters.get(LOGIN);
 
-            if (!UserValidator.isLoginCorrect(login)) {
+            if (!ServiceValidator.isLoginCorrect(login)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
 
