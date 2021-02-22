@@ -1,7 +1,6 @@
 var path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-
 const webpack = require("webpack");
 /* ---------------
  * Main config
@@ -74,7 +73,7 @@ var adminConfiq = Object.assign({}, config, {
     name: "admin",
     entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'admin', 'admin.js'),
     output: {
-        path: __dirname + "/build",
+        path: __dirname + "/src/main/webapp/js",
         publicPath: "/",
         filename: "admin.js"
     },
@@ -94,7 +93,7 @@ var notificationSuccessConfiq = Object.assign({}, config, {
     name: "error",
     entry: path.join(__dirname, 'src', 'main', 'webapp', 'vuejs', 'notification', 'success', 'notificationSuccess.js'),
     output: {
-        path: __dirname + "/build",
+        path: __dirname + "/src/main/webapp/js",
         publicPath: "/",
         filename: "notificationSuccess.js"
     },

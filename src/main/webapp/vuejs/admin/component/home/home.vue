@@ -204,7 +204,7 @@ export default {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 564px;
+    height: 550px;
     overflow-x: hidden;
     overflow-y: auto;
   }
