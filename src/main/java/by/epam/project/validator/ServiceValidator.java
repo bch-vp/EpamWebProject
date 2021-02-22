@@ -10,7 +10,8 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 public class ServiceValidator {
     private static final String LOGIN_REGEX = "^[a-zA-Z0-9_.-]{3,15}+$";
     private static final String PASSWORD_REGEX= "^[A-Za-z0-9]{5,20}$";
-    private static final String NAME_REGEX = "^[a-zA-Z]{3,15}$";
+    private static final String USER_NAME_REGEX = "^[a-zA-Z]{3,15}$";
+    private static final String NAME_REGEX = "^.{3,15}$";
     private static final String PHONE_REGEX = "^(\\+375\\([\\d]{2}\\)[\\d]{3}\\-[\\d]{2}\\-[\\d]{2})$";
     private static final String EMAIL_REGEX = "^[a-zA-z0-9_.-]{1,35}@[a-zA-z0-9_-]{2,15}\\.[a-z]{2,5}$";
     private static final String UNIQUE_KEY_REGEX = "^\\d{6}$";
@@ -63,11 +64,11 @@ public class ServiceValidator {
     }
 
     public static boolean isFirstNameCorrect(String name) {
-        return isEmptyOrNull(name) && isStringMatches(name, NAME_REGEX);
+        return isEmptyOrNull(name) && isStringMatches(name, USER_NAME_REGEX);
     }
 
     public static boolean isLastNameCorrect(String surname) {
-        return isEmptyOrNull(surname) && isStringMatches(surname, NAME_REGEX);
+        return isEmptyOrNull(surname) && isStringMatches(surname, USER_NAME_REGEX);
     }
 
     public static boolean isPhoneCorrect(String phone) {

@@ -37,10 +37,12 @@ public enum RolePermission {
             "DELETE_PROFILE_IMAGE",
             "LOAD_ALL_CATEGORIES",
             "LOAD_ALL_PRODUCTS_BY_CATEGORY",
+            "UPDATE_PRODUCT_INFO",
+            "UPDATE_PRODUCT_STATUS",
+            "UPDATE_PRODUCT_CATEGORY",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "SIGN_OUT"
     ));
-
     private final Set<String> commands;
 
     RolePermission(Set<String> commandNames) {

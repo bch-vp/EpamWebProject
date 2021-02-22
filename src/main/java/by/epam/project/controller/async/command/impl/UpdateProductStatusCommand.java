@@ -36,7 +36,7 @@ public class UpdateProductStatusCommand implements Command {
             String idProductString = (String) requestParameters.get(ID_PRODUCT);
             String idStatusString = (String) requestParameters.get(ID_STATUS);
             if (!ServiceValidator.isIdCorrect(idProductString)
-                    || ServiceValidator.isIdCorrect(idStatusString)){
+                    || !ServiceValidator.isIdCorrect(idStatusString)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }

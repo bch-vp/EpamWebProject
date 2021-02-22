@@ -18,7 +18,7 @@
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
-                      <div class="col-md-4" v-for="product in  productsWithFiltersAndPagination">
+                      <div class="col-md-4" v-for="product in  productsWithFiltersAndPagination" v-bind:key="product.id">
                         <ProductCard :product="product"/>
                       </div>
                     </v-row>

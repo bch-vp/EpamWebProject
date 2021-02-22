@@ -38,13 +38,13 @@ public class UpdateProductCategoryCommand implements Command {
             String idProductString = (String) requestParameters.get(ID_PRODUCT);
             String idCategoryString = (String) requestParameters.get(ID_CATEGORY);
             if (!ServiceValidator.isIdCorrect(idProductString)
-                    || ServiceValidator.isIdCorrect(idCategoryString)){
+                    || !ServiceValidator.isIdCorrect(idCategoryString)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
 
             long idProduct = Long.parseLong(idProductString);
-            long idCategory = Long.parseLong(idProductString);
+            long idCategory = Long.parseLong(idCategoryString);
 
             Optional<Product> productOptional = productService.findProductById(idProduct);
             if (productOptional.isEmpty()) {

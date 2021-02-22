@@ -20,7 +20,7 @@ export default {
       text_page: text_page,
       isError:false,
       isCardInfo:true,
-      isCardEdit:false
+      isCardEdit:false,
     }
   },
   methods:{

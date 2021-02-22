@@ -54,8 +54,8 @@ public class ProductDaoImpl implements ProductDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_INFO)) {
             statement.setString(1, product.getName());
             statement.setString(2, product.getInfo());
-            statement.setBigDecimal(4, product.getPrice());
-            statement.setLong(5, product.getId());
+            statement.setBigDecimal(3, product.getPrice());
+            statement.setLong(4, product.getId());
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
             throw new DaoException(exp);
@@ -141,7 +141,7 @@ public class ProductDaoImpl implements ProductDao {
         Optional<Product> productOptional = Optional.empty();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_STATUS_BY_ID)) {
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_PRODUCT_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

@@ -23,8 +23,7 @@ public class User {
     private Role role;
     private Status status;
 
-    public User() {
-    }
+    public User() { }
 
     public User(long id, String login, String firstName, String lastName, String telephoneNumber, String email,
                 Role role, Status status) {

@@ -15,6 +15,8 @@ public class Product {
     private Status status;
     private BigDecimal price;
 
+    public Product(){}
+
     public Product(long id, String name, String info, Status status, BigDecimal price) {
         this.id = id;
         this.name = name;
@@ -27,6 +29,13 @@ public class Product {
         this.name = name;
         this.info = info;
         this.status = status;
+        this.price = price;
+    }
+
+    public Product(long id, String name, String info, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.info = info;
         this.price = price;
     }
 

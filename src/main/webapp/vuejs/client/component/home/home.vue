@@ -142,7 +142,6 @@ export default {
 </script>
 
 <style scoped>
-
 @media screen and (min-height: 1100px) {
   .scroll {
     margin: 0;

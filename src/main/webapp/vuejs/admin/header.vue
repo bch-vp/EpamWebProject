@@ -15,10 +15,9 @@
         <v-select
             style="padding-left: 1em"
             v-model="selectCategory"
-            hint="Please choose category"
+            v-bind:hint=text_page.form_component.button.choose_category
             :items="$store.state.App.categories"
             item-text="name"
-            label="Select"
             :disabled="!$store.state.App.isHome"
             persistent-hint
             return-object
@@ -37,13 +36,13 @@
         {{ text_page.header.role }}
       </v-btn>
       |
-<!--      <v-btn v-on:click="$store.commit('show_shoppingCart')" :disabled="$store.state.App.isShoppingCart" rounded-->
-<!--             text>-->
-<!--        <v-icon>-->
-<!--          shopping_cart-->
-<!--        </v-icon>-->
-<!--        &nbsp{{ $store.state.App.shoppingCart.length }}-->
-<!--      </v-btn>-->
+      <!--      <v-btn v-on:click="$store.commit('show_shoppingCart')" :disabled="$store.state.App.isShoppingCart" rounded-->
+      <!--             text>-->
+      <!--        <v-icon>-->
+      <!--          shopping_cart-->
+      <!--        </v-icon>-->
+      <!--        &nbsp{{ $store.state.App.shoppingCart.length }}-->
+      <!--      </v-btn>-->
       |
       <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
         <template v-slot:activator="{ on, attrs }">

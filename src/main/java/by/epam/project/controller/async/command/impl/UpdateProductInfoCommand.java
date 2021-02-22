@@ -38,10 +38,10 @@ public class UpdateProductInfoCommand implements Command {
             String info = (String) requestParameters.get(INFO);
             String priceString = (String) requestParameters.get(PRICE);
 
-            if (ServiceValidator.isIdCorrect(idString)
-                    || ServiceValidator.isNameCorrect(name)
-                    || ServiceValidator.isInfoCorrect(info)
-                    || ServiceValidator.isPriceCorrect(priceString)) {
+            if (!ServiceValidator.isIdCorrect(idString)
+                    || !ServiceValidator.isNameCorrect(name)
+                    || !ServiceValidator.isInfoCorrect(info)
+                    || !ServiceValidator.isPriceCorrect(priceString)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
@@ -49,7 +49,7 @@ public class UpdateProductInfoCommand implements Command {
             long id = Long.parseLong(idString);
             BigDecimal price = new BigDecimal(priceString);
 
-            Product product = new Product(name, info, price);
+            Product product = new Product(id, name, info, price);
             boolean isUpdated = productService.updateProductInfo(product);
             if (!isUpdated) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);

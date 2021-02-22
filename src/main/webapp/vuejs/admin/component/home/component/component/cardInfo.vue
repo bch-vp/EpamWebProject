@@ -24,11 +24,6 @@
                absolute color="black" class="light-green--text text--lighten-2" fab  right top>
           <v-icon>edit</v-icon>
         </v-btn>
-        <div v-if="isError" class="text-subtitle-1 font-weight-medium mb-2">
-          <span style="color: orangered">{{ text_page.form_component.error.notification }}:&nbsp
-          </span>{{ text_page.form_component.error.need_reload_page }}
-        </div>
-        <div v-else>
           <div class="text-h5 font-weight-light white--text mb-2">
             {{product.name}}
           </div>
@@ -38,7 +33,6 @@
           <div style="color: black" class="text-subtitle-1 font-weight-light title mb-2">
             {{product.info}}
           </div>
-        </div>
       </v-card-text>
     </v-card>
   </v-hover>
@@ -50,7 +44,6 @@ export default {
   data() {
     return {
       text_page: text_page,
-      isError:false
     }
   },
   methods:{
