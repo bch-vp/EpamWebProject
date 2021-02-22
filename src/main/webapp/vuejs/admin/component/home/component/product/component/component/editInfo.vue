@@ -92,7 +92,7 @@ export default {
         price: [
           v => !!v || this.text_page.form_component.input.price.error.required,
           v => (v && String(this.product.price).length >= 1) || this.text_page.form_component.input.price.error.min_length,
-          v => (v && String(this.product.price).length <= 10) || this.text_page.form_component.input.price.error.max_length,
+          v => (v && String(this.product.price).length <= 11) || this.text_page.form_component.input.price.error.max_length,
           v => /^[0-9]{1,10}(\.[0-9]{2})?$/.test(v) || this.text_page.form_component.input.price.error.pattern,
         ],
         info: [
@@ -162,6 +162,8 @@ export default {
 
               this.isError = false
               this.isSuccess = true
+
+          this.await3Seconds()
             },
             ex => {
               this.reset()
@@ -169,6 +171,10 @@ export default {
               this.isError = true
             })
       }
+    },
+    async await3Seconds(){
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      this.isSuccess = false
     },
     reset() {
       this.name = this.product.name

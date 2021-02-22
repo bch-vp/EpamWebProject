@@ -1,29 +1,29 @@
 <template>
   <div>
-  <CardInfo v-if="isCardInfo" :showCardEdit="showCardEdit" :product="product"/>
-  <CardEdit v-if="isCardEdit"  :showCardInfo="showCardInfo" :product="product"/>
+    <CardInfo v-if="isCardInfo" :showCardEdit="showCardEdit" :product="product"/>
+    <CardEdit v-if="isCardEdit" :showCardInfo="showCardInfo" :product="product"/>
   </div>
 </template>
 
 <script>
-import CardInfo from 'vuejs/admin/component/home/component/component/cardInfo.vue'
-import CardEdit from 'vuejs/admin/component/home/component/component/cardEdit.vue'
+import CardInfo from 'vuejs/admin/component/home/component/product/component/cardInfo.vue'
+import CardEdit from 'vuejs/admin/component/home/component/product/component/cardEdit.vue'
 
 export default {
   props: ['product'],
-  components:{
+  components: {
     CardInfo,
     CardEdit
   },
   data() {
     return {
       text_page: text_page,
-      isError:false,
-      isCardInfo:true,
-      isCardEdit:false,
+      isError: false,
+      isCardInfo: true,
+      isCardEdit: false,
     }
   },
-  methods:{
+  methods: {
     clearAllComponents() {
       this.isCardInfo = false
       this.isCardEdit = false

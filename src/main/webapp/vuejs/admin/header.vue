@@ -36,14 +36,6 @@
         {{ text_page.header.role }}
       </v-btn>
       |
-      <!--      <v-btn v-on:click="$store.commit('show_shoppingCart')" :disabled="$store.state.App.isShoppingCart" rounded-->
-      <!--             text>-->
-      <!--        <v-icon>-->
-      <!--          shopping_cart-->
-      <!--        </v-icon>-->
-      <!--        &nbsp{{ $store.state.App.shoppingCart.length }}-->
-      <!--      </v-btn>-->
-      |
       <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
         <template v-slot:activator="{ on, attrs }">
           <v-btn style="margin-right: 1%" v-bind="attrs" v-on="on" text rounded>

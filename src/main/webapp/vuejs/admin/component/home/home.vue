@@ -5,21 +5,35 @@
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
-
+          <v-btn @click="show_isAddProduct" :disabled="isAddProduct" color="black"  style="margin-left: 3em" class="light-green--text text--lighten-2">
+            + add
+          </v-btn>
+          <v-btn @click="show_isProducts" :disabled="isProducts" color="black"  class="light-green--text text--lighten-2">
+            products
+          </v-btn>
+          <v-btn @click="show_isOrders" :disabled="isOrders" style="margin-left: 3em"  color="black" class="light-green--text text--lighten-2">
+            orders
+          </v-btn>
+          <v-btn @click="show_isUsers" :disabled="isUsers" color="black" class="light-green--text text--lighten-2">
+            users
+          </v-btn>
           <v-card
               style="box-shadow: 0 0 25px;background: rgba(0, 0, 0, 0.93);border-radius: 20px;"
               dark
               elevation="16"
               class="mx-auto"
           >
-
             <div style="padding-top: 3em; padding-bottom: 3em;">
               <div class="scroll">
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
-                      <div class="col-md-4" v-for="product in  productsWithFiltersAndPagination" v-bind:key="product.id">
+                      <div v-if="isProducts" class="col-md-4" v-for="product in  productsWithFiltersAndPagination"
+                           v-bind:key="product.id">
                         <ProductCard :product="product"/>
+                      </div>
+                      <div v-if="isAddProduct">
+                        <AddProduct />
                       </div>
                     </v-row>
                   </v-container>
@@ -27,7 +41,7 @@
               </div>
             </div>
           </v-card>
-          <v-row style="padding-top: 2em;">
+          <v-row v-if="isProducts" style="padding-top: 2em;">
             <v-col>
               <v-select
                   style="max-width: 230px"
@@ -46,7 +60,7 @@
                   <v-icon>navigate_before</v-icon>
                 </v-btn>
                 <v-btn dark style="color: white">
-            <span class="light-green--text text--lighten-1" >
+            <span class="light-green--text text--lighten-1">
                    {{ page }}
                  </span>
                 </v-btn>
@@ -76,21 +90,52 @@
 </template>
 
 <script>
-import ProductCard from "vuejs/admin/component/home/component/ProductCard.vue";
+import ProductCard from "vuejs/admin/component/home/component/product/ProductCard.vue";
+import AddProduct from "vuejs/admin/component/home/component/addproduct/addProduct.vue";
 
 export default {
   components: {
-    ProductCard
+    ProductCard,
+    AddProduct
   },
   data() {
     return {
       filtersItems: ['ACTIVE', 'INACTIVE'],
       filtersValue: ['ACTIVE', 'INACTIVE'],
 
+      isProducts: true,
+      isAddProduct:false,
+      isOrders: false,
+      isUsers: false,
+
       oldPage: 1,
       page: 1,
       perPage: 12,
       pages: [],
+    }
+  },
+  methods: {
+    clear_allComponents() {
+      this.isProducts = false
+      this.isAddProduct = false
+      this.isOrders = false
+      this.isUsers = false
+    },
+    show_isProducts() {
+      this.clear_allComponents()
+      this.isProducts = true
+    },
+    show_isAddProduct(){
+      this.clear_allComponents()
+      this.isAddProduct = true
+    },
+    show_isOrders() {
+      this.clear_allComponents()
+      this.isOrders = true
+    },
+    show_isUsers() {
+      this.clear_allComponents()
+      this.isUsers = true
     }
   },
   computed: {
@@ -148,7 +193,7 @@ export default {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 950px;
+    height: 914px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -159,7 +204,7 @@ export default {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 600px;
+    height: 564px;
     overflow-x: hidden;
     overflow-y: auto;
   }

@@ -99,8 +99,8 @@ export default {
             id_product: String(this.product.id)
           }
         }).then(response => {
-          this.product.status = this.selectStatus.name
               this.isSuccess = true
+              this.await3Seconds()
             },
             ex => {
               this.isError = true
@@ -116,17 +116,21 @@ export default {
           }
         }).then(response => {
               this.isSuccess = true
-          this.removeAfter3Seconds()
+              this.removeAfter3Seconds()
             },
             ex => {
               this.isError = true
             })
       }
     },
-     async removeAfter3Seconds(){
+    async await3Seconds() {
       await new Promise(resolve => setTimeout(resolve, 1000));
-       this.$store.commit('remove_productToProducts', this.product)
-       this.showCardInfo()
+      this.product.status = this.selectStatus.name
+      this.isSuccess = false
+    },
+    async removeAfter3Seconds() {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      this.$store.commit('remove_productToProducts', this.product)
     },
     showSpinner() {
       this.spinnerVisible = true;

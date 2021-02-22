@@ -1,6 +1,11 @@
 export default {
     state: {
         isHome:false,
+        IsHome_users:false,
+        IsHome_products:false,
+        IsHome_addProduct:false,
+        IsHome_orders:false,
+
         isShoppingCart:false,
         isProfile:false,
 
