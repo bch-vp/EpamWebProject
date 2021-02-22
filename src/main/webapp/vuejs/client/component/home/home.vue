@@ -142,25 +142,25 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (min-height: 1100px) {
-  .scroll {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 900px;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-}
+/*@media screen and (min-height: 1100px) {*/
+/*  .scroll {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    width: 100%;*/
+/*    height: 900px;*/
+/*    overflow-x: hidden;*/
+/*    overflow-y: auto;*/
+/*  }*/
+/*}*/
 
-@media screen and (max-height: 1100px) {
+/*@media screen and (max-height: 1100px) {*/
   .scroll {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 550px;
+    height: 60vh;
     overflow-x: hidden;
     overflow-y: auto;
   }
-}
+/*}*/
 </style>
