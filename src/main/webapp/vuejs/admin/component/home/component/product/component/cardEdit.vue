@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import EditInfo from 'vuejs/admin/component/home/component/component/component/editInfo.vue'
-import EditStatusAndLocation from 'vuejs/admin/component/home/component/component/component/editStatusAndLocation.vue'
+import EditInfo from 'vuejs/admin/component/home/component/product/component/component/editInfo.vue'
+import EditStatusAndLocation from 'vuejs/admin/component/home/component/product/component/component/editStatusAndLocation.vue'
 
 export default {
   props: ['showCardInfo', 'product'],
