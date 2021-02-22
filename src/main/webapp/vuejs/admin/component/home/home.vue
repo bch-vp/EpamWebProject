@@ -193,7 +193,7 @@ export default {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 914px;
+    height: 68vh;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -204,7 +204,7 @@ export default {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 550px;
+    height: 60vh;
     overflow-x: hidden;
     overflow-y: auto;
   }
