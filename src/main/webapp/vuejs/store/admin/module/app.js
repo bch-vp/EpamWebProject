@@ -12,6 +12,7 @@ export default {
         categories: [],
         selectCategory: undefined,
 
+        users: [],
         products: [],
         shoppingCart:[]
 
@@ -49,6 +50,16 @@ export default {
             state.selectCategory=data
         },
 
+
+        set_users(state, data){
+            state.users=data
+        },
+        add_users(state, data){
+            state.users.push(data)
+        },
+        remove_users(state, data){
+            state.users.splice(state.users.indexOf(data), 1)
+        },
 
         set_products(state, data){
             state.products=data

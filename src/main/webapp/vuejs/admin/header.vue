@@ -119,6 +119,19 @@ export default {
         ex => {
 
         })
+
+    this.axios({
+      method: 'post',
+      url: '/ajax?command=load_all_users'
+    }).then(response => {
+          var users = response.data.users.sort(function(a,b){
+            return response.data.users[a]-response.data.users[b]
+          })
+          this.$store.commit('set_users', response.data.users)
+        },
+        ex => {
+
+        })
   },
   methods: {}
 }

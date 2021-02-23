@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.AVATAR;
@@ -156,6 +158,23 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(exp);
         }
         return userOptional;
+    }
+
+    @Override
+    public List<User> findAllUsers() throws DaoException {
+        List<User> users = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_USERS)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = ResultSetUtil.toUser(resultSet);
+                users.add(user);
+            }
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return users;
     }
 
     @Override

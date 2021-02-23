@@ -12,6 +12,11 @@ public class SqlQuery {
             "JOIN user_roles ON users.role_id = user_roles.id " +
             "WHERE BINARY login = ?";
 
+    public static final String FIND_ALL_USERS = "SELECT users.id AS id, login, password, first_name, last_name, " +
+            "telephone_number, email, user_roles.name AS role, user_statuses.name AS status FROM users " +
+            "JOIN user_statuses ON users.status_id = user_statuses.id " +
+            "JOIN user_roles ON users.role_id = user_roles.id";
+
     public static final String FIND_USER_BY_EMAIL = "SELECT users.id AS id, login, password, first_name, last_name, " +
             "telephone_number, email, user_roles.name AS role, user_statuses.name AS status FROM users " +
             "JOIN user_statuses ON users.status_id = user_statuses.id " +

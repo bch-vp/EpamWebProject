@@ -30,6 +30,13 @@
         }
     }
 </script>
-<script src="http://localhost:8081/error.js"></script>
+<c:choose>
+    <c:when test="${is_dev_mode}">
+        <script src="http://localhost:8081/error.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="js/error.js"></script>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>

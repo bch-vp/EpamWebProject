@@ -35,6 +35,7 @@
                       <div v-if="isAddProduct">
                         <AddProduct />
                       </div>
+                      <User v-if="isUsers"/>
                     </v-row>
                   </v-container>
                 </div>
@@ -92,11 +93,13 @@
 <script>
 import ProductCard from "vuejs/admin/component/home/component/product/ProductCard.vue";
 import AddProduct from "vuejs/admin/component/home/component/addproduct/addProduct.vue";
+import User from "vuejs/admin/component/home/component/user/user.vue";
 
 export default {
   components: {
     ProductCard,
-    AddProduct
+    AddProduct,
+    User
   },
   data() {
     return {
