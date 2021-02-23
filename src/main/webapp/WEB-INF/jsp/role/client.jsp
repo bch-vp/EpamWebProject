@@ -57,6 +57,11 @@
                 value:"<c:out value="${user.email}"/>"
             }
         },
+        page_info:{
+            pages: "<fmt:message key="page_info.pages"/>",
+            products: "<fmt:message key="page_info.products"/>",
+            total_price: "<fmt:message key="page_info.total_price"/>"
+        },
         form_component: {
             input: {
                 login: {
@@ -113,6 +118,31 @@
                     error: {
                         required: "<fmt:message key="form_component.input.password_repeat.error.required"/>",
                         not_equal: "<fmt:message key="form_component.input.password_repeat.error.not_equal"/>"
+                    }
+                },
+                name: {
+                    name: "<fmt:message key="form_component.input.name"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.name.error.required"/>",
+                        min_length: "<fmt:message key="form_component.input.name.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.name.error.max_length"/>",
+                    }
+                },
+                price: {
+                    name: "<fmt:message key="form_component.input.price"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.price.error.required"/>",
+                        min_length: "<fmt:message key="form_component.input.price.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.price.error.max_length"/>",
+                        pattern: "<fmt:message key="form_component.input.price.error.pattern"/>",
+                    }
+                },
+                info: {
+                    name: "<fmt:message key="form_component.input.info"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.info.error.required"/>",
+                        min_length: "<fmt:message key="form_component.input.info.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.info.error.max_length"/>",
                     }
                 },
                 first_name: {
@@ -185,6 +215,10 @@
                 submit: "<fmt:message key="form_component.button.submit"/>",
                 exit: "<fmt:message key="form_component.button.exit"/>",
                 choose_category: "<fmt:message key="form_component.button.choose_category"/>",
+                order_products: "<fmt:message key="form_component.button.order_products"/>",
+                show_orders: "<fmt:message key="form_component.button.show_orders"/>",
+                choose_status: "<fmt:message key="form_component.button.choose_status"/>",
+                choose_status_for_ordering: "<fmt:message key="form_component.button.choose_status_for_ordering"/>",
                 change_password: "<fmt:message key="form_component.button.change_password"/>",
                 delete_avatar: "<fmt:message key="form_component.button.delete_avatar"/>",
                 edit_profile_info: "<fmt:message key="form_component.button.edit_profile_info"/>",

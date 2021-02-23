@@ -171,7 +171,20 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
         try {
             users = userDao.findAllUsers();
         } catch (DaoException exp) {
-            throw new ServiceException("Error during remove user's avatar", exp);
+            throw new ServiceException("Error during finding all users", exp);
+        }
+
+        return users;
+    }
+
+    @Override
+    public List<User> findAllClients() throws ServiceException {
+        List<User> users;
+
+        try {
+            users = userDao.findAllClients();
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding all client", exp);
         }
 
         return users;

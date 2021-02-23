@@ -17,6 +17,7 @@ public interface UserDao{
     boolean updateActivationStatusByLogin(String login, User.Status status) throws DaoException;
     boolean updateUserStatus(long idUser, long idStatus) throws DaoException;
     List<User> findAllUsers() throws DaoException;
+    List<User> findAllClients() throws DaoException;
     Optional<User> findByLogin(String login) throws DaoException;
     Optional<User> findByTelephoneNumber(String phone) throws DaoException;
     Optional<User> findByEmail(String email) throws DaoException;

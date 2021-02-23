@@ -19,6 +19,7 @@ public interface UserService {
                                          String surname, String phone) throws ServiceException;
     boolean signUpUser(User user, String password) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;
+    List<User> findAllClients() throws ServiceException;
     List<User> sortByParameter(List<User> users, String sortType) throws ServiceException;
     Optional<User.Status> findStatusById(long id) throws ServiceException;
     Optional<User> findUserById(long id) throws ServiceException;

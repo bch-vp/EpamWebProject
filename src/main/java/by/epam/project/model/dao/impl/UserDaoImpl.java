@@ -178,6 +178,23 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> findAllClients() throws DaoException {
+        List<User> users = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_CLIENTS)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = ResultSetUtil.toUser(resultSet);
+                users.add(user);
+            }
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return users;
+    }
+
+    @Override
     public Optional<User> findById(long id) throws DaoException {
         Optional<User> productOptional = Optional.empty();
 

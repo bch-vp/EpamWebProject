@@ -19,7 +19,7 @@ public enum CommandType {
     UPDATE_PRODUCT_CATEGORY(new UpdateProductCategoryCommand()),
     LOAD_SHOPPING_CART(new LoadShoppingCartCommand()),
     REMOVE_PRODUCT_FROM_SHOPPING_CART(new RemoveProductFromShoppingCartCommand()),
-    LOAD_ALL_USERS(new LoadAllUsersCommand()),
+    LOAD_ALL_CLIENTS(new LoadAllClientsCommand()),
     UPDATE_CLIENT_STATUS(new UpdateClientStatusCommand()),
     DELETE_PROFILE_IMAGE(new DeleteProfileImage());
 

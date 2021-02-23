@@ -15,7 +15,7 @@
         <v-select
             style="padding-left: 1em"
             v-model="selectCategory"
-            hint="Please choose category"
+            v-bind:hint=text_page.form_component.button.choose_category
             :items="$store.state.App.categories"
             item-text="name"
             label="Select"
@@ -25,7 +25,6 @@
             single-line
         ></v-select>
       </v-col>
-
       <v-spacer></v-spacer>
 
       <v-btn v-on:click="$store.commit('show_profile')" :disabled="$store.state.App.isProfile" rounded text>

@@ -30,12 +30,12 @@
           <v-row style="padding-top: 2em;">
             <v-col>
               <v-select
-                  style="max-width: 230px"
+                  style="max-width: 270px"
                   dark
                   v-model="filtersValue"
                   :items="filtersItems"
                   chips
-                  label="Choose to show only..."
+                  v-bind:label=text_page.form_component.button.choose_status_for_ordering
                   multiple
                   outlined
               ></v-select>
@@ -58,13 +58,13 @@
             <v-col>
               <div align="right">
               <span style="color: white; padding-right: 5px" class="text-h5">
-                Pages:&nbsp {{ pages.length }}
+                {{ text_page.page_info.pages }}:&nbsp {{ pages.length }}
               </span>
                 <span style="color: white;" class="text-h5">
                 |
               </span>
                 <span style="color: white; padding-left: 5px" class="text-h5">
-                Products:&nbsp {{ productsWithFilters.length }}
+                {{ text_page.page_info.products }}:&nbsp {{ productsWithFilters.length }}
               </span>
               </div>
             </v-col>
@@ -87,6 +87,8 @@ export default {
       filtersItems: ['ACTIVE', 'INACTIVE'],
       filtersValue: ['ACTIVE', 'INACTIVE'],
 
+      text_page:text_page,
+
       oldPage: 1,
       page: 1,
       perPage: 12,
@@ -97,7 +99,6 @@ export default {
     productsWithFilters() {
       var array = [];
 
-      this.filtersValue = this.filtersValue.sort()
       for (var i = 0; i < this.filtersValue.length; i++) {
         if (this.filtersValue[i] === 'ACTIVE') {
           var arrayConcat = this.$store.state.App.products.filter(function (product) {

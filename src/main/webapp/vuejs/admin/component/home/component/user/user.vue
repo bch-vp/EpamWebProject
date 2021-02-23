@@ -39,7 +39,7 @@
                :disabled="user.status === 'ACTIVATED'">
           ACTIVATED
         </v-btn>
-        <v-btn @click="submit(user.id,2, 'BANNED')" style="margin-right: 2em" outlined text
+        <v-btn @click="submit(user.id,3, 'BANNED')" style="margin-right: 2em" outlined text
                :disabled="user.status === 'BANNED'">
           BANNED
         </v-btn>

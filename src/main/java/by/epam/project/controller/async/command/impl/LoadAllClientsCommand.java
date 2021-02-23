@@ -16,7 +16,7 @@ import java.util.List;
 
 import static by.epam.project.controller.parameter.ParameterKey.USERS;
 
-public class LoadAllUsersCommand implements Command {
+public class LoadAllClientsCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final UserService userService = UserServiceImpl.getInstance();
@@ -24,7 +24,7 @@ public class LoadAllUsersCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            List<User> users = userService.findAllUsers();
+            List<User> users = userService.findAllClients();
             String json = JsonUtil.toJson(USERS, users);
             JsonUtil.writeJsonToResponse(response, json);
         } catch (ServiceException | IOException exp) {

@@ -50,7 +50,6 @@
                         </v-row>
                       </v-container>
 
-
                     </v-row>
                   </v-container>
                 </div>
@@ -60,12 +59,12 @@
           <v-row v-if="isProducts" style="padding-top: 2em;">
             <v-col>
               <v-select
-                  style="max-width: 230px"
+                  style="max-width: 330px"
                   dark
                   v-model="filtersValue"
                   :items="filtersItems"
                   chips
-                  label="Choose to show only..."
+                  v-bind:label=text_page.form_component.button.choose_status_for_ordering
                   multiple
                   outlined
               ></v-select>
@@ -88,13 +87,13 @@
             <v-col>
               <div align="right">
               <span style="color: white; padding-right: 5px" class="text-h5">
-                Pages:&nbsp {{ pages.length }}
+                {{ text_page.page_info.pages }}:&nbsp {{ pages.length }}
               </span>
                 <span style="color: white;" class="text-h5">
                 |
               </span>
                 <span style="color: white; padding-left: 5px" class="text-h5">
-                Products:&nbsp {{ productsWithFilters.length }}
+                {{ text_page.page_info.products }}:&nbsp {{ productsWithFilters.length }}
               </span>
               </div>
             </v-col>
@@ -118,8 +117,8 @@ export default {
   },
   data() {
     return {
-      filtersItems: ['ACTIVE', 'INACTIVE'],
-      filtersValue: ['ACTIVE', 'INACTIVE'],
+      filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
+      filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
 
       isProducts: true,
       isAddProduct:false,
@@ -160,7 +159,6 @@ export default {
     productsWithFilters() {
       var array = [];
 
-      this.filtersValue = this.filtersValue.sort()
       for (var i = 0; i < this.filtersValue.length; i++) {
         if (this.filtersValue[i] === 'ACTIVE') {
           var arrayConcat = this.$store.state.App.products.filter(function (product) {
@@ -171,6 +169,11 @@ export default {
         } else if (this.filtersValue[i] === 'INACTIVE') {
           var arrayConcat = this.$store.state.App.products.filter(function (product) {
             return product.status === 'INACTIVE';
+          })
+          array = array.concat(arrayConcat)
+        } else if (this.filtersValue[i] === 'BLOCKED') {
+          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+            return product.status === 'BLOCKED';
           })
           array = array.concat(arrayConcat)
         }

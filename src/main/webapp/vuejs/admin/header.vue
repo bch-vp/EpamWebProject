@@ -15,7 +15,7 @@
         <v-select
             style="padding-left: 1em"
             v-model="selectCategory"
-            v-bind:hint=text_page.form_component.button.choose_category
+            v-bind:label=text_page.form_component.button.choose_category
             :items="$store.state.App.categories"
             item-text="name"
             :disabled="!$store.state.App.isHome"
@@ -122,7 +122,7 @@ export default {
 
     this.axios({
       method: 'post',
-      url: '/ajax?command=load_all_users'
+      url: '/ajax?command=load_all_clients'
     }).then(response => {
           var users = response.data.users.sort(function(a,b){
             return response.data.users[a]-response.data.users[b]

@@ -17,8 +17,11 @@
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
-                      <div class="col-md-4" v-for="product in this.$store.state.App.shoppingCart">
+                      <div class="col-md-4" v-if="!isOrder" v-for="product in this.$store.state.App.shoppingCart">
                         <ProductCard :product="product"/>
+                      </div>
+                      <div v-if="isOrder">
+                        <Order :close_isOrder="close_isOrder"/>
                       </div>
                     </v-row>
                   </v-container>
@@ -26,10 +29,10 @@
               </div>
             </div>
           </v-card>
-          <v-row style="padding-top: 2em;">
-            <v-col>
+          <v-row v-if="!isOrder" style="padding-top: 2em;">
+            <v-col >
               <span style="color: white; padding-left: 5px" class="text-h5">
-                Total price:&nbsp {{ calculateOrderPrice }}
+                {{text_page.page_info.total_price}}:&nbsp {{ calculateOrderPrice }}
                 <span class="light-green--text text--lighten-2">
                   $
                 </span>
@@ -37,15 +40,15 @@
             </v-col>
             <v-col>
               <div align="center">
-                <v-btn @click="" dark rounded outlined color="light-green accent-2" class="text-h6 white--text" text>
-                  ORDER PRODUCTS
+                <v-btn @click="isOrder = !isOrder" :disabled="$store.state.App.shoppingCart.length === 0" dark rounded outlined color="light-green accent-2" class="text-h6 white--text" text>
+                  {{text_page.form_component.button.order_products}}
                 </v-btn>
               </div>
             </v-col>
             <v-col>
               <div align="right">
                 <span style="color: white; padding-left: 5px" class="text-h5">
-                Products:&nbsp {{ $store.state.App.shoppingCart.length }}
+                {{text_page.page_info.products}}:&nbsp {{ $store.state.App.shoppingCart.length }}
               </span>
               </div>
             </v-col>
@@ -62,11 +65,28 @@
 </template>
 
 <script>
-import ProductCard from "vuejs/client/component/shoppingcart/component/ProductCard.vue";
+import ProductCard from "vuejs/client/component/shoppingcart/component/product/ProductCard.vue";
+import Order from "vuejs/client/component/shoppingcart/component/order/order.vue";
 
 export default {
   components: {
-    ProductCard
+    ProductCard,
+    Order
+  },
+  data() {
+    return {
+      isOrder:false,
+
+      text_page:text_page
+    }
+  },
+  methods:{
+    show_isOrder(){
+      this.isOrder = true
+    },
+    close_isOrder(){
+      this.isOrder = false
+    }
   },
   computed:{
     calculateOrderPrice(){
