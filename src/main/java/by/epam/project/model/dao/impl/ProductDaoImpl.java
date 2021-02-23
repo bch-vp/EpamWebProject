@@ -1,12 +1,10 @@
 package by.epam.project.model.dao.impl;
 
 import by.epam.project.exception.DaoException;
-import by.epam.project.exception.ServiceException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.ProductDao;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.entity.Product;
-import by.epam.project.model.entity.User;
 import by.epam.project.util.ResultSetUtil;
 
 import java.sql.Connection;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
-import static by.epam.project.controller.parameter.ParameterKey.STATUS;
 
 public class ProductDaoImpl implements ProductDao {
     private static final ProductDaoImpl instance = new ProductDaoImpl();
@@ -162,7 +159,7 @@ public class ProductDaoImpl implements ProductDao {
         Optional<Product.Status> statusOptional = Optional.empty();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_STATUS_BY_ID)) {
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_PRODUCT_STATUS_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -174,6 +171,7 @@ public class ProductDaoImpl implements ProductDao {
                 SQLException exp) {
             throw new DaoException(exp);
         }
+
 
         return statusOptional;
     }

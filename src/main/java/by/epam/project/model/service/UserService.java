@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> signInUser(String login, String password) throws ServiceException;
     boolean updateUser(User newUser, String oldLogin) throws ServiceException;
+    boolean updateUserStatus(long idUser, long idStatus) throws ServiceException;
     Map<String, String> defineSignUpData(String login, String password, String email, String name,
                                          String surname, String phone) throws ServiceException;
     Map<String, String> defineSignUpData(String login, String email, String name,
@@ -19,7 +20,8 @@ public interface UserService {
     boolean signUpUser(User user, String password) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;
     List<User> sortByParameter(List<User> users, String sortType) throws ServiceException;
-    Optional<User> findUserById(int id) throws ServiceException;
+    Optional<User.Status> findStatusById(long id) throws ServiceException;
+    Optional<User> findUserById(long id) throws ServiceException;
     Optional<User> findUserByPhone(String phone) throws ServiceException;
     Optional<User> findUserByEmail(String email) throws ServiceException;
     Optional<User> findUserByLogin(String login) throws ServiceException;

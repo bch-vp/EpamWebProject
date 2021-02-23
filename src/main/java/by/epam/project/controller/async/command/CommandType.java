@@ -20,6 +20,7 @@ public enum CommandType {
     LOAD_SHOPPING_CART(new LoadShoppingCartCommand()),
     REMOVE_PRODUCT_FROM_SHOPPING_CART(new RemoveProductFromShoppingCartCommand()),
     LOAD_ALL_USERS(new LoadAllUsersCommand()),
+    UPDATE_CLIENT_STATUS(new UpdateClientStatusCommand()),
     DELETE_PROFILE_IMAGE(new DeleteProfileImage());
 
     private final Command command;

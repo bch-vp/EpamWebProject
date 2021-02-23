@@ -31,6 +31,7 @@ public class ParameterKey {
     public static final String COMMENT = "comment";
     public static final String ADDRESS = "address";
 
+    public static final String ID_USER = "id_user";
     public static final String ID_PRODUCT = "id_product";
     public static final String ID_STATUS = "id_status";
     public static final String ID_CATEGORY = "id_category";

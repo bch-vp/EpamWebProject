@@ -28,14 +28,29 @@
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
+
                       <div v-if="isProducts" class="col-md-4" v-for="product in  productsWithFiltersAndPagination"
                            v-bind:key="product.id">
                         <ProductCard :product="product"/>
                       </div>
+
                       <div v-if="isAddProduct">
                         <AddProduct />
                       </div>
-                      <User v-if="isUsers"/>
+
+                      <v-container v-if="isUsers">
+                        <v-row justify="center" row>
+                          <v-col style="width: 70%">
+                            <v-list>
+                              <div v-for="user in $store.state.App.users" :key="user.id">
+                                <User :user="user"/>
+                              </div>
+                            </v-list>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+
+
                     </v-row>
                   </v-container>
                 </div>

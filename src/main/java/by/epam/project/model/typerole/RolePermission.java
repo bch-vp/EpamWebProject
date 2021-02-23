@@ -42,6 +42,7 @@ public enum RolePermission {
             "UPDATE_PRODUCT_CATEGORY",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "LOAD_ALL_USERS",
+            "UPDATE_CLIENT_STATUS",
             "SIGN_OUT"
     ));
     private final Set<String> commands;

@@ -4,6 +4,7 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.dao.UserDao;
+import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.ResultSetUtil;
 
@@ -16,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.AVATAR;
-import static by.epam.project.controller.parameter.ParameterKey.PASSWORD;
+import static by.epam.project.controller.parameter.ParameterKey.*;
 import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_BY_LOGIN;
 
 
@@ -175,6 +175,64 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(exp);
         }
         return users;
+    }
+
+    @Override
+    public Optional<User> findById(long id) throws DaoException {
+        Optional<User> productOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                User user = ResultSetUtil.toUser(resultSet);
+                productOptional = Optional.of(user);
+            }
+
+        } catch (
+                SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return productOptional;
+    }
+
+    @Override
+    public boolean updateUserStatus(long idUser, long idStatus) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_USER_STATUS)) {
+            statement.setLong(1, idStatus);
+            statement.setLong(2, idUser);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public Optional<User.Status> findStatusById(long id) throws DaoException {
+        Optional<User.Status> statusOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_USER_STATUS_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                User.Status status = User.Status.valueOf(resultSet.getString(NAME));
+                statusOptional = Optional.of(status);
+            }
+
+        } catch (
+                SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return statusOptional;
     }
 
     @Override

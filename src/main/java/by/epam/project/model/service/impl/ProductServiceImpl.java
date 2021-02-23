@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             statusOptional = productDao.findStatusById(id);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during finding product by name", exp);
+            throw new ServiceException("Error during finding product status", exp);
         }
 
         return statusOptional;

@@ -12,6 +12,12 @@ public class SqlQuery {
             "JOIN user_roles ON users.role_id = user_roles.id " +
             "WHERE BINARY login = ?";
 
+    public static final String FIND_USER_BY_ID = "SELECT users.id AS id, login, password, first_name, last_name, " +
+            "telephone_number, email, user_roles.name AS role, user_statuses.name AS status FROM users " +
+            "JOIN user_statuses ON users.status_id = user_statuses.id " +
+            "JOIN user_roles ON users.role_id = user_roles.id " +
+            "WHERE BINARY users.id = ?";
+
     public static final String FIND_ALL_USERS = "SELECT users.id AS id, login, password, first_name, last_name, " +
             "telephone_number, email, user_roles.name AS role, user_statuses.name AS status FROM users " +
             "JOIN user_statuses ON users.status_id = user_statuses.id " +
@@ -35,6 +41,8 @@ public class SqlQuery {
             "JOIN user_roles ON users.role_id = user_roles.id " +
             "WHERE BINARY login = ? AND BINARY password = ?";
 
+    public static final String FIND_USER_STATUS_BY_ID = "SELECT name FROM user_statuses WHERE id = ?";
+
     public static final String UPDATE_PASSWORD_BY_LOGIN = "UPDATE users SET password = ? WHERE BINARY login = ?";
 
     public static final String UPDATE_USER_BY_LOGIN = "UPDATE users SET login = ?, first_name = ?," +
@@ -48,6 +56,7 @@ public class SqlQuery {
 
     public static final String UPDATE_STATUS_BY_LOGIN = "UPDATE users SET status_id = ? WHERE BINARY login = ?";
 
+    public static final String UPDATE_USER_STATUS = "UPDATE users SET status_id = ? WHERE id = ?";
 
     public static final String FIND_ALL_CATEGORIES = "SELECT id, name FROM categories";
     public static final String FIND_CATEGORY_BY_NAME = "SELECT id, name FROM categories WHERE name = ?";
@@ -76,7 +85,7 @@ public class SqlQuery {
             "JOIN product_statuses ON products.status_id = product_statuses.id " +
             "WHERE products.id = ?";
 
-    public static final String FIND_STATUS_BY_ID = "SELECT name FROM product_statuses WHERE id = ?";
+    public static final String FIND_PRODUCT_STATUS_BY_ID = "SELECT name FROM product_statuses WHERE id = ?";
 
     public static final String UPDATE_PRODUCT_INFO = "UPDATE products SET name = ?, info = ?, price = ? " +
             "WHERE id = ?";

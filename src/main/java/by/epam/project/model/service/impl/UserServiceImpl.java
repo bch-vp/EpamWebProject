@@ -3,6 +3,7 @@ package by.epam.project.model.service.impl;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
+import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.EncryptPasswordUtil;
 import by.epam.project.validator.ServiceValidator;
@@ -180,12 +181,33 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     public List<User> sortByParameter(List<User> users, String sortType) throws ServiceException {
         return null;
     }
-
+//
     @Override
-    public Optional<User> findUserById(int id) throws ServiceException {
-        return Optional.empty();
+    public Optional<User> findUserById(long id) throws ServiceException {
+        Optional<User> userOptional = Optional.empty();
+
+        try {
+            userOptional = userDao.findById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding user by id", exp);
+        }
+
+        return userOptional;
     }
 
+    @Override
+    public Optional<User.Status> findStatusById(long id) throws ServiceException {
+        Optional<User.Status> statusOptional = Optional.empty();
+
+        try {
+            statusOptional = userDao.findStatusById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding user status", exp);
+        }
+
+        return statusOptional;
+    }
+//
     @Override
     public Optional<User> findUserByPhone(String phone) throws ServiceException {
         return Optional.empty();
@@ -306,5 +328,18 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
         }
 
         return userOptional.isEmpty();
+    }
+
+    @Override
+    public boolean updateUserStatus(long idUser, long idStatus) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = userDao.updateUserStatus(idUser, idStatus);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating user status", exp);
+        }
+
+        return isUpdated;
     }
 }
