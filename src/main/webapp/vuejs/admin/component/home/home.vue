@@ -6,16 +6,19 @@
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
           <v-btn @click="show_isAddProduct" :disabled="isAddProduct" color="black"  style="margin-left: 3em" class="light-green--text text--lighten-2">
-            + add
+            + {{text_page.form_component.button.add}}
           </v-btn>
           <v-btn @click="show_isProducts" :disabled="isProducts" color="black"  class="light-green--text text--lighten-2">
-            products
+            {{text_page.form_component.button.products}}
           </v-btn>
           <v-btn @click="show_isOrders" :disabled="isOrders" style="margin-left: 3em"  color="black" class="light-green--text text--lighten-2">
-            orders
+            {{text_page.form_component.button.orders}}
           </v-btn>
-          <v-btn @click="show_isUsers" :disabled="isUsers" color="black" class="light-green--text text--lighten-2">
-            users
+          <v-btn @click="show_isUsers" :disabled="isUsers"  color="black" class="light-green--text text--lighten-2">
+            {{text_page.form_component.button.users}}
+          </v-btn>
+          <v-btn @click="show_isCategories" :disabled="isCategories"  color="black" class="light-green--text text--lighten-2">
+            {{text_page.form_component.button.categories}}
           </v-btn>
           <v-card
               style="box-shadow: 0 0 25px;background: rgba(0, 0, 0, 0.93);border-radius: 20px;"
@@ -126,6 +129,7 @@ export default {
       isAddProduct:false,
       isOrders: false,
       isUsers: false,
+      isCategories:false,
 
       oldPage: 1,
       page: 1,
@@ -143,6 +147,10 @@ export default {
     show_isProducts() {
       this.clear_allComponents()
       this.isProducts = true
+    },
+    show_isCategories(){
+      this.clear_allComponents()
+      this.isCategories = true
     },
     show_isAddProduct(){
       this.clear_allComponents()

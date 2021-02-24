@@ -215,6 +215,13 @@
             button: {
                 submit: "<fmt:message key="form_component.button.submit"/>",
                 exit: "<fmt:message key="form_component.button.exit"/>",
+                add: "<fmt:message key="form_component.button.add"/>",
+                products: "<fmt:message key="form_component.button.products"/>",
+                orders: "<fmt:message key="form_component.button.orders"/>",
+                users: "<fmt:message key="form_component.button.users"/>",
+                categories: "<fmt:message key="form_component.button.categories"/>",
+                activated: "<fmt:message key="form_component.button.activated"/>",
+                banned: "<fmt:message key="form_component.button.banned"/>",
                 choose_category: "<fmt:message key="form_component.button.choose_category"/>",
                 order_products: "<fmt:message key="form_component.button.order_products"/>",
                 choose_status: "<fmt:message key="form_component.button.choose_status"/>",

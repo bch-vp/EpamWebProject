@@ -21,14 +21,12 @@
 import CustomHeader from 'vuejs/admin/header.vue'
 import Profile from 'vuejs/admin/component/profile/profile.vue'
 import Home from 'vuejs/admin/component/home/home.vue'
-// import ShoppingCart from 'vuejs/admin/component/shoppingcart/shoppingCart.vue'
 
 export default {
   components: {
     CustomHeader,
     Profile,
     Home,
-    // ShoppingCart
   },
   data() {
     return {
