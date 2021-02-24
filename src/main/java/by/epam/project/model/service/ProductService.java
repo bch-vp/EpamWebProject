@@ -8,9 +8,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
+    boolean add(Product product, long idCategory) throws ServiceException;
+
     List<Product> findAllProductsByCategoryToClient(String category) throws ServiceException;
 
     List<Product> findAllProductsByCategoryToAdmin(String category) throws ServiceException;
+
+    Optional<String> findImageURLByName(String name) throws ServiceException;
+
+    boolean updateImageURLByName(String name, String fileURL) throws ServiceException;
 
     Optional<Product> findProductByName(String name) throws ServiceException;
 

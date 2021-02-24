@@ -11,6 +11,9 @@ public class ContentKey {
     public static final String ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD =
             "form_component.error.old_password_not_equal_login_password";
 
+    public static final String ERROR_NAME_NOT_UNIQUE = "form_component.error.name_not_unique";
+
+
     public static final String EMAIL_SUBJECT_ACTIVATION_SIGN_UP = "email.subject.activation_sign_up";
     public static final String EMAIL_SUBJECT_GUEST_CHANGING_PASSWORD = "email.subject.guest.changing_password";
     public static final String EMAIL_BODY_ACTIVATION_SIGN_UP = "email.body.activation_sign_up";

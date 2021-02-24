@@ -21,7 +21,9 @@ public enum CommandType {
     REMOVE_PRODUCT_FROM_SHOPPING_CART(new RemoveProductFromShoppingCartCommand()),
     LOAD_ALL_CLIENTS(new LoadAllClientsCommand()),
     UPDATE_CLIENT_STATUS(new UpdateClientStatusCommand()),
-    DELETE_PROFILE_IMAGE(new DeleteProfileImage());
+    CREATE_PRODUCT(new CreateProductCommand()),
+    UPLOAD_PRODUCT_IMAGE(new UploadProductImageCommand()),
+    REMOVE_PROFILE_IMAGE(new RemoveProfileImageCommand());
 
     private final Command command;
 

@@ -20,6 +20,45 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean add(Product product, long idCategory) throws ServiceException {
+       boolean isUpdated;
+
+        try {
+            isUpdated = productDao.add(product, idCategory);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during adding new product", exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public Optional<String> findImageURLByName(String name) throws ServiceException {
+        Optional<String> stringOptional;
+
+        try {
+            stringOptional = productDao.findImageURLByName(name);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding all products by category to client", exp);
+        }
+
+        return stringOptional;
+    }
+
+    @Override
+    public boolean updateImageURLByName(String name, String fileURL) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = productDao.updateImageURLByName(name, fileURL);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating product image", exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
     public List<Product> findAllProductsByCategoryToClient(String category) throws ServiceException {
         List<Product> products;
 

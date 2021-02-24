@@ -19,7 +19,7 @@ public enum RolePermission {
             "UPDATE_PROFILE",
             "LOAD_PROFILE_IMAGE",
             "UPLOAD_PROFILE_IMAGE",
-            "DELETE_PROFILE_IMAGE",
+            "REMOVE_PROFILE_IMAGE",
             "LOAD_ALL_CATEGORIES",
             "LOAD_ALL_PRODUCTS_BY_CATEGORY",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
@@ -34,7 +34,7 @@ public enum RolePermission {
             "LOAD_PROFILE_IMAGE",
             "UPLOAD_PROFILE_IMAGE",
             "UPDATE_PROFILE",
-            "DELETE_PROFILE_IMAGE",
+            "REMOVE_PROFILE_IMAGE",
             "LOAD_ALL_CATEGORIES",
             "LOAD_ALL_PRODUCTS_BY_CATEGORY",
             "UPDATE_PRODUCT_INFO",
@@ -43,6 +43,8 @@ public enum RolePermission {
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "LOAD_ALL_CLIENTS",
             "UPDATE_CLIENT_STATUS",
+            "CREATE_PRODUCT",
+            "UPLOAD_PRODUCT_IMAGE",
             "SIGN_OUT"
     ));
     private final Set<String> commands;

@@ -15,7 +15,7 @@
         <v-select
             style="padding-left: 1em"
             v-model="selectCategory"
-            v-bind:label=text_page.form_component.button.choose_category
+            v-bind:hint=text_page.form_component.button.choose_category
             :items="$store.state.App.categories"
             item-text="name"
             :disabled="!$store.state.App.isHome"

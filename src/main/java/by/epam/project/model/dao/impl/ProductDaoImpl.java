@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static by.epam.project.controller.parameter.ParameterKey.IMAGE_URL;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
 public class ProductDaoImpl implements ProductDao {
@@ -22,6 +23,58 @@ public class ProductDaoImpl implements ProductDao {
 
     public static ProductDaoImpl getInstance() {
         return instance;
+    }
+
+    @Override
+    public boolean add(Product product, long idCategory) throws DaoException {
+        boolean isUpdated;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_PRODUCT)) {
+            statement.setString(1, product.getName());
+            statement.setString(2, product.getInfo());
+            statement.setBigDecimal(3, product.getPrice());
+            statement.setLong(4, idCategory);
+            statement.setLong(5, product.getStatus().ordinal() + 1);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public Optional<String> findImageURLByName(String name) throws DaoException {
+        Optional<String> stringOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_PRODUCT_IMAGE_BY_NAME)) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                stringOptional = Optional.ofNullable(resultSet.getString(IMAGE_URL));
+            }
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return stringOptional;
+    }
+
+    @Override
+    public boolean updateImageURLByName(String name, String fileURL) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_IMAGE_URL)) {
+            statement.setString(1, fileURL);
+            statement.setString(2, name);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
     }
 
     @Override

@@ -58,7 +58,7 @@ public class SqlQuery {
 
     public static final String UPDATE_AVATAR_URL_BY_LOGIN = "UPDATE users SET avatar_url = ? WHERE BINARY login = ?";
 
-    public static final String REMOVE_AVATAR_BY_LOGIN = "UPDATE users SET avatar = NULL WHERE BINARY login = ?";
+    public static final String REMOVE_AVATAR_BY_LOGIN = "UPDATE users SET avatar_url = NULL WHERE BINARY login = ?";
 
     public static final String UPDATE_STATUS_BY_LOGIN = "UPDATE users SET status_id = ? WHERE BINARY login = ?";
 
@@ -68,6 +68,13 @@ public class SqlQuery {
     public static final String FIND_CATEGORY_BY_NAME = "SELECT id, name FROM categories WHERE name = ?";
     public static final String FIND_CATEGORY_BY_ID = "SELECT id, name FROM categories WHERE id = ?";
 
+
+    public static final String ADD_PRODUCT = "INSERT INTO products(name, info, price, category_id, status_id)" +
+            "VALUES (?, ?, ?, ?, ?) ";
+
+    public static final String UPDATE_PRODUCT_IMAGE_URL = "UPDATE products SET image_url = ? WHERE BINARY name = ?";
+
+    public static final String FIND_PRODUCT_IMAGE_BY_NAME = "SELECT image_url FROM products WHERE BINARY name = ?";
 
     public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT = "SELECT products.id ,products.name AS name, " +
             "products.info AS info, product_statuses.name AS status, products.price AS price FROM products " +

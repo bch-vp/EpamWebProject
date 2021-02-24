@@ -1,7 +1,7 @@
 export default {
     state: {
         isAvatarExists:false,
-        avatarUrl: "ajax?command=load_profile_image&" + Date.now()
+        avatarUrl: ''
     },
     mutations: {
         set_isAvatarExists(state, data){

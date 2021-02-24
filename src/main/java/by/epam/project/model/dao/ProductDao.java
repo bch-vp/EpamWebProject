@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductDao {
+    boolean add(Product product, long idCategory) throws DaoException;
+
+    Optional<String> findImageURLByName(String name) throws DaoException;
+
+    boolean updateImageURLByName(String name, String fileURL) throws DaoException;
+
     List<Product> findAllProductsByCategoryToClient(String category) throws DaoException;
 
     List<Product> findAllProductsByCategoryToAdmin(String category) throws DaoException;

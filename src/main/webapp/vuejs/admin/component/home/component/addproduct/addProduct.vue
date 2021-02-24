@@ -6,89 +6,111 @@
           <div class="profile-background">
             <div class="profile">
 
-<!--              <v-card-->
-<!--                  color="grey lighten-4"-->
-<!--              >-->
-                <v-img
-                    style="margin-top: 2em"
-                    max-height="200"
-                    :aspect-ratio="16/9"
-                    src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
-                >
+              <!--              <v-card-->
+              <!--                  color="grey lighten-4"-->
+              <!--              >-->
+              <!--                <v-img-->
+              <!--                    style="margin-top: 2em"-->
+              <!--                    max-height="200"-->
+              <!--                    :aspect-ratio="16/9"-->
+              <!--                    src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"-->
+              <!--                >-->
 
-<!--                  <div style="padding-top: 15px">-->
-<!--                    <v-btn @click="showCardInfo"-->
-<!--                           absolute color="black" class="light-green&#45;&#45;text text&#45;&#45;lighten-2"  fab right >-->
-<!--                      <v-icon >close</v-icon>-->
-<!--                    </v-btn>-->
-<!--                  </div>-->
-                </v-img>
-                <v-card-text class="pt-6" style="position: relative;">
-                  <v-form
-                      ref="form"
-                      v-model="valid"
-                  >
-                    <v-row>
-                      <v-col>
-                        <v-file-input
-                            ref="file"
-                            prepend-icon="add_a_photo">
-                        </v-file-input>
-                      </v-col>
-                      <v-col>
-                        <v-text-field
-                            dark
-                            v-model="name"
-                            :counter="15"
-                            :rules="rules.name"
-                            v-bind:label=text_page.form_component.input.name.name
-                            required
-                        ></v-text-field>
-                      </v-col>
-                     <v-col>
-                       <v-text-field
-                           dark
-                           prefix="$"
-                           v-model="price"
-                           :counter="13"
-                           :rules="rules.price"
-                           v-bind:label=text_page.form_component.input.price.name
-                           required
-                       ></v-text-field>
-                     </v-col>
-                    </v-row>
-                    <div>
-                      <v-textarea
-                          filled
-                          v-model="info"
-                          color="orange"
-                          :counter="100"
-                          rows="2"
-                          :rules="rules.info"
-                          v-bind:label=text_page.form_component.input.info.name
-                      ></v-textarea>
-                    </div>
-                    <br>
-                    <div align="center">
-                      <v-progress-circular style="margin-right: 15px"
-                                           v-if="spinnerVisible"
-                                           indeterminate
-                                           color="#8C9EFF"
-                      ></v-progress-circular>
-                      <v-btn v-if="!spinnerVisible"
-                             @click="submit"
-                             :disabled="!valid"
-                             dark small text rounded color="#8C9EFF">
-                        {{ text_page.form_component.button.submit }}
-                      </v-btn>
-                      <v-btn @click="reset"
-                             outlined small fab color="#8C9EFF">
-                        <v-icon>autorenew</v-icon>
-                      </v-btn>
-                    </div>
-                  </v-form>
-                </v-card-text>
-<!--              </v-card>-->
+              <!--&lt;!&ndash;                  <div style="padding-top: 15px">&ndash;&gt;-->
+              <!--&lt;!&ndash;                    <v-btn @click="showCardInfo"&ndash;&gt;-->
+              <!--&lt;!&ndash;                           absolute color="black" class="light-green&#45;&#45;text text&#45;&#45;lighten-2"  fab right >&ndash;&gt;-->
+              <!--&lt;!&ndash;                      <v-icon >close</v-icon>&ndash;&gt;-->
+              <!--&lt;!&ndash;                    </v-btn>&ndash;&gt;-->
+              <!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+              <!--                </v-img>-->
+              <v-card-text class="pt-6" style="position: relative;">
+                <div v-if="isSuccess" align="center" class="text-h6 font-weight-regular center" style="color: green">
+                  {{ text_page.form_component.info.success }}
+                </div>
+                <div v-if="isError" style="color: red">
+                  {{ error }}
+                </div>
+                <v-form
+                    ref="form"
+                    v-model="valid"
+                >
+                  <v-row>
+                    <v-col>
+                      <v-file-input
+                          :rules="rules.fileRules"
+                          v-model="file"
+                          ref="file"
+                          prepend-icon="add_a_photo">
+                      </v-file-input>
+                    </v-col>
+                    <v-col>
+                      <v-select
+                          v-model="selectCategory"
+                          v-bind:label=text_page.form_component.button.choose_category
+                          :items="$store.state.App.categories"
+                          item-text="name"
+                          :disabled="!$store.state.App.isHome"
+                          persistent-hint
+                          return-object
+                          single-line
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                          dark
+                          v-model="name"
+                          :counter="15"
+                          :rules="rules.name"
+                          v-bind:label=text_page.form_component.input.name.name
+                          required
+                      ></v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                          dark
+                          prefix="$"
+                          v-model="price"
+                          :counter="13"
+                          :rules="rules.price"
+                          v-bind:label=text_page.form_component.input.price.name
+                          required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <div>
+                    <v-textarea
+                        filled
+                        v-model="info"
+                        color="orange"
+                        :counter="100"
+                        rows="2"
+                        :rules="rules.info"
+                        v-bind:label=text_page.form_component.input.info.name
+                    ></v-textarea>
+                  </div>
+                  <br>
+                  <div align="center">
+                    <v-progress-circular style="margin-right: 15px"
+                                         v-if="spinnerVisible"
+                                         indeterminate
+                                         color="#8C9EFF"
+                    ></v-progress-circular>
+                    <v-btn v-if="!spinnerVisible"
+                           @click="submit"
+                           :disabled="!valid"
+                           dark small text rounded color="#8C9EFF">
+                      {{ text_page.form_component.button.submit }}
+                    </v-btn>
+                    <v-btn @click="reset"
+                           outlined small fab color="#8C9EFF">
+                      <v-icon>autorenew</v-icon>
+                    </v-btn>
+                  </div>
+                </v-form>
+              </v-card-text>
+              <!--              </v-card>-->
             </div>
           </div>
         </v-col>
@@ -112,8 +134,13 @@ export default {
       name: '',
       info: '',
       price: '',
+      selectCategory: undefined,
+      file: undefined,
 
       rules: {
+        fileRules: [
+          v => !!v || 'File is required',
+        ],
         name: [
           v => !!v || this.text_page.form_component.input.name.error.required,
           v => (v && v.length >= 3) || this.text_page.form_component.input.name.error.min_length,
@@ -121,8 +148,8 @@ export default {
         ],
         price: [
           v => !!v || this.text_page.form_component.input.price.error.required,
-          v => (v && String(this.product.price).length >= 1) || this.text_page.form_component.input.price.error.min_length,
-          v => (v && String(this.product.price).length <= 11) || this.text_page.form_component.input.price.error.max_length,
+          v => (v && v.length >= 1) || this.text_page.form_component.input.price.error.min_length,
+          v => (v && v.length <= 11) || this.text_page.form_component.input.price.error.max_length,
           v => /^[0-9]{1,10}(\.[0-9]{2})?$/.test(v) || this.text_page.form_component.input.price.error.pattern,
         ],
         info: [
@@ -161,32 +188,41 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        // this.axios({
-        //   method: 'post',
-        //   url: '/ajax?command=update_product_info',
-        //   data: {
-        //     id: String(this.product.id),
-        //     name: this.name,
-        //     info: this.info,
-        //     price: this.price,
-        //   }
-        // }).then(response => {
-        //       this.product.name = this.name
-        //       this.product.info = this.info
-        //       this.product.price = this.price
-        //
-        //       this.reset()
-        //
-        //       this.isError = false
-        //       this.isSuccess = true
-        //
-        //       this.await3Seconds()
-        //     },
-        //     ex => {
-        //       this.reset()
-        //       this.isSuccess = false
-        //       this.isError = true
-        //     })
+        this.axios({
+          method: 'post',
+          url: '/ajax?command=create_product',
+          data: {
+            id_category: String(this.selectCategory.id),
+            name: this.name,
+            info: this.info,
+            price: this.price,
+
+          }
+        }).then(response => {
+              console.log('product created')
+              let formData = new FormData();
+              formData.append('file', this.file);
+
+              this.axios({
+                method: 'post',
+                url: '/ajax?command=upload_product_image&name='+this.name,
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                },
+                data: formData
+              }).then(response => {
+                this.isSuccess = true
+              }, ex => {
+                this.error = ex.response.data.error
+                this.isError = true
+              })
+            },
+            ex => {
+              console.log('product not created')
+              this.reset()
+              this.error = ex.response.data.error
+              this.isError = true
+            })
       }
     },
     async await3Seconds() {
@@ -194,7 +230,10 @@ export default {
       // this.isSuccess = false
     },
     reset() {
-
+      this.$refs.form.reset()
+      this.error = undefined
+      this.isSuccess = false
+      this.isError = false
     },
     showSpinner() {
       this.spinnerVisible = true;

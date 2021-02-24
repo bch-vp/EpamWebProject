@@ -120,6 +120,8 @@ export default {
       filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
       filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
 
+      text_page:text_page,
+
       isProducts: true,
       isAddProduct:false,
       isOrders: false,

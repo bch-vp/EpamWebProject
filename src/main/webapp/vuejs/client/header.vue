@@ -106,6 +106,19 @@ export default {
     }
   },
   created() {
+      this.axios({
+        method: 'post',
+        url: '/ajax?command=load_profile_image',
+      }).then(resp => {
+        console.log(resp.data.url)
+        this.$store.commit('set_isAvatarExists', true)
+        this.$store.commit('change_avatarUrl', resp.data.url)
+      }, ex => {
+        console.log(ex.response.data.url);
+        this.$store.commit('set_isAvatarExists', false)
+        this.$store.commit('change_avatarUrl', '')
+      })
+
     this.axios({
       method: 'post',
       url: '/ajax?command=load_all_categories'
