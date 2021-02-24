@@ -5,6 +5,7 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import by.epam.project.util.FileUtil;
 import by.epam.project.util.JsonUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
@@ -88,8 +90,8 @@ public class UploadProfileImageCommand implements Command {
                 return;
             }
 
-            InputStream inputStream = file.getInputStream();
-            userService.updateAvatarByLogin(login, inputStream);
+            String fileURL = FileUtil.save(file);
+            userService.updateAvatarURLByLogin(login, fileURL);
         } catch (ServiceException | IOException e) {
             logger.error(e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

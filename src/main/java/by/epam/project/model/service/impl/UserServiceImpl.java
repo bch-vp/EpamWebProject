@@ -7,6 +7,7 @@ import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.EncryptPasswordUtil;
 import by.epam.project.validator.ServiceValidator;
+import org.apache.commons.fileupload.FileItem;
 
 import java.io.InputStream;
 import java.util.List;
@@ -60,13 +61,13 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public boolean updateAvatarByLogin(String login, InputStream inputStream) throws ServiceException {
+    public boolean updateAvatarURLByLogin(String login, String fileURL) throws ServiceException {
         boolean isUpdated;
 
         try {
-            isUpdated = userDao.updateAvatarByLogin(login, inputStream);
+            isUpdated = userDao.updateAvatarURLByLogin(login, fileURL);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during updating user's avatar", exp);
+            throw new ServiceException("Error during updating user's url avatar", exp);
         }
 
         return isUpdated;
@@ -232,16 +233,16 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public Optional<byte[]> findAvatarByLogin(String login) throws ServiceException {
-        Optional<byte[]> bytesOptional;
+    public Optional<String> findAvatarURLByLogin(String login) throws ServiceException {
+        Optional<String> stringOptional;
 
         try {
-            bytesOptional = userDao.findAvatarByLogin(login);
+            stringOptional = userDao.findAvatarURLByLogin(login);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during updating user's avatar", exp);
+            throw new ServiceException("Error during updating user's url avatar", exp);
         }
 
-        return bytesOptional;
+        return stringOptional;
     }
 
     @Override

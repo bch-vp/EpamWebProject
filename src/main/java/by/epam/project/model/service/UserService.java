@@ -26,9 +26,9 @@ public interface UserService {
     Optional<User> findUserByPhone(String phone) throws ServiceException;
     Optional<User> findUserByEmail(String email) throws ServiceException;
     Optional<User> findUserByLogin(String login) throws ServiceException;
-    Optional<byte[]> findAvatarByLogin(String login) throws ServiceException;
+    Optional<String> findAvatarURLByLogin(String login) throws ServiceException;
     boolean updatePasswordByLogin(String login, String password) throws ServiceException;
-    boolean updateAvatarByLogin(String login, InputStream inputStream) throws ServiceException;
+    boolean updateAvatarURLByLogin(String login, String fileURL) throws ServiceException;
     boolean updateActivationStatusByLogin(String login, User.Status status) throws ServiceException;
     boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
     boolean isStatusEqualUserStatus(String login, User.Status status) throws ServiceException;

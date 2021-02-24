@@ -5,6 +5,7 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import by.epam.project.util.JsonUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
+import static by.epam.project.controller.parameter.ParameterKey.URL;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class LoadProfileImageCommand implements Command {
@@ -28,25 +30,18 @@ public class LoadProfileImageCommand implements Command {
         User user = (User) session.getAttribute(USER);
         String login = user.getLogin();
 
-        Optional<byte[]> bytesOptional;
+        Optional<String> URLOptional;
         try {
-            bytesOptional = userService.findAvatarByLogin(login);
-        } catch (ServiceException exp) {
-            logger.error(exp);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return;
-        }
+            URLOptional = userService.findAvatarURLByLogin(login);
 
-        if(bytesOptional.isEmpty()){
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
+            if (URLOptional.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
 
-        byte[] bytes = bytesOptional.get();
-
-        try {
-            response.getOutputStream().write(bytes);
-        } catch (IOException exp) {
+            String avatarURL = URLOptional.get();
+            JsonUtil.writeJsonToResponse(response, URL, avatarURL);
+        } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

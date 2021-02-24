@@ -54,9 +54,9 @@ public class SqlQuery {
     public static final String UPDATE_USER_BY_LOGIN = "UPDATE users SET login = ?, first_name = ?," +
             " last_name = ?, telephone_number = ?, email = ? WHERE BINARY login = ?";
 
-    public static final String FIND_AVATAR_BY_LOGIN = "SELECT avatar FROM users WHERE BINARY login = ?";
+    public static final String FIND_AVATAR_URL_BY_LOGIN = "SELECT avatar_url FROM users WHERE BINARY login = ?";
 
-    public static final String UPDATE_AVATAR_BY_LOGIN = "UPDATE users SET avatar = ? WHERE BINARY login = ?";
+    public static final String UPDATE_AVATAR_URL_BY_LOGIN = "UPDATE users SET avatar_url = ? WHERE BINARY login = ?";
 
     public static final String REMOVE_AVATAR_BY_LOGIN = "UPDATE users SET avatar = NULL WHERE BINARY login = ?";
 

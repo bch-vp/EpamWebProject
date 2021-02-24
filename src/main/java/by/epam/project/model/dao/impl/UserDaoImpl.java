@@ -4,11 +4,9 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.dao.UserDao;
-import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.ResultSetUtil;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
-import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_BY_LOGIN;
+import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_URL_BY_LOGIN;
 
 
 public class UserDaoImpl implements UserDao {
@@ -68,19 +66,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<byte[]> findAvatarByLogin(String login) throws DaoException {
-        Optional<byte[]> bytesOptional = Optional.empty();
+    public Optional<String> findAvatarURLByLogin(String login) throws DaoException {
+        Optional<String> stringOptional = Optional.empty();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_AVATAR_BY_LOGIN)) {
+             PreparedStatement statement = connection.prepareStatement(FIND_AVATAR_URL_BY_LOGIN)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                bytesOptional =  Optional.ofNullable(resultSet.getBytes(AVATAR));
+                stringOptional =  Optional.ofNullable(resultSet.getString(AVATAR_URL));
             }
         } catch (SQLException exp) {
             throw new DaoException(exp);
         }
-        return bytesOptional;
+        return stringOptional;
     }
 
     @Override
@@ -129,11 +127,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateAvatarByLogin(String login, InputStream inputStream) throws DaoException {
+    public boolean updateAvatarURLByLogin(String login, String fileURL) throws DaoException {
         boolean isUpdated;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_AVATAR_BY_LOGIN)) {
-            statement.setBlob(1, inputStream);
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_AVATAR_URL_BY_LOGIN)) {
+            statement.setString(1, fileURL);
             statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
