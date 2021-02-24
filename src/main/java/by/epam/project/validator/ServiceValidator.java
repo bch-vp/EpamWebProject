@@ -17,7 +17,7 @@ public class ServiceValidator {
     private static final String UNIQUE_KEY_REGEX = "^\\d{6}$";
 
     private static final String REGEX_ID = "^\\d{1,17}$";
-    private static final String REGEX_PRICE = "^[0-9]{1,10}(\\.[0-9]{2})?$";
+    private static final String REGEX_PRICE = "^[0-9]{1,8}(\\.[0-9]{2})?$";
     private static final String REGEX_INFO = "^.{3,100}$";
 
     private ServiceValidator() {

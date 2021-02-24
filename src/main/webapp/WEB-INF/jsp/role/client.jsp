@@ -126,6 +126,7 @@
                         required: "<fmt:message key="form_component.input.name.error.required"/>",
                         min_length: "<fmt:message key="form_component.input.name.error.min_length"/>",
                         max_length: "<fmt:message key="form_component.input.name.error.max_length"/>",
+                        pattern: "<fmt:message key="form_component.input.name.error.pattern"/>",
                     }
                 },
                 price: {

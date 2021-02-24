@@ -27,7 +27,6 @@
               dark
               prefix="$"
               v-model="price"
-              :counter="13"
               :rules="rules.price"
               v-bind:label=text_page.form_component.input.price.name
               required
@@ -91,8 +90,8 @@ export default {
         ],
         price: [
           v => !!v || this.text_page.form_component.input.price.error.required,
-          v => (v && String(this.product.price).length >= 1) || this.text_page.form_component.input.price.error.min_length,
-          v => (v && String(this.product.price).length <= 11) || this.text_page.form_component.input.price.error.max_length,
+          v => (v && Number(v) >= 0.01) || this.text_page.form_component.input.price.error.min_length,
+          v => (v && Number(v) <= 99999999.99) || this.text_page.form_component.input.price.error.max_length,
           v => /^[0-9]{1,10}(\.[0-9]{2})?$/.test(v) || this.text_page.form_component.input.price.error.pattern,
         ],
         info: [

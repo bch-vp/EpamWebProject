@@ -5,8 +5,9 @@
       max-width="600"
   >
     <v-img
+        style="background-color: darkgrey"
         :aspect-ratio="16/9"
-        src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+        :src="product.imageURL"
     >
 
       <div style="padding-top: 15px">
@@ -15,6 +16,14 @@
         <v-icon >close</v-icon>
       </v-btn>
       </div>
+
+      <v-file-input v-on:change="handleFileUpload()"
+                    style="width: 60%; padding-left: 1em"
+                    v-model="file"
+                    dark
+                    ref="file"
+                    prepend-icon="add_a_photo">
+      </v-file-input>
     </v-img>
     <v-card-text class="pt-6" style="position: relative; background-color: grey">
 
@@ -53,6 +62,8 @@ export default {
       valid: false,
       text_page: text_page,
 
+      file: undefined,
+
       isEditInfo: true,
       isEditStatusAndLocation: false,
 
@@ -70,6 +81,26 @@ export default {
     showEditStatusAndLocation() {
       this.clearAllComponents()
       this.isEditStatusAndLocation = true
+    },
+    handleFileUpload() {
+      let formData = new FormData();
+      formData.append('file', this.file);
+
+      this.axios({
+        method: 'post',
+        url: '/ajax?command=upload_product_image',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+      }).then(response => {
+        this.$store.commit('set_isAvatarExists', true)
+        this.error = undefined
+        this.$store.commit('change_avatarUrl', response.data.url)
+      }, ex => {
+        console.log('FAILURE!!');
+        this.error = ex.response.data.error
+      })
     }
   }
 }

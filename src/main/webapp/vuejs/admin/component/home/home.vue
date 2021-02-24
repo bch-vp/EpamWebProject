@@ -5,21 +5,48 @@
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
-          <v-btn @click="show_isAddProduct" :disabled="isAddProduct" color="black"  style="margin-left: 3em" class="light-green--text text--lighten-2">
-            + {{text_page.form_component.button.add}}
-          </v-btn>
-          <v-btn @click="show_isProducts" :disabled="isProducts" color="black"  class="light-green--text text--lighten-2">
-            {{text_page.form_component.button.products}}
-          </v-btn>
-          <v-btn @click="show_isOrders" :disabled="isOrders" style="margin-left: 3em"  color="black" class="light-green--text text--lighten-2">
-            {{text_page.form_component.button.orders}}
-          </v-btn>
-          <v-btn @click="show_isUsers" :disabled="isUsers"  color="black" class="light-green--text text--lighten-2">
-            {{text_page.form_component.button.users}}
-          </v-btn>
-          <v-btn @click="show_isCategories" :disabled="isCategories"  color="black" class="light-green--text text--lighten-2">
-            {{text_page.form_component.button.categories}}
-          </v-btn>
+          <v-row>
+            <v-col>
+              <div align="center">
+                <v-btn @click="show_isAddProduct" :disabled="isAddProduct" color="black"
+                       class="light-green--text text--lighten-2">
+                  <v-icon>
+                    add
+                  </v-icon>
+                </v-btn>
+                <v-btn @click="show_isProducts" :disabled="isProducts" color="black"
+                       class="light-green--text text--lighten-2">
+                  {{ text_page.form_component.button.products }}
+                </v-btn>
+              </div>
+            </v-col>
+            <v-col>
+              <div align="center">
+                <v-btn @click="show_isEditCategory" :disabled="isEditCategory" color="black"
+                       class="light-green--text text--lighten-2">
+                  <v-icon>
+                    edit
+                  </v-icon>
+                </v-btn>
+                <v-btn @click="show_isCategories" :disabled="isCategories" color="black"
+                       class="light-green--text text--lighten-2">
+                  {{ text_page.form_component.button.categories }}
+                </v-btn>
+              </div>
+            </v-col>
+            <v-col>
+              <div align="center">
+                <v-btn @click="show_isOrders" :disabled="isOrders" color="black"
+                       class="light-green--text text--lighten-2">
+                  {{ text_page.form_component.button.orders }}
+                </v-btn>
+                <v-btn @click="show_isUsers" :disabled="isUsers" color="black"
+                       class="light-green--text text--lighten-2">
+                  {{ text_page.form_component.button.users }}
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
           <v-card
               style="box-shadow: 0 0 25px;background: rgba(0, 0, 0, 0.93);border-radius: 20px;"
               dark
@@ -33,22 +60,24 @@
                     <v-row>
 
                       <div v-if="isProducts" class="col-md-4" v-for="product in  productsWithFiltersAndPagination"
-                           v-bind:key="product.id">
+                           v-bind:key="product.name">
                         <ProductCard :product="product"/>
                       </div>
 
                       <div v-if="isAddProduct">
-                        <AddProduct />
+                        <AddProduct/>
                       </div>
 
                       <v-container v-if="isUsers">
                         <v-row justify="center" row>
-                          <v-col style="width: 70%">
-                            <v-list>
+                          <v-col>
+                            <div align="center">
+                            <v-list style="width: 80%">
                               <div v-for="user in $store.state.App.users" :key="user.id">
                                 <User :user="user"/>
                               </div>
                             </v-list>
+                            </div>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -78,9 +107,9 @@
                   <v-icon>navigate_before</v-icon>
                 </v-btn>
                 <v-btn dark style="color: white">
-            <span class="light-green--text text--lighten-1">
-                   {{ page }}
-                 </span>
+                  <span class="light-green--text text--lighten-1">
+                    {{ page }}
+                  </span>
                 </v-btn>
                 <v-btn dark style="color: white" @click="page++" :disabled="page >= pages.length">
                   <v-icon>navigate_next</v-icon>
@@ -123,13 +152,14 @@ export default {
       filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
       filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
 
-      text_page:text_page,
+      text_page: text_page,
 
       isProducts: true,
-      isAddProduct:false,
+      isAddProduct: false,
       isOrders: false,
       isUsers: false,
-      isCategories:false,
+      isCategories: false,
+      isEditCategory: false,
 
       oldPage: 1,
       page: 1,
@@ -143,16 +173,22 @@ export default {
       this.isAddProduct = false
       this.isOrders = false
       this.isUsers = false
+      this.isCategories = false
+      this.isEditCategory = false
     },
     show_isProducts() {
       this.clear_allComponents()
       this.isProducts = true
     },
-    show_isCategories(){
+    show_isCategories() {
       this.clear_allComponents()
       this.isCategories = true
     },
-    show_isAddProduct(){
+    show_isEditCategory() {
+      this.clear_allComponents()
+      this.isEditCategory = true
+    },
+    show_isAddProduct() {
       this.clear_allComponents()
       this.isAddProduct = true
     },
@@ -168,6 +204,8 @@ export default {
   computed: {
     productsWithFilters() {
       var array = [];
+
+      var a = this.$store.state.App.products
 
       for (var i = 0; i < this.filtersValue.length; i++) {
         if (this.filtersValue[i] === 'ACTIVE') {
@@ -191,6 +229,7 @@ export default {
       return array
     },
     productsWithFiltersAndPagination() {
+      var arrayForComputing = this.$store.state.App.products
       var array = this.productsWithFilters;
 
       let numberOfPages = Math.ceil(array.length / this.perPage);

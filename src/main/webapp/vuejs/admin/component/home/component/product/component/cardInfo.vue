@@ -6,8 +6,9 @@
         max-width="600"
     >
       <v-img
+          style="background-color: darkgrey"
           :aspect-ratio="16/9"
-          src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+          :src="product.imageURL"
       >
         <v-expand-transition>
           <div v-if="hover"

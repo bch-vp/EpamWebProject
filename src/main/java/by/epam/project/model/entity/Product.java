@@ -14,6 +14,7 @@ public class Product {
     private String info;
     private Status status;
     private BigDecimal price;
+    private String imageURL;
 
     public Product(){}
 
@@ -23,6 +24,23 @@ public class Product {
         this.info = info;
         this.status = status;
         this.price = price;
+    }
+
+    public Product(long id, String name, String info, Status status, BigDecimal price, String imageURL) {
+        this.id = id;
+        this.name = name;
+        this.info = info;
+        this.status = status;
+        this.price = price;
+        this.imageURL = imageURL;
+    }
+
+    public Product(String name, String info, Status status, BigDecimal price, String imageURL) {
+        this.name = name;
+        this.info = info;
+        this.status = status;
+        this.price = price;
+        this.imageURL = imageURL;
     }
 
     public Product(String name, String info, Status status, BigDecimal price) {
@@ -83,6 +101,14 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override

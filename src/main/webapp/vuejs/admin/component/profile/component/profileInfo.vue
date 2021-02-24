@@ -107,11 +107,11 @@ export default {
     handleFileDelete(){
       this.axios({
         method: 'post',
-        url: '/ajax?command=delete_profile_image',
+        url: '/ajax?command=remove_profile_image',
       }).then(response => {
         this.$store.commit('set_isAvatarExists', false)
         this.error = undefined
-        this.$store.commit('change_avatarUrl', "ajax?command=load_profile_image&s=" + Date.now())
+        this.$store.commit('change_avatarUrl', '')
       }, ex => {
         console.log('FAILURE!!');
         this.error = ex.response.data.error
@@ -131,11 +131,27 @@ export default {
       }).then(response => {
         this.$store.commit('set_isAvatarExists', true)
         this.error = undefined
-        this.$store.commit('change_avatarUrl', "ajax?command=load_profile_image&s=" + Date.now())
+        this.$store.commit('change_avatarUrl', response.data.url)
       }, ex => {
         console.log('FAILURE!!');
         this.error = ex.response.data.error
       })
+
+
+
+      // this.axios({
+      //   method: 'post',
+      //   url: '/ajax?command=load_profile_image',
+      // }).then(resp => {
+      //   console.log(resp.data.url)
+      //   this.$store.commit('set_isAvatarExists', true)
+      //   this.$store.commit('change_avatarUrl', resp.data.url)
+      // }, ex => {
+      //   console.log(ex.response.data.url);
+      //   this.$store.commit('set_isAvatarExists', false)
+      //   this.$store.commit('change_avatarUrl', '')
+      // })
+
     },
   }
 

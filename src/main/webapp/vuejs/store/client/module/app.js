@@ -40,6 +40,9 @@ export default {
         set_categories(state, data){
             state.categories=data
         },
+        set_selectCategory(state, data){
+            state.selectCategory=data
+        },
 
         set_products(state, data){
             state.products=data

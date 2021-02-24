@@ -76,25 +76,29 @@ public class SqlQuery {
 
     public static final String FIND_PRODUCT_IMAGE_BY_NAME = "SELECT image_url FROM products WHERE BINARY name = ?";
 
-    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT = "SELECT products.id ,products.name AS name, " +
-            "products.info AS info, product_statuses.name AS status, products.price AS price FROM products " +
+    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_CLIENT = "SELECT products.id as id, products.name AS name, " +
+            "products.info AS info, product_statuses.name AS status, products.price AS price, " +
+            "products.image_url as image_url FROM products " +
             "JOIN product_statuses ON products.status_id = product_statuses.id " +
             "JOIN categories ON products.category_id = categories.id " +
             "WHERE categories.name = ? AND product_statuses.name != 'BLOCKED'";
 
-    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_ADMIN = "SELECT products.id ,products.name AS name, " +
-            "products.info AS info, product_statuses.name AS status, products.price AS price FROM products " +
+    public static final String FIND_ALL_PRODUCTS_BY_CATEGORY_TO_ADMIN = "SELECT products.id as id, products.name AS name, " +
+            "products.info AS info, product_statuses.name AS status, products.price AS price, " +
+            "products.image_url as image_url FROM products " +
             "JOIN product_statuses ON products.status_id = product_statuses.id " +
             "JOIN categories ON products.category_id = categories.id " +
             "WHERE categories.name = ?";
 
-    public static final String FIND_PRODUCT_BY_NAME = "SELECT products.id ,products.name AS name, " +
-            "products.info AS info, product_statuses.name AS status, products.price AS price FROM products " +
+    public static final String FIND_PRODUCT_BY_NAME = "SELECT products.id as id, products.name AS name, " +
+            "products.info AS info, product_statuses.name AS status, products.price AS price, " +
+            "products.image_url as image_url FROM products " +
             "JOIN product_statuses ON products.status_id = product_statuses.id " +
             "WHERE products.name = ?";
 
-    public static final String FIND_PRODUCT_BY_ID = "SELECT products.id ,products.name AS name, " +
-            "products.info AS info, product_statuses.name AS status, products.price AS price FROM products " +
+    public static final String FIND_PRODUCT_BY_ID = "SELECT products.id as id, products.name AS name, " +
+            "products.info AS info, product_statuses.name AS status, products.price AS price, " +
+            "products.image_url as image_url FROM products " +
             "JOIN product_statuses ON products.status_id = product_statuses.id " +
             "WHERE products.id = ?";
 

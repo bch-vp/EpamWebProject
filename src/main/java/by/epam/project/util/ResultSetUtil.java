@@ -54,8 +54,9 @@ public class ResultSetUtil {
             String statusName = resultSet.getString(STATUS);
             Product.Status status = Product.Status.valueOf(statusName);
             BigDecimal price = resultSet.getBigDecimal(PRICE);
+            String imageURL = resultSet.getString(IMAGE_URL);
 
-            Product product =new Product(id, name, info, status, price);
+            Product product =new Product(id, name, info, status, price, imageURL);
             return product;
         } catch (SQLException exp) {
             throw new DaoException("Error while creating category from resultSet", exp);

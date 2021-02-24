@@ -5,24 +5,6 @@
         <v-col sm="9" md="9" lg="8" xl="5">
           <div class="profile-background">
             <div class="profile">
-
-              <!--              <v-card-->
-              <!--                  color="grey lighten-4"-->
-              <!--              >-->
-              <!--                <v-img-->
-              <!--                    style="margin-top: 2em"-->
-              <!--                    max-height="200"-->
-              <!--                    :aspect-ratio="16/9"-->
-              <!--                    src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"-->
-              <!--                >-->
-
-              <!--&lt;!&ndash;                  <div style="padding-top: 15px">&ndash;&gt;-->
-              <!--&lt;!&ndash;                    <v-btn @click="showCardInfo"&ndash;&gt;-->
-              <!--&lt;!&ndash;                           absolute color="black" class="light-green&#45;&#45;text text&#45;&#45;lighten-2"  fab right >&ndash;&gt;-->
-              <!--&lt;!&ndash;                      <v-icon >close</v-icon>&ndash;&gt;-->
-              <!--&lt;!&ndash;                    </v-btn>&ndash;&gt;-->
-              <!--&lt;!&ndash;                  </div>&ndash;&gt;-->
-              <!--                </v-img>-->
               <v-card-text class="pt-6" style="position: relative;">
                 <div v-if="isSuccess" align="center" class="text-h6 font-weight-regular center" style="color: green">
                   {{ text_page.form_component.info.success }}
@@ -72,7 +54,6 @@
                           dark
                           prefix="$"
                           v-model="price"
-                          :counter="13"
                           :rules="rules.price"
                           v-bind:label=text_page.form_component.input.price.name
                           required
@@ -145,11 +126,12 @@ export default {
           v => !!v || this.text_page.form_component.input.name.error.required,
           v => (v && v.length >= 3) || this.text_page.form_component.input.name.error.min_length,
           v => (v && v.length <= 15) || this.text_page.form_component.input.name.error.max_length,
+          v => /^.{3,15}$/.test(v) || this.text_page.form_component.input.name.error.pattern,
         ],
         price: [
           v => !!v || this.text_page.form_component.input.price.error.required,
-          v => (v && v.length >= 1) || this.text_page.form_component.input.price.error.min_length,
-          v => (v && v.length <= 11) || this.text_page.form_component.input.price.error.max_length,
+          v => (v && Number(v) >= 0.01) || this.text_page.form_component.input.price.error.min_length,
+          v => (v && Number(v) <= 99999999.99) || this.text_page.form_component.input.price.error.max_length,
           v => /^[0-9]{1,10}(\.[0-9]{2})?$/.test(v) || this.text_page.form_component.input.price.error.pattern,
         ],
         info: [
@@ -199,41 +181,51 @@ export default {
 
           }
         }).then(response => {
-              console.log('product created')
               let formData = new FormData();
               formData.append('file', this.file);
 
               this.axios({
                 method: 'post',
-                url: '/ajax?command=upload_product_image&name='+this.name,
+                url: '/ajax?command=upload_product_image&name=' + this.name,
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 },
                 data: formData
               }).then(response => {
                 this.isSuccess = true
+                var newProduct = {
+                  name: this.name,
+                  info: this.info,
+                  price: this.price,
+                  imageURL: response.data.url,
+                  status:'ACTIVE'
+                }
+                this.$store.commit('add_productToProducts', newProduct)
+                this.await3Seconds()
+                this.reset()
+
               }, ex => {
                 this.error = ex.response.data.error
                 this.isError = true
+                this.await3Seconds()
+                this.reset()
               })
             },
             ex => {
-              console.log('product not created')
-              this.reset()
               this.error = ex.response.data.error
+              this.reset()
               this.isError = true
+              this.await3Seconds()
             })
       }
     },
     async await3Seconds() {
-      // await new Promise(resolve => setTimeout(resolve, 1000));
-      // this.isSuccess = false
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      this.isSuccess = false
+      this.isError = false
     },
     reset() {
       this.$refs.form.reset()
-      this.error = undefined
-      this.isSuccess = false
-      this.isError = false
     },
     showSpinner() {
       this.spinnerVisible = true;

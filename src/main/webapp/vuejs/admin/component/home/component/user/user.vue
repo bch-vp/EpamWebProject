@@ -1,7 +1,9 @@
 <template>
   <v-list-item>
     <v-list-item-action>
+      <v-list-item-title>ID:
       <v-btn
+          style="margin-left: 1em"
           fab
           small
           depressed
@@ -9,6 +11,7 @@
       >
         {{ user.id }}
       </v-btn>
+      </v-list-item-title>
     </v-list-item-action>
 
     <v-progress-circular style="margin-right: 15px"
@@ -24,7 +27,9 @@
 
     <v-list-item-content v-if="!spinnerVisible && !isError">
       <v-list-item-title>
-        User Database Record <strong>ID {{ user.id }}</strong>
+        <div align="left" style="padding-left: 1em">
+          {{text_page.form_component.input.login.name}}: <strong> {{ user.login }}</strong>
+        </div>
       </v-list-item-title>
     </v-list-item-content>
     <v-list-item-content v-if="!spinnerVisible && !isError">
