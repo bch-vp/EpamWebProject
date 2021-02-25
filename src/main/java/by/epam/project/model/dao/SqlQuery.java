@@ -65,8 +65,15 @@ public class SqlQuery {
     public static final String UPDATE_USER_STATUS = "UPDATE users SET status_id = ? WHERE id = ?";
 
     public static final String FIND_ALL_CATEGORIES = "SELECT id, name FROM categories";
+
     public static final String FIND_CATEGORY_BY_NAME = "SELECT id, name FROM categories WHERE name = ?";
+
     public static final String FIND_CATEGORY_BY_ID = "SELECT id, name FROM categories WHERE id = ?";
+
+    public static final String UPDATE_CATEGORY_NAME_BY_ID = "UPDATE categories SET name = ? WHERE id = ?";
+
+    public static final String REMOVE_CATEGORY_BY_ID = "DELETE FROM categories WHERE id = ?";
+
 
 
     public static final String ADD_PRODUCT = "INSERT INTO products(name, info, price, category_id, status_id)" +
@@ -110,6 +117,9 @@ public class SqlQuery {
     public static final String UPDATE_PRODUCT_CATEGORY = "UPDATE products SET category_id = ? WHERE id = ?";
 
     public static final String UPDATE_PRODUCT_STATUS = "UPDATE products SET status_id = ? WHERE id = ?";
+
+    public static final String UPDATE_PRODUCT_CATEGORY_BY_ID_TO_OTHERS =
+            "UPDATE products SET category_id = 1 WHERE category_id = ?";
 
 
 

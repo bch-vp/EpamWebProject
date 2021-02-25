@@ -57,4 +57,30 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryOptional;
     }
+
+    @Override
+    public boolean updateCategoryNameById(long id, String name) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = categoryDao.updateCategoryNameById(id, name);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating category name", exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public boolean removeCategoryById(long id) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = categoryDao.removeCategoryById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during removing category", exp);
+        }
+
+        return isUpdated;
+    }
 }

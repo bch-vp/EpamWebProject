@@ -23,6 +23,8 @@ public enum CommandType {
     UPDATE_CLIENT_STATUS(new UpdateClientStatusCommand()),
     CREATE_PRODUCT(new CreateProductCommand()),
     UPLOAD_PRODUCT_IMAGE(new UploadProductImageCommand()),
+    UPDATE_CATEGORY_NAME(new UpdateCategoryNameCommand()),
+    REMOVE_CATEGORY(new RemoveCategoryCommand()),
     REMOVE_PROFILE_IMAGE(new RemoveProfileImageCommand());
 
     private final Command command;

@@ -1,7 +1,7 @@
-DROP SCHEMA IF EXISTS `web_database`;
-CREATE SCHEMA IF NOT EXISTS `web_database` DEFAULT CHARACTER SET utf8mb4;
+DROP SCHEMA IF EXISTS `bq9ptytw8pjzz6ce`;
+CREATE SCHEMA IF NOT EXISTS `bq9ptytw8pjzz6ce` DEFAULT CHARACTER SET utf8mb4;
 
-USE `web_database`;
+USE `bq9ptytw8pjzz6ce`;
 
 -- -----------------------------------------------------
 -- Table `user_roles`
@@ -38,7 +38,7 @@ VALUES ('ACTIVATED'),
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `users`;
+# DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users`
 (
     `id`               BIGINT      NOT NULL AUTO_INCREMENT,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `email`            VARCHAR(55) NOT NULL,
     `role_id`          BIGINT DEFAULT 1,
     `status_id`        BIGINT DEFAULT 1,
-    `avatar`           MEDIUMBLOB,
+    `avatar_url`       VARCHAR(100),
     PRIMARY KEY (`id`),
     UNIQUE (`login`),
     UNIQUE (`telephone_number`),
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `products`
     `price`       DECIMAL(10, 2) NOT NULL,
     `category_id` BIGINT DEFAULT 1,
     `status_id`   BIGINT DEFAULT 1,
-    `image`       MEDIUMBLOB,
+    `image_url`   VARCHAR(100),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
         ON DELETE NO ACTION
@@ -180,6 +180,11 @@ VALUES ('others'),
        ('category_2'),
        ('category_3');
 
+INSERT INTO users(login, password, first_name, last_name, telephone_number, email)
+VALUES ('fawf', 'aegag', 'gaeg', 'eagga', 'gaeg', 'gaeg'),
+       ('ffawawf', 'aegag', 'gaeg', 'eagga', 'gafeg', 'gaefg');
+
+# 46315d1d58cae3d8df137cd2ad9c4a70
 INSERT INTO products(name, info, price, category_id, status_id)
 VALUES ('product_1', 'Some description of product', 243, 1, 1),
        ('product_2', 'Some description of product', 2243, 1, 1),

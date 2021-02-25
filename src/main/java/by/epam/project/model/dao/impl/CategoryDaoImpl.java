@@ -77,4 +77,42 @@ public class CategoryDaoImpl implements CategoryDao {
 
         return categoryOptional;
     }
+
+    @Override
+    public boolean updateCategoryNameById(long id, String name) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_CATEGORY_NAME_BY_ID)) {
+            statement.setString(1, name);
+            statement.setLong(2, id);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public boolean removeCategoryById(long id) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statementUpdating =
+                     connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_CATEGORY_BY_ID_TO_OTHERS);
+             PreparedStatement statementRemoving = connection.prepareStatement(SqlQuery.REMOVE_CATEGORY_BY_ID)) {
+            connection.setAutoCommit(false);
+            statementUpdating.setLong(1, id);
+            statementUpdating.executeUpdate();
+            statementRemoving.setLong(1, id);
+            isUpdated = statementRemoving.executeUpdate() == 1;
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
+    }
 }

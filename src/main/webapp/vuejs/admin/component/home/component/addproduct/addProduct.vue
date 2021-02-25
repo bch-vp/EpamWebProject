@@ -200,7 +200,11 @@ export default {
                   imageURL: response.data.url,
                   status:'ACTIVE'
                 }
-                this.$store.commit('add_productToProducts', newProduct)
+                if(this.$store.state.App.selectCategory.id === this.selectCategory.id) {
+                  this.$store.commit('add_productToProducts', newProduct)
+                  var array = this.$store.state.App.products.sort((a, b) => (a.id < b.id) ? 1 : -1)
+                  this.$store.commit('set_products',array)
+                }
                 this.await3Seconds()
                 this.reset()
 

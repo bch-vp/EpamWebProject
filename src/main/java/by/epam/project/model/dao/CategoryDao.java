@@ -11,4 +11,6 @@ public interface CategoryDao {
     List<Category> findAllCategories() throws DaoException;
     Optional<Category> findCategoryByName(String name) throws DaoException;
     Optional<Category> findCategoryById(long id) throws DaoException;
+    boolean updateCategoryNameById(long id, String name) throws DaoException;
+    boolean removeCategoryById(long id) throws DaoException;
 }

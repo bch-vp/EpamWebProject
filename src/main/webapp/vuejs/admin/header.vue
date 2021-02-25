@@ -91,7 +91,8 @@ export default {
         url: '/ajax?command=load_all_products_by_category',
         data: this.selectCategory
       }).then(response => {
-            this.$store.commit('set_products', response.data.data)
+            var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
+            this.$store.commit('set_products',array)
           },
           ex => {
           })
@@ -115,7 +116,8 @@ export default {
       method: 'post',
       url: '/ajax?command=load_all_categories'
     }).then(response => {
-          this.$store.commit('set_categories', response.data.data)
+          var array = response.data.data.sort((a, b) => (a.id > b.id) ? 1 : -1)
+          this.$store.commit('set_categories', array)
           this.selectCategory = response.data.data[0]
           console.log('success categories')
         },
@@ -137,8 +139,8 @@ export default {
       method: 'post',
       url: '/ajax?command=load_all_clients'
     }).then(response => {
-          var users = response.data.users.sort(function(a,b){
-            return response.data.users[a]-response.data.users[b]
+          var users = response.data.users.sort(function (a, b) {
+            return response.data.users[a] - response.data.users[b]
           })
           this.$store.commit('set_users', response.data.users)
         },

@@ -20,8 +20,8 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class MailSenderUtil {
     private final static Logger logger = LogManager.getLogger();
-    private static final String ADDRESS = "mailforwebproject31@gmail.com";
-    private static final String PASSWORD = "3114928Denis";
+    private static final String ADDRESS = "epam.web.project@gmail.com";
+    private static final String PASSWORD = "epam.web.project123";
     private static final String HOST = "smtp.gmail.com";
     private static final String PORT = "587";
     private static final Properties properties = new Properties();

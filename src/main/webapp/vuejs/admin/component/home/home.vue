@@ -82,6 +82,20 @@
                         </v-row>
                       </v-container>
 
+                      <v-container v-if="isCategories">
+                        <v-row justify="center" row>
+                          <v-col>
+                            <div align="center">
+                              <v-list style="width: 80%">
+                                <div v-for="category in $store.state.App.categories" :key="category.id">
+                                  <Category :category="category"/>
+                                </div>
+                              </v-list>
+                            </div>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+
                     </v-row>
                   </v-container>
                 </div>
@@ -140,12 +154,14 @@
 import ProductCard from "vuejs/admin/component/home/component/product/ProductCard.vue";
 import AddProduct from "vuejs/admin/component/home/component/addproduct/addProduct.vue";
 import User from "vuejs/admin/component/home/component/user/user.vue";
+import Category from "vuejs/admin/component/home/component/category/category.vue";
 
 export default {
   components: {
     ProductCard,
     AddProduct,
-    User
+    User,
+    Category
   },
   data() {
     return {

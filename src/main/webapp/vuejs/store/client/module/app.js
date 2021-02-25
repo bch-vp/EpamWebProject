@@ -40,6 +40,13 @@ export default {
         set_categories(state, data){
             state.categories=data
         },
+        add_categoryFromCategories(state, data){
+            state.categories.push(data)
+        },
+        remove_category(state, data){
+            state.categories.splice(state.categories.indexOf(data), 1)
+        },
+
         set_selectCategory(state, data){
             state.selectCategory=data
         },

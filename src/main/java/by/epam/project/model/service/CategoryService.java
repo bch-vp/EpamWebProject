@@ -10,4 +10,6 @@ public interface CategoryService {
     List<Category> findAllCategories() throws ServiceException;
     Optional<Category> findCategoryByName(String name) throws ServiceException;
     Optional<Category> findCategoryById(long id) throws ServiceException;
+    boolean updateCategoryNameById(long id, String name) throws ServiceException;
+    boolean removeCategoryById(long id) throws ServiceException;
 }
