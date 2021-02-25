@@ -64,6 +64,9 @@ public class SqlQuery {
 
     public static final String UPDATE_USER_STATUS = "UPDATE users SET status_id = ? WHERE id = ?";
 
+
+    public static final String ADD_CATEGORY =  "INSERT INTO categories(name) VALUES (?) ";
+
     public static final String FIND_ALL_CATEGORIES = "SELECT id, name FROM categories";
 
     public static final String FIND_CATEGORY_BY_NAME = "SELECT id, name FROM categories WHERE name = ?";

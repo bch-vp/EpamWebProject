@@ -7,10 +7,7 @@ import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.entity.Category;
 import by.epam.project.util.ResultSetUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +20,24 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     private CategoryDaoImpl(){}
+
+    @Override
+    public Category add(Category category) throws DaoException {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.ADD_CATEGORY,
+                     Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, category.getName());
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            long generatedId = resultSet.getLong(1);
+            category.setId(generatedId);
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+
+        return category;
+    }
 
     @Override
     public List<Category> findAllCategories() throws DaoException {

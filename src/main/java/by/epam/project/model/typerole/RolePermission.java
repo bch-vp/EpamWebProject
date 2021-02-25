@@ -44,6 +44,7 @@ public enum RolePermission {
             "LOAD_ALL_CLIENTS",
             "UPDATE_CLIENT_STATUS",
             "CREATE_PRODUCT",
+            "CREATE_CATEGORY",
             "UPDATE_CATEGORY_NAME",
             "REMOVE_CATEGORY",
             "UPLOAD_PRODUCT_IMAGE",

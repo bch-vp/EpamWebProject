@@ -20,6 +20,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category add(Category category) throws ServiceException {
+        try {
+            category = categoryDao.add(category);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during adding new category", exp);
+        }
+
+        return category;
+    }
+
+    @Override
     public List<Category> findAllCategories() throws ServiceException {
         List<Category> categories;
 

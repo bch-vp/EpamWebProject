@@ -25,6 +25,7 @@ public enum CommandType {
     UPLOAD_PRODUCT_IMAGE(new UploadProductImageCommand()),
     UPDATE_CATEGORY_NAME(new UpdateCategoryNameCommand()),
     REMOVE_CATEGORY(new RemoveCategoryCommand()),
+    CREATE_CATEGORY(new CreateCategoryCommand()),
     REMOVE_PROFILE_IMAGE(new RemoveProfileImageCommand());
 
     private final Command command;

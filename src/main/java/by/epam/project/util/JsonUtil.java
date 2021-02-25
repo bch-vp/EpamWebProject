@@ -70,6 +70,10 @@ public class JsonUtil {
         return objectMapper.readValue(inputStream, clazz);
     }
 
+    public static <T> String toJson(T t) throws IOException {
+        return objectMapper.writeValueAsString(t);
+    }
+
     public static JsonNode addNodeToJsonTree(JsonNode rootNode, String key, String value, String... paths) {
         if(rootNode == null){
             rootNode = objectMapper.createObjectNode();
