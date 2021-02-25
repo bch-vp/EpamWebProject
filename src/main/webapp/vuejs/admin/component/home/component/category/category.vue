@@ -154,41 +154,54 @@ export default {
           })
     },
     removeCategory() {
-      this.$store.state.App.categories=this.$store.state.App.categories
-      this.$store.state.App.categories.splice(this.$store.state.App.categories.indexOf(this.category), 1)
-      // this.axios.interceptors.request.use(
-      //     conf => {
-      //       this.showSpinner()
-      //       return conf;
-      //     },
-      //     error => {
-      //       this.hideSpinner()
-      //       return Promise.reject(error);
-      //     }
-      // );
-      // this.axios.interceptors.response.use(
-      //     response => {
-      //       this.hideSpinner()
-      //       return response;
-      //     },
-      //     error => {
-      //       this.hideSpinner()
-      //       return Promise.reject(error);
-      //     }
-      // );
-      // this.axios({
-      //   method: 'post',
-      //   url: '/ajax?command=remove_category',
-      //   data: {
-      //     id: String(this.category.id)
-      //   }
-      // }).then(response => {
-      //       this.$store.state.App.selectCategory = this.$store.state.App.categories[0]
-      //       this.$store.state.App.categories.splice(this.$store.state.App.categories.indexOf(this.category), 1)
-      //     },
-      //     ex => {
-      //       this.isError = true
-      //     })
+      this.axios.interceptors.request.use(
+          conf => {
+            this.showSpinner()
+            return conf;
+          },
+          error => {
+            this.hideSpinner()
+            return Promise.reject(error);
+          }
+      );
+      this.axios.interceptors.response.use(
+          response => {
+            this.hideSpinner()
+            return response;
+          },
+          error => {
+            this.hideSpinner()
+            return Promise.reject(error);
+          }
+      );
+      this.axios({
+        method: 'post',
+        url: '/ajax?command=remove_category',
+        data: {
+          id: String(this.category.id)
+        }
+      }).then(response => {
+        if(this.category.id === this.$store.state.App.selectCategory.id) {
+          this.$store.state.App.products =[]
+        }else if(this.$store.state.App.selectCategory.id === 1){
+              this.axios({
+                method: 'post',
+                url: '/ajax?command=load_all_products_by_category',
+                data:{
+                  name: this.$store.state.App.selectCategory.name
+                }
+              }).then(response => {
+                    var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
+                    this.$store.commit('set_products',array)
+                  },
+                  ex => {
+                  })
+          }
+            this.$store.state.App.categories.splice(this.$store.state.App.categories.indexOf(this.category), 1)
+          },
+          ex => {
+            this.isError = true
+          })
     },
     resetEdit() {
       this.$refs.form.reset()

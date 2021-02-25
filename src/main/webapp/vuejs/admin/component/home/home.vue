@@ -22,10 +22,10 @@
             </v-col>
             <v-col>
               <div align="center">
-                <v-btn @click="show_isEditCategory" :disabled="isEditCategory" color="black"
+                <v-btn @click="show_isAddCategory" :disabled="isAddCategory" color="black"
                        class="light-green--text text--lighten-2">
                   <v-icon>
-                    edit
+                    add
                   </v-icon>
                 </v-btn>
                 <v-btn @click="show_isCategories" :disabled="isCategories" color="black"
@@ -175,7 +175,7 @@ export default {
       isOrders: false,
       isUsers: false,
       isCategories: false,
-      isEditCategory: false,
+      isAddCategory: false,
 
       oldPage: 1,
       page: 1,
@@ -200,7 +200,7 @@ export default {
       this.clear_allComponents()
       this.isCategories = true
     },
-    show_isEditCategory() {
+    show_isAddCategory() {
       this.clear_allComponents()
       this.isEditCategory = true
     },
