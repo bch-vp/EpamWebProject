@@ -32,6 +32,7 @@ public class ParameterKey {
 
     public static final String COMMENT = "comment";
     public static final String ADDRESS = "address";
+    public static final String TOTAL_PRICE = "total_price";
 
     public static final String ID_USER = "id_user";
     public static final String ID_PRODUCT = "id_product";

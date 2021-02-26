@@ -3,6 +3,7 @@ package by.epam.project.model.service.impl;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.EncryptPasswordUtil;
@@ -347,7 +348,6 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     @Override
     public boolean updateUserStatus(long idUser, long idStatus) throws ServiceException {
         boolean isUpdated;
-
         try {
             isUpdated = userDao.updateUserStatus(idUser, idStatus);
         } catch (DaoException exp) {
@@ -358,11 +358,11 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public boolean createOrder(User user, List<Product> products) throws ServiceException  {
+    public boolean createOrder(User user, Order order, List<Product> products) throws ServiceException  {
         boolean isUpdated;
 
         try {
-            isUpdated = userDao.createOrder(user, products);
+            isUpdated = userDao.createOrder(user, order, products);
         } catch (DaoException exp) {
             throw new ServiceException("Error during creating order", exp);
         }

@@ -4,14 +4,12 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.dao.UserDao;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.ResultSetUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -325,8 +323,38 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean createOrder(User user, List<Product> products) throws DaoException {
-return false;
+    public boolean createOrder(User user, Order order, List<Product> products) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statementInsertOrder = connection.prepareStatement(SqlQuery.INSERT_ORDER,
+                     Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement statementInsertOrderProducts = connection.prepareStatement(SqlQuery.INSERT_ORDER_PRODUCTS)) {
+            statementInsertOrder.setString(1, order.getComment());
+            statementInsertOrder.setString(2, order.getAddress());
+            statementInsertOrder.setLong(3, order.getDateCreatedAt().getTime());
+            statementInsertOrder.setBigDecimal(4, order.getTotalPrice());
+            statementInsertOrder.setLong(5, user.getId());
+            statementInsertOrder.setLong(6, order.getStatus().ordinal());
+            statementInsertOrder.executeUpdate();
+            ResultSet resultSet = statementInsertOrder.getGeneratedKeys();
+            resultSet.next();
+            long generatedId = resultSet.getLong(1);
+
+            for (CartItem element : cartItemList) {
+                statement.setInt(1, element.getQuantity());
+                statement.setInt(2, element.getDiscount());
+                statement.setBigDecimal(3, element.getPrice());
+                statement.setLong(4, generatedId);
+                statement.setLong(5, element.getDish().getId());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+            //
+        } catch (SQLException exp) {
+            throw new DaoException(exp);
+        }
+        return true;
     }
 
     @Override

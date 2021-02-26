@@ -1,7 +1,7 @@
-DROP SCHEMA IF EXISTS `bq9ptytw8pjzz6ce`;
-CREATE SCHEMA IF NOT EXISTS `bq9ptytw8pjzz6ce` DEFAULT CHARACTER SET utf8mb4;
+DROP SCHEMA IF EXISTS `web_database`;
+CREATE SCHEMA IF NOT EXISTS `web_database` DEFAULT CHARACTER SET utf8mb4;
 
-USE `bq9ptytw8pjzz6ce`;
+USE `web_database`;
 
 -- -----------------------------------------------------
 -- Table `user_roles`
@@ -140,8 +140,8 @@ CREATE TABLE IF NOT EXISTS `orders`
 (
     `id`          BIGINT         NOT NULL AUTO_INCREMENT,
     `comment`     VARCHAR(100),
-    `address`     VARCHAR(100),
-    `created_at`  BIGINT         NOT NULL,
+    `address`     VARCHAR(50),
+    `created_at`  long         NOT NULL,
     `total_price` DECIMAL(12, 2) NULL,
     `client_id`   BIGINT         NOT NULL,
     `status_id`   BIGINT         NOT NULL,
@@ -179,6 +179,9 @@ VALUES ('others'),
        ('category_1'),
        ('category_2'),
        ('category_3');
+
+INSERT INTO users(login, password, first_name, last_name, telephone_number, email,role_id, status_id )
+VALUES('ilya', '46315d1d58cae3d8df137cd2ad9c4a70', 'gaeg', 'gaeg', 'aegag', 'gaega', 3, 1) ;
 
 INSERT INTO users(login, password, first_name, last_name, telephone_number, email)
 VALUES ('fawf', 'aegag', 'gaeg', 'eagga', 'gaeg', 'gaeg'),
@@ -218,3 +221,5 @@ VALUES ('product_1', 'Some description of product', 243, 1, 1),
        ('product_30', 'Some description of product', 23, 4, 1),
        ('product_31', 'Some description of product', 73, 4, 1),
        ('product_32', 'Some description of product', 223, 4, 1);
+
+# DELETE FROM categories WHERE id=2

@@ -2,6 +2,7 @@ package by.epam.project.model.dao;
 
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 
@@ -28,5 +29,5 @@ public interface UserDao{
     Optional<User> findByLoginAndPassword(String login, String password) throws DaoException;
     boolean removeAvatarByLogin(String login) throws DaoException;
     Optional<User> findById(long id) throws DaoException;
-    boolean createOrder(User user, List<Product> products) throws DaoException;
+    boolean createOrder(User user, Order order, List<Product> products) throws DaoException;
 }

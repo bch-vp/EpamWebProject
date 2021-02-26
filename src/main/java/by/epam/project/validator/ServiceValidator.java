@@ -12,13 +12,14 @@ public class ServiceValidator {
     private static final String PASSWORD_REGEX= "^[A-Za-z0-9]{5,20}$";
     private static final String USER_NAME_REGEX = "^[a-zA-Z]{3,15}$";
     private static final String NAME_REGEX = "^.{3,15}$";
+    private static final String ADDRESS_REGEX = "^.{3,50}$";
     private static final String PHONE_REGEX = "^(\\+375\\([\\d]{2}\\)[\\d]{3}\\-[\\d]{2}\\-[\\d]{2})$";
     private static final String EMAIL_REGEX = "^[a-zA-z0-9_.-]{1,35}@[a-zA-z0-9_-]{2,15}\\.[a-z]{2,5}$";
     private static final String UNIQUE_KEY_REGEX = "^\\d{6}$";
 
-    private static final String REGEX_ID = "^\\d{1,17}$";
-    private static final String REGEX_PRICE = "^[0-9]{1,8}(\\.[0-9]{2})?$";
-    private static final String REGEX_INFO = "^.{3,100}$";
+    private static final String ID_REGEX = "^\\d{1,17}$";
+    private static final String PRICE_REGEX = "^[0-9]{1,8}(\\.[0-9]{2})?$";
+    private static final String INFO_REGEX = "^.{3,100}$";
 
     private ServiceValidator() {
     }
@@ -80,15 +81,19 @@ public class ServiceValidator {
     }
 
     public static boolean isIdCorrect(String id) {
-        return isEmptyOrNull(id) && isStringMatches(id, REGEX_ID);
+        return isEmptyOrNull(id) && isStringMatches(id, ID_REGEX);
     }
 
     public static boolean isPriceCorrect(String price) {
-        return isEmptyOrNull(price) && isStringMatches(price, REGEX_PRICE);
+        return isEmptyOrNull(price) && isStringMatches(price, PRICE_REGEX);
     }
 
     public static boolean isInfoCorrect(String info) {
-        return isEmptyOrNull(info) && isStringMatches(info, REGEX_INFO);
+        return isEmptyOrNull(info) && isStringMatches(info, INFO_REGEX);
+    }
+
+    public static boolean isAddressCorrect(String info) {
+        return isEmptyOrNull(info) && isStringMatches(info, ADDRESS_REGEX);
     }
 
     public static boolean defineIncorrectValues(Map<String, String> data) {

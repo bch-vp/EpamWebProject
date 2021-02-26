@@ -125,7 +125,11 @@ public class SqlQuery {
             "UPDATE products SET category_id = 1 WHERE category_id = ?";
 
 
+    public static final String INSERT_ORDER = "INSERT INTO orders(comment, address, created_at, total_price, " +
+            "client_id, status_id) VALUES (?, ?, ?, ?, ?, ?)";
 
+    public static final String INSERT_ORDER_PRODUCTS = "INSERT INTO orders_products(order_id, product_id)" +
+            " VALUES (?, ?)";
 
     private SqlQuery() {
     }
