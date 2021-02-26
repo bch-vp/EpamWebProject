@@ -4,6 +4,7 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.dao.UserDao;
+import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.ResultSetUtil;
 
@@ -321,6 +322,11 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(exp);
         }
         return userOptional;
+    }
+
+    @Override
+    public boolean createOrder(User user, List<Product> products) throws DaoException {
+return false;
     }
 
     @Override

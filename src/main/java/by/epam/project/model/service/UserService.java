@@ -2,6 +2,7 @@ package by.epam.project.model.service;
 
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 
 import java.io.InputStream;
@@ -36,4 +37,5 @@ public interface UserService {
     boolean isEmailUnique(String email) throws ServiceException;
     boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException;
     boolean removeAvatarByLogin(String login) throws ServiceException;
+    boolean createOrder(User user, List<Product> products) throws ServiceException;
 }

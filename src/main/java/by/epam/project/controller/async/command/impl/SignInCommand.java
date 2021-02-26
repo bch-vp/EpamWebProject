@@ -1,6 +1,7 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
+import by.epam.project.model.entity.Product;
 import by.epam.project.model.service.UserService;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.exception.ServiceException;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -65,6 +67,7 @@ public class SignInCommand implements Command {
             }
 
             session.setAttribute(USER, user);
+            session.setAttribute(SHOPPING_CART, new ArrayList<Product>());
 
             User.Role role = user.getRole();
             if (role == User.Role.CLIENT) {

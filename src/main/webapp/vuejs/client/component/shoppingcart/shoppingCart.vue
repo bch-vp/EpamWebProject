@@ -17,11 +17,11 @@
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
-                      <div class="col-md-4" v-if="!isOrder" v-for="product in this.$store.state.App.shoppingCart">
+                      <div class="col-md-4" v-if="isShoppingCart" v-for="product in this.$store.state.App.shoppingCart">
                         <ProductCard :product="product"/>
                       </div>
                       <div v-if="isOrder">
-                        <Order :close_isOrder="close_isOrder"/>
+                        <Order :close_isOrder="show_isShoppingCart"/>
                       </div>
                     </v-row>
                   </v-container>
@@ -29,7 +29,7 @@
               </div>
             </div>
           </v-card>
-          <v-row v-if="!isOrder" style="padding-top: 2em;">
+          <v-row v-if="isShoppingCart" style="padding-top: 2em;">
             <v-col >
               <span style="color: white; padding-left: 5px" class="text-h5">
                 {{text_page.page_info.total_price}}:&nbsp {{ calculateOrderPrice }}
@@ -40,7 +40,7 @@
             </v-col>
             <v-col>
               <div align="center">
-                <v-btn @click="isOrder = !isOrder" :disabled="$store.state.App.shoppingCart.length === 0" dark rounded outlined color="light-green accent-2" class="text-h6 white--text" text>
+                <v-btn @click="show_isOrder" :disabled="$store.state.App.shoppingCart.length === 0" dark rounded outlined color="light-green accent-2" class="text-h6 white--text" text>
                   {{text_page.form_component.button.order_products}}
                 </v-btn>
               </div>
@@ -76,16 +76,29 @@ export default {
   data() {
     return {
       isOrder:false,
+      isShowOrders:false,
+      isShoppingCart:true,
 
       text_page:text_page
     }
   },
   methods:{
+    clear_allComponents(){
+      this.isOrder = false
+      this.isShowOrders = false
+      this.isShoppingCart = false
+    },
+    show_isShoppingCart(){
+      this.clear_allComponents()
+      this.isShoppingCart = true
+    },
     show_isOrder(){
+      this.clear_allComponents()
       this.isOrder = true
     },
-    close_isOrder(){
-      this.isOrder = false
+    show_isShowOrders(){
+      this.clear_allComponents()
+      this.isShowOrders =true
     }
   },
   computed:{

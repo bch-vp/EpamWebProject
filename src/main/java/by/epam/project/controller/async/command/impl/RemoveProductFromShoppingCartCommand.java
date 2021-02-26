@@ -28,10 +28,6 @@ public class RemoveProductFromShoppingCartCommand implements Command {
         HttpSession session = request.getSession();
 
         List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
-        if(shoppingCart == null){
-            session.setAttribute(SHOPPING_CART, new ArrayList<String>());
-            shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
-        }
 
         try {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);

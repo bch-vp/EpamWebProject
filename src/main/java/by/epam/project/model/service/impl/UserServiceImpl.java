@@ -356,4 +356,17 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
 
         return isUpdated;
     }
+
+    @Override
+    public boolean createOrder(User user, List<Product> products) throws ServiceException  {
+        boolean isUpdated;
+
+        try {
+            isUpdated = userDao.createOrder(user, products);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during creating order", exp);
+        }
+
+        return isUpdated;
+    }
 }

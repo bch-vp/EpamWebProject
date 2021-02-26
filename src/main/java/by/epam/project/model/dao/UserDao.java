@@ -28,4 +28,5 @@ public interface UserDao{
     Optional<User> findByLoginAndPassword(String login, String password) throws DaoException;
     boolean removeAvatarByLogin(String login) throws DaoException;
     Optional<User> findById(long id) throws DaoException;
+    boolean createOrder(User user, List<Product> products) throws DaoException;
 }

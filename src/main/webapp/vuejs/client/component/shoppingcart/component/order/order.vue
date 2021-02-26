@@ -158,32 +158,32 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        // this.axios({
-        //   method: 'post',
-        //   url: '/ajax?command=update_product_info',
-        //   data: {
-        //     id: String(this.product.id),
-        //     name: this.name,
-        //     info: this.info,
-        //     price: this.price,
-        //   }
-        // }).then(response => {
-        //       this.product.name = this.name
-        //       this.product.info = this.info
-        //       this.product.price = this.price
-        //
-        //       this.reset()
-        //
-        //       this.isError = false
-        //       this.isSuccess = true
-        //
-        //       this.await3Seconds()
-        //     },
-        //     ex => {
-        //       this.reset()
-        //       this.isSuccess = false
-        //       this.isError = true
-        //     })
+        this.axios({
+          method: 'post',
+          url: '/ajax?command=create_order',
+          // data: {
+          //   id: String(this.product.id),
+          //   name: this.name,
+          //   info: this.info,
+          //   price: this.price,
+          // }
+        }).then(response => {
+              // this.product.name = this.name
+              // this.product.info = this.info
+              // this.product.price = this.price
+              //
+              // this.reset()
+              //
+              // this.isError = false
+              // this.isSuccess = true
+
+              this.await3Seconds()
+            },
+            ex => {
+              this.reset()
+              // this.isSuccess = false
+              // this.isError = true
+            })
       }
     },
     async await3Seconds() {

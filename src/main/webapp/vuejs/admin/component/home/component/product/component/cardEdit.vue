@@ -88,15 +88,14 @@ export default {
 
       this.axios({
         method: 'post',
-        url: '/ajax?command=upload_product_image',
+        url: '/ajax?command=upload_product_image&name='+this.product.name,
         headers: {
           'Content-Type': 'multipart/form-data'
         },
         data: formData
       }).then(response => {
-        this.$store.commit('set_isAvatarExists', true)
         this.error = undefined
-        this.$store.commit('change_avatarUrl', response.data.url)
+        this.product.imageURL = response.data.url
       }, ex => {
         console.log('FAILURE!!');
         this.error = ex.response.data.error
