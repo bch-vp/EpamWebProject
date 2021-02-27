@@ -5,7 +5,10 @@ import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.CategoryDao;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.entity.Category;
+import by.epam.project.model.entity.Product;
 import by.epam.project.util.ResultSetUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class CategoryDaoImpl implements CategoryDao {
+    private static final Logger logger = LogManager.getLogger();
+
     private static final CategoryDaoImpl instance = new CategoryDaoImpl();
 
     public static CategoryDaoImpl getInstance() {
@@ -33,6 +38,7 @@ public class CategoryDaoImpl implements CategoryDao {
             long generatedId = resultSet.getLong(1);
             category.setId(generatedId);
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -51,6 +57,7 @@ public class CategoryDaoImpl implements CategoryDao {
                 categories.add(category);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -69,6 +76,7 @@ public class CategoryDaoImpl implements CategoryDao {
                 categoryOptional = Optional.of(ResultSetUtil.toCategory(resultSet));
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -87,6 +95,7 @@ public class CategoryDaoImpl implements CategoryDao {
                 categoryOptional = Optional.of(ResultSetUtil.toCategory(resultSet));
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -103,6 +112,7 @@ public class CategoryDaoImpl implements CategoryDao {
             statement.setLong(2, id);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -113,18 +123,28 @@ public class CategoryDaoImpl implements CategoryDao {
     public boolean removeCategoryById(long id) throws DaoException {
         boolean isUpdated;
 
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (connection;
              PreparedStatement statementUpdating =
                      connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_CATEGORY_BY_ID_TO_OTHERS);
              PreparedStatement statementRemoving = connection.prepareStatement(SqlQuery.REMOVE_CATEGORY_BY_ID)) {
-            connection.setAutoCommit(false);
-            statementUpdating.setLong(1, id);
-            statementUpdating.executeUpdate();
-            statementRemoving.setLong(1, id);
-            isUpdated = statementRemoving.executeUpdate() == 1;
-            connection.commit();
-            connection.setAutoCommit(true);
-        } catch (SQLException exp) {
+            try {
+                connection.setAutoCommit(false);
+                statementUpdating.setLong(1, id);
+                statementUpdating.executeUpdate();
+                statementRemoving.setLong(1, id);
+                isUpdated = statementRemoving.executeUpdate() == 1;
+                connection.commit();
+            } catch (SQLException exp) {
+                logger.error(exp);
+                connection.rollback();
+                throw new DaoException(exp);
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (
+                SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 

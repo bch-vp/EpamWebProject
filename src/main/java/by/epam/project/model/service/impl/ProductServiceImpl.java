@@ -4,6 +4,7 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.ProductDao;
 import by.epam.project.model.dao.impl.ProductDaoImpl;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.service.ProductService;
 
@@ -160,5 +161,18 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return isUpdated;
+    }
+
+    @Override
+    public List<Product> findAllOrderProducts(Order order) throws ServiceException {
+        List<Product> products;
+
+        try {
+            products = productDao.findAllOrderProducts(order);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding all products by category to admin", exp);
+        }
+
+        return products;
     }
 }

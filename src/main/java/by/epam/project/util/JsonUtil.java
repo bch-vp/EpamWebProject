@@ -1,5 +1,13 @@
 package by.epam.project.util;
 
+import by.epam.project.exception.ServiceException;
+import by.epam.project.model.entity.Order;
+import by.epam.project.model.entity.Product;
+import by.epam.project.model.entity.User;
+import by.epam.project.model.service.ProductService;
+import by.epam.project.model.service.UserService;
+import by.epam.project.model.service.impl.ProductServiceImpl;
+import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.ContentUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -7,11 +15,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class JsonUtil {
     private static final ObjectMapper objectMapper = new ObjectMapper();

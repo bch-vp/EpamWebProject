@@ -97,7 +97,8 @@ export default {
         info: [
           v => !!v || this.text_page.form_component.input.info.error.required,
           v => (v && v.length >= 3) || this.text_page.form_component.input.info.error.min_length,
-          v => (v && v.length <= 100) || this.text_page.form_component.input.info.error.max_length
+          v => (v && v.length <= 100) || this.text_page.form_component.input.info.error.max_length,
+          v => /^.{3,100}$/.test(v) || this.text_page.form_component.input.info.error.pattern
         ],
       }
     }

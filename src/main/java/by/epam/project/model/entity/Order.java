@@ -41,6 +41,19 @@ public class Order {
         this.status = status;
     }
 
+    public Order(String comment, String address, Date createdAt) {
+        this.comment = comment;
+        this.address = address;
+        this.dateCreatedAt = createdAt;
+    }
+
+    public Order(String comment, String address, Date createdAt, Status status) {
+        this.comment = comment;
+        this.address = address;
+        this.dateCreatedAt = createdAt;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }

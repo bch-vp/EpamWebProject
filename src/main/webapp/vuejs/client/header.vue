@@ -106,6 +106,15 @@ export default {
     }
   },
   created() {
+    this.axios({
+      method: 'post',
+      url: '/ajax?command=load_all_orders',
+    }).then(resp => {
+console.log('gfa')
+    }, ex => {
+      console.log('gfa')
+    })
+
       this.axios({
         method: 'post',
         url: '/ajax?command=load_profile_image',

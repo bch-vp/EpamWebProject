@@ -129,6 +129,15 @@
                         pattern: "<fmt:message key="form_component.input.name.error.pattern"/>",
                     }
                 },
+                address: {
+                    name: "<fmt:message key="form_component.input.address"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.address.error.required"/>",
+                        min_length: "<fmt:message key="form_component.input.address.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.address.error.max_length"/>",
+                        pattern: "<fmt:message key="form_component.input.address.error.pattern"/>",
+                    }
+                },
                 price: {
                     name: "<fmt:message key="form_component.input.price"/>",
                     error: {
@@ -144,6 +153,16 @@
                         required: "<fmt:message key="form_component.input.info.error.required"/>",
                         min_length: "<fmt:message key="form_component.input.info.error.min_length"/>",
                         max_length: "<fmt:message key="form_component.input.info.error.max_length"/>",
+                        pattern: "<fmt:message key="form_component.input.info.error.pattern"/>"
+                    }
+                },
+                comment: {
+                    name: "<fmt:message key="form_component.input.comment"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.comment.error.required"/>",
+                        min_length: "<fmt:message key="form_component.input.comment.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.comment.error.max_length"/>",
+                        pattern: "<fmt:message key="form_component.input.comment.error.pattern"/>"
                     }
                 },
                 first_name: {
@@ -216,8 +235,8 @@
                 submit: "<fmt:message key="form_component.button.submit"/>",
                 exit: "<fmt:message key="form_component.button.exit"/>",
                 choose_category: "<fmt:message key="form_component.button.choose_category"/>",
-                order_products: "<fmt:message key="form_component.button.order_products"/>",
-                show_orders: "<fmt:message key="form_component.button.show_orders"/>",
+                order: "<fmt:message key="form_component.button.order"/>",
+                orders: "<fmt:message key="form_component.button.orders"/>",
                 choose_status: "<fmt:message key="form_component.button.choose_status"/>",
                 choose_status_for_ordering: "<fmt:message key="form_component.button.choose_status_for_ordering"/>",
                 change_password: "<fmt:message key="form_component.button.change_password"/>",

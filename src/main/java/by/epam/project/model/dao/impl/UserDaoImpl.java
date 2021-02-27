@@ -8,6 +8,8 @@ import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.ResultSetUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_URL_BY_LOGIN;
 
 
 public class UserDaoImpl implements UserDao {
+    private static final Logger logger = LogManager.getLogger();
+
     private static final UserDaoImpl instance = new UserDaoImpl();
 
     private static final int CALCULUS_FROM_ONE = 1;
@@ -45,6 +49,7 @@ public class UserDaoImpl implements UserDao {
 
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return isUpdated;
@@ -59,6 +64,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return isUpdated;
@@ -72,9 +78,10 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                stringOptional =  Optional.ofNullable(resultSet.getString(AVATAR_URL));
+                stringOptional = Optional.ofNullable(resultSet.getString(AVATAR_URL));
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return stringOptional;
@@ -88,6 +95,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             isRemoved = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return isRemoved;
@@ -102,6 +110,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return isUpdated;
@@ -120,6 +129,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(6, oldLogin);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return isUpdated;
@@ -134,6 +144,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, login);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return isUpdated;
@@ -152,6 +163,7 @@ public class UserDaoImpl implements UserDao {
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return userOptional;
@@ -169,6 +181,7 @@ public class UserDaoImpl implements UserDao {
                 users.add(user);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return users;
@@ -186,6 +199,7 @@ public class UserDaoImpl implements UserDao {
                 users.add(user);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return users;
@@ -204,8 +218,8 @@ public class UserDaoImpl implements UserDao {
                 productOptional = Optional.of(user);
             }
 
-        } catch (
-                SQLException exp) {
+        } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -222,6 +236,7 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(2, idUser);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -241,8 +256,8 @@ public class UserDaoImpl implements UserDao {
                 statusOptional = Optional.of(status);
             }
 
-        } catch (
-                SQLException exp) {
+        } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -263,6 +278,7 @@ public class UserDaoImpl implements UserDao {
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return userOptional;
@@ -281,6 +297,7 @@ public class UserDaoImpl implements UserDao {
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return userOptional;
@@ -298,6 +315,7 @@ public class UserDaoImpl implements UserDao {
                 passwordOptional = Optional.of(resultSet.getString(PASSWORD));
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return passwordOptional;
@@ -317,6 +335,7 @@ public class UserDaoImpl implements UserDao {
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return userOptional;
@@ -326,39 +345,70 @@ public class UserDaoImpl implements UserDao {
     public boolean createOrder(User user, Order order, List<Product> products) throws DaoException {
         boolean isUpdated;
 
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (connection;
              PreparedStatement statementInsertOrder = connection.prepareStatement(SqlQuery.INSERT_ORDER,
                      Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement statementInsertOrderProducts = connection.prepareStatement(SqlQuery.INSERT_ORDER_PRODUCTS)) {
-            statementInsertOrder.setString(1, order.getComment());
-            statementInsertOrder.setString(2, order.getAddress());
-            statementInsertOrder.setLong(3, order.getDateCreatedAt().getTime());
-            statementInsertOrder.setBigDecimal(4, order.getTotalPrice());
-            statementInsertOrder.setLong(5, user.getId());
-            statementInsertOrder.setLong(6, order.getStatus().ordinal());
-            statementInsertOrder.executeUpdate();
-            ResultSet resultSet = statementInsertOrder.getGeneratedKeys();
-            resultSet.next();
-            long generatedId = resultSet.getLong(1);
+             PreparedStatement statementInsertOrderProducts = connection.prepareStatement(SqlQuery.INSERT_ORDER_PRODUCTS);
+             PreparedStatement statementUpdateProductStatus = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_STATUS)) {
+            try {
+                connection.setAutoCommit(false);
 
-            for (CartItem element : cartItemList) {
-                statement.setInt(1, element.getQuantity());
-                statement.setInt(2, element.getDiscount());
-                statement.setBigDecimal(3, element.getPrice());
-                statement.setLong(4, generatedId);
-                statement.setLong(5, element.getDish().getId());
-                statement.addBatch();
+                statementInsertOrder.setString(1, order.getComment());
+                statementInsertOrder.setString(2, order.getAddress());
+                statementInsertOrder.setLong(3, order.getDateCreatedAt().getTime());
+                statementInsertOrder.setBigDecimal(4, order.getTotalPrice());
+                statementInsertOrder.setLong(5, user.getId());
+                statementInsertOrder.setLong(6, order.getStatus().ordinal());
+                statementInsertOrder.executeUpdate();
+                ResultSet resultSet = statementInsertOrder.getGeneratedKeys();
+                resultSet.next();
+                long OrderGeneratedId = resultSet.getLong(1);
+
+                for (Product product : products) {
+                    statementUpdateProductStatus.setLong(1, Product.Status.INACTIVE.ordinal()
+                            + CALCULUS_FROM_ONE);
+                    statementUpdateProductStatus.setLong(2, product.getId());
+                    statementUpdateProductStatus.addBatch();
+
+                    statementInsertOrderProducts.setLong(1, OrderGeneratedId);
+                    statementInsertOrderProducts.setLong(2, product.getId());
+                    statementInsertOrderProducts.addBatch();
+                }
+                statementUpdateProductStatus.executeBatch();
+                statementInsertOrderProducts.executeBatch();
+
+                connection.commit();
+            } catch (SQLException exp) {
+                logger.error(exp);
+                connection.rollback();
+                throw new DaoException(exp);
+            } finally {
+                connection.setAutoCommit(true);
             }
-            statement.executeBatch();
-            //
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
         return true;
     }
 
     @Override
-    public boolean activateUser(String login) throws DaoException {
-        return false;
+    public List<Order> findAllOrders(User user) throws DaoException {
+        List<Order> orders = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_ORDERS_BY_USER_ID)) {
+            statement.setLong(1, user.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Order order = ResultSetUtil.toOrder(resultSet);
+                orders.add(order);
+            }
+        } catch (SQLException exp) {
+            logger.error(exp);
+            throw new DaoException(exp);
+        }
+        return orders;
     }
 }

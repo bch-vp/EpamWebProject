@@ -22,11 +22,8 @@ public interface UserService {
     boolean signUpUser(User user, String password) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;
     List<User> findAllClients() throws ServiceException;
-    List<User> sortByParameter(List<User> users, String sortType) throws ServiceException;
     Optional<User.Status> findStatusById(long id) throws ServiceException;
     Optional<User> findUserById(long id) throws ServiceException;
-    Optional<User> findUserByPhone(String phone) throws ServiceException;
-    Optional<User> findUserByEmail(String email) throws ServiceException;
     Optional<User> findUserByLogin(String login) throws ServiceException;
     Optional<String> findAvatarURLByLogin(String login) throws ServiceException;
     boolean updatePasswordByLogin(String login, String password) throws ServiceException;
@@ -39,4 +36,5 @@ public interface UserService {
     boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException;
     boolean removeAvatarByLogin(String login) throws ServiceException;
     boolean createOrder(User user, Order order, List<Product> products) throws ServiceException;
+    List<Order> findAllOrders(User user) throws ServiceException;
 }

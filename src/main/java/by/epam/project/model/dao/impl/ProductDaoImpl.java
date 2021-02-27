@@ -4,8 +4,11 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.ProductDao;
 import by.epam.project.model.dao.SqlQuery;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.util.ResultSetUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +22,10 @@ import static by.epam.project.controller.parameter.ParameterKey.IMAGE_URL;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
 public class ProductDaoImpl implements ProductDao {
+    private static final Logger logger = LogManager.getLogger();
+
     private static final ProductDaoImpl instance = new ProductDaoImpl();
+    private static final int CALCULUS_FROM_ONE = 1;
 
     public static ProductDaoImpl getInstance() {
         return instance;
@@ -34,9 +40,10 @@ public class ProductDaoImpl implements ProductDao {
             statement.setString(2, product.getInfo());
             statement.setBigDecimal(3, product.getPrice());
             statement.setLong(4, idCategory);
-            statement.setLong(5, product.getStatus().ordinal() + 1);
+            statement.setLong(5, product.getStatus().ordinal() + CALCULUS_FROM_ONE);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -55,6 +62,7 @@ public class ProductDaoImpl implements ProductDao {
                 stringOptional = Optional.ofNullable(resultSet.getString(IMAGE_URL));
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -71,6 +79,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setString(2, name);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -90,6 +99,7 @@ public class ProductDaoImpl implements ProductDao {
                 products.add(product);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -108,6 +118,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setLong(4, product.getId());
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -124,6 +135,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setLong(2, idProduct);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -140,6 +152,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setLong(2, idProduct);
             isUpdated = statement.executeUpdate() == 1;
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -159,6 +172,7 @@ public class ProductDaoImpl implements ProductDao {
                 products.add(product);
             }
         } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -178,8 +192,8 @@ public class ProductDaoImpl implements ProductDao {
                 productOptional = Optional.of(product);
             }
 
-        } catch (
-                SQLException exp) {
+        } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -199,8 +213,8 @@ public class ProductDaoImpl implements ProductDao {
                 productOptional = Optional.of(product);
             }
 
-        } catch (
-                SQLException exp) {
+        } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
@@ -220,12 +234,31 @@ public class ProductDaoImpl implements ProductDao {
                 statusOptional = Optional.of(status);
             }
 
-        } catch (
-                SQLException exp) {
+        } catch (SQLException exp) {
+            logger.error(exp);
             throw new DaoException(exp);
         }
 
-
         return statusOptional;
+    }
+
+    @Override
+    public List<Product> findAllOrderProducts(Order order) throws DaoException {
+        List<Product> products = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_ORDER_PRODUCTS_BY_ID)) {
+            statement.setLong(1, order.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Product product = ResultSetUtil.toProduct(resultSet);
+                products.add(product);
+            }
+        } catch (SQLException exp) {
+            logger.error(exp);
+            throw new DaoException(exp);
+        }
+
+        return products;
     }
 }

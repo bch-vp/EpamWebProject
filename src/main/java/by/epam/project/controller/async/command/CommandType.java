@@ -26,6 +26,8 @@ public enum CommandType {
     UPDATE_CATEGORY_NAME(new UpdateCategoryNameCommand()),
     REMOVE_CATEGORY(new RemoveCategoryCommand()),
     CREATE_CATEGORY(new CreateCategoryCommand()),
+    CREATE_ORDER(new CreateOrderCommand()),
+    LOAD_ALL_ORDERS(new LoadAllOrdersCommand()),
     REMOVE_PROFILE_IMAGE(new RemoveProfileImageCommand());
 
     private final Command command;

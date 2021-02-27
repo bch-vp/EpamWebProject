@@ -7,7 +7,7 @@
     >
       <v-img
           :aspect-ratio="16/9"
-          src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+          :src="product.imageURL"
       >
         <v-expand-transition>
           <div v-if="hover"
@@ -29,6 +29,9 @@
         <div v-else>
           <div class="text-h5 font-weight-light white--text mb-2">
             {{product.name}}
+          </div>
+          <div class="text-h5 font-weight-regular orange--text mb-2">
+            {{product.status}}
           </div>
           <div style="color: black" class="text-subtitle-1 font-weight-light title mb-2">
             {{product.info}}

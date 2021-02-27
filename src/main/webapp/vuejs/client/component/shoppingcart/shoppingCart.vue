@@ -21,7 +21,7 @@
                         <ProductCard :product="product"/>
                       </div>
                       <div v-if="isOrder">
-                        <Order :close_isOrder="show_isShoppingCart"/>
+                        <Order :show_isShoppingCart="show_isShoppingCart"/>
                       </div>
                     </v-row>
                   </v-container>
@@ -40,8 +40,14 @@
             </v-col>
             <v-col>
               <div align="center">
-                <v-btn @click="show_isOrder" :disabled="$store.state.App.shoppingCart.length === 0" dark rounded outlined color="light-green accent-2" class="text-h6 white--text" text>
-                  {{text_page.form_component.button.order_products}}
+                <v-btn @click="show_isOrder" :disabled="$store.state.App.shoppingCart.length === 0" dark rounded  color="light-green accent-2" class="text-h6 white--text" text>
+                  {{text_page.form_component.button.order}}
+                </v-btn>
+                <span style="color: white;" class="text-h6">
+                |
+              </span>
+                <v-btn @click="show_isShowOrders" dark rounded color="light-green accent-2" class="text-h6 white--text" text>
+                  {{text_page.form_component.button.orders}}
                 </v-btn>
               </div>
             </v-col>
@@ -57,21 +63,18 @@
       </v-row>
     </v-container>
   </div>
-
-  <!--<span style="color: white; padding-left: 5px" class="text-h5">-->
-  <!--                Products: {{ $store.state.App.shoppingCart.length }}-->
-  <!--</span>-->
-
 </template>
 
 <script>
 import ProductCard from "vuejs/client/component/shoppingcart/component/product/ProductCard.vue";
 import Order from "vuejs/client/component/shoppingcart/component/order/order.vue";
+import UserOrder from "vuejs/client/component/shoppingcart/component/userorder/userOrder.vue";
 
 export default {
   components: {
     ProductCard,
-    Order
+    Order,
+    UserOrder
   },
   data() {
     return {

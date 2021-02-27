@@ -2,6 +2,7 @@ package by.epam.project.model.dao;
 
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 
 import java.util.List;
@@ -29,4 +30,6 @@ public interface ProductDao {
     boolean updateProductStatus(long idProduct, long idStatus) throws DaoException;
 
     Optional<Product> findProductById(long id) throws DaoException;
+
+    List<Product> findAllOrderProducts(Order order) throws DaoException;
 }

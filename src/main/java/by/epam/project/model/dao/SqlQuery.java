@@ -126,10 +126,21 @@ public class SqlQuery {
 
 
     public static final String INSERT_ORDER = "INSERT INTO orders(comment, address, created_at, total_price, " +
-            "client_id, status_id) VALUES (?, ?, ?, ?, ?, ?)";
+            "user_id, status_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     public static final String INSERT_ORDER_PRODUCTS = "INSERT INTO orders_products(order_id, product_id)" +
             " VALUES (?, ?)";
+
+    public static final String FIND_ALL_ORDERS_BY_USER_ID = "SELECT comment, address, created_at, total_price, " +
+            "order_statuses.name as status FROM orders " +
+            "JOIN order_statuses ON orders.status_id = order_statuses.id " +
+            "WHERE user_id = ?";
+
+    public static final String FIND_ALL_ORDER_PRODUCTS_BY_ID = "SELECT products.name as name, info, price, image_url," +
+            " product_statuses.name as status FROM products " +
+            "JOIN product_statuses ON products.status_id = product_statuses.id " +
+            "JOIN orders_products ON products.id = orders_products.product_id " +
+            "WHERE order_id = ?";
 
     private SqlQuery() {
     }

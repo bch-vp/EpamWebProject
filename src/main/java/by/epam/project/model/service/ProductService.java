@@ -2,6 +2,7 @@ package by.epam.project.model.service;
 
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 
 import java.util.List;
@@ -29,4 +30,6 @@ public interface ProductService {
     boolean updateProductStatus(long idProduct, long idStatus) throws ServiceException;
 
     boolean updateProductCategory(long idProduct, long idCategory) throws ServiceException;
+
+    List<Product> findAllOrderProducts(Order order) throws ServiceException;
 }

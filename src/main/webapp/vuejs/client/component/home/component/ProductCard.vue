@@ -7,7 +7,7 @@
     >
       <v-img
           :aspect-ratio="16/9"
-          src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+          :src="product.imageURL"
       >
         <v-expand-transition>
           <div v-if="hover"

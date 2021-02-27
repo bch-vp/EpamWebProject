@@ -11,6 +11,7 @@ import by.epam.project.validator.ServiceValidator;
 import org.apache.commons.fileupload.FileItem;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -193,11 +194,6 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public List<User> sortByParameter(List<User> users, String sortType) throws ServiceException {
-        return null;
-    }
-//
-    @Override
     public Optional<User> findUserById(long id) throws ServiceException {
         Optional<User> userOptional = Optional.empty();
 
@@ -222,16 +218,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
 
         return statusOptional;
     }
-//
-    @Override
-    public Optional<User> findUserByPhone(String phone) throws ServiceException {
-        return Optional.empty();
-    }
 
-    @Override
-    public Optional<User> findUserByEmail(String email) throws ServiceException {
-        return Optional.empty();
-    }
 
     @Override
     public Optional<String> findAvatarURLByLogin(String login) throws ServiceException {
@@ -358,8 +345,13 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public boolean createOrder(User user, Order order, List<Product> products) throws ServiceException  {
+    public boolean createOrder(User user,Order order, List<Product> products) throws ServiceException  {
         boolean isUpdated;
+
+        BigDecimal totalPrice = products.stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        order.setTotalPrice(totalPrice);
 
         try {
             isUpdated = userDao.createOrder(user, order, products);
@@ -368,5 +360,18 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
         }
 
         return isUpdated;
+    }
+
+    @Override
+    public List<Order> findAllOrders(User user) throws ServiceException {
+        List<Order> orders;
+
+        try {
+            orders = userDao.findAllOrders(user);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding all orders", exp);
+        }
+
+        return orders;
     }
 }

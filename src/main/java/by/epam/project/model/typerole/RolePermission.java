@@ -25,6 +25,8 @@ public enum RolePermission {
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
             "ADD_PRODUCT_TO_SHOPPING_CART",
             "LOAD_SHOPPING_CART",
+            "CREATE_ORDER",
+            "LOAD_ALL_ORDERS",
             "REMOVE_PRODUCT_FROM_SHOPPING_CART",
             "SIGN_OUT"
     )),

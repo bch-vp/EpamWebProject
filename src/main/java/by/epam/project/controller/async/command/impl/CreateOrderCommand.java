@@ -5,9 +5,7 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
-import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.UserService;
-import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.ServiceValidator;
@@ -23,7 +21,6 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
-import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
 public class CreateOrderCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -36,25 +33,26 @@ public class CreateOrderCommand implements Command {
 
         User user = (User) session.getAttribute(USER);
         List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
+        if(shoppingCart.isEmpty()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
 
         try {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
 
             String comment = (String) requestParameters.get(COMMENT);
             String address = (String) requestParameters.get(ADDRESS);
-            String totalPriceString = (String) requestParameters.get(TOTAL_PRICE);
 
             if (!ServiceValidator.isInfoCorrect(comment) ||
-                    !ServiceValidator.isAddressCorrect(address)
-                    || !ServiceValidator.isPriceCorrect(totalPriceString)) {
+                    !ServiceValidator.isAddressCorrect(address)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
 
-            BigDecimal totalPrice = new BigDecimal(totalPriceString);
-
-            Order order = new Order(comment, address, new Date(new Date().getTime()),totalPrice);
+            Order order = new Order(comment, address, new Date(new Date().getTime()), Order.Status.NOT_CONFIRMED);
             userService.createOrder(user, order, shoppingCart);
+            shoppingCart.clear();
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -2,12 +2,14 @@ package by.epam.project.util;
 
 import by.epam.project.exception.DaoException;
 import by.epam.project.model.entity.Category;
+import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
@@ -59,7 +61,24 @@ public class ResultSetUtil {
             Product product =new Product(id, name, info, status, price, imageURL);
             return product;
         } catch (SQLException exp) {
-            throw new DaoException("Error while creating category from resultSet", exp);
+            throw new DaoException("Error while creating product from resultSet", exp);
+        }
+    }
+
+    public static Order toOrder(ResultSet resultSet) throws DaoException {
+        try {
+            long id = resultSet.getLong(ID);
+            String address = resultSet.getString(ADDRESS);
+            String comment = resultSet.getString(COMMENT);
+            Date dateCreateAt = new Date(resultSet.getLong(TIME_CREATED));
+            String statusName = resultSet.getString(STATUS);
+            Order.Status status = Order.Status.valueOf(statusName);
+            BigDecimal totalPrice = resultSet.getBigDecimal(TOTAL_PRICE);
+
+            Order order =new Order(id, comment, address, dateCreateAt, totalPrice);
+            return order;
+        } catch (SQLException exp) {
+            throw new DaoException("Error while creating order from resultSet", exp);
         }
     }
 }

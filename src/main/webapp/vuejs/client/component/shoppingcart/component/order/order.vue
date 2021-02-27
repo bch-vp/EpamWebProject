@@ -1,19 +1,25 @@
 <template>
   <div>
-
     <div class="profile-wrapper">
-
       <v-container>
         <v-row justify="center" row>
           <v-col sm="9" md="9" lg="8" xl="5">
 
             <div class="profile-background">
               <div class="profile">
-
+                <div v-if="isSuccess" align="center" class="text-h6" style="color: green">
+                  {{ text_page.form_component.info.success }}
+                </div>
+                <div v-if="isError">
+                      <span style="color: red; padding-left: 5px" class="text-h6">
+                        Please refresh page some products aren't ACTIVE
+                      </span> <br>
+                </div>
 
                 <v-row style="padding-top: 1em;">
+
                   <v-col>
-              <span style="color: white;" class="text-h5">
+                    <span style="color: white;" class="text-h5">
                 Total price:&nbsp {{ calculateOrderPrice }}
                 <span class="light-green--text text--lighten-2">
                   $
@@ -23,7 +29,7 @@
                   <v-col>
                     <div align="right">
                       <v-btn
-                          @click="close_isOrder"
+                          @click="show_isShoppingCart"
                           outlined small fab color="white">
                         <v-icon>close</v-icon>
                       </v-btn>
@@ -37,24 +43,24 @@
                       v-model="valid"
                   >
 
-                        <v-text-field
-                            dark
-                            v-model="name"
-                            :counter="15"
-                            :rules="rules.name"
-                            v-bind:label=text_page.form_component.input.name.name
-                            required
-                        ></v-text-field>
+                    <v-text-field
+                        dark
+                        v-model="address"
+                        :counter="50"
+                        :rules="rules.address"
+                        v-bind:label=text_page.form_component.input.address.name
+                        required
+                    ></v-text-field>
 
                     <div style="margin-top: 1em">
                       <v-textarea
                           filled
-                          v-model="info"
+                          v-model="comment"
                           color="orange"
                           :counter="100"
                           rows="3"
-                          :rules="rules.info"
-                          v-bind:label=text_page.form_component.input.info.name
+                          :rules="rules.comment"
+                          v-bind:label=text_page.form_component.input.comment.name
                       ></v-textarea>
                     </div>
                     <br>
@@ -88,7 +94,7 @@
 
 <script>
 export default {
-  props: ['product', 'close_isOrder'],
+  props: ['product', 'show_isShoppingCart'],
   data() {
     return {
       valid: false,
@@ -98,26 +104,21 @@ export default {
       isError: false,
       isSuccess: false,
 
-      name: '',
-      info: '',
-      price: '',
+      comment: '',
+      address: '',
 
       rules: {
-        name: [
-          v => !!v || this.text_page.form_component.input.name.error.required,
-          v => (v && v.length >= 3) || this.text_page.form_component.input.name.error.min_length,
-          v => (v && v.length <= 15) || this.text_page.form_component.input.name.error.max_length,
+        address: [
+          v => !!v || this.text_page.form_component.input.address.error.required,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.address.error.min_length,
+          v => (v && v.length <= 50) || this.text_page.form_component.input.address.error.max_length,
+          v => /^.{3,50}$/.test(v) || this.text_page.form_component.input.address.error.pattern,
         ],
-        price: [
-          v => !!v || this.text_page.form_component.input.price.error.required,
-          v => (v && String(this.product.price).length >= 1) || this.text_page.form_component.input.price.error.min_length,
-          v => (v && String(this.product.price).length <= 11) || this.text_page.form_component.input.price.error.max_length,
-          v => /^[0-9]{1,10}(\.[0-9]{2})?$/.test(v) || this.text_page.form_component.input.price.error.pattern,
-        ],
-        info: [
-          v => !!v || this.text_page.form_component.input.info.error.required,
-          v => (v && v.length >= 3) || this.text_page.form_component.input.info.error.min_length,
-          v => (v && v.length <= 100) || this.text_page.form_component.input.info.error.max_length
+        comment: [
+          v => !!v || this.text_page.form_component.input.comment.error.required,
+          v => (v && v.length >= 3) || this.text_page.form_component.input.comment.error.min_length,
+          v => (v && v.length <= 100) || this.text_page.form_component.input.comment.error.max_length,
+          v => /^.{3,100}$/.test(v) || this.text_page.form_component.input.comment.error.pattern
         ],
       }
     }
@@ -161,37 +162,32 @@ export default {
         this.axios({
           method: 'post',
           url: '/ajax?command=create_order',
-          // data: {
-          //   id: String(this.product.id),
-          //   name: this.name,
-          //   info: this.info,
-          //   price: this.price,
-          // }
+          data: {
+            comment: this.comment,
+            address: this.address,
+          }
         }).then(response => {
-              // this.product.name = this.name
-              // this.product.info = this.info
-              // this.product.price = this.price
-              //
-              // this.reset()
-              //
-              // this.isError = false
-              // this.isSuccess = true
-
+              this.reset()
+              this.isSuccess = true
+              this.$store.state.App.shoppingCart = []
               this.await3Seconds()
             },
             ex => {
               this.reset()
-              // this.isSuccess = false
-              // this.isError = true
+              this.isError = true
+
+              this.await3Seconds()
             })
       }
     },
     async await3Seconds() {
-      // await new Promise(resolve => setTimeout(resolve, 1000));
-      // this.isSuccess = false
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      this.isSuccess = false
+      this.isError = false
+      this.$store.commit('show_home')
     },
     reset() {
-
+      this.$refs.form.reset()
     },
     showSpinner() {
       this.spinnerVisible = true;

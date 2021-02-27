@@ -143,10 +143,10 @@ CREATE TABLE IF NOT EXISTS `orders`
     `address`     VARCHAR(50),
     `created_at`  long         NOT NULL,
     `total_price` DECIMAL(12, 2) NULL,
-    `client_id`   BIGINT         NOT NULL,
+    `user_id`   BIGINT         NOT NULL,
     `status_id`   BIGINT         NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`client_id`) REFERENCES `users` (`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
     FOREIGN KEY (`status_id`) REFERENCES `order_statuses` (`id`)
@@ -222,4 +222,8 @@ VALUES ('product_1', 'Some description of product', 243, 1, 1),
        ('product_31', 'Some description of product', 73, 4, 1),
        ('product_32', 'Some description of product', 223, 4, 1);
 
-# DELETE FROM categories WHERE id=2
+SELECT comment, address, created_at, total_price FROM orders WHERE user_id = 1;
+
+SELECT name, info, price, image_url FROM products
+                                             JOIN orders_products ON products.id = orders_products.product_id
+WHERE order_id = 2
