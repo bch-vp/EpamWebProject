@@ -39,7 +39,7 @@ public class ServiceValidator {
     }
 
     public static void main(String[] args) throws JsonProcessingException {
-       Order order1 = new Order("comm", "addr", new Date());
+        Order order1 = new Order("comm", "addr", new Date());
         Order order2 = new Order("comm2", "addr2", new Date());
         Order order3 = new Order("comm3", "addr2", new Date());
         List<Order> orders = Arrays.asList(order1, order2, order3);
@@ -49,15 +49,29 @@ public class ServiceValidator {
         Product product2 = new Product("prod2","aegag", BigDecimal.ONE);
         List<Product> products = Arrays.asList(product1, product2);
 
+
         ObjectMapper objectMapper = new ObjectMapper();
-        ArrayNode arrayNode = objectMapper.valueToTree(orders);
-        JsonNode fitstObject = arrayNode.path(1);
-        ((ObjectNode)fitstObject).put("products", objectMapper.writeValueAsString(products));
 
-        JsonNode fitst2Object = arrayNode.path(2);
-        ((ObjectNode)fitst2Object).put("products", objectMapper.writeValueAsString(products));
+        ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
+        ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
 
-        String json = arrayNode.toString();
+        JsonNode firstOrder = arrayNodeOrders.path(1);
+
+        ((ObjectNode)firstOrder).putArray("products").addAll(arrayNodeProducts);
+        System.out.println(arrayNodeOrders.path(1));
+
+//        ((ArrayNode)n).ad(key, value);
+
+
+//        System.out.println(arrayNodeOrders.toString());
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        List<Order> e = new ArrayList<Order>();
+//        ArrayNode array = mapper.valueToTree(e);
+//        ObjectNode companyNode = mapper.valueToTree(product1);
+//        companyNode.putArray("Employee").addAll(array);
+//        JsonNode result = mapper.createObjectNode().set("company", companyNode);
+
     }
 
 
