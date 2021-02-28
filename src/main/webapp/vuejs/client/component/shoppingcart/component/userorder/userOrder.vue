@@ -16,7 +16,12 @@
     <v-list-item-content>
       <v-list-item-title>
         <div align="left" style="padding-left: 1em">
-          Adds: <strong> {{ order.address }}</strong>
+          <div>
+            {{order.dateCreatedAt}}
+          </div>
+          <div>
+            Adds: <strong> {{ order.address }}</strong>
+          </div>
         </div>
       </v-list-item-title>
     </v-list-item-content>
@@ -41,7 +46,19 @@
                   v-for="order in order.products"
                   :key="order.id"
               >
-                <v-list-item-title>{{ order.name }}</v-list-item-title>
+                <v-list-item-title>
+                  <v-container>
+                    <v-row>
+                      <v-col>
+                        {{ order.name }}
+                      </v-col>
+                      <v-col>
+                        {{ order.price }}$
+                      </v-col>
+                    </v-row>
+                  </v-container>
+
+                </v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>

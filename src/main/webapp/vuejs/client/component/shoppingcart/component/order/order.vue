@@ -20,7 +20,7 @@
 
                   <v-col>
                        <span style="color: white;" class="text-h5">
-                          {{text_page.page_info.total_price}}:&nbsp {{ calculateOrderPrice }}
+                          {{ text_page.page_info.total_price }}:&nbsp {{ calculateOrderPrice }}
                        <span class="light-green--text text--accent-2">
                          $
                        </span>
@@ -159,6 +159,13 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
+        var newOrder = {
+          comment: this.comment,
+          address: this.address,
+          dateCreatedAt: new Date().toLocaleDateString(),
+          totalPrice: this.calculateOrderPrice,
+          products: this.$store.state.App.shoppingCart
+        }
         this.axios({
           method: 'post',
           url: '/ajax?command=create_order',
@@ -169,15 +176,18 @@ export default {
         }).then(response => {
               this.reset()
               this.isSuccess = true
+
+              this.$store.commit('add_orderToUserOrders', newOrder)
+
               this.axios({
                 method: 'post',
                 url: '/ajax?command=load_all_products_by_category',
-                data:{
+                data: {
                   name: this.$store.state.App.selectCategory.name
                 }
               }).then(response => {
                     var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
-                    this.$store.commit('set_products',array)
+                    this.$store.commit('set_products', array)
                   },
                   ex => {
                   })
