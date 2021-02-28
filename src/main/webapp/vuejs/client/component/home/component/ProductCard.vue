@@ -2,7 +2,7 @@
   <v-hover v-slot="{ hover }">
     <v-card
         class="mx-auto"
-        color="grey lighten-4"
+        color="grey lighten-1"
         max-width="600"
     >
       <v-img
@@ -22,7 +22,7 @@
 
         <v-btn @click="addProductToShoppingCart"
                :disabled="product.status === 'INACTIVE'"
-               absolute color="black" class="light-green--text text--lighten-2" fab  right top>
+               absolute color="black" class="light-green--text text--accent-1" fab  right top>
           <v-icon>shopping_cart</v-icon>
         </v-btn>
         <div v-if="isError" class="text-subtitle-1 font-weight-medium mb-2">

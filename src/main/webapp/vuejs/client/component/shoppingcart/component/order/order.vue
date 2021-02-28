@@ -20,8 +20,8 @@
 
                   <v-col>
                        <span style="color: white;" class="text-h5">
-                          Total price:&nbsp {{ calculateOrderPrice }}
-                       <span class="light-green--text text--lighten-2">
+                          {{text_page.page_info.total_price}}:&nbsp {{ calculateOrderPrice }}
+                       <span class="light-green--text text--accent-2">
                          $
                        </span>
                        </span>

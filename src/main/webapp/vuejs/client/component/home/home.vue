@@ -46,7 +46,7 @@
                   <v-icon>navigate_before</v-icon>
                 </v-btn>
                 <v-btn dark style="color: white">
-            <span class="light-green--text text--lighten-1" >
+            <span class="light-green--text text--accent-2" >
                    {{ page }}
                  </span>
                 </v-btn>

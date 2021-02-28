@@ -16,6 +16,15 @@ public class Order {
     private BigDecimal totalPrice;
     private Status status;
 
+    public Order(long id, String comment, String address, Date dateCreatedAt, BigDecimal totalPrice, Status status) {
+        this.id = id;
+        this.comment = comment;
+        this.address = address;
+        this.dateCreatedAt = dateCreatedAt;
+        this.totalPrice = totalPrice;
+        this.status = status;
+    }
+
     public Order(long id, String comment, String address, Date createdAt, BigDecimal totalPrice) {
         this.id = id;
         this.comment = comment;

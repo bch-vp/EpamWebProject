@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <div align="left">
-          <v-btn @click="handleFileDelete" :disabled="!$store.state.Profile.isAvatarExists" dark outlined  color="light-green lighten-2" class="white--text" text>
+          <v-btn @click="handleFileDelete" :disabled="!$store.state.Profile.isAvatarExists" dark outlined  color="light-green accent-2" class="white--text" text>
             <v-icon>
               delete_outline
             </v-icon>{{text_page.form_component.button.delete_avatar}}
@@ -21,7 +21,7 @@
       </v-col>
       <v-col>
         <div align="right">
-          <v-btn @click="showProfileEdit" dark outlined color="light-green lighten-2" class="white--text" text>
+          <v-btn @click="showProfileEdit" dark outlined color="light-green accent-2" class="white--text" text>
             {{text_page.form_component.button.edit_profile_info}}&nbsp
             <v-icon>
               edit

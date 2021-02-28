@@ -75,7 +75,7 @@ public class ResultSetUtil {
             Order.Status status = Order.Status.valueOf(statusName);
             BigDecimal totalPrice = resultSet.getBigDecimal(TOTAL_PRICE);
 
-            Order order =new Order(id, comment, address, dateCreateAt, totalPrice);
+            Order order =new Order(id, comment, address, dateCreateAt, totalPrice, status);
             return order;
         } catch (SQLException exp) {
             throw new DaoException("Error while creating order from resultSet", exp);

@@ -10,7 +10,6 @@
               elevation="16"
               class="mx-auto"
           >
-
             <div style="padding-top: 3em; padding-bottom: 3em;">
               <div class="scroll">
                 <div style="padding-right: 2em;padding-left: 2em">
@@ -23,10 +22,19 @@
                       <div v-if="isOrder">
                         <Order :show_isShoppingCart="show_isShoppingCart"/>
                       </div>
-                      <div class="col-md-4" v-if="isShowOrders" v-for="order in this.$store.state.App.userOrders"
-                           :key="order.id">
-                        <ProductCard :product="product"/>
-                      </div>
+                      <v-container v-if="isShowOrders">
+                        <v-row justify="center" row>
+                          <v-col>
+                            <div align="center">
+                              <v-list style="width: 85%">
+                                <div v-for="order in this.$store.state.App.userOrders" :key="order.id">
+                                  <UserOrder :order="order"/>
+                                </div>
+                              </v-list>
+                            </div>
+                          </v-col>
+                        </v-row>
+                      </v-container>
                     </v-row>
                   </v-container>
                 </div>
@@ -34,15 +42,15 @@
             </div>
           </v-card>
           <v-row style="padding-top: 2em;">
-            <v-col >
-              <span style="color: white; padding-left: 5px" class="text-h5">
+            <v-col cols="3">
+              <span v-if="isShoppingCart" style="color: white; padding-left: 5px" class="text-h5">
                 {{text_page.page_info.total_price}}:&nbsp {{ calculateOrderPrice }}
-                <span class="light-green--text text--lighten-2">
+                <span class="light-green--text text--accent-2">
                   $
                 </span>
               </span>
             </v-col>
-            <v-col>
+            <v-col cols="6">
                 <div align="center">
                   <v-btn @click="show_isShoppingCart" :disabled="isShoppingCart" dark rounded color="light-green accent-2"
                          class="text-h6 white--text" text>
@@ -67,8 +75,8 @@
                   </v-btn>
                 </div>
             </v-col>
-            <v-col>
-              <div align="right">
+            <v-col cols="3">
+              <div v-if="isShoppingCart" align="right">
                 <span style="color: white; padding-left: 5px" class="text-h5">
                 {{text_page.page_info.products}}:&nbsp {{ $store.state.App.shoppingCart.length }}
               </span>
