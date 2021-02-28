@@ -183,6 +183,8 @@ export default {
       isCategories: false,
       isAddCategory: false,
 
+      oldSelectCategory: this.$store.state.App.selectCategory,
+
       oldPage: 1,
       page: 1,
       perPage: 12,
@@ -263,10 +265,12 @@ export default {
 
       if (this.page === this.oldPage + 1 || this.page === this.oldPage - 1) {
         this.oldPage = this.page
-      } else {
+      } else if(this.$store.state.App.selectCategory !== this.oldSelectCategory){
+        this.oldSelectCategory = this.$store.state.App.selectCategory
         this.page = 1
         this.oldPage = 1
       }
+
 
       let page = this.page;
       let perPage = this.perPage;
