@@ -25,9 +25,26 @@
     <v-list-item-action >
       <v-row>
         <v-col>
-          <v-btn outlined text>
-            Products
-          </v-btn>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  dark
+                  outlined text
+                  v-bind="attrs"
+                  v-on="on"
+              >
+                Products
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                  v-for="order in order.products"
+                  :key="order.id"
+              >
+                <v-list-item-title>{{ order.name }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-col>
         <v-col>
           <v-btn :disabled="true" style="width: 11em" outlined text>
