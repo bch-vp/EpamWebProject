@@ -170,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             products = productDao.findAllOrderProducts(order);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all products by category to admin", exp);
+            throw new ServiceException("Error during finding all products from order", exp);
         }
 
         return products;

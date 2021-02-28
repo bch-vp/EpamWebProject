@@ -85,7 +85,6 @@ export default {
   watch: {
     selectCategory() {
       this.$store.commit('set_selectCategory', this.selectCategory)
-      console.log('updating');
       this.axios({
         method: 'post',
         url: '/ajax?command=load_all_products_by_category',
@@ -103,11 +102,9 @@ export default {
       method: 'post',
       url: '/ajax?command=load_profile_image',
     }).then(resp => {
-      console.log(resp.data.url)
       this.$store.commit('set_isAvatarExists', true)
       this.$store.commit('change_avatarUrl', resp.data.url)
     }, ex => {
-      console.log(ex.response.data.url);
       this.$store.commit('set_isAvatarExists', false)
       this.$store.commit('change_avatarUrl', '')
     })
@@ -119,21 +116,9 @@ export default {
           var array = response.data.data.sort((a, b) => (a.id > b.id) ? 1 : -1)
           this.$store.commit('set_categories', array)
           this.selectCategory = response.data.data[0]
-          console.log('success categories')
         },
         ex => {
-          console.log('error categories')
         })
-
-    // this.axios({
-    //   method: 'post',
-    //   url: '/ajax?command=load_shopping_cart'
-    // }).then(response => {
-    //       this.$store.commit('set_shoppingCart', response.data.data)
-    //     },
-    //     ex => {
-    //
-    //     })
 
     this.axios({
       method: 'post',

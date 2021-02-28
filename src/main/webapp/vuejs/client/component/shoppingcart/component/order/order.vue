@@ -19,12 +19,12 @@
                 <v-row style="padding-top: 1em;">
 
                   <v-col>
-                    <span style="color: white;" class="text-h5">
-                Total price:&nbsp {{ calculateOrderPrice }}
-                <span class="light-green--text text--lighten-2">
-                  $
-                </span>
-              </span>
+                       <span style="color: white;" class="text-h5">
+                          Total price:&nbsp {{ calculateOrderPrice }}
+                       <span class="light-green--text text--lighten-2">
+                         $
+                       </span>
+                       </span>
                   </v-col>
                   <v-col>
                     <div align="right">
@@ -169,6 +169,18 @@ export default {
         }).then(response => {
               this.reset()
               this.isSuccess = true
+              this.axios({
+                method: 'post',
+                url: '/ajax?command=load_all_products_by_category',
+                data:{
+                  name: this.$store.state.App.selectCategory.name
+                }
+              }).then(response => {
+                    var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
+                    this.$store.commit('set_products',array)
+                  },
+                  ex => {
+                  })
               this.$store.state.App.shoppingCart = []
               this.await3Seconds()
             },

@@ -4,7 +4,6 @@
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
-
           <v-card
               style="box-shadow: 0 0 25px;background: rgba(0, 0, 0, 0.93);border-radius: 20px;"
               dark
@@ -17,11 +16,16 @@
                 <div style="padding-right: 2em;padding-left: 2em">
                   <v-container>
                     <v-row>
-                      <div class="col-md-4" v-if="isShoppingCart" v-for="product in this.$store.state.App.shoppingCart">
+                      <div class="col-md-4" v-if="isShoppingCart" v-for="product in this.$store.state.App.shoppingCart"
+                      :key="product.id">
                         <ProductCard :product="product"/>
                       </div>
                       <div v-if="isOrder">
                         <Order :show_isShoppingCart="show_isShoppingCart"/>
+                      </div>
+                      <div class="col-md-4" v-if="isShowOrders" v-for="order in this.$store.state.App.userOrders"
+                           :key="order.id">
+                        <ProductCard :product="product"/>
                       </div>
                     </v-row>
                   </v-container>
@@ -29,7 +33,7 @@
               </div>
             </div>
           </v-card>
-          <v-row v-if="isShoppingCart" style="padding-top: 2em;">
+          <v-row style="padding-top: 2em;">
             <v-col >
               <span style="color: white; padding-left: 5px" class="text-h5">
                 {{text_page.page_info.total_price}}:&nbsp {{ calculateOrderPrice }}
@@ -39,17 +43,29 @@
               </span>
             </v-col>
             <v-col>
-              <div align="center">
-                <v-btn @click="show_isOrder" :disabled="$store.state.App.shoppingCart.length === 0" dark rounded  color="light-green accent-2" class="text-h6 white--text" text>
-                  {{text_page.form_component.button.order}}
-                </v-btn>
-                <span style="color: white;" class="text-h6">
-                |
-              </span>
-                <v-btn @click="show_isShowOrders" dark rounded color="light-green accent-2" class="text-h6 white--text" text>
-                  {{text_page.form_component.button.orders}}
-                </v-btn>
-              </div>
+                <div align="center">
+                  <v-btn @click="show_isShoppingCart" :disabled="isShoppingCart" dark rounded color="light-green accent-2"
+                         class="text-h6 white--text" text>
+                    <v-icon>
+                      shopping_cart
+                    </v-icon>
+                  </v-btn>
+                <span v-if="$store.state.App.shoppingCart.length !== 0" style="color: white;" class="text-h6">
+                  |
+                </span>
+                    <v-btn @click="show_isOrder" v-if="$store.state.App.shoppingCart.length !== 0"
+                           :disabled="isOrder" dark rounded color="light-green accent-2"
+                           class="text-h6 white--text" text>
+                      {{ text_page.form_component.button.order }}
+                    </v-btn>
+                  <span style="color: white;" class="text-h6">
+                  |
+                </span>
+                  <v-btn @click="show_isShowOrders" :disabled="isShowOrders" dark rounded color="light-green accent-2"
+                         class="text-h6 white--text" text>
+                    {{ text_page.form_component.button.orders }}
+                  </v-btn>
+                </div>
             </v-col>
             <v-col>
               <div align="right">

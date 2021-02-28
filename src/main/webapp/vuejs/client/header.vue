@@ -93,13 +93,13 @@ export default {
   watch: {
     selectCategory() {
       this.$store.commit('set_selectCategory', this.selectCategory)
-      console.log('updating');
       this.axios({
         method: 'post',
         url: '/ajax?command=load_all_products_by_category',
         data: this.selectCategory
       }).then(response => {
-            this.$store.commit('set_products', response.data.data)
+            var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
+            this.$store.commit('set_products',array)
           },
           ex => {
           })
@@ -110,16 +110,19 @@ export default {
       method: 'post',
       url: '/ajax?command=load_all_orders',
     }).then(resp => {
-console.log('gfa')
+      var array = resp.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
+      array.forEach(order => {
+        order.dateCreatedAt = new Date(order.dateCreatedAt).toLocaleDateString()
+      })
+      this.$store.commit('set_userOrders', array)
     }, ex => {
-      console.log('gfa')
+
     })
 
       this.axios({
         method: 'post',
         url: '/ajax?command=load_profile_image',
       }).then(resp => {
-        console.log(resp.data.url)
         this.$store.commit('set_isAvatarExists', true)
         this.$store.commit('change_avatarUrl', resp.data.url)
       }, ex => {
@@ -132,12 +135,11 @@ console.log('gfa')
       method: 'post',
       url: '/ajax?command=load_all_categories'
     }).then(response => {
-          this.$store.commit('set_categories', response.data.data)
+          var array = response.data.data.sort((a, b) => (a.id > b.id) ? 1 : -1)
+          this.$store.commit('set_categories', array)
           this.selectCategory = response.data.data[0]
-          console.log('success categories')
         },
         ex => {
-          console.log('error categories')
         })
 
     this.axios({

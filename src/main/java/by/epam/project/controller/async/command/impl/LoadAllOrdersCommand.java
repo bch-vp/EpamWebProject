@@ -10,8 +10,6 @@ import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
-import by.epam.project.validator.ServiceValidator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -23,11 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
-import static by.epam.project.controller.parameter.ParameterKey.ADDRESS;
+import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class LoadAllOrdersCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -35,49 +31,32 @@ public class LoadAllOrdersCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
     private final ProductService productService = ProductServiceImpl.getInstance();
 
+    private static final String PRODUCTS = "products";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-
-        Order order1 = new Order("comm", "addr", new Date());
-        Order order2 = new Order("comm2", "addr2", new Date());
-        Order order3 = new Order("comm3", "addr2", new Date());
-        List<Order> orders = Arrays.asList(order1, order2, order3);
-
-
-        Product product1 = new Product("prod1","aegag", BigDecimal.ONE);
-        Product product2 = new Product("prod2","aegag", BigDecimal.ONE);
-        List<Product> products = Arrays.asList(product1, product2);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(USER);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        ArrayNode arrayNode = objectMapper.valueToTree(orders);
-        JsonNode fitstObject = arrayNode.path(1);
         try {
-            ((ObjectNode)fitstObject).put("products", objectMapper.writeValueAsString(products));
+            List<Order> orders = userService.findAllOrders(user);
 
+            ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
+            int size = orders.size();
+            for(int i=0; i<size; i++){
+                JsonNode orderNode = arrayNodeOrders.path(i);
 
-        JsonNode fitst2Object = arrayNode.path(2);
-        ((ObjectNode)fitst2Object).put("products", objectMapper.writeValueAsString(products));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+                List<Product> products = productService.findAllOrderProducts(orders.get(i));
+                ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
 
-        String json = arrayNode.toString();
-        try {
+                ((ObjectNode)orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
+            }
+            String json = arrayNodeOrders.toString();
             JsonUtil.writeJsonToResponse(response, json);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (ServiceException | IOException exp) {
+            logger.error(exp);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-
-//        HttpSession session = request.getSession();
-//
-//        User user = (User) session.getAttribute(USER);
-//        try {
-//           List<Order> orders = userService.findAllOrders(user);
-//
-//           List<Product> products = productService.findAllOrderProducts();
-//        } catch (ServiceException | IOException exp) {
-//            logger.error(exp);
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//        }
     }
 }

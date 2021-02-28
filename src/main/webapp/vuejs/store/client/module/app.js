@@ -8,7 +8,8 @@ export default {
         selectCategory: undefined,
 
         products: [],
-        shoppingCart:[]
+        shoppingCart:[],
+        userOrders: []
 
     },
     getters: {
@@ -45,6 +46,16 @@ export default {
         },
         remove_category(state, data){
             state.categories.splice(state.categories.indexOf(data), 1)
+        },
+
+        set_userOrders(state, data){
+            state.userOrders = data
+        },
+        add_orderToUserOrders(state, data){
+            state.userOrders.push(data)
+        },
+        remove_orderFromUserOrders(state, data){
+            state.userOrders.splice(state.userOrders.indexOf(data), 1)
         },
 
         set_selectCategory(state, data){

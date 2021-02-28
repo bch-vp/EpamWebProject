@@ -38,43 +38,6 @@ public class ServiceValidator {
     private ServiceValidator() {
     }
 
-    public static void main(String[] args) throws JsonProcessingException {
-        Order order1 = new Order("comm", "addr", new Date());
-        Order order2 = new Order("comm2", "addr2", new Date());
-        Order order3 = new Order("comm3", "addr2", new Date());
-        List<Order> orders = Arrays.asList(order1, order2, order3);
-
-
-        Product product1 = new Product("prod1","aegag", BigDecimal.ONE);
-        Product product2 = new Product("prod2","aegag", BigDecimal.ONE);
-        List<Product> products = Arrays.asList(product1, product2);
-
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
-        ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
-
-        JsonNode firstOrder = arrayNodeOrders.path(1);
-
-        ((ObjectNode)firstOrder).putArray("products").addAll(arrayNodeProducts);
-        System.out.println(arrayNodeOrders.path(1));
-
-//        ((ArrayNode)n).ad(key, value);
-
-
-//        System.out.println(arrayNodeOrders.toString());
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        List<Order> e = new ArrayList<Order>();
-//        ArrayNode array = mapper.valueToTree(e);
-//        ObjectNode companyNode = mapper.valueToTree(product1);
-//        companyNode.putArray("Employee").addAll(array);
-//        JsonNode result = mapper.createObjectNode().set("company", companyNode);
-
-    }
-
-
     public static Map<String, String> validateParameters(String login, String password, String email,
                                                          String firstName, String lastName, String phone) {
         Map<String, String> validatedData = new HashMap<>();
