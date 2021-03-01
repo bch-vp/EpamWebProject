@@ -102,11 +102,26 @@ export default {
       method: 'post',
       url: '/ajax?command=load_all_orders',
     }).then(resp => {
-      var array = resp.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
+      var array = resp.data.sort((a, b) => (a.status < b.status) ? 1 : -1)
       array.forEach(order => {
         order.dateCreatedAt = new Date(order.dateCreatedAt).toLocaleDateString()
       })
-      this.$store.commit('set_userOrders', array)
+
+      var arrayResult = []
+      var arrayConcat = array.filter(function (order) {
+        return order.status === 'NOT_CONFIRMED';
+      })
+      arrayConcat = arrayConcat.sort((a, b) => (a.id < b.id) ? 1 : -1)
+      arrayResult = arrayResult.concat(arrayConcat)
+
+      arrayConcat = array.filter(function (order) {
+        return order.status === 'CONFIRMED';
+      })
+      arrayConcat = arrayConcat.sort((a, b) => (a.id < b.id) ? 1 : -1)
+      arrayResult = arrayResult.concat(arrayConcat)
+
+
+      this.$store.commit('set_userOrders', arrayResult)
     }, ex => {
 
     })
