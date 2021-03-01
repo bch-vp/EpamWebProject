@@ -24,6 +24,15 @@
             single-line
         ></v-select>
       </v-col>
+      <v-col cols="2">
+        <v-text-field
+            :disabled="!$store.state.App.isHome"
+            v-model="$store.state.App.search"
+            label="Search"
+            outlined
+            dense
+        ></v-text-field>
+      </v-col>
 
       <v-spacer></v-spacer>
 
@@ -84,6 +93,7 @@ export default {
   },
   watch: {
     selectCategory() {
+      this.$store.state.App.search = ''
       this.$store.commit('set_selectCategory', this.selectCategory)
       this.axios({
         method: 'post',

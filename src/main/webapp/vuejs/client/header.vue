@@ -11,20 +11,31 @@
         <v-icon>home</v-icon>
       </v-btn>
       |
-      <v-col cols="2">
-        <v-select
-            style="padding-left: 1em"
-            v-model="selectCategory"
-            v-bind:hint=text_page.form_component.button.choose_category
-            :items="$store.state.App.categories"
-            item-text="name"
-            label="Select"
-            :disabled="!$store.state.App.isHome"
-            persistent-hint
-            return-object
-            single-line
-        ></v-select>
-      </v-col>
+          <v-col cols="2">
+            <v-select
+                style="padding-left: 1em"
+                v-model="selectCategory"
+                v-bind:hint=text_page.form_component.button.choose_category
+                :items="$store.state.App.categories"
+                item-text="name"
+                label="Select"
+                :disabled="!$store.state.App.isHome"
+                persistent-hint
+                return-object
+                single-line
+            ></v-select>
+          </v-col>
+          <v-col cols="2">
+            <v-text-field
+                :disabled="!$store.state.App.isHome"
+                v-model="$store.state.App.search"
+                label="Search"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
+
+
       <v-spacer></v-spacer>
 
       <v-btn v-on:click="$store.commit('show_profile')" :disabled="$store.state.App.isProfile" rounded text>
@@ -87,11 +98,12 @@ export default {
       text_page: text_page,
       isAvatarExists: undefined,
 
-      selectCategory: undefined
+      selectCategory: undefined,
     }
   },
   watch: {
     selectCategory() {
+      this.$store.state.App.search = ''
       this.$store.commit('set_selectCategory', this.selectCategory)
       this.axios({
         method: 'post',

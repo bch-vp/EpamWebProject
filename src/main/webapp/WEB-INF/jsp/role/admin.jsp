@@ -240,6 +240,7 @@
                 users: "<fmt:message key="form_component.button.users"/>",
                 categories: "<fmt:message key="form_component.button.categories"/>",
                 activated: "<fmt:message key="form_component.button.activated"/>",
+                search: "<fmt:message key="form_component.button.search"/>",
                 banned: "<fmt:message key="form_component.button.banned"/>",
                 choose_category: "<fmt:message key="form_component.button.choose_category"/>",
                 confirmed: "<fmt:message key="form_component.button.confirmed"/>",

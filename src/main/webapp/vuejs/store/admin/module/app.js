@@ -15,8 +15,9 @@ export default {
         users: [],
         products: [],
         shoppingCart:[],
-        userOrders: []
+        userOrders: [],
 
+        search: ''
     },
     getters: {
         products: state => {

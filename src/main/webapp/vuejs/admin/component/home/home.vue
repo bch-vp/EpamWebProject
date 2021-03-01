@@ -265,6 +265,9 @@ export default {
           array = array.concat(arrayConcat)
         }
       }
+      if(this.$store.state.App.search !== '') {
+        array = array.filter(item => item.name.indexOf(this.$store.state.App.search) !== -1)
+      }
       return array
     },
     productsWithFiltersAndPagination() {
