@@ -7,7 +7,8 @@
           fab
           small
           depressed
-          color="primary"
+          color="black"
+          class="light-green--text text--accent-2"
       >
         {{ user.id }}
       </v-btn>
@@ -42,11 +43,11 @@
       <v-row>
         <v-btn @click="submit(user.id, 1, 'ACTIVATED')" style="margin-right: 2em" outlined text
                :disabled="user.status === 'ACTIVATED'">
-          ACTIVATED
+          {{text_page.form_component.button.activated}}
         </v-btn>
         <v-btn @click="submit(user.id,3, 'BANNED')" style="margin-right: 2em" outlined text
                :disabled="user.status === 'BANNED'">
-          BANNED
+          {{text_page.form_component.button.banned}}
         </v-btn>
       </v-row>
     </v-list-item-action>

@@ -154,7 +154,7 @@ public class Order {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Product{");
+        final StringBuilder sb = new StringBuilder("Order{");
         sb.append("id='").append(id).append('\'');
         sb.append("comment='").append(comment).append('\'');
         sb.append(", address='").append(address).append('\'');

@@ -9,13 +9,13 @@
             <v-col>
               <div align="center">
                 <v-btn @click="show_isAddProduct" :disabled="isAddProduct" color="black"
-                       class="light-green--text text--lighten-2">
+                       class="light-green--text text--accent-2">
                   <v-icon>
                     add
                   </v-icon>
                 </v-btn>
                 <v-btn @click="show_isProducts" :disabled="isProducts" color="black"
-                       class="light-green--text text--lighten-2">
+                       class="light-green--text text--accent-2">
                   {{ text_page.form_component.button.products }}
                 </v-btn>
               </div>
@@ -23,13 +23,13 @@
             <v-col>
               <div align="center">
                 <v-btn @click="show_isAddCategory" :disabled="isAddCategory" color="black"
-                       class="light-green--text text--lighten-2">
+                       class="light-green--text text--accent-2">
                   <v-icon>
                     add
                   </v-icon>
                 </v-btn>
                 <v-btn @click="show_isCategories" :disabled="isCategories" color="black"
-                       class="light-green--text text--lighten-2">
+                       class="light-green--text text--accent-2">
                   {{ text_page.form_component.button.categories }}
                 </v-btn>
               </div>
@@ -37,11 +37,11 @@
             <v-col>
               <div align="center">
                 <v-btn @click="show_isOrders" :disabled="isOrders" color="black"
-                       class="light-green--text text--lighten-2">
+                       class="light-green--text text--accent-2">
                   {{ text_page.form_component.button.orders }}
                 </v-btn>
                 <v-btn @click="show_isUsers" :disabled="isUsers" color="black"
-                       class="light-green--text text--lighten-2">
+                       class="light-green--text text--accent-2">
                   {{ text_page.form_component.button.users }}
                 </v-btn>
               </div>
@@ -99,12 +99,11 @@
                       <div v-if="isAddCategory">
                         <AddCategory/>
                       </div>
-
                       <v-container v-if="isOrders">
                         <v-row justify="center" row>
                           <v-col>
                             <div align="center">
-                              <v-list style="width: 91%">
+                              <v-list style="width: 68%">
                                 <div v-for="order in this.$store.state.App.userOrders" :key="order.id">
                                   <Order :order="order"/>
                                 </div>
@@ -113,7 +112,6 @@
                           </v-col>
                         </v-row>
                       </v-container>
-
                     </v-row>
                   </v-container>
                 </div>
@@ -139,7 +137,7 @@
                   <v-icon>navigate_before</v-icon>
                 </v-btn>
                 <v-btn dark style="color: white">
-                  <span class="light-green--text text--lighten-1">
+                  <span class="light-green--text text--accent-2">
                     {{ page }}
                   </span>
                 </v-btn>

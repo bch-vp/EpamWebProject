@@ -1,6 +1,5 @@
 <template>
   <v-list-item>
-
     <v-list-item-action>
       <v-list-item-title style="width: 5em">
         <span style="color: white;" class="text-h6" >
@@ -11,24 +10,14 @@
               </span>
       </v-list-item-title>
     </v-list-item-action>
-
-
     <v-list-item-content>
-      <v-list-item-title>
-        <div align="left" style="padding-left: 1em">
-          <div>
-            {{order.dateCreatedAt}}
-          </div>
-          <div>
-            Adds: <strong> {{ order.address }}</strong>
-          </div>
-        </div>
-      </v-list-item-title>
     </v-list-item-content>
-
-
     <v-list-item-action >
-      <v-row>
+      <div v-if="isError" class="text-subtitle-1 font-weight-medium mb-2">
+          <span style="color: orangered">{{ text_page.form_component.error.notification }}:&nbsp
+          </span>{{ text_page.form_component.error.need_reload_page }}
+      </div>
+      <v-row v-if="!isError">
         <v-col>
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
@@ -38,7 +27,49 @@
                   v-bind="attrs"
                   v-on="on"
               >
-                Products
+                {{text_page.form_component.button.info}}
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <v-list-item-title>
+                  <v-container>
+                    <v-row>
+                      {{text_page.form_component.input.login.name}}:&nbsp
+                      <strong> {{ order.login }}</strong>
+                    </v-row>
+                    <v-row style="padding-top: 4px">
+                      {{text_page.form_component.input.email.name}}:&nbsp
+                      <strong> {{ order.email }}</strong>
+                    </v-row>
+                    <v-row style="padding-top: 4px">
+                      {{text_page.form_component.input.telephone_number.name}}:&nbsp
+                      <strong> {{ order.telephone_number }}</strong>
+                    </v-row>
+                    <v-row style="padding-top: 4px">
+                      {{text_page.form_component.input.address.name}}:&nbsp
+                      <strong> {{ order.address }}</strong>
+                    </v-row>
+                    <v-row style="padding-top: 4px">
+                      {{text_page.form_component.input.comment.name}}:&nbsp
+                      <strong> {{ order.comment }}</strong>
+                    </v-row>
+                  </v-container>
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-col>
+        <v-col style="padding-right: 4em">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  dark
+                  outlined text
+                  v-bind="attrs"
+                  v-on="on"
+              >
+                {{text_page.form_component.button.show_products}}
               </v-btn>
             </template>
             <v-list>
@@ -53,7 +84,8 @@
                         {{ order.name }}
                       </v-col>
                       <v-col>
-                        {{ order.price }}$
+                        <strong> {{ order.price }}&nbsp$</strong>
+
                       </v-col>
                     </v-row>
                   </v-container>
@@ -64,9 +96,18 @@
           </v-menu>
         </v-col>
         <v-col>
-          <v-btn @click="" :disabled="order.status === 'CONFIRMED'" style="width: 11em" outlined text>
-            {{order.status}}
+          <v-btn v-if="order.status === 'CONFIRMED' && !spinnerVisible" :disabled="true" style="width: 13em" outlined text>
+           {{text_page.form_component.button.confirmed}}
           </v-btn>
+          <v-btn @click="submit" color="red" text outlined v-if="order.status === 'NOT_CONFIRMED' && !spinnerVisible"
+                 style="width: 13em">
+            {{text_page.form_component.button.not_confirmed}}
+          </v-btn>
+          <v-progress-circular style="margin-right: 15px"
+                               v-if="spinnerVisible"
+                               indeterminate
+                               color="#8C9EFF"
+          ></v-progress-circular>
         </v-col>
       </v-row>
     </v-list-item-action>
@@ -79,8 +120,53 @@ export default {
   data() {
     return {
       text_page: text_page,
+      spinnerVisible: false,
+      isError:false,
     }
   },
+  methods:{
+    showSpinner() {
+      this.spinnerVisible = true;
+    },
+    hideSpinner() {
+      this.spinnerVisible = false;
+    },
+    submit(){
+      this.axios.interceptors.request.use(
+          conf => {
+            this.showSpinner()
+            return conf;
+          },
+          error => {
+            this.hideSpinner()
+            return Promise.reject(error);
+          }
+      );
+      this.axios.interceptors.response.use(
+          response => {
+            this.hideSpinner()
+            return response;
+          },
+          error => {
+            this.hideSpinner()
+            return Promise.reject(error);
+          }
+      );
+      this.axios({
+        method: 'post',
+        url: '/ajax?command=update_order_status',
+        data: {
+          id_status: '1',
+          id_order: String(this.order.id),
+        }
+      }).then(response => {
+            this.order.status = 'CONFIRMED'
+          },
+          ex => {
+            this.isError = true
+          })
+    }
+  }
 }
 </script>
 

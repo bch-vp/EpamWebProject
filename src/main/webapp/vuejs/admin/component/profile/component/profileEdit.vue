@@ -13,7 +13,7 @@
       </v-col>
       <v-col>
         <div align="right">
-          <v-btn @click="showProfileInfo"  dark outlined  color="light-green lighten-2" class="white--text" text>
+          <v-btn @click="showProfileInfo"  dark outlined  color="light-green accent-2" class="white--text" text>
             <v-icon>
               close
             </v-icon>
@@ -44,7 +44,8 @@
       </v-col>
       <v-col>
 
-        <v-btn v-if="isChangePassword" @click="isChangePassword = ! isChangePassword"  dark outlined  color="light-green lighten-2" class="white--text" text>
+        <v-btn v-if="isChangePassword" @click="isChangePassword = ! isChangePassword"  dark outlined
+               color="light-green accent-2" class="white--text" text>
           <v-icon>
             close
           </v-icon> {{ text_page.form_component.button.exit }}

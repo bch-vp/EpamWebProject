@@ -32,6 +32,8 @@ public interface UserDao {
 
     Optional<User> findByEmail(String email) throws DaoException;
 
+    Optional<User> findUserByOrderId(long id) throws DaoException;
+
     Optional<User.Status> findStatusById(long id) throws DaoException;
 
     Optional<String> findAvatarURLByLogin(String login) throws DaoException;

@@ -12,7 +12,7 @@
 
       <div style="padding-top: 15px">
       <v-btn @click="showCardInfo"
-             absolute color="black" class="light-green--text text--lighten-2"  fab right >
+             absolute color="black" class="light-green--text text--accent-2"  fab right >
         <v-icon >close</v-icon>
       </v-btn>
       </div>
@@ -29,13 +29,13 @@
 
       <v-btn @click="showEditStatusAndLocation"
              v-if="isEditInfo"
-             absolute color="black" class="light-green--text text--lighten-2" small fab right top>
+             absolute color="black" class="light-green--text text--accent-2" small fab right top>
         <v-icon>navigate_next</v-icon>
       </v-btn>
 
       <v-btn @click="showEditInfo"
              v-if="isEditStatusAndLocation"
-             absolute color="black" class="light-green--text text--lighten-2" small fab left top>
+             absolute color="black" class="light-green--text text--accent-2" small fab left top>
         <v-icon>navigate_before</v-icon>
       </v-btn>
 

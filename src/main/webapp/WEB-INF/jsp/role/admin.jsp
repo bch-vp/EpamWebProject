@@ -120,6 +120,24 @@
                         not_equal: "<fmt:message key="form_component.input.password_repeat.error.not_equal"/>"
                     }
                 },
+                address: {
+                    name: "<fmt:message key="form_component.input.address"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.address.error.required"/>",
+                        min_length: "<fmt:message key="form_component.input.address.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.address.error.max_length"/>",
+                        pattern: "<fmt:message key="form_component.input.address.error.pattern"/>",
+                    }
+                },
+                comment: {
+                    name: "<fmt:message key="form_component.input.comment"/>",
+                    error: {
+                        required: "<fmt:message key="form_component.input.comment.error.required"/>",
+                        min_length: "<fmt:message key="form_component.input.comment.error.min_length"/>",
+                        max_length: "<fmt:message key="form_component.input.comment.error.max_length"/>",
+                        pattern: "<fmt:message key="form_component.input.comment.error.pattern"/>"
+                    }
+                },
                 name: {
                     name: "<fmt:message key="form_component.input.name"/>",
                     error: {
@@ -224,7 +242,10 @@
                 activated: "<fmt:message key="form_component.button.activated"/>",
                 banned: "<fmt:message key="form_component.button.banned"/>",
                 choose_category: "<fmt:message key="form_component.button.choose_category"/>",
-                order_products: "<fmt:message key="form_component.button.order_products"/>",
+                confirmed: "<fmt:message key="form_component.button.confirmed"/>",
+                not_confirmed: "<fmt:message key="form_component.button.not_confirmed"/>",
+                show_products: "<fmt:message key="form_component.button.show_products"/>",
+                info: "<fmt:message key="form_component.button.info"/>",
                 choose_status: "<fmt:message key="form_component.button.choose_status"/>",
                 choose_status_for_ordering: "<fmt:message key="form_component.button.choose_status_for_ordering"/>",
                 change_password: "<fmt:message key="form_component.button.change_password"/>",

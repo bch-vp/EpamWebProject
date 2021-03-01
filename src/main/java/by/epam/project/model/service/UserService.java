@@ -36,6 +36,8 @@ public interface UserService {
 
     Optional<User> findUserByLogin(String login) throws ServiceException;
 
+    Optional<User> findUserByOrderId(long id) throws ServiceException;
+
     Optional<String> findAvatarURLByLogin(String login) throws ServiceException;
 
     boolean updatePasswordByLogin(String login, String password) throws ServiceException;

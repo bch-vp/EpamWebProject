@@ -181,6 +181,19 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
+    public Optional<User> findUserByOrderId(long id) throws ServiceException {
+        Optional<User> userOptional = Optional.empty();
+
+        try {
+            userOptional = userDao.findUserByOrderId(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding user by order id", exp);
+        }
+
+        return userOptional;
+    }
+
+    @Override
     public List<User> findAllClients() throws ServiceException {
         List<User> users;
 

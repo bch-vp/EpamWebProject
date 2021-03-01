@@ -47,6 +47,12 @@ public class SqlQuery {
             "JOIN user_roles ON users.role_id = user_roles.id " +
             "WHERE BINARY login = ? AND BINARY password = ?";
 
+    public static final String FIND_USER_BY_ORDER_ID = "SELECT users.id AS id, login, password, first_name, " +
+            "last_name, telephone_number, email, user_roles.name AS role, user_statuses.name AS status FROM users " +
+            "JOIN user_statuses ON users.status_id = user_statuses.id " +
+            "JOIN user_roles ON users.role_id = user_roles.id " +
+            "JOIN orders ON users.id = orders.user_id WHERE orders.id = ?";
+
     public static final String FIND_USER_STATUS_BY_ID = "SELECT name FROM user_statuses WHERE id = ?";
 
     public static final String UPDATE_PASSWORD_BY_LOGIN = "UPDATE users SET password = ? WHERE BINARY login = ?";

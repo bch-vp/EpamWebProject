@@ -22,7 +22,7 @@
       <v-card-text class="pt-6" style="position: relative; background-color: grey">
 
         <v-btn @click="showCardEdit"
-               absolute color="black" class="light-green--text text--lighten-2" fab  right top>
+               absolute color="black" class="light-green--text text--accent-2" fab  right top>
           <v-icon>edit</v-icon>
         </v-btn>
           <div class="text-h5 font-weight-light white--text mb-2">

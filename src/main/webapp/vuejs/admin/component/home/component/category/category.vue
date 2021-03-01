@@ -7,7 +7,7 @@
             fab
             small
             depressed
-            color="primary"
+            color="black" class="light-green--text text--accent-2"
         >
           {{ category.id }}
         </v-btn>

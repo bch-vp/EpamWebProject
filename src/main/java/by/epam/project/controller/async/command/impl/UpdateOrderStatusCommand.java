@@ -19,7 +19,7 @@ import java.util.*;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
-public class ChangeOrderStatusCommand implements Command {
+public class UpdateOrderStatusCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final UserService userService = UserServiceImpl.getInstance();
@@ -48,7 +48,7 @@ public class ChangeOrderStatusCommand implements Command {
             Order order = orderOptional.get();
 
 
-            Optional<Order.Status> statusOptional = userService.findOrderStatusById(idOrder);
+            Optional<Order.Status> statusOptional = userService.findOrderStatusById(idStatus);
             if (statusOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
