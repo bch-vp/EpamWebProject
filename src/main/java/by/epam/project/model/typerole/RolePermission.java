@@ -49,6 +49,7 @@ public enum RolePermission {
             "CREATE_CATEGORY",
             "UPDATE_CATEGORY_NAME",
             "REMOVE_CATEGORY",
+            "LOAD_ALL_ORDERS",
             "UPLOAD_PRODUCT_IMAGE",
             "SIGN_OUT"
     ));

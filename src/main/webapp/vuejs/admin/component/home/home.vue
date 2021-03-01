@@ -100,6 +100,20 @@
                         <AddCategory/>
                       </div>
 
+                      <v-container v-if="isOrders">
+                        <v-row justify="center" row>
+                          <v-col>
+                            <div align="center">
+                              <v-list style="width: 91%">
+                                <div v-for="order in this.$store.state.App.userOrders" :key="order.id">
+                                  <Order :order="order"/>
+                                </div>
+                              </v-list>
+                            </div>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+
                     </v-row>
                   </v-container>
                 </div>
@@ -160,6 +174,7 @@ import AddProduct from "vuejs/admin/component/home/component/addproduct/addProdu
 import User from "vuejs/admin/component/home/component/user/user.vue";
 import Category from "vuejs/admin/component/home/component/category/category.vue";
 import AddCategory from "vuejs/admin/component/home/component/addcategory/addCategory.vue";
+import Order from "vuejs/admin/component/home/component/order/order.vue";
 
 export default {
   components: {
@@ -167,7 +182,8 @@ export default {
     AddProduct,
     User,
     Category,
-    AddCategory
+    AddCategory,
+    Order
   },
   data() {
     return {

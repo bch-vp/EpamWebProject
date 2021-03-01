@@ -100,6 +100,19 @@ export default {
   created() {
     this.axios({
       method: 'post',
+      url: '/ajax?command=load_all_orders',
+    }).then(resp => {
+      var array = resp.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
+      array.forEach(order => {
+        order.dateCreatedAt = new Date(order.dateCreatedAt).toLocaleDateString()
+      })
+      this.$store.commit('set_userOrders', array)
+    }, ex => {
+
+    })
+
+    this.axios({
+      method: 'post',
       url: '/ajax?command=load_profile_image',
     }).then(resp => {
       this.$store.commit('set_isAvatarExists', true)

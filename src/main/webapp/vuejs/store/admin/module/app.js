@@ -14,7 +14,8 @@ export default {
 
         users: [],
         products: [],
-        shoppingCart:[]
+        shoppingCart:[],
+        userOrders: []
 
     },
     getters: {
@@ -41,6 +42,16 @@ export default {
             state.isHome = false
             state.isShoppingCart = false
             state.isProfile = false
+        },
+
+        set_userOrders(state, data){
+            state.userOrders = data
+        },
+        add_orderToUserOrders(state, data){
+            state.userOrders.push(data)
+        },
+        remove_orderFromUserOrders(state, data){
+            state.userOrders.splice(state.userOrders.indexOf(data), 1)
         },
 
         set_categories(state, data){

@@ -21,8 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class LoadAllOrdersCommand implements Command {
@@ -37,11 +39,17 @@ public class LoadAllOrdersCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(USER);
+        User.Role role = user.getRole();
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        List<Order> orders;
         try {
-            List<Order> orders = userService.findAllOrders(user);
+            if (role == User.Role.CLIENT) {
+                orders = userService.findAllOrdersToClient(user);
+            } else {
+                orders = userService.findAllOrdersToAdmin();
+            }
 
+            ObjectMapper objectMapper = new ObjectMapper();
             ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
             int size = orders.size();
             for(int i=0; i<size; i++){

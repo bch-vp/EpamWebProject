@@ -394,11 +394,46 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<Order> findAllOrders(User user) throws DaoException {
+    public boolean updateOrderStatusById(long idOrder, long idStatus) throws DaoException {
+        boolean isUpdated;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_ORDER_STATUS)) {
+            statement.setLong(1, idStatus);
+            statement.setLong(2, idOrder);
+            isUpdated = statement.executeUpdate() == 1;
+        } catch (SQLException exp) {
+            logger.error(exp);
+            throw new DaoException(exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public Optional<Order> findOrderById(long id) throws DaoException {
+        Optional<Order> orderOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ORDER_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                orderOptional = Optional.of(ResultSetUtil.toOrder(resultSet));
+            }
+        } catch (SQLException exp) {
+            logger.error(exp);
+            throw new DaoException(exp);
+        }
+        return orderOptional;
+    }
+
+    @Override
+    public List<Order> findAllOrdersToClient(User user) throws DaoException {
         List<Order> orders = new ArrayList<>();
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_ORDERS_BY_USER_ID)) {
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_CLIENT_ORDERS_BY_USER_ID)) {
             statement.setLong(1, user.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -410,5 +445,42 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(exp);
         }
         return orders;
+    }
+
+    @Override
+    public List<Order> findAllOrdersToAdmin() throws DaoException {
+        List<Order> orders = new ArrayList<>();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_ADMIN_ORDERS)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Order order = ResultSetUtil.toOrder(resultSet);
+                orders.add(order);
+            }
+        } catch (SQLException exp) {
+            logger.error(exp);
+            throw new DaoException(exp);
+        }
+        return orders;
+    }
+
+    @Override
+    public Optional<Order.Status> findOrderStatusById(long id) throws DaoException {
+        Optional<Order.Status> orderOptional = Optional.empty();
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ORDER_STATUS_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Order.Status status = Order.Status.valueOf(resultSet.getString(NAME));
+                orderOptional = Optional.of(status);
+            }
+        } catch (SQLException exp) {
+            logger.error(exp);
+            throw new DaoException(exp);
+        }
+        return orderOptional;
     }
 }

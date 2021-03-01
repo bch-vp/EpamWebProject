@@ -38,6 +38,8 @@ public class ParameterKey {
     public static final String ID_PRODUCT = "id_product";
     public static final String ID_STATUS = "id_status";
     public static final String ID_CATEGORY = "id_category";
+    public static final String ID_ORDER = "id_order";
+
 
     public static final String SHOPPING_CART = "shopping_cart";
     public static final String NAME = "name";

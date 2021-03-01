@@ -1,6 +1,7 @@
 package by.epam.project.model.dao;
 
 import by.epam.project.exception.DaoException;
+import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
@@ -45,5 +46,13 @@ public interface UserDao {
 
     boolean createOrder(User user, Order order, List<Product> products) throws DaoException;
 
-    List<Order> findAllOrders(User user) throws DaoException;
+    List<Order> findAllOrdersToClient(User user) throws DaoException;
+
+    List<Order> findAllOrdersToAdmin() throws DaoException;
+
+    Optional<Order> findOrderById(long id) throws DaoException;
+
+    boolean updateOrderStatusById(long idOrder, long idStatus) throws DaoException;
+
+    Optional<Order.Status> findOrderStatusById(long id) throws DaoException;
 }

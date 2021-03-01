@@ -363,15 +363,67 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public List<Order> findAllOrders(User user) throws ServiceException {
+    public List<Order> findAllOrdersToClient(User user) throws ServiceException {
         List<Order> orders;
 
         try {
-            orders = userDao.findAllOrders(user);
+            orders = userDao.findAllOrdersToClient(user);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all orders", exp);
+            throw new ServiceException("Error during finding all orders to client", exp);
         }
 
         return orders;
+    }
+
+    @Override
+    public List<Order> findAllOrdersToAdmin() throws ServiceException {
+        List<Order> orders;
+
+        try {
+            orders = userDao.findAllOrdersToAdmin();
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding all orders to admin", exp);
+        }
+
+        return orders;
+    }
+
+    @Override
+    public Optional<Order> findOrderById(long id) throws ServiceException {
+        Optional<Order> order;
+
+        try {
+            order = userDao.findOrderById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding order by id", exp);
+        }
+
+        return order;
+    }
+
+    @Override
+    public boolean updateOrderStatusById(long idOrder, long idStatus) throws ServiceException {
+        boolean isUpdated;
+
+        try {
+            isUpdated = userDao.updateOrderStatusById(idOrder, idStatus);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during updating order status", exp);
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public Optional<Order.Status> findOrderStatusById(long id) throws ServiceException {
+        Optional<Order.Status> status;
+
+        try {
+            status = userDao.findOrderStatusById(id);
+        } catch (DaoException exp) {
+            throw new ServiceException("Error during finding order status by id", exp);
+        }
+
+        return status;
     }
 }
