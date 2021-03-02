@@ -41,6 +41,7 @@ public class MailSenderUtil {
         properties.put("mail.smtp.starttls.enable", "true");
     }
 
+    private MailSenderUtil(){}
 
     public static void sendMessage(String subject, String body, String email) {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {

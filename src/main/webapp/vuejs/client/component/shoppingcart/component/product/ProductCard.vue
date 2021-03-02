@@ -61,7 +61,10 @@ export default {
         }
       }).then(response => {
         this.$store.commit('remove_productToShoppingCart', this.product)
-        this.$store.commit('add_productToProducts', this.product)
+        var array = this.$store.state.App.products
+        array.push(this.product)
+        array = array.sort((a, b) => (a.id < b.id) ? 1 : -1)
+        this.$store.state.App.products = array
       }, ex => {
         console.log('FAILURE!!');
         this.isError = true
