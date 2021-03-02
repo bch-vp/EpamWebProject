@@ -164,7 +164,8 @@ export default {
           address: this.address,
           dateCreatedAt: new Date().toLocaleDateString(),
           totalPrice: this.calculateOrderPrice,
-          products: this.$store.state.App.shoppingCart
+          products: this.$store.state.App.shoppingCart,
+          status: 'NOT_CONFIRMED'
         }
         this.axios({
           method: 'post',

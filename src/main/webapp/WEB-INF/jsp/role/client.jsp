@@ -240,6 +240,8 @@
                 choose_status: "<fmt:message key="form_component.button.choose_status"/>",
                 show_products: "<fmt:message key="form_component.button.show_products"/>",
                 search: "<fmt:message key="form_component.button.search"/>",
+                info: "<fmt:message key="form_component.button.info"/>",
+                date_created: "<fmt:message key="form_component.button.date_created"/>",
                 adds: "<fmt:message key="form_component.button.adds"/>",
                 confirmed: "<fmt:message key="form_component.button.confirmed"/>",
                 not_confirmed: "<fmt:message key="form_component.button.not_confirmed"/>",

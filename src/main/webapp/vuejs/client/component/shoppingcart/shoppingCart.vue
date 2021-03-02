@@ -26,7 +26,7 @@
                         <v-row justify="center" row>
                           <v-col>
                             <div align="center">
-                              <v-list style="width: 91%">
+                              <v-list style="width: 60%">
                                 <div v-for="order in this.$store.state.App.userOrders" :key="order.id">
                                   <UserOrder :order="order"/>
                                 </div>
