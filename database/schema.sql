@@ -1,7 +1,7 @@
-DROP SCHEMA IF EXISTS `web_database`;
-CREATE SCHEMA IF NOT EXISTS `web_database` DEFAULT CHARACTER SET utf8mb4;
+DROP SCHEMA IF EXISTS `bq9ptytw8pjzz6ce`;
+CREATE SCHEMA IF NOT EXISTS `bq9ptytw8pjzz6ce` DEFAULT CHARACTER SET utf8mb4;
 
-USE `web_database`;
+USE `bq9ptytw8pjzz6ce`;
 
 -- -----------------------------------------------------
 -- Table `user_roles`
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `email`            VARCHAR(55) NOT NULL,
     `role_id`          BIGINT DEFAULT 1,
     `status_id`        BIGINT DEFAULT 1,
-    `avatar_url`       VARCHAR(100),
+    `avatar_url`       VARCHAR(200),
     PRIMARY KEY (`id`),
     UNIQUE (`login`),
     UNIQUE (`telephone_number`),
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `products`
     `price`       DECIMAL(10, 2) NOT NULL,
     `category_id` BIGINT DEFAULT 1,
     `status_id`   BIGINT DEFAULT 1,
-    `image_url`   VARCHAR(100),
+    `image_url`   VARCHAR(200),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
         ON DELETE NO ACTION
@@ -138,13 +138,13 @@ VALUES ('CONFIRMED'),
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders`
 (
-    `id`          BIGINT         NOT NULL AUTO_INCREMENT,
-    `comment`     VARCHAR(100),
-    `address`     VARCHAR(50),
-    `created_at`  long         NOT NULL,
-    `total_price` DECIMAL(12, 2) NULL,
-    `user_id`   BIGINT         NOT NULL,
-    `status_id`   BIGINT         NOT NULL,
+    `id`           BIGINT         NOT NULL AUTO_INCREMENT,
+    `comment`      VARCHAR(100),
+    `address`      VARCHAR(50),
+    `time_created` long           NOT NULL,
+    `total_price`  DECIMAL(12, 2) NULL,
+    `user_id`      BIGINT         NOT NULL,
+    `status_id`    BIGINT         NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
         ON DELETE NO ACTION
@@ -176,54 +176,44 @@ CREATE TABLE IF NOT EXISTS `orders_products`
 # -------------------------------------
 INSERT INTO categories(name)
 VALUES ('others'),
-       ('category_1'),
-       ('category_2'),
-       ('category_3');
-
-INSERT INTO users(login, password, first_name, last_name, telephone_number, email,role_id, status_id )
-VALUES('ilya', '46315d1d58cae3d8df137cd2ad9c4a70', 'gaeg', 'gaeg', 'aegag', 'gaega', 3, 1) ;
-
-INSERT INTO users(login, password, first_name, last_name, telephone_number, email)
-VALUES ('fawf', 'aegag', 'gaeg', 'eagga', 'gaeg', 'gaeg'),
-       ('ffawawf', 'aegag', 'gaeg', 'eagga', 'gafeg', 'gaefg');
+       ('chains'),
+       ('rings'),
+       ('bracelets'),
+       ('earrings');
 
 # 46315d1d58cae3d8df137cd2ad9c4a70
-INSERT INTO products(name, info, price, category_id, status_id)
-VALUES ('product_1', 'Some description of product', 243, 1, 1),
-       ('product_2', 'Some description of product', 2243, 1, 1),
-       ('product_3', 'Some description of product', 343, 1, 1),
-       ('product_4', 'Some description of product', 243, 1, 1),
-       ('product_5', 'Some adescription of product', 243, 1, 1),
-       ('product_6', 'Some description of product', 3, 1, 1),
-       ('product_7', 'Some description of product', 223, 1, 1),
-       ('product_8', 'Some description of product', 23, 1, 1),
-       ('product_9', 'Some description of product', 253, 1, 1),
-       ('product_10', 'Some description of product', 23, 1, 1),
-       ('product_11', 'Some description of product', 2243, 1, 1),
-       ('product_12', 'Some description of product', 23, 1, 1),
-       ('product_13', 'Some description of product', 23, 1, 1),
-       ('product_14', 'Some description of product', 223, 1, 1),
-       ('product_15', 'Some description of product', 23, 1, 1),
-       ('product_16', 'Some description of product', 23, 1, 1),
-       ('product_17', 'Some description of product', 223, 2, 1),
-       ('product_18', 'Some description of product', 223, 2, 1),
-       ('product_19', 'Some description of product', 28, 2, 1),
-       ('product_20', 'Some description of product', 13, 2, 1),
-       ('product_21', 'Some description of product', 873, 2, 1),
-       ('product_22', 'Some description of product', 64, 2, 1),
-       ('product_23', 'Some description of product', 463, 3, 1),
-       ('product_24', 'Some description of product', 463, 3, 1),
-       ('product_25', 'Some description of product', 643, 3, 1),
-       ('product_26', 'Some description of product', 2, 3, 1),
-       ('product_27', 'Some description of product', 243, 3, 1),
-       ('product_28', 'Some description of product', 2, 3, 1),
-       ('product_29', 'Some description of product', 63, 3, 1),
-       ('product_30', 'Some description of product', 23, 4, 1),
-       ('product_31', 'Some description of product', 73, 4, 1),
-       ('product_32', 'Some description of product', 223, 4, 1);
+INSERT INTO users(login, password, first_name, last_name, telephone_number, email, role_id, status_id)
+VALUES ('ilya_user', '46315d1d58cae3d8df137cd2ad9c4a70', 'ilya', 'murin', '+375298651558', 'ilya.murin.work@gmail.com', 2, 1),
+       ('ilya_admin', '46315d1d58cae3d8df137cd2ad9c4a70', 'ilya', 'murin', '+375298651558', 'ilya.murin.work@gmail.com', 3, 1);
 
-SELECT comment, address, created_at, total_price FROM orders WHERE user_id = 1;
 
-SELECT name, info, price, image_url FROM products
-                                             JOIN orders_products ON products.id = orders_products.product_id
-WHERE order_id = 2
+INSERT INTO products(name, info, price, category_id, status_id, image_url)
+VALUES ('chain_1', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684758/Jewelry_Stones_Brilliant_Black_background_549625_1365x1024_gvisdf.jpg'),
+       ('chain_2', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684758/3082406-beads_black_dark_design_dog-tag_fashion_identification_jewelry_necklace_pendant_reflection_table_fuzcpr.jpg'),
+       ('chain_3', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684758/specimen-diamond-jewelry-necklaces-awesome-hd-desktop-wallpapers-free-downlaod-jewlery-images-high-resolution-photos-cool-images-display-1400x925-1_onlfbd.jpg'),
+       ('chain_4', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684757/jewelry-necklace-gem-gold_s6mrri.jpg'),
+       ('chain_5', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684757/m4gwez_x7rf84.jpg'),
+       ('chain_6', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684757/gettyimages-171588249-1024x1024_zlyvw8.jpg'),
+       ('chain_7', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684757/gettyimages-152892931-1024x1024_ed2gen.jpg'),
+       ('chain_8', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684757/20201121040528718664925_kpiajw.jpg'),
+       ('chain_9', 'Some description of product', 243, 2, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684757/istockphoto-493610261-612x612_vvzeak.jpg'),
+
+       ('ring_1', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684968/celebrate-sunset-beach-creative-gemstone_dhnv0r.jpg'),
+       ('ring_2', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684968/3106872-black-and-white_close-up_design_diamond_engagement-rings_jewelry_luxury_macro_monochrome_precious_rings_shining_wedding-bands_wedding-rings_public-domain-images_cdwua0.jpg'),
+       ('ring_3', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684968/poul-edward-erni-w8RSCxAZA8U-unsplash_kjvltq.jpg'),
+       ('ring_4', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684968/Jewelry-Wallpaper-58-1920x1080_fzea39.jpg'),
+       ('ring_5', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684968/amanda-mocci-Zyp3t67rrP4-unsplash_oqhznk.jpg'),
+       ('ring_6', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684968/wallpapertip_bangles-wallpaper_588791_azupxq.jpg'),
+       ('ring_7', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684967/close-up-gold-bangles-its-reflection-glass-table-138449807_yhmdhp.jpg'),
+       ('ring_8', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684967/500_F_61207982_KtKG5dsvbsxHFBFyHj9csObZDmfPnCOx_yneg73.jpg'),
+       ('ring_9', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684967/afe8f3f60016480b8ac706bbeda9d328_u1ucuz.jpg'),
+       ('ring_10', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614684967/94f14fe690d62b6c5b1c05e172f57a88_oqwa8c.jpg'),
+       ('ring_11', 'Some description of product', 243, 3, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614685312/emerald-ring-jewelry-gem-black-feathers_smsbnx.jpg'),
+
+       ('bracelet_1', 'Some description of product', 243, 4, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614685068/tennis-bracelet-against-black-background-cordia-murphy_hko2pk.jpg'),
+       ('bracelet_2', 'Some description of product', 243, 4, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614685068/jewelry-diamond-bracelet-black-background-42379985_niem5x.jpg'),
+
+       ('bracelet_1', 'Some description of product', 243, 5, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614685601/earrings-ornaments-female-fashion_hyrysu.jpg'),
+       ('bracelet_2', 'Some description of product', 243, 5, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614685601/0204fc2b7f972d97def7fdfa37f9ea83_dzbqak.jpg'),
+       ('bracelet_3', 'Some description of product', 243, 5, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614685601/190-1905618_black-diamond-oval-halo-earrings-earrings-hd-png_xkmnxz.png'),
+       ('bracelet_4', 'Some description of product', 243, 5, 1, 'https://res.cloudinary.com/dkxnuhv44/image/upload/v1614685600/34-343554_diamond-jewellery-pear-shaped-drop-pearl-earrings-earring_wnruvd.png'),;
