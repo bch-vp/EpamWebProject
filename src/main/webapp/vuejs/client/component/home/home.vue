@@ -105,7 +105,7 @@ export default {
 
       oldPage: 1,
       page: 1,
-      perPage: 4,
+      perPage: 12,
       pages: [],
     }
   },
