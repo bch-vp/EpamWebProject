@@ -49,6 +49,8 @@ public enum RolePermission {
             "PASSING_BY_GUEST",
             "CHANGE_LANGUAGE",
             "CHECK_LOGIN_EXISTENCE",
+            "LOAD_ALL_PRODUCTS_BY_CATEGORY",
+            "LOAD_ALL_CATEGORIES",
             "SIGN_IN",
             "SIGN_UP",
             "CONFIRM_SIGN_UP",

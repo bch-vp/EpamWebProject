@@ -96,6 +96,7 @@ public class ChangePasswordByEmailCommand implements Command {
             long diff = (timeNow - timeCreated) / MILLISECONDS_PER_SECOND;
             boolean isTimeExpired = diff > TIMER_SEC;
             if (isTimeExpired) {
+                session.removeAttribute(UNIQUE_KEY);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToResponse(response, ERROR, ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED, language);
             }

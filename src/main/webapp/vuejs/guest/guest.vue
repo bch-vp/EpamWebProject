@@ -15,6 +15,8 @@
         <v-row>
           <home v-if="isHome"
                 :showSignIn="showSignIn"/>
+          <info v-if="isInfo"
+                :showSignIn="showSignIn"/>
           <sign-in v-if="isSignIn"
                    :error="text_page.form_component.input.error"
                    :showSignUp="showSignUp"
@@ -55,25 +57,28 @@
 
 <script>
 import CustomHeader from 'vuejs/guest/header.vue'
-import Home from 'vuejs/guest/component/home.vue'
+import Info from 'vuejs/guest/component/home.vue'
 import SignIn from 'vuejs/guest/component/signIn.vue'
 import SignUp from 'vuejs/guest/component/signUp.vue'
 import Notification from 'vuejs/guest/component/notification.vue'
 import ChangePassword from 'vuejs/guest/component/changePassword.vue'
+import Home from 'vuejs/guest/component/home/home.vue'
 
 export default {
   components: {
     CustomHeader,
-    Home,
+    Info,
     SignIn,
     SignUp,
     ChangePassword,
+    Home,
     Notification
   },
   data() {
     return {
       text_page: text_page,
       isHome: false,
+      isInfo:false,
       isSignIn: false,
       isSignUp: false,
       isNotification: false,
@@ -85,7 +90,7 @@ export default {
     if (this.text_page.form_component.error.login_not_found) {
       this.isSignIn = true
     } else {
-      this.showHome()
+      this.showIsInfo()
     }
   },
   methods: {
@@ -95,7 +100,12 @@ export default {
       this.isHome = false
       this.isNotification = false
       this.isChangePassword = false
+      this.isInfo = false
       this.text_page.form_component.error.login_not_found = undefined
+    },
+    showIsInfo(){
+      this.clearAllComponents()
+      this.isInfo = true
     },
     showHome() {
       this.clearAllComponents()

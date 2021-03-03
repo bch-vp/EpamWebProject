@@ -37,9 +37,14 @@ public class LoadAllProductsByCategoryCommand implements Command {
             String category = (String) requestParameters.get(NAME);
 
             User user = (User) session.getAttribute(USER);
-            User.Role role = user.getRole();
+
+            User.Role role = User.Role.GUEST;
+            if (user != null){
+                role = user.getRole();
+            }
+
             switch (role){
-                case CLIENT -> {
+                case GUEST, CLIENT -> {
                     products = productService.findAllProductsByCategoryToClient(category);
 
                     List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
