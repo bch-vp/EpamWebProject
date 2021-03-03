@@ -2,7 +2,7 @@
   <div>
     <v-app-bar absolute flat fixed dark color="transparent" style="box-shadow: 0 0 50px black; padding-top: 1em ">
       <v-toolbar-title class="font-weight-medium light-green--text text--accent-2"
-                       style="margin-left: 2%; font-size: 40px; font-family: 'Monoton', cursive; ">
+                       style="margin-left: 1%; font-size: 40px; font-family: 'Monoton', cursive; ">
         JEWELRY
       </v-toolbar-title>
 
@@ -18,18 +18,17 @@
                 v-bind:hint=text_page.form_component.button.choose_category
                 :items="$store.state.App.categories"
                 item-text="name"
-                label="Select"
                 :disabled="!$store.state.App.isHome"
                 persistent-hint
                 return-object
                 single-line
             ></v-select>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="3">
             <v-text-field
                 :disabled="!$store.state.App.isHome"
                 v-model="$store.state.App.search"
-                label="Search"
+                v-bind:label=text_page.form_component.button.search
                 outlined
                 dense
             ></v-text-field>

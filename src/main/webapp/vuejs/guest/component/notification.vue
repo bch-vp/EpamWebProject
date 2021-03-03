@@ -18,7 +18,7 @@
                   </span>
                 </v-row>
                 <v-row justify="center">
-                  <v-btn @click="showHome" color="green" style="margin-bottom: 3em" text
+                  <v-btn @click="showHome" class="light-green--text text--accent-2" style="margin-bottom: 3em" text
                          outlined rounded>
                     <span class="text-h6 center">
                       {{ text_page.notification_component.button }}

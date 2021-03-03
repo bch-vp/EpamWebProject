@@ -4,16 +4,33 @@
       <v-container>
         <v-row style="height: 2em">
           <CustomHeader/>
-
         </v-row>
         <v-row>
           <profile v-if="$store.state.App.isProfile"/>
           <home v-if="$store.state.App.isHome"/>
-<!--          <shopping-cart v-if="$store.state.App.isShoppingCart"/>-->
         </v-row>
       </v-container>
     </div>
-
+    <v-footer
+        dark
+        padless
+    >
+      <v-card
+          flat
+          tile
+          width="100%"
+          class="mx-auto light-green--text text--accent-2 text-center"
+      >
+       <v-divider></v-divider>
+        <v-card-text class="light-green--text text--accent-2">
+          Designed and Developed by&nbsp
+          <span class=" light-green--text text--accent-2"
+               style="font-size: 20px; font-family: 'Monoton', cursive; ">
+             ILYA MURIN
+        </span>
+        </v-card-text>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 
@@ -31,6 +48,13 @@ export default {
   data() {
     return {
       text_page: text_page,
+
+      icons: [
+        'mdi-facebook',
+        'mdi-twitter',
+        'mdi-linkedin',
+        'mdi-instagram',
+      ],
     }
   },
   created() {

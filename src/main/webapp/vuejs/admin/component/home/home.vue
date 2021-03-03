@@ -1,7 +1,7 @@
 <!---->
 
 <template>
-  <div style="width: 100%; margin-top: 80px;">
+  <div style="width: 100%; margin-top: 4em;">
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
@@ -118,37 +118,34 @@
               </div>
             </div>
           </v-card>
-          <v-row v-if="isProducts" style="padding-top: 2em;">
-            <v-col>
-              <v-select
-                  style="max-width: 330px"
-                  dark
-                  v-model="filtersValue"
-                  :items="filtersItems"
-                  chips
-                  v-bind:label=text_page.form_component.button.choose_status_for_ordering
-                  multiple
-                  outlined
-              ></v-select>
+          <v-row style="padding-top: 2em;">
+            <v-col cols="7">
+              <v-row justify="center">
+                <v-select
+                    style="max-width: 320px"
+                    dark
+                    v-model="filtersValue"
+                    :items="filtersItems"
+                    chips
+                    v-bind:label=text_page.form_component.button.choose_status_for_ordering
+                    multiple
+                    outlined
+                ></v-select>
+                <v-select
+                    style="max-width: 150px; margin-left: 1em"
+                    dark
+                    v-model="ordersValue"
+                    :items="ordersItems"
+                    chips
+                    v-bind:label=text_page.form_component.button.sort_by
+                    outlined
+                ></v-select>
+              </v-row>
             </v-col>
-            <v-col>
+
+            <v-col style="padding: 0">
               <div align="center">
-                <v-btn dark style="color: white;" :disabled="page === 1" @click="page--">
-                  <v-icon>navigate_before</v-icon>
-                </v-btn>
-                <v-btn dark style="color: white">
-                  <span class="light-green--text text--accent-2">
-                    {{ page }}
-                  </span>
-                </v-btn>
-                <v-btn dark style="color: white" @click="page++" :disabled="page >= pages.length">
-                  <v-icon>navigate_next</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-            <v-col>
-              <div align="right">
-              <span style="color: white; padding-right: 5px" class="text-h5">
+                   <span style="color: white; padding-right: 5px" class="text-h5">
                 {{ text_page.page_info.pages }}:&nbsp {{ pages.length }}
               </span>
                 <span style="color: white;" class="text-h5">
@@ -157,6 +154,19 @@
                 <span style="color: white; padding-left: 5px" class="text-h5">
                 {{ text_page.page_info.products }}:&nbsp {{ productsWithFilters.length }}
               </span>
+              </div>
+              <div align="center" style="margin-top: 1em">
+                <v-btn dark style="color: white" :disabled="page === 1" @click="page--">
+                  <v-icon>navigate_before</v-icon>
+                </v-btn>
+                <v-btn dark style="color: white">
+                  <span class="light-green--text text--accent-2">
+                   {{ page }}
+                 </span>
+                </v-btn>
+                <v-btn dark style="color: white" @click="page++" :disabled="page >= pages.length">
+                  <v-icon>navigate_next</v-icon>
+                </v-btn>
               </div>
             </v-col>
           </v-row>
@@ -187,6 +197,9 @@ export default {
     return {
       filtersItems: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
       filtersValue: ['ACTIVE', 'INACTIVE', 'BLOCKED'],
+
+      ordersItems: ['PRICE ↑', 'PRICE ↓', 'DATE ↑', 'DATE ↓'],
+      ordersValue: 'DATE ↓',
 
       text_page: text_page,
 
@@ -244,17 +257,26 @@ export default {
     productsWithFilters() {
       var array = [];
 
-      var a = this.$store.state.App.products
+      var products = this.$store.state.App.products
+      if (this.ordersValue === 'PRICE ↑') {
+        products = products.sort((a, b) => (a.price > b.price) ? 1 : -1)
+      } else if (this.ordersValue === 'PRICE ↓') {
+        products = products.sort((a, b) => (a.price < b.price) ? 1 : -1)
+      } else if (this.ordersValue === 'DATE ↑') {
+        products = products.sort((a, b) => (a.id > b.id) ? 1 : -1)
+      } else if (this.ordersValue === 'DATE ↓') {
+        products = products.sort((a, b) => (a.id < b.id) ? 1 : -1)
+      }
 
       for (var i = 0; i < this.filtersValue.length; i++) {
         if (this.filtersValue[i] === 'ACTIVE') {
-          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+          var arrayConcat = products.filter(function (product) {
             return product.status === 'ACTIVE';
           })
           array = array.concat(arrayConcat)
 
         } else if (this.filtersValue[i] === 'INACTIVE') {
-          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+          var arrayConcat = products.filter(function (product) {
             return product.status === 'INACTIVE';
           })
           array = array.concat(arrayConcat)
@@ -265,13 +287,15 @@ export default {
           array = array.concat(arrayConcat)
         }
       }
-      if(this.$store.state.App.search !== '') {
+      if (this.$store.state.App.search !== '') {
         array = array.filter(item => item.name.indexOf(this.$store.state.App.search) !== -1)
+        this.page = 1
+        this.oldPage = 1
       }
+
       return array
     },
     productsWithFiltersAndPagination() {
-      var arrayForComputing = this.$store.state.App.products
       var array = this.productsWithFilters;
 
       let numberOfPages = Math.ceil(array.length / this.perPage);
@@ -282,12 +306,15 @@ export default {
 
       if (this.page === this.oldPage + 1 || this.page === this.oldPage - 1) {
         this.oldPage = this.page
-      } else if(this.$store.state.App.selectCategory !== this.oldSelectCategory){
+      } else if (this.$store.state.App.selectCategory !== this.oldSelectCategory) {
         this.oldSelectCategory = this.$store.state.App.selectCategory
         this.page = 1
         this.oldPage = 1
+      } else if(this.oldSelectSort !== this.ordersValue){
+        this.oldSelectSort = this.ordersValue
+        this.page = 1
+        this.oldPage = 1
       }
-
 
       let page = this.page;
       let perPage = this.perPage;

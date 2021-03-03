@@ -35,7 +35,7 @@ public class UploadProductImageCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger();
 
-    static final int FILE_MAX_SIZE = 1024 * 1024;
+    static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
     private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
 
     private static final int FILES_COUNT = 1;
@@ -50,7 +50,7 @@ public class UploadProductImageCommand implements Command {
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
 
-        try {
+
             String name = request.getParameter(NAME);
 
             if (!ServletFileUpload.isMultipartContent(request)
@@ -60,7 +60,7 @@ public class UploadProductImageCommand implements Command {
             }
 
             List<FileItem> fileItems;
-
+        try {
             try {
                 fileItems = upload.parseRequest(request);
             } catch (FileUploadException e) {

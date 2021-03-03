@@ -20,7 +20,7 @@
                   </span>
                     </v-row>
                     <v-row justify="center">
-                      <v-btn href="/do" color="green" style="margin-bottom: 3em" text outlined rounded>
+                      <v-btn href="/do" class="light-green--text text--accent-2" style="margin-bottom: 3em" text outlined rounded>
                     <span  style="" class="text-h6 center">
                       {{text_page.error_component.error.button}}
                     </span>

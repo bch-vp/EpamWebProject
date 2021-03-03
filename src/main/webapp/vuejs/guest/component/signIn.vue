@@ -39,13 +39,13 @@
                 ></v-text-field>
                 <br>
                 <v-row>
-                  <v-btn @click="showChangePassword" color="red" text outlined rounded>
+                  <v-btn @click="showChangePassword" style="color: red" text outlined rounded>
                     <span style="">{{ text_page.form_component.button.go_to_component.change_password_by_email }}</span>
                   </v-btn>
                 </v-row>
                 <br>
                 <v-row>
-                  <v-btn @click="showSignUp" color="green" text outlined rounded>
+                  <v-btn @click="showSignUp" class="light-green--text text--accent-2" text outlined rounded>
                     <span style="">{{ text_page.form_component.button.go_to_component.sign_up }}</span>
                   </v-btn>
                 </v-row>

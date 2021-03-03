@@ -18,7 +18,7 @@
                   </span>
                 </v-row>
                 <v-row justify="center">
-                  <v-btn @click="showSignIn" color="green" style="margin-bottom: 3em" text outlined rounded>
+                  <v-btn @click="showSignIn" class="light-green--text text--accent-2" style="margin-bottom: 3em" text outlined rounded>
                     <span style="" class="text-h6 center">
                       {{ text_page.guest_home_component.greeting.button.submit }}
                     </span>

@@ -27,7 +27,7 @@
           </v-card>
           <v-row style="padding-top: 2em;">
             <v-col>
-              <v-row>
+              <v-row justify="center">
                 <v-select
                     style="max-width: 270px"
                     dark
@@ -50,7 +50,7 @@
               </v-row>
             </v-col>
 
-            <v-col cols="4" style="padding: 0">
+            <v-col style="padding: 0">
               <div align="center">
                    <span style="color: white; padding-right: 5px" class="text-h5">
                 {{ text_page.page_info.pages }}:&nbsp {{ pages.length }}

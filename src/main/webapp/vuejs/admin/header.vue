@@ -24,11 +24,11 @@
             single-line
         ></v-select>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="3">
         <v-text-field
             :disabled="!$store.state.App.isHome"
             v-model="$store.state.App.search"
-            label="Search"
+            v-bind:label=text_page.form_component.button.search
             outlined
             dense
         ></v-text-field>

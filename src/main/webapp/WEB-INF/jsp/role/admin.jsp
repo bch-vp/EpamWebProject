@@ -247,6 +247,7 @@
                 not_confirmed: "<fmt:message key="form_component.button.not_confirmed"/>",
                 show_products: "<fmt:message key="form_component.button.show_products"/>",
                 info: "<fmt:message key="form_component.button.info"/>",
+                sort_by: "<fmt:message key="form_component.button.sort_by"/>",
                 choose_status: "<fmt:message key="form_component.button.choose_status"/>",
                 choose_status_for_ordering: "<fmt:message key="form_component.button.choose_status_for_ordering"/>",
                 change_password: "<fmt:message key="form_component.button.change_password"/>",

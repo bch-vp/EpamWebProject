@@ -97,7 +97,7 @@
                 ></v-text-field>
                 <br>
                 <v-row>
-                  <v-btn @click="showSignIn" color="green" text outlined rounded>
+                  <v-btn @click="showSignIn" class="light-green--text text--accent-2" text outlined rounded>
                     <span style="">{{ text_page.form_component.button.go_to_component.sign_in }}</span>
                   </v-btn>
                 </v-row>
