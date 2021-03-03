@@ -5,14 +5,12 @@
     <v-container>
       <v-row justify="center" row>
         <v-col ms="12" md="12" lg="11" xl="8">
-
           <v-card
               style="box-shadow: 0 0 25px;background: rgba(0, 0, 0, 0.93);border-radius: 20px;"
               dark
               elevation="16"
               class="mx-auto"
           >
-
             <div style="padding-top: 3em; padding-bottom: 3em;">
               <div class="scroll">
                 <div style="padding-right: 2em;padding-left: 2em">
@@ -29,35 +27,32 @@
           </v-card>
           <v-row style="padding-top: 2em;">
             <v-col>
-              <v-select
-                  style="max-width: 270px"
-                  dark
-                  v-model="filtersValue"
-                  :items="filtersItems"
-                  chips
-                  v-bind:label=text_page.form_component.button.choose_status_for_ordering
-                  multiple
-                  outlined
-              ></v-select>
+              <v-row>
+                <v-select
+                    style="max-width: 270px"
+                    dark
+                    v-model="filtersValue"
+                    :items="filtersItems"
+                    chips
+                    v-bind:label=text_page.form_component.button.choose_status_for_ordering
+                    multiple
+                    outlined
+                ></v-select>
+                <v-select
+                    style="max-width: 150px; margin-left: 1em"
+                    dark
+                    v-model="ordersValue"
+                    :items="ordersItems"
+                    chips
+                    v-bind:label=text_page.form_component.button.sort_by
+                    outlined
+                ></v-select>
+              </v-row>
             </v-col>
-            <v-col>
+
+            <v-col cols="4" style="padding: 0">
               <div align="center">
-                <v-btn dark style="color: white;" :disabled="page === 1" @click="page--">
-                  <v-icon>navigate_before</v-icon>
-                </v-btn>
-                <v-btn dark style="color: white">
-            <span class="light-green--text text--accent-2" >
-                   {{ page }}
-                 </span>
-                </v-btn>
-                <v-btn dark style="color: white" @click="page++" :disabled="page >= pages.length">
-                  <v-icon>navigate_next</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-            <v-col>
-              <div align="right">
-              <span style="color: white; padding-right: 5px" class="text-h5">
+                   <span style="color: white; padding-right: 5px" class="text-h5">
                 {{ text_page.page_info.pages }}:&nbsp {{ pages.length }}
               </span>
                 <span style="color: white;" class="text-h5">
@@ -66,6 +61,19 @@
                 <span style="color: white; padding-left: 5px" class="text-h5">
                 {{ text_page.page_info.products }}:&nbsp {{ productsWithFilters.length }}
               </span>
+              </div>
+              <div align="center" style="margin-top: 1em">
+                <v-btn dark style="color: white" :disabled="page === 1" @click="page--">
+                  <v-icon>navigate_before</v-icon>
+                </v-btn>
+                <v-btn dark style="color: white">
+                  <span class="light-green--text text--accent-2">
+                   {{ page }}
+                 </span>
+                </v-btn>
+                <v-btn dark style="color: white" @click="page++" :disabled="page >= pages.length">
+                  <v-icon>navigate_next</v-icon>
+                </v-btn>
               </div>
             </v-col>
           </v-row>
@@ -87,13 +95,17 @@ export default {
       filtersItems: ['ACTIVE', 'INACTIVE'],
       filtersValue: ['ACTIVE', 'INACTIVE'],
 
-      text_page:text_page,
+      ordersItems: ['PRICE ↑', 'PRICE ↓', 'DATE ↑', 'DATE ↓'],
+      ordersValue: 'DATE ↓',
+
+      text_page: text_page,
 
       oldSelectCategory: this.$store.state.App.selectCategory,
+      oldSelectSort: 'DATE ↓',
 
       oldPage: 1,
       page: 1,
-      perPage: 12,
+      perPage: 4,
       pages: [],
     }
   },
@@ -101,23 +113,37 @@ export default {
     productsWithFilters() {
       var array = [];
 
+      var products = this.$store.state.App.products
+      if (this.ordersValue === 'PRICE ↑') {
+        products = products.sort((a, b) => (a.price > b.price) ? 1 : -1)
+      } else if (this.ordersValue === 'PRICE ↓') {
+        products = products.sort((a, b) => (a.price < b.price) ? 1 : -1)
+      } else if (this.ordersValue === 'DATE ↑') {
+        products = products.sort((a, b) => (a.id > b.id) ? 1 : -1)
+      } else if (this.ordersValue === 'DATE ↓') {
+        products = products.sort((a, b) => (a.id < b.id) ? 1 : -1)
+      }
+
       for (var i = 0; i < this.filtersValue.length; i++) {
         if (this.filtersValue[i] === 'ACTIVE') {
-          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+          var arrayConcat = products.filter(function (product) {
             return product.status === 'ACTIVE';
           })
           array = array.concat(arrayConcat)
 
         } else if (this.filtersValue[i] === 'INACTIVE') {
-          var arrayConcat = this.$store.state.App.products.filter(function (product) {
+          var arrayConcat = products.filter(function (product) {
             return product.status === 'INACTIVE';
           })
           array = array.concat(arrayConcat)
         }
       }
-      if(this.$store.state.App.search !== '') {
+      if (this.$store.state.App.search !== '') {
         array = array.filter(item => item.name.indexOf(this.$store.state.App.search) !== -1)
+        this.page = 1
+        this.oldPage = 1
       }
+
       return array
     },
     productsWithFiltersAndPagination() {
@@ -131,8 +157,12 @@ export default {
 
       if (this.page === this.oldPage + 1 || this.page === this.oldPage - 1) {
         this.oldPage = this.page
-      } else if(this.$store.state.App.selectCategory !== this.oldSelectCategory){
+      } else if (this.$store.state.App.selectCategory !== this.oldSelectCategory) {
         this.oldSelectCategory = this.$store.state.App.selectCategory
+        this.page = 1
+        this.oldPage = 1
+      } else if(this.oldSelectSort !== this.ordersValue){
+        this.oldSelectSort = this.ordersValue
         this.page = 1
         this.oldPage = 1
       }

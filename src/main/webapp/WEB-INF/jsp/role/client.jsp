@@ -242,6 +242,7 @@
                 search: "<fmt:message key="form_component.button.search"/>",
                 info: "<fmt:message key="form_component.button.info"/>",
                 date_created: "<fmt:message key="form_component.button.date_created"/>",
+                sort_by: "<fmt:message key="form_component.button.sort_by"/>",
                 adds: "<fmt:message key="form_component.button.adds"/>",
                 confirmed: "<fmt:message key="form_component.button.confirmed"/>",
                 not_confirmed: "<fmt:message key="form_component.button.not_confirmed"/>",
