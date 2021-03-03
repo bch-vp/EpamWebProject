@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -82,7 +83,7 @@ public class UpdateProfileCommand implements Command {
                 return;
             }
 
-            User newUser = new User(login, firstName, lastName, telephoneNumber, email);
+            User newUser = new User(login, firstName, lastName, telephoneNumber, email, role, user.getStatus());
             userService.updateUser(newUser, oldLogin);
             session.setAttribute(USER, newUser);
             response.setStatus(HttpServletResponse.SC_OK);

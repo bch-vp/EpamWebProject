@@ -381,7 +381,7 @@ export default {
             email: this.email
           }
         }).then(response => {
-              this.reset()
+              // this.reset()
               this.success = this.text_page.form_component.info.success
               this.error.login_not_unique = undefined
               this.error.telephone_number_not_unique = undefined
