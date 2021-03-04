@@ -70,9 +70,9 @@ public class LoadAllOrdersCommand implements Command {
                         Optional<User> userOrderOptional = userService.findUserByOrderId(orders.get(i).getId());
                         User userOrder = userOrderOptional.get();
 
-                        ((ObjectNode)orderNode).put(LOGIN, user.getLogin());
-                        ((ObjectNode)orderNode).put(TELEPHONE_NUMBER, user.getTelephoneNumber());
-                        ((ObjectNode)orderNode).put(EMAIL, user.getEmail());
+                        ((ObjectNode)orderNode).put(LOGIN, userOrder.getLogin());
+                        ((ObjectNode)orderNode).put(TELEPHONE_NUMBER, userOrder.getTelephoneNumber());
+                        ((ObjectNode)orderNode).put(EMAIL, userOrder.getEmail());
 
                         List<Product> products = productService.findAllOrderProducts(orders.get(i));
                         ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
