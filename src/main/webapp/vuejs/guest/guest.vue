@@ -16,7 +16,7 @@
           <home v-if="isHome"
                 :showSignIn="showSignIn"/>
           <info v-if="isInfo"
-                :showSignIn="showSignIn"/>
+                :showHome="showHome"/>
           <sign-in v-if="isSignIn"
                    :error="text_page.form_component.input.error"
                    :showSignUp="showSignUp"
@@ -86,12 +86,7 @@ export default {
     }
   },
   created() {
-    // this.isChangePassword = true
-    if (this.text_page.form_component.error.login_not_found) {
-      this.isSignIn = true
-    } else {
       this.showIsInfo()
-    }
   },
   methods: {
     clearAllComponents() {
