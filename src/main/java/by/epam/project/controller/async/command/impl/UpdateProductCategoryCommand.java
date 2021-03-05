@@ -45,21 +45,13 @@ public class UpdateProductCategoryCommand implements Command {
             long idProduct = Long.parseLong(idProductString);
             long idCategory = Long.parseLong(idCategoryString);
 
-            Optional<Product> productOptional = productService.findProductById(idProduct);
-            if (productOptional.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
-
             Optional<Category> categoryOptional = categoryService.findCategoryById(idCategory);
             if (categoryOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
 
-            Category category = categoryOptional.get();
-
-            boolean isUpdated = productService.updateProductCategory(idProduct, category.getId());
+            boolean isUpdated = productService.updateProductCategory(idProduct, idCategory);
             if (!isUpdated) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }

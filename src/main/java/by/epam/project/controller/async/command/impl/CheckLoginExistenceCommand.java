@@ -36,9 +36,7 @@ public class CheckLoginExistenceCommand implements Command {
             }
 
             Optional<User> user = userService.findUserByLogin(login);
-            if (user.isPresent()) {
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
+            if (user.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
         } catch (ServiceException | IOException exp) {

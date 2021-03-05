@@ -67,8 +67,7 @@ public class SignUpCommand implements Command {
                     JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.EMAIL_NOT_UNIQUE, error, ErrorKey.ERROR);
                 }
 
-                String json = JsonUtil.jsonTreeToJson(jsonTree);
-                JsonUtil.writeJsonToResponse(response, json);
+                JsonUtil.writeJsonTreeToResponse(response, jsonTree);
                 return;
             }
 

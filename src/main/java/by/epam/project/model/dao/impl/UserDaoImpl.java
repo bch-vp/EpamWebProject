@@ -26,6 +26,7 @@ public class UserDaoImpl implements UserDao {
     private static final UserDaoImpl instance = new UserDaoImpl();
 
     private static final int CALCULUS_FROM_ONE = 1;
+    private static final int ONE_UPDATE = 1;
 
     private UserDaoImpl() {
     }
@@ -47,7 +48,7 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(7, user.getRole().ordinal() + CALCULUS_FROM_ONE);
             statement.setLong(8, user.getStatus().ordinal() + CALCULUS_FROM_ONE);
 
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -62,7 +63,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_STATUS_BY_LOGIN)) {
             statement.setLong(1, status.ordinal() + CALCULUS_FROM_ONE);
             statement.setString(2, login);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -93,7 +94,7 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SqlQuery.REMOVE_AVATAR_BY_LOGIN)) {
             statement.setString(1, login);
-            isRemoved = statement.executeUpdate() == 1;
+            isRemoved = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -108,7 +109,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PASSWORD_BY_LOGIN)) {
             statement.setString(1, password);
             statement.setString(2, login);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -127,7 +128,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, newUser.getTelephoneNumber());
             statement.setString(5, newUser.getEmail());
             statement.setString(6, oldLogin);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -142,7 +143,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_AVATAR_URL_BY_LOGIN)) {
             statement.setString(1, fileURL);
             statement.setString(2, login);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -253,7 +254,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_USER_STATUS)) {
             statement.setLong(1, idStatus);
             statement.setLong(2, idUser);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -379,7 +380,7 @@ public class UserDaoImpl implements UserDao {
                 statementInsertOrder.setBigDecimal(4, order.getTotalPrice());
                 statementInsertOrder.setLong(5, user.getId());
                 statementInsertOrder.setLong(6, order.getStatus().ordinal() + CALCULUS_FROM_ONE);
-                statementInsertOrder.executeUpdate();
+                isUpdated = statementInsertOrder.executeUpdate() == ONE_UPDATE;
                 ResultSet resultSet = statementInsertOrder.getGeneratedKeys();
                 resultSet.next();
                 long OrderGeneratedId = resultSet.getLong(1);
@@ -409,7 +410,7 @@ public class UserDaoImpl implements UserDao {
             logger.error(exp);
             throw new DaoException(exp);
         }
-        return true;
+        return isUpdated;
     }
 
     @Override
@@ -420,7 +421,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_ORDER_STATUS)) {
             statement.setLong(1, idStatus);
             statement.setLong(2, idOrder);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);

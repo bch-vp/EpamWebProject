@@ -26,6 +26,7 @@ public class ProductDaoImpl implements ProductDao {
 
     private static final ProductDaoImpl instance = new ProductDaoImpl();
     private static final int CALCULUS_FROM_ONE = 1;
+    private static final int ONE_UPDATE = 1;
 
     public static ProductDaoImpl getInstance() {
         return instance;
@@ -41,7 +42,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setBigDecimal(3, product.getPrice());
             statement.setLong(4, idCategory);
             statement.setLong(5, product.getStatus().ordinal() + CALCULUS_FROM_ONE);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -77,7 +78,7 @@ public class ProductDaoImpl implements ProductDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_IMAGE_URL)) {
             statement.setString(1, fileURL);
             statement.setString(2, name);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -116,7 +117,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setString(2, product.getInfo());
             statement.setBigDecimal(3, product.getPrice());
             statement.setLong(4, product.getId());
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -133,7 +134,7 @@ public class ProductDaoImpl implements ProductDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_CATEGORY)) {
             statement.setLong(1, idCategory);
             statement.setLong(2, idProduct);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -150,7 +151,7 @@ public class ProductDaoImpl implements ProductDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_STATUS)) {
             statement.setLong(1, idStatus);
             statement.setLong(2, idProduct);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);

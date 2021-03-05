@@ -25,10 +25,6 @@ public class LoadShoppingCartCommand implements Command {
 
         try {
             List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
-            if (shoppingCart == null) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
 
             String json = JsonUtil.toJson(DATA, shoppingCart);
             JsonUtil.writeJsonToResponse(response, json);

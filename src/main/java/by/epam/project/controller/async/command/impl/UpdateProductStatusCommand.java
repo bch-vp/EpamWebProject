@@ -44,19 +44,16 @@ public class UpdateProductStatusCommand implements Command {
             long idProduct = Long.parseLong(idProductString);
             long idStatus = Long.parseLong(idStatusString);
 
-            Optional<Product> productOptional = productService.findProductById(idProduct);
-            if (productOptional.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
-
             Optional<Product.Status> statusOptional = productService.findStatusById(idStatus);
             if (statusOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
 
-            productService.updateProductStatus(idProduct, idStatus);
+            boolean isUpdated = productService.updateProductStatus(idProduct, idStatus);
+            if (!isUpdated) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

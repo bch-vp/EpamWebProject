@@ -263,10 +263,11 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
         try {
             userPasswordOptional = userDao.findPasswordByLogin(login);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during checking is password equal Login's password", exp);
+            throw new ServiceException("Error during checking is password equal login's password", exp);
         }
 
-        return userPasswordOptional.isEmpty() || !EncryptPasswordUtil.encryption(password).equals(userPasswordOptional.get());
+        return userPasswordOptional.isPresent()
+                && !EncryptPasswordUtil.encryption(password).equals(userPasswordOptional.get());
     }
 
     @Override

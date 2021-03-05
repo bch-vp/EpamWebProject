@@ -39,13 +39,8 @@ public class UpdateClientStatusCommand implements Command {
             }
 
             long idUser = Long.parseLong(idUserString);
-            Optional<User> userOptional = userService.findUserById(idUser);
-            if (userOptional.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
-
             long idStatus = Long.parseLong(idStatusString);
+
             Optional<User.Status> categoryOptional = userService.findStatusById(idStatus);
             if (categoryOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);

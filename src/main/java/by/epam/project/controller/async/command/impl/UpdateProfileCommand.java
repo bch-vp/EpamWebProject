@@ -74,19 +74,14 @@ public class UpdateProfileCommand implements Command {
             }
 
             if (!jsonTree.path(ERROR).isEmpty()) {
-                String responseJson = JsonUtil.jsonTreeToJson(jsonTree);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.setContentType(CONTENT_TYPE);
-                response.setCharacterEncoding(ENCODING);
-                response.getWriter().write(responseJson);
+                JsonUtil.writeJsonTreeToResponse(response, jsonTree);
                 return;
             }
 
             User newUser = new User(login, firstName, lastName, telephoneNumber, email, role, user.getStatus());
             userService.updateUser(newUser, oldLogin);
             session.setAttribute(USER, newUser);
-            response.setStatus(HttpServletResponse.SC_OK);
-
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

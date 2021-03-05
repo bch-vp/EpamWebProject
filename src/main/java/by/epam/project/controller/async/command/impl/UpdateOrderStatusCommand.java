@@ -41,22 +41,16 @@ public class UpdateOrderStatusCommand implements Command {
             long idOrder = Long.parseLong(idOrderString);
             long idStatus = Long.parseLong(idStatusString);
 
-            Optional<Order> orderOptional = userService.findOrderById(idOrder);
-            if (orderOptional.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
-            Order order = orderOptional.get();
-
-
             Optional<Order.Status> statusOptional = userService.findOrderStatusById(idStatus);
             if (statusOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
-            Order.Status status = statusOptional.get();
 
-            userService.updateOrderStatusById(idOrder, idStatus);
+            boolean isUpdated = userService.updateOrderStatusById(idOrder, idStatus);
+            if (!isUpdated) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
         } catch (ServiceException | IOException exp) {
             logger.error(exp);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

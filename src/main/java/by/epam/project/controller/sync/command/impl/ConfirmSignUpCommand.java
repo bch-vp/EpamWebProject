@@ -27,12 +27,9 @@ public class ConfirmSignUpCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
         Router router = new Router(NOTIFICATION_SUCCESS);
 
         String login = request.getParameter(LOGIN);
-
-        session.setAttribute(SHOPPING_CART, new ArrayList<String>());
 
         try {
             userService.updateActivationStatusByLogin(login, User.Status.ACTIVATED);

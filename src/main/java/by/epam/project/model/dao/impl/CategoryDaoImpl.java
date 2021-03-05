@@ -22,6 +22,7 @@ public class CategoryDaoImpl implements CategoryDao {
     public static CategoryDaoImpl getInstance() {
         return instance;
     }
+    private static final int ONE_UPDATE = 1;
 
     private CategoryDaoImpl() {
     }
@@ -110,7 +111,7 @@ public class CategoryDaoImpl implements CategoryDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_CATEGORY_NAME_BY_ID)) {
             statement.setString(1, name);
             statement.setLong(2, id);
-            isUpdated = statement.executeUpdate() == 1;
+            isUpdated = statement.executeUpdate() == ONE_UPDATE;
         } catch (SQLException exp) {
             logger.error(exp);
             throw new DaoException(exp);
@@ -133,7 +134,7 @@ public class CategoryDaoImpl implements CategoryDao {
                 statementUpdating.setLong(1, id);
                 statementUpdating.executeUpdate();
                 statementRemoving.setLong(1, id);
-                isUpdated = statementRemoving.executeUpdate() == 1;
+                isUpdated = statementRemoving.executeUpdate() == ONE_UPDATE;
                 connection.commit();
             } catch (SQLException exp) {
                 logger.error(exp);

@@ -49,9 +49,10 @@ public class ChangePasswordByOldPassCommand implements Command {
             }
 
             boolean isEqual = userService.isPasswordEqualLoginPassword(login, oldPassword);
-            if (isEqual) {
+            if (!isEqual) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD, language);
+                JsonUtil.writeJsonToResponse(response,
+                        ERROR, ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD, language);
                 return;
             }
             userService.updatePasswordByLogin(login, newPassword);

@@ -60,7 +60,6 @@ public class SignInCommand implements Command {
                 return;
             }
 
-
             if (!user.getStatus().equals(User.Status.ACTIVATED)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToResponse(response, ERROR, ERROR_SIGN_IN_NOT_ACTIVATED, language);

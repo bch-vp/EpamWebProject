@@ -32,7 +32,6 @@ public class RemoveCategoryCommand implements Command {
         try {
             Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
             String idCategoryString = (String) requestParameters.get(ID);
-            String newName = (String) requestParameters.get(NAME);
 
             if (!ServiceValidator.isIdCorrect(idCategoryString)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

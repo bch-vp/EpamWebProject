@@ -99,7 +99,10 @@ public class JsonUtil {
         return rootNode;
     }
 
-    public static String jsonTreeToJson(JsonNode jsonNode) {
-        return jsonNode.toString();
+    public static void writeJsonTreeToResponse(HttpServletResponse response, JsonNode jsonNode) throws IOException {
+        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(ENCODING);
+        String json = jsonNode.toString();
+        writeJsonToResponse(response, json);
     }
 }
