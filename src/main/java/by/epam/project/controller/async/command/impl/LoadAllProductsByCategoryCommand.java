@@ -39,11 +39,11 @@ public class LoadAllProductsByCategoryCommand implements Command {
             User user = (User) session.getAttribute(USER);
 
             User.Role role = User.Role.GUEST;
-            if (user != null){
+            if (user != null) {
                 role = user.getRole();
             }
 
-            switch (role){
+            switch (role) {
                 case GUEST, CLIENT -> {
                     products = productService.findAllProductsByCategoryToClient(category);
 

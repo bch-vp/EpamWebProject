@@ -16,7 +16,8 @@ public class Product {
     private BigDecimal price;
     private String imageURL;
 
-    public Product(){}
+    public Product() {
+    }
 
     public Product(long id, String name, String info, Status status, BigDecimal price) {
         this.id = id;

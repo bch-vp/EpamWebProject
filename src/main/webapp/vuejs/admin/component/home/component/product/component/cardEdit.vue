@@ -11,10 +11,10 @@
     >
 
       <div style="padding-top: 15px">
-      <v-btn @click="showCardInfo"
-             absolute color="black" class="light-green--text text--accent-2"  fab right >
-        <v-icon >close</v-icon>
-      </v-btn>
+        <v-btn @click="showCardInfo"
+               absolute color="black" class="light-green--text text--accent-2" fab right>
+          <v-icon>close</v-icon>
+        </v-btn>
       </div>
 
       <v-file-input v-on:change="handleFileUpload()"
@@ -49,7 +49,8 @@
 
 <script>
 import EditInfo from 'vuejs/admin/component/home/component/product/component/component/editInfo.vue'
-import EditStatusAndLocation from 'vuejs/admin/component/home/component/product/component/component/editStatusAndLocation.vue'
+import EditStatusAndLocation
+  from 'vuejs/admin/component/home/component/product/component/component/editStatusAndLocation.vue'
 
 export default {
   props: ['showCardInfo', 'product'],
@@ -88,7 +89,7 @@ export default {
 
       this.axios({
         method: 'post',
-        url: '/ajax?command=upload_product_image&name='+this.product.name,
+        url: '/ajax?command=upload_product_image&name=' + this.product.name,
         headers: {
           'Content-Type': 'multipart/form-data'
         },

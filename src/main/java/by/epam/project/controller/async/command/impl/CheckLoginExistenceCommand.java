@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
 
 public class CheckLoginExistenceCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();

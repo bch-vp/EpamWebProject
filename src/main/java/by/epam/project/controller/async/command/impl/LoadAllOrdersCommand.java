@@ -64,20 +64,20 @@ public class LoadAllOrdersCommand implements Command {
 
                     ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
                     int size = orders.size();
-                    for(int i=0; i<size; i++){
+                    for (int i = 0; i < size; i++) {
                         JsonNode orderNode = arrayNodeOrders.path(i);
 
                         Optional<User> userOrderOptional = userService.findUserByOrderId(orders.get(i).getId());
                         User userOrder = userOrderOptional.get();
 
-                        ((ObjectNode)orderNode).put(LOGIN, userOrder.getLogin());
-                        ((ObjectNode)orderNode).put(TELEPHONE_NUMBER, userOrder.getTelephoneNumber());
-                        ((ObjectNode)orderNode).put(EMAIL, userOrder.getEmail());
+                        ((ObjectNode) orderNode).put(LOGIN, userOrder.getLogin());
+                        ((ObjectNode) orderNode).put(TELEPHONE_NUMBER, userOrder.getTelephoneNumber());
+                        ((ObjectNode) orderNode).put(EMAIL, userOrder.getEmail());
 
                         List<Product> products = productService.findAllOrderProducts(orders.get(i));
                         ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
 
-                        ((ObjectNode)orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
+                        ((ObjectNode) orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
                     }
                     json = arrayNodeOrders.toString();
                 }

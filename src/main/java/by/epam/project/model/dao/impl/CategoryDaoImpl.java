@@ -5,7 +5,6 @@ import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.CategoryDao;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.entity.Category;
-import by.epam.project.model.entity.Product;
 import by.epam.project.util.ResultSetUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +23,8 @@ public class CategoryDaoImpl implements CategoryDao {
         return instance;
     }
 
-    private CategoryDaoImpl(){}
+    private CategoryDaoImpl() {
+    }
 
     @Override
     public Category add(Category category) throws DaoException {

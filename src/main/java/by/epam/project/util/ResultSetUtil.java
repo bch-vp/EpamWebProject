@@ -14,7 +14,8 @@ import java.util.Date;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ResultSetUtil {
-    private ResultSetUtil(){}
+    private ResultSetUtil() {
+    }
 
     public static User toUser(ResultSet resultSet) throws DaoException {
         try {
@@ -29,7 +30,7 @@ public class ResultSetUtil {
             String statusName = resultSet.getString(STATUS);
             User.Status status = User.Status.valueOf(statusName);
 
-            User user =new User(id, login, firstName, lastName, telephoneNumber, email, role, status);
+            User user = new User(id, login, firstName, lastName, telephoneNumber, email, role, status);
             return user;
         } catch (SQLException exp) {
             throw new DaoException("Error while creating user from resultSet", exp);
@@ -41,7 +42,7 @@ public class ResultSetUtil {
             long id = resultSet.getLong(ID);
             String name = resultSet.getString(NAME);
 
-            Category category =new Category(id, name);
+            Category category = new Category(id, name);
             return category;
         } catch (SQLException exp) {
             throw new DaoException("Error while creating category from resultSet", exp);
@@ -58,7 +59,7 @@ public class ResultSetUtil {
             BigDecimal price = resultSet.getBigDecimal(PRICE);
             String imageURL = resultSet.getString(IMAGE_URL);
 
-            Product product =new Product(id, name, info, status, price, imageURL);
+            Product product = new Product(id, name, info, status, price, imageURL);
             return product;
         } catch (SQLException exp) {
             throw new DaoException("Error while creating product from resultSet", exp);
@@ -75,7 +76,7 @@ public class ResultSetUtil {
             Order.Status status = Order.Status.valueOf(statusName);
             BigDecimal totalPrice = resultSet.getBigDecimal(TOTAL_PRICE);
 
-            Order order =new Order(id, comment, address, dateCreateAt, totalPrice, status);
+            Order order = new Order(id, comment, address, dateCreateAt, totalPrice, status);
             return order;
         } catch (SQLException exp) {
             throw new DaoException("Error while creating order from resultSet", exp);

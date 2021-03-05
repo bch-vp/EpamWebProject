@@ -181,22 +181,22 @@ export default {
           id: String(this.category.id)
         }
       }).then(response => {
-        if(this.category.id === this.$store.state.App.selectCategory.id) {
-          this.$store.state.App.products =[]
-        }else if(this.$store.state.App.selectCategory.id === 1){
+            if (this.category.id === this.$store.state.App.selectCategory.id) {
+              this.$store.state.App.products = []
+            } else if (this.$store.state.App.selectCategory.id === 1) {
               this.axios({
                 method: 'post',
                 url: '/ajax?command=load_all_products_by_category',
-                data:{
+                data: {
                   name: this.$store.state.App.selectCategory.name
                 }
               }).then(response => {
                     var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
-                    this.$store.commit('set_products',array)
+                    this.$store.commit('set_products', array)
                   },
                   ex => {
                   })
-          }
+            }
             this.$store.state.App.categories.splice(this.$store.state.App.categories.indexOf(this.category), 1)
           },
           ex => {

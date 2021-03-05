@@ -6,19 +6,15 @@ import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.FileUtil;
-import by.epam.project.util.JsonUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.URL;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 

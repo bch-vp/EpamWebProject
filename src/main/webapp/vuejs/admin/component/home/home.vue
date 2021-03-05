@@ -72,11 +72,11 @@
                         <v-row justify="center" row>
                           <v-col>
                             <div align="center">
-                            <v-list style="width: 80%">
-                              <div v-for="user in $store.state.App.users" :key="user.id">
-                                <User :user="user"/>
-                              </div>
-                            </v-list>
+                              <v-list style="width: 80%">
+                                <div v-for="user in $store.state.App.users" :key="user.id">
+                                  <User :user="user"/>
+                                </div>
+                              </v-list>
                             </div>
                           </v-col>
                         </v-row>
@@ -310,7 +310,7 @@ export default {
         this.oldSelectCategory = this.$store.state.App.selectCategory
         this.page = 1
         this.oldPage = 1
-      } else if(this.oldSelectSort !== this.ordersValue){
+      } else if (this.oldSelectSort !== this.ordersValue) {
         this.oldSelectSort = this.ordersValue
         this.page = 1
         this.oldPage = 1

@@ -1,6 +1,6 @@
 package by.epam.project.controller.filter;
 
-import by.epam.project.model.typerole.RolePermission;
+import by.epam.project.controller.filter.typerole.RolePermission;
 import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.model.entity.User;
 
@@ -8,7 +8,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.Set;
 
@@ -17,7 +16,8 @@ import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class CommandRoleSecurityFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig){}
+    public void init(FilterConfig filterConfig) {
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -27,7 +27,7 @@ public class CommandRoleSecurityFilter implements Filter {
         HttpSession session = request.getSession();
 
         String commandName = request.getParameter(COMMAND);
-        if(commandName == null){
+        if (commandName == null) {
             request.getRequestDispatcher(PagePath.ERROR_404).forward(servletRequest, servletResponse);
             return;
         }

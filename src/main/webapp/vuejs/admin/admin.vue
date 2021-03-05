@@ -21,11 +21,11 @@
           width="100%"
           class="mx-auto light-green--text text--accent-2 text-center"
       >
-       <v-divider></v-divider>
+        <v-divider></v-divider>
         <v-card-text class="light-green--text text--accent-2">
           Designed and Developed by&nbsp
           <span class=" light-green--text text--accent-2"
-               style="font-size: 20px; font-family: 'Monoton', cursive; ">
+                style="font-size: 20px; font-family: 'Monoton', cursive; ">
              ILYA MURIN
         </span>
         </v-card-text>

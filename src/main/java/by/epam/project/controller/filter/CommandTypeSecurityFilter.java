@@ -11,7 +11,8 @@ public class CommandTypeSecurityFilter implements Filter {
     private static final String PATH = "/ajax, /do";
 
     @Override
-    public void init(FilterConfig filterConfig){}
+    public void init(FilterConfig filterConfig) {
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
@@ -21,7 +22,7 @@ public class CommandTypeSecurityFilter implements Filter {
 
         String requestPath = request.getRequestURI();
 
-        if(!PATH.contains(requestPath)){
+        if (!PATH.contains(requestPath)) {
             request.getRequestDispatcher(PagePath.ERROR_404).forward(servletRequest, servletResponse);
             return;
         }

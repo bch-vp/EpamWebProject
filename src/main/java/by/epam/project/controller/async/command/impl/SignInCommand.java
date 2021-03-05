@@ -1,12 +1,12 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.model.entity.Product;
-import by.epam.project.model.service.UserService;
-import by.epam.project.util.JsonUtil;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
+import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,14 +54,14 @@ public class SignInCommand implements Command {
             }
 
             User user = userOptional.get();
-            if(user.getStatus().equals(User.Status.BANNED)){
+            if (user.getStatus().equals(User.Status.BANNED)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToResponse(response, ERROR, ERROR_SIGN_IN_BANNED, language);
                 return;
             }
 
 
-            if(!user.getStatus().equals(User.Status.ACTIVATED)){
+            if (!user.getStatus().equals(User.Status.ACTIVATED)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToResponse(response, ERROR, ERROR_SIGN_IN_NOT_ACTIVATED, language);
                 return;

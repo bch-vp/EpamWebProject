@@ -1,7 +1,6 @@
 package by.epam.project.model.dao;
 
 import by.epam.project.exception.DaoException;
-import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 

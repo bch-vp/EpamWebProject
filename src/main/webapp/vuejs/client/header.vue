@@ -11,28 +11,28 @@
         <v-icon>home</v-icon>
       </v-btn>
       |
-          <v-col cols="2">
-            <v-select
-                style="padding-left: 1em"
-                v-model="selectCategory"
-                v-bind:hint=text_page.form_component.button.choose_category
-                :items="$store.state.App.categories"
-                item-text="name"
-                :disabled="!$store.state.App.isHome"
-                persistent-hint
-                return-object
-                single-line
-            ></v-select>
-          </v-col>
-          <v-col cols="3">
-            <v-text-field
-                :disabled="!$store.state.App.isHome"
-                v-model="$store.state.App.search"
-                v-bind:label=text_page.form_component.button.search
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
+      <v-col cols="2">
+        <v-select
+            style="padding-left: 1em"
+            v-model="selectCategory"
+            v-bind:hint=text_page.form_component.button.choose_category
+            :items="$store.state.App.categories"
+            item-text="name"
+            :disabled="!$store.state.App.isHome"
+            persistent-hint
+            return-object
+            single-line
+        ></v-select>
+      </v-col>
+      <v-col cols="3">
+        <v-text-field
+            :disabled="!$store.state.App.isHome"
+            v-model="$store.state.App.search"
+            v-bind:label=text_page.form_component.button.search
+            outlined
+            dense
+        ></v-text-field>
+      </v-col>
 
 
       <v-spacer></v-spacer>
@@ -46,13 +46,13 @@
         {{ text_page.header.role }}
       </v-btn>
       |
-            <v-btn v-on:click="$store.commit('show_shoppingCart')" :disabled="$store.state.App.isShoppingCart" rounded
-                   text>
-              <v-icon>
-                shopping_cart
-              </v-icon>
-              &nbsp{{ $store.state.App.shoppingCart.length }}
-            </v-btn>
+      <v-btn v-on:click="$store.commit('show_shoppingCart')" :disabled="$store.state.App.isShoppingCart" rounded
+             text>
+        <v-icon>
+          shopping_cart
+        </v-icon>
+        &nbsp{{ $store.state.App.shoppingCart.length }}
+      </v-btn>
       |
       <v-menu offset-y style="margin-left: 3%; margin-right: 3%">
         <template v-slot:activator="{ on, attrs }">
@@ -110,7 +110,7 @@ export default {
         data: this.selectCategory
       }).then(response => {
             var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
-            this.$store.commit('set_products',array)
+            this.$store.commit('set_products', array)
           },
           ex => {
           })
@@ -130,17 +130,17 @@ export default {
 
     })
 
-      this.axios({
-        method: 'post',
-        url: '/ajax?command=load_profile_image',
-      }).then(resp => {
-        this.$store.commit('set_isAvatarExists', true)
-        this.$store.commit('change_avatarUrl', resp.data.url)
-      }, ex => {
-        console.log(ex.response.data.url);
-        this.$store.commit('set_isAvatarExists', false)
-        this.$store.commit('change_avatarUrl', '')
-      })
+    this.axios({
+      method: 'post',
+      url: '/ajax?command=load_profile_image',
+    }).then(resp => {
+      this.$store.commit('set_isAvatarExists', true)
+      this.$store.commit('change_avatarUrl', resp.data.url)
+    }, ex => {
+      console.log(ex.response.data.url);
+      this.$store.commit('set_isAvatarExists', false)
+      this.$store.commit('change_avatarUrl', '')
+    })
 
     this.axios({
       method: 'post',

@@ -44,7 +44,7 @@ class DatabaseConfig {
         boolean isDevMode = Boolean.parseBoolean(System.getenv(IS_DEV_MODE));
 
         driverName = properties.getProperty(DRIVER);
-        if(isDevMode) {
+        if (isDevMode) {
             url = properties.getProperty(LOCAL_URL);
             username = properties.getProperty(LOCAL_USER);
             password = properties.getProperty(LOCAL_PASSWORD);

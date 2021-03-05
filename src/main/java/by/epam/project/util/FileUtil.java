@@ -13,7 +13,8 @@ public class FileUtil {
     private static final String OK = "ok";
     private static final String RESULT = "result";
 
-    private FileUtil(){}
+    private FileUtil() {
+    }
 
     public static String save(FileItem file) throws IOException {
         byte[] fileByte = file.get();

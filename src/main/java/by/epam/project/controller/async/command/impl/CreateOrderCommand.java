@@ -15,9 +15,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
@@ -33,7 +31,7 @@ public class CreateOrderCommand implements Command {
 
         User user = (User) session.getAttribute(USER);
         List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
-        if(shoppingCart.isEmpty()){
+        if (shoppingCart.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }

@@ -1,8 +1,8 @@
 package by.epam.project.controller.sync.command.impl;
 
+import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
-import by.epam.project.controller.parameter.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 

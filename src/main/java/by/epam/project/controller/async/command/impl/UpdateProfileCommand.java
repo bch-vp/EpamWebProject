@@ -1,8 +1,8 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.ContentKey;
+import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

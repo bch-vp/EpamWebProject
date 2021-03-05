@@ -199,12 +199,12 @@ export default {
                   info: this.info,
                   price: this.price,
                   imageURL: response.data.url,
-                  status:'ACTIVE'
+                  status: 'ACTIVE'
                 }
-                if(this.$store.state.App.selectCategory.id === this.selectCategory.id) {
+                if (this.$store.state.App.selectCategory.id === this.selectCategory.id) {
                   this.$store.commit('add_productToProducts', newProduct)
                   var array = this.$store.state.App.products.sort((a, b) => (a.id < b.id) ? 1 : -1)
-                  this.$store.commit('set_products',array)
+                  this.$store.commit('set_products', array)
                 }
                 this.await3Seconds()
                 this.reset()

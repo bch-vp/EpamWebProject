@@ -163,7 +163,7 @@ export default {
               this.isError = false
               this.isSuccess = true
 
-          this.await3Seconds()
+              this.await3Seconds()
             },
             ex => {
               this.reset()
@@ -172,7 +172,7 @@ export default {
             })
       }
     },
-    async await3Seconds(){
+    async await3Seconds() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       this.isSuccess = false
     },

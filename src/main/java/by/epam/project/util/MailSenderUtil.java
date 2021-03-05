@@ -4,16 +4,10 @@ import by.epam.project.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.Transport;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.MessagingException;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
@@ -41,7 +35,8 @@ public class MailSenderUtil {
         properties.put("mail.smtp.starttls.enable", "true");
     }
 
-    private MailSenderUtil(){}
+    private MailSenderUtil() {
+    }
 
     public static void sendMessage(String subject, String body, String email) {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
@@ -56,7 +51,7 @@ public class MailSenderUtil {
             message.setFrom(new InternetAddress("epam.web.project@gmail.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(subject, ENCODING);
-            message.setText(body,  ENCODING);
+            message.setText(body, ENCODING);
             Transport.send(message);
         } catch (MessagingException exp) {
             logger.error("Error sending a message", exp);

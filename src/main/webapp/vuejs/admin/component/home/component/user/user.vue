@@ -2,16 +2,16 @@
   <v-list-item>
     <v-list-item-action>
       <v-list-item-title>ID:
-      <v-btn
-          style="margin-left: 1em"
-          fab
-          small
-          depressed
-          color="black"
-          class="light-green--text text--accent-2"
-      >
-        {{ user.id }}
-      </v-btn>
+        <v-btn
+            style="margin-left: 1em"
+            fab
+            small
+            depressed
+            color="black"
+            class="light-green--text text--accent-2"
+        >
+          {{ user.id }}
+        </v-btn>
       </v-list-item-title>
     </v-list-item-action>
 
@@ -29,7 +29,7 @@
     <v-list-item-content v-if="!spinnerVisible && !isError">
       <v-list-item-title>
         <div align="left" style="padding-left: 1em">
-          {{text_page.form_component.input.login.name}}: <strong> {{ user.login }}</strong>
+          {{ text_page.form_component.input.login.name }}: <strong> {{ user.login }}</strong>
         </div>
       </v-list-item-title>
     </v-list-item-content>
@@ -43,11 +43,11 @@
       <v-row>
         <v-btn @click="submit(user.id, 1, 'ACTIVATED')" style="margin-right: 2em" outlined text
                :disabled="user.status === 'ACTIVATED'">
-          {{text_page.form_component.button.activated}}
+          {{ text_page.form_component.button.activated }}
         </v-btn>
         <v-btn @click="submit(user.id,3, 'BANNED')" style="margin-right: 2em" outlined text
                :disabled="user.status === 'BANNED'">
-          {{text_page.form_component.button.banned}}
+          {{ text_page.form_component.button.banned }}
         </v-btn>
       </v-row>
     </v-list-item-action>
@@ -88,19 +88,19 @@ export default {
             return Promise.reject(error);
           }
       );
-        this.axios({
-          method: 'post',
-          url: '/ajax?command=update_client_status',
-          data: {
-            id_user: String(id_user),
-            id_status: String(id_status)
-          }
-        }).then(response => {
-              this.user.status = status
-            },
-            ex => {
-              this.isError = true
-            })
+      this.axios({
+        method: 'post',
+        url: '/ajax?command=update_client_status',
+        data: {
+          id_user: String(id_user),
+          id_status: String(id_status)
+        }
+      }).then(response => {
+            this.user.status = status
+          },
+          ex => {
+            this.isError = true
+          })
     },
     async await3Seconds() {
       await new Promise(resolve => setTimeout(resolve, 1000));

@@ -8,16 +8,13 @@ import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.EncryptPasswordUtil;
 import by.epam.project.validator.ServiceValidator;
-import org.apache.commons.fileupload.FileItem;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
-import static by.epam.project.controller.parameter.ParameterKey.NOT_UNIQUE;
 
 
 public class UserServiceImpl implements by.epam.project.model.service.UserService {
@@ -49,7 +46,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     public boolean updateActivationStatusByLogin(String login, User.Status status) throws ServiceException {
         boolean isUpdated;
 
-        if(!ServiceValidator.isLoginCorrect(login)){
+        if (!ServiceValidator.isLoginCorrect(login)) {
             return false;
         }
 
@@ -169,7 +166,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
 
     @Override
     public List<User> findAllUsers() throws ServiceException {
-       List<User> users;
+        List<User> users;
 
         try {
             users = userDao.findAllUsers();
@@ -358,7 +355,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public boolean createOrder(User user,Order order, List<Product> products) throws ServiceException  {
+    public boolean createOrder(User user, Order order, List<Product> products) throws ServiceException {
         boolean isUpdated;
 
         BigDecimal totalPrice = products.stream()

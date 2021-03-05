@@ -17,7 +17,8 @@ import static by.epam.project.controller.parameter.ParameterKey.USER;
 public class EmptyCommandRoleSecurityFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig){}
+    public void init(FilterConfig filterConfig) {
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
@@ -27,7 +28,7 @@ public class EmptyCommandRoleSecurityFilter implements Filter {
         HttpSession session = request.getSession();
 
         String commandName = request.getParameter(COMMAND);
-        if(commandName != null){
+        if (commandName != null) {
             chain.doFilter(servletRequest, servletResponse);
             return;
         }

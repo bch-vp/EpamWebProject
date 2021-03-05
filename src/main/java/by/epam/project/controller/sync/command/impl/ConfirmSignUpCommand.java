@@ -3,7 +3,6 @@ package by.epam.project.controller.sync.command.impl;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
@@ -12,9 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static by.epam.project.controller.parameter.PagePath.ERROR_500;
 import static by.epam.project.controller.parameter.PagePath.NOTIFICATION_SUCCESS;

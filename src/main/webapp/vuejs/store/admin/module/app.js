@@ -1,20 +1,20 @@
 export default {
     state: {
-        isHome:false,
-        IsHome_users:false,
-        IsHome_products:false,
-        IsHome_addProduct:false,
-        IsHome_orders:false,
+        isHome: false,
+        IsHome_users: false,
+        IsHome_products: false,
+        IsHome_addProduct: false,
+        IsHome_orders: false,
 
-        isShoppingCart:false,
-        isProfile:false,
+        isShoppingCart: false,
+        isProfile: false,
 
         categories: [],
         selectCategory: undefined,
 
         users: [],
         products: [],
-        shoppingCart:[],
+        shoppingCart: [],
         userOrders: [],
 
         search: ''
@@ -45,51 +45,51 @@ export default {
             state.isProfile = false
         },
 
-        set_userOrders(state, data){
+        set_userOrders(state, data) {
             state.userOrders = data
         },
-        add_orderToUserOrders(state, data){
+        add_orderToUserOrders(state, data) {
             state.userOrders.push(data)
         },
-        remove_orderFromUserOrders(state, data){
+        remove_orderFromUserOrders(state, data) {
             state.userOrders.splice(state.userOrders.indexOf(data), 1)
         },
 
-        set_categories(state, data){
-            state.categories=data
+        set_categories(state, data) {
+            state.categories = data
         },
-        set_selectCategory(state, data){
-            state.selectCategory=data
+        set_selectCategory(state, data) {
+            state.selectCategory = data
         },
 
 
-        set_users(state, data){
-            state.users=data
+        set_users(state, data) {
+            state.users = data
         },
-        add_users(state, data){
+        add_users(state, data) {
             state.users.push(data)
         },
-        remove_users(state, data){
+        remove_users(state, data) {
             state.users.splice(state.users.indexOf(data), 1)
         },
 
-        set_products(state, data){
-            state.products=data
+        set_products(state, data) {
+            state.products = data
         },
-        add_productToProducts(state, data){
+        add_productToProducts(state, data) {
             state.products.push(data)
         },
-        remove_productToProducts(state, data){
+        remove_productToProducts(state, data) {
             state.products.splice(state.products.indexOf(data), 1)
         },
 
-        set_shoppingCart(state, data){
-            state.shoppingCart=data
+        set_shoppingCart(state, data) {
+            state.shoppingCart = data
         },
-        add_productToShoppingCart(state, data){
+        add_productToShoppingCart(state, data) {
             state.shoppingCart.push(data)
         },
-        remove_productToShoppingCart(state, data){
+        remove_productToShoppingCart(state, data) {
             state.shoppingCart.splice(state.shoppingCart.indexOf(data), 1)
         },
     }

@@ -7,7 +7,8 @@
                  color="light-green accent-2" class="white--text" text>
             <v-icon>
               delete_outline
-            </v-icon>{{text_page.form_component.button.delete_avatar}}
+            </v-icon>
+            {{ text_page.form_component.button.delete_avatar }}
           </v-btn>
         </div>
       </v-col>
@@ -23,7 +24,7 @@
       <v-col>
         <div align="right">
           <v-btn @click="showProfileEdit" dark outlined color="light-green accent-2" class="white--text" text>
-            {{text_page.form_component.button.edit_profile_info}}&nbsp
+            {{ text_page.form_component.button.edit_profile_info }}&nbsp
             <v-icon>
               edit
             </v-icon>
@@ -32,19 +33,19 @@
       </v-col>
     </v-row>
 
-    <div style="color: red; padding-bottom: 1em">{{error}}</div>
+    <div style="color: red; padding-bottom: 1em">{{ error }}</div>
 
-    <v-row >
+    <v-row>
       <v-col>
         <div align="center">
           <img v-if="$store.state.Profile.isAvatarExists" :src="$store.state.Profile.avatarUrl" class="profile-image"/>
           <div v-if="!$store.state.Profile.isAvatarExists" class="profile-standard-image"/>
-            <v-file-input v-on:change="handleFileUpload()"
-                          v-model="file"
-                          dark
-                          ref="file"
-                          prepend-icon="add_a_photo">
-            </v-file-input>
+          <v-file-input v-on:change="handleFileUpload()"
+                        v-model="file"
+                        dark
+                        ref="file"
+                        prepend-icon="add_a_photo">
+          </v-file-input>
         </div>
       </v-col>
       <v-col>
@@ -101,11 +102,11 @@ export default {
     return {
       text_page: text_page,
       file: undefined,
-      error:undefined,
+      error: undefined,
     }
   },
   methods: {
-    handleFileDelete(){
+    handleFileDelete() {
       this.axios({
         method: 'post',
         url: '/ajax?command=remove_profile_image',
@@ -139,7 +140,6 @@ export default {
       })
 
 
-
       // this.axios({
       //   method: 'post',
       //   url: '/ajax?command=load_profile_image',
@@ -169,9 +169,10 @@ export default {
   background-size: cover;
   position: relative;
 }
+
 .profile-standard-image {
   background-color: black;
-  border: 1px solid ;
+  border: 1px solid;
   border-color: white;
   height: 14em;
   width: 15em;

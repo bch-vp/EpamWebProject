@@ -34,13 +34,13 @@ public class RemoveProductFromShoppingCartCommand implements Command {
             String productName = (String) requestParameters.get(NAME);
 
             Optional<Product> productOptional = productService.findProductByName(productName);
-            if(productOptional.isEmpty()){
+            if (productOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
 
             Product product = productOptional.get();
-            if(!shoppingCart.contains(product)){
+            if (!shoppingCart.contains(product)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }

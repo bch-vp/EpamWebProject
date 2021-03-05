@@ -12,7 +12,7 @@ public class LoadProductImageByNameCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-       throw  new UnsupportedOperationException();
-       // todo
+        throw new UnsupportedOperationException();
+        // todo
     }
 }

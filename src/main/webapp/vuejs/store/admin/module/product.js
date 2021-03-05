@@ -1,10 +1,10 @@
 export default {
     state: {
-        isCardEdit:false,
+        isCardEdit: false,
     },
     mutations: {
-        set_isCardEdit(state, data){
-            state.isCardEdit=data
+        set_isCardEdit(state, data) {
+            state.isCardEdit = data
         },
     }
 }

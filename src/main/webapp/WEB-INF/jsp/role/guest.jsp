@@ -48,7 +48,7 @@
                 }
             }
         },
-        page_info:{
+        page_info: {
             pages: "<fmt:message key="page_info.pages"/>",
             products: "<fmt:message key="page_info.products"/>",
             total_price: "<fmt:message key="page_info.total_price"/>"
@@ -69,7 +69,7 @@
                     name: "<fmt:message key="form_component.input.password"/>",
                     error: {
                         required: "<fmt:message key="form_component.input.password.error.required"/>",
-                        valid_characters:"<fmt:message key="form_component.input.password.error.valid_characters"/>",
+                        valid_characters: "<fmt:message key="form_component.input.password.error.valid_characters"/>",
                         min_length: "<fmt:message key="form_component.input.password.error.min_length"/>",
                         max_length: "<fmt:message key="form_component.input.password.error.max_length"/>",
                         spaces_prohibited: "<fmt:message key="form_component.input.password.error.spaces_prohibited"/>",
@@ -82,7 +82,7 @@
                     name: "<fmt:message key="form_component.input.old_password"/>",
                     error: {
                         required: "<fmt:message key="form_component.input.old_password.error.required"/>",
-                        valid_characters:"<fmt:message key="form_component.input.old_password.error.valid_characters"/>",
+                        valid_characters: "<fmt:message key="form_component.input.old_password.error.valid_characters"/>",
                         min_length: "<fmt:message key="form_component.input.old_password.error.min_length"/>",
                         max_length: "<fmt:message key="form_component.input.old_password.error.max_length"/>",
                         spaces_prohibited: "<fmt:message key="form_component.input.old_password.error.spaces_prohibited"/>",
@@ -95,7 +95,7 @@
                     name: "<fmt:message key="form_component.input.new_password"/>",
                     error: {
                         required: "<fmt:message key="form_component.input.new_password.error.required"/>",
-                        valid_characters:"<fmt:message key="form_component.input.new_password.error.valid_characters"/>",
+                        valid_characters: "<fmt:message key="form_component.input.new_password.error.valid_characters"/>",
                         min_length: "<fmt:message key="form_component.input.new_password.error.min_length"/>",
                         max_length: "<fmt:message key="form_component.input.new_password.error.max_length"/>",
                         spaces_prohibited: "<fmt:message key="form_component.input.new_password.error.spaces_prohibited"/>",

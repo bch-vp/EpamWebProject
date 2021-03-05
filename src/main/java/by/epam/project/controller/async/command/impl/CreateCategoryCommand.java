@@ -3,7 +3,6 @@ package by.epam.project.controller.async.command.impl;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Category;
-import by.epam.project.model.entity.Product;
 import by.epam.project.model.service.CategoryService;
 import by.epam.project.model.service.impl.CategoryServiceImpl;
 import by.epam.project.util.JsonUtil;
@@ -15,16 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ContentKey.ERROR_NAME_NOT_UNIQUE;
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
+import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
-public class CreateCategoryCommand  implements Command {
+public class CreateCategoryCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final CategoryService categoryService = CategoryServiceImpl.getInstance();
@@ -45,7 +44,7 @@ public class CreateCategoryCommand  implements Command {
             }
 
             Optional<Category> categoryOptional = categoryService.findCategoryByName(name);
-            if(categoryOptional.isPresent()){
+            if (categoryOptional.isPresent()) {
                 JsonUtil.writeJsonToResponse(response, ERROR, ERROR_NAME_NOT_UNIQUE, language);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;

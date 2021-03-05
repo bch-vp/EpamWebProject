@@ -1,16 +1,14 @@
 package by.epam.project.controller.sync.command.impl;
 
+import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.controller.sync.Router;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.controller.sync.command.CommandType;
-import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.model.entity.User;
 import by.epam.project.util.URLUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import java.util.Set;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 

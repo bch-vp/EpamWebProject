@@ -47,7 +47,7 @@ public class RemoveCategoryCommand implements Command {
             }
 
             Category category = categoryOptional.get();
-            if(category.getName().equals(OTHERS)){
+            if (category.getName().equals(OTHERS)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }

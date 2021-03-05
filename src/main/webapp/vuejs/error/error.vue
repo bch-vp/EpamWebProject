@@ -10,19 +10,20 @@
                   <v-container>
                     <v-row justify="center" style="margin-top: 3em; margin-bottom: 3em">
                   <span class="text-h2 center" style="text-align: center; font-family: 'Monoton', cursive;">
-                    {{text_page.error_component.error.title}}
+                    {{ text_page.error_component.error.title }}
                   </span>
                     </v-row>
                     <br>
                     <v-row justify="center">
                   <span class="text-h6 font-weight-regular center" style="text-align: center; padding-bottom: 3em;">
-                    {{text_page.error_component.error.text}}
+                    {{ text_page.error_component.error.text }}
                   </span>
                     </v-row>
                     <v-row justify="center">
-                      <v-btn href="/do" class="light-green--text text--accent-2" style="margin-bottom: 3em" text outlined rounded>
-                    <span  style="" class="text-h6 center">
-                      {{text_page.error_component.error.button}}
+                      <v-btn href="/do" class="light-green--text text--accent-2" style="margin-bottom: 3em" text
+                             outlined rounded>
+                    <span style="" class="text-h6 center">
+                      {{ text_page.error_component.error.button }}
                     </span>
                       </v-btn>
                     </v-row>

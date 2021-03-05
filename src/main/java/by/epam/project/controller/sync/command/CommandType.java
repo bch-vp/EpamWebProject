@@ -16,6 +16,7 @@ public enum CommandType {
         this.command = command;
 
     }
+
     public Command getCommand() {
         return command;
     }

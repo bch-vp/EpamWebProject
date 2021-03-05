@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean add(Product product, long idCategory) throws ServiceException {
-       boolean isUpdated;
+        boolean isUpdated;
 
         try {
             isUpdated = productDao.add(product, idCategory);

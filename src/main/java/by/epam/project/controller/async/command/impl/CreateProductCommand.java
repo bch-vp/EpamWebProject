@@ -50,7 +50,7 @@ public class CreateProductCommand implements Command {
             }
 
             Optional<Product> productOptional = productService.findProductByName(name);
-            if(productOptional.isPresent()){
+            if (productOptional.isPresent()) {
                 JsonUtil.writeJsonToResponse(response, ERROR, ERROR_NAME_NOT_UNIQUE, language);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;

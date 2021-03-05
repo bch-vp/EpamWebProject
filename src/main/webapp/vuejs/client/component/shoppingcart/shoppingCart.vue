@@ -16,7 +16,7 @@
                   <v-container>
                     <v-row>
                       <div class="col-md-4" v-if="isShoppingCart" v-for="product in this.$store.state.App.shoppingCart"
-                      :key="product.id">
+                           :key="product.id">
                         <ProductCard :product="product"/>
                       </div>
                       <div v-if="isOrder">
@@ -44,41 +44,41 @@
           <v-row style="padding-top: 2em;">
             <v-col cols="3">
               <span v-if="isShoppingCart" style="color: white; padding-left: 5px" class="text-h5">
-                {{text_page.page_info.total_price}}:&nbsp {{ calculateOrderPrice }}
+                {{ text_page.page_info.total_price }}:&nbsp {{ calculateOrderPrice }}
                 <span class="light-green--text text--accent-2">
                   $
                 </span>
               </span>
             </v-col>
             <v-col cols="6">
-                <div align="center">
-                  <v-btn @click="show_isShoppingCart" :disabled="isShoppingCart" dark rounded color="light-green accent-2"
-                         class="text-h6 white--text" text>
-                    <v-icon>
-                      shopping_cart
-                    </v-icon>
-                  </v-btn>
+              <div align="center">
+                <v-btn @click="show_isShoppingCart" :disabled="isShoppingCart" dark rounded color="light-green accent-2"
+                       class="text-h6 white--text" text>
+                  <v-icon>
+                    shopping_cart
+                  </v-icon>
+                </v-btn>
                 <span v-if="$store.state.App.shoppingCart.length !== 0" style="color: white;" class="text-h6">
                   |
                 </span>
-                    <v-btn @click="show_isOrder" v-if="$store.state.App.shoppingCart.length !== 0"
-                           :disabled="isOrder" dark rounded color="light-green accent-2"
-                           class="text-h6 white--text" text>
-                      {{ text_page.form_component.button.order }}
-                    </v-btn>
-                  <span style="color: white;" class="text-h6">
+                <v-btn @click="show_isOrder" v-if="$store.state.App.shoppingCart.length !== 0"
+                       :disabled="isOrder" dark rounded color="light-green accent-2"
+                       class="text-h6 white--text" text>
+                  {{ text_page.form_component.button.order }}
+                </v-btn>
+                <span style="color: white;" class="text-h6">
                   |
                 </span>
-                  <v-btn @click="show_isShowOrders" :disabled="isShowOrders" dark rounded color="light-green accent-2"
-                         class="text-h6 white--text" text>
-                    {{ text_page.form_component.button.orders }}
-                  </v-btn>
-                </div>
+                <v-btn @click="show_isShowOrders" :disabled="isShowOrders" dark rounded color="light-green accent-2"
+                       class="text-h6 white--text" text>
+                  {{ text_page.form_component.button.orders }}
+                </v-btn>
+              </div>
             </v-col>
             <v-col cols="3">
               <div v-if="isShoppingCart" align="right">
                 <span style="color: white; padding-left: 5px" class="text-h5">
-                {{text_page.page_info.products}}:&nbsp {{ $store.state.App.shoppingCart.length }}
+                {{ text_page.page_info.products }}:&nbsp {{ $store.state.App.shoppingCart.length }}
               </span>
               </div>
             </v-col>
@@ -102,34 +102,34 @@ export default {
   },
   data() {
     return {
-      isOrder:false,
-      isShowOrders:false,
-      isShoppingCart:true,
+      isOrder: false,
+      isShowOrders: false,
+      isShoppingCart: true,
 
-      text_page:text_page
+      text_page: text_page
     }
   },
-  methods:{
-    clear_allComponents(){
+  methods: {
+    clear_allComponents() {
       this.isOrder = false
       this.isShowOrders = false
       this.isShoppingCart = false
     },
-    show_isShoppingCart(){
+    show_isShoppingCart() {
       this.clear_allComponents()
       this.isShoppingCart = true
     },
-    show_isOrder(){
+    show_isOrder() {
       this.clear_allComponents()
       this.isOrder = true
     },
-    show_isShowOrders(){
+    show_isShowOrders() {
       this.clear_allComponents()
-      this.isShowOrders =true
+      this.isShowOrders = true
     }
   },
-  computed:{
-    calculateOrderPrice(){
+  computed: {
+    calculateOrderPrice() {
       var orderPrice = 0
       this.$store.state.App.shoppingCart.forEach(function (product) {
         orderPrice += product.price

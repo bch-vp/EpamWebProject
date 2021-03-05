@@ -14,7 +14,7 @@
           <div v-if="hover"
                class="d-flex transition-fast-in-fast-out light-green accent-2 v-card--reveal display-3 black--text"
                style="height: 100%;">
-            ${{product.price}}
+            ${{ product.price }}
           </div>
         </v-expand-transition>
 
@@ -22,18 +22,18 @@
       <v-card-text class="pt-6" style="position: relative; background-color: grey">
 
         <v-btn @click="showCardEdit"
-               absolute color="black" class="light-green--text text--accent-2" fab  right top>
+               absolute color="black" class="light-green--text text--accent-2" fab right top>
           <v-icon>edit</v-icon>
         </v-btn>
-          <div class="text-h5 font-weight-light white--text mb-2">
-            {{product.name}}
-          </div>
-          <div class="text-h5 font-weight-regular orange--text mb-2">
-            {{product.status}}
-          </div>
-          <div style="color: black" class="text-subtitle-1 font-weight-light title mb-2">
-            {{product.info}}
-          </div>
+        <div class="text-h5 font-weight-light white--text mb-2">
+          {{ product.name }}
+        </div>
+        <div class="text-h5 font-weight-regular orange--text mb-2">
+          {{ product.status }}
+        </div>
+        <div style="color: black" class="text-subtitle-1 font-weight-light title mb-2">
+          {{ product.info }}
+        </div>
       </v-card-text>
     </v-card>
   </v-hover>
@@ -47,8 +47,8 @@ export default {
       text_page: text_page,
     }
   },
-  methods:{
-    addProductToShoppingCart(){
+  methods: {
+    addProductToShoppingCart() {
       this.axios({
         method: 'post',
         url: '/ajax?command=change_product_status',

@@ -2,7 +2,6 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.entity.Category;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.service.CategoryService;
 import by.epam.project.model.service.ProductService;
@@ -20,7 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.ID_PRODUCT;
+import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
 
 public class UpdateProductStatusCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -36,7 +36,7 @@ public class UpdateProductStatusCommand implements Command {
             String idProductString = (String) requestParameters.get(ID_PRODUCT);
             String idStatusString = (String) requestParameters.get(ID_STATUS);
             if (!ServiceValidator.isIdCorrect(idProductString)
-                    || !ServiceValidator.isIdCorrect(idStatusString)){
+                    || !ServiceValidator.isIdCorrect(idStatusString)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
@@ -45,13 +45,13 @@ public class UpdateProductStatusCommand implements Command {
             long idStatus = Long.parseLong(idStatusString);
 
             Optional<Product> productOptional = productService.findProductById(idProduct);
-            if(productOptional.isEmpty()){
+            if (productOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
 
             Optional<Product.Status> statusOptional = productService.findStatusById(idStatus);
-            if(statusOptional.isEmpty()){
+            if (statusOptional.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }

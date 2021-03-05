@@ -15,14 +15,13 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.ID_CATEGORY;
+import static by.epam.project.controller.parameter.ParameterKey.ID_PRODUCT;
 
 public class UpdateProductCategoryCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -38,7 +37,7 @@ public class UpdateProductCategoryCommand implements Command {
             String idProductString = (String) requestParameters.get(ID_PRODUCT);
             String idCategoryString = (String) requestParameters.get(ID_CATEGORY);
             if (!ServiceValidator.isIdCorrect(idProductString)
-                    || !ServiceValidator.isIdCorrect(idCategoryString)){
+                    || !ServiceValidator.isIdCorrect(idCategoryString)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }

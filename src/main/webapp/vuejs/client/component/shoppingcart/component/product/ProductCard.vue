@@ -13,12 +13,12 @@
           <div v-if="hover"
                class="d-flex transition-fast-in-fast-out light-green accent-2 v-card--reveal display-3 black--text"
                style="height: 100%;">
-            ${{product.price}}
+            ${{ product.price }}
           </div>
         </v-expand-transition>
       </v-img>
       <v-card-text class="pt-6" style="position: relative; background-color: grey">
-        <v-btn @click="removeProductToShoppingCart" absolute color="black" class="white--text" fab  right top>
+        <v-btn @click="removeProductToShoppingCart" absolute color="black" class="white--text" fab right top>
           <v-icon>close</v-icon>
         </v-btn>
 
@@ -28,13 +28,13 @@
         </div>
         <div v-else>
           <div class="text-h5 font-weight-light white--text mb-2">
-            {{product.name}}
+            {{ product.name }}
           </div>
           <div class="text-h5 font-weight-regular orange--text mb-2">
-            {{product.status}}
+            {{ product.status }}
           </div>
           <div style="color: black" class="text-subtitle-1 font-weight-light title mb-2">
-            {{product.info}}
+            {{ product.info }}
           </div>
         </div>
       </v-card-text>
@@ -48,11 +48,11 @@ export default {
   data() {
     return {
       text_page: text_page,
-      isError:false
+      isError: false
     }
   },
-  methods:{
-    removeProductToShoppingCart(){
+  methods: {
+    removeProductToShoppingCart() {
       this.axios({
         method: 'post',
         url: '/ajax?command=remove_product_from_shopping_cart',

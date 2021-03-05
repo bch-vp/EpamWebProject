@@ -1,4 +1,4 @@
-package by.epam.project.model.typerole;
+package by.epam.project.controller.filter.typerole;
 
 import java.util.Set;
 

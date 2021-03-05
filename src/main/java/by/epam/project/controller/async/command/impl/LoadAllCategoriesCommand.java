@@ -2,8 +2,6 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.dao.CategoryDao;
-import by.epam.project.model.dao.impl.CategoryDaoImpl;
 import by.epam.project.model.entity.Category;
 import by.epam.project.model.service.CategoryService;
 import by.epam.project.model.service.impl.CategoryServiceImpl;

@@ -32,5 +32,6 @@ public class ContentKey {
     public static final String ERROR_PROFILE_AVATAR_FORM_FIELD = "profile_component.avatar.error.form_field";
     public static final String ERROR_PROFILE_AVATAR_PARSE_REQUEST = "profile_component.avatar.error.parse_request";
 
-    private ContentKey() {}
+    private ContentKey() {
+    }
 }

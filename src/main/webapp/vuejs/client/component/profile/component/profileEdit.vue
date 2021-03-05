@@ -13,7 +13,7 @@
       </v-col>
       <v-col>
         <div align="right">
-          <v-btn @click="showProfileInfo"  dark outlined  color="light-green accent-2" class="white--text" text>
+          <v-btn @click="showProfileInfo" dark outlined color="light-green accent-2" class="white--text" text>
             <v-icon>
               close
             </v-icon>
@@ -22,14 +22,17 @@
         </div>
       </v-col>
     </v-row>
-<div v-if="!isChangePassword">
-    <div align="center" class="text-h6 font-weight-regular center" style="color: green">{{ success }}</div>
-    <div style="color: red">{{ error.login_not_unique }}</div>
-    <div style="color: red">{{ error.telephone_number_not_unique }}</div>
-    <div style="color: red">{{ error.email_not_unique }}</div>
-</div>
+    <div v-if="!isChangePassword">
+      <div align="center" class="text-h6 font-weight-regular center" style="color: green">{{ success }}</div>
+      <div style="color: red">{{ error.login_not_unique }}</div>
+      <div style="color: red">{{ error.telephone_number_not_unique }}</div>
+      <div style="color: red">{{ error.email_not_unique }}</div>
+    </div>
     <div v-if="isChangePassword">
-      <div align="center" class="text-h6 font-weight-regular center" style="color: green">{{ successChangePassword }}</div>
+      <div align="center" class="text-h6 font-weight-regular center" style="color: green">{{
+          successChangePassword
+        }}
+      </div>
       <div style="color: red">{{ errorChangePassword }}</div>
     </div>
     <br>
@@ -44,10 +47,12 @@
       </v-col>
       <v-col>
 
-        <v-btn v-if="isChangePassword" @click="isChangePassword = ! isChangePassword"  dark outlined  color="light-green accent-2" class="white--text" text>
+        <v-btn v-if="isChangePassword" @click="isChangePassword = ! isChangePassword" dark outlined
+               color="light-green accent-2" class="white--text" text>
           <v-icon>
             close
-          </v-icon> {{ text_page.form_component.button.exit }}
+          </v-icon>
+          {{ text_page.form_component.button.exit }}
         </v-btn>
         <br v-if="isChangePassword">
         <v-form
@@ -171,7 +176,8 @@
               v-bind:label=text_page.form_component.input.email.name
               required
           ></v-text-field>
-          <v-btn v-if="!isChangePassword" @click="isChangePassword = ! isChangePassword"  dark outlined  color="light-green accent-2" class="white--text" text>
+          <v-btn v-if="!isChangePassword" @click="isChangePassword = ! isChangePassword" dark outlined
+                 color="light-green accent-2" class="white--text" text>
             {{ text_page.form_component.button.change_password }}
           </v-btn>
           <br> <br>

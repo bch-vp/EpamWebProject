@@ -18,12 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ContentKey.*;
+import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UploadProfileImageCommand implements Command {

@@ -2,7 +2,6 @@ package by.epam.project.controller.async.command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public interface Command {
     String COMMAND_NAME = "command";

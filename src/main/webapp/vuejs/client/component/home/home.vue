@@ -161,7 +161,7 @@ export default {
         this.oldSelectCategory = this.$store.state.App.selectCategory
         this.page = 1
         this.oldPage = 1
-      } else if(this.oldSelectSort !== this.ordersValue){
+      } else if (this.oldSelectSort !== this.ordersValue) {
         this.oldSelectSort = this.ordersValue
         this.page = 1
         this.oldPage = 1

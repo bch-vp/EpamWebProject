@@ -3,14 +3,12 @@ package by.epam.project.model.connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Enumeration;
-import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -49,7 +47,7 @@ public class ConnectionPool {
         }
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         ProxyConnection proxyConnection = null;
         try {
             proxyConnection = freeConnections.take();

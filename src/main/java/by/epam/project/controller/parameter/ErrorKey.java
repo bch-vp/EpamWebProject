@@ -7,5 +7,6 @@ public class ErrorKey {
     public static final String TELEPHONE_NUMBER_NOT_UNIQUE = "telephone_number_not_unique";
     public static final String EMAIL_NOT_UNIQUE = "email_not_unique";
 
-    private ErrorKey(){}
+    private ErrorKey() {
+    }
 }

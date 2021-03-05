@@ -83,7 +83,7 @@ export default {
       text_page: text_page,
 
       spinnerVisible: false,
-      error:undefined,
+      error: undefined,
 
       value: String,
       valid: false,
@@ -155,11 +155,11 @@ export default {
               window.location.href = '/do?command=' + response.data.info;
             },
             ex => {
-          console.log(ex.response.status)
+              console.log(ex.response.status)
               if (ex.response.status === 400) {
                 this.$refs.formSignIn.reset()
                 this.error = ex.response.data.error
-              } else{
+              } else {
                 this.$refs.formSignIn.reset()
                 this.error = this.text_page.form_component.error.not_found
               }

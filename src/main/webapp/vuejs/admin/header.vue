@@ -101,7 +101,7 @@ export default {
         data: this.selectCategory
       }).then(response => {
             var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
-            this.$store.commit('set_products',array)
+            this.$store.commit('set_products', array)
           },
           ex => {
           })

@@ -8,9 +8,9 @@
               :showSignIn="showSignIn"
               :showSignUp="showSignUp"
               :text_page="text_page"
-          :isHome="isHome"
-          :isSignUp="isSignUp"
-          :isSignIn="isSignIn"/>
+              :isHome="isHome"
+              :isSignUp="isSignUp"
+              :isSignIn="isSignIn"/>
         </v-row>
         <v-row>
           <home v-if="isHome"
@@ -78,7 +78,7 @@ export default {
     return {
       text_page: text_page,
       isHome: false,
-      isInfo:false,
+      isInfo: false,
       isSignIn: false,
       isSignUp: false,
       isNotification: false,
@@ -86,7 +86,7 @@ export default {
     }
   },
   created() {
-      this.showIsInfo()
+    this.showIsInfo()
   },
   methods: {
     clearAllComponents() {
@@ -98,7 +98,7 @@ export default {
       this.isInfo = false
       this.text_page.form_component.error.login_not_found = undefined
     },
-    showIsInfo(){
+    showIsInfo() {
       this.clearAllComponents()
       this.isInfo = true
     },

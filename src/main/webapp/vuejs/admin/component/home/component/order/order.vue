@@ -2,7 +2,7 @@
   <v-list-item>
     <v-list-item-action>
       <v-list-item-title style="width: 5em">
-        <span style="color: white;" class="text-h6" >
+        <span style="color: white;" class="text-h6">
                 {{ order.totalPrice }}
                 <span class="light-green--text text--accent-2">
                   $
@@ -12,7 +12,7 @@
     </v-list-item-action>
     <v-list-item-content>
     </v-list-item-content>
-    <v-list-item-action >
+    <v-list-item-action>
       <div v-if="isError" class="text-subtitle-1 font-weight-medium mb-2">
           <span style="color: orangered">{{ text_page.form_component.error.notification }}:&nbsp
           </span>{{ text_page.form_component.error.need_reload_page }}
@@ -27,7 +27,7 @@
                   v-bind="attrs"
                   v-on="on"
               >
-                {{text_page.form_component.button.info}}
+                {{ text_page.form_component.button.info }}
               </v-btn>
             </template>
             <v-list>
@@ -35,23 +35,23 @@
                 <v-list-item-title>
                   <v-container>
                     <v-row>
-                      {{text_page.form_component.input.login.name}}:&nbsp
+                      {{ text_page.form_component.input.login.name }}:&nbsp
                       <strong> {{ order.login }}</strong>
                     </v-row>
                     <v-row style="padding-top: 4px">
-                      {{text_page.form_component.input.email.name}}:&nbsp
+                      {{ text_page.form_component.input.email.name }}:&nbsp
                       <strong> {{ order.email }}</strong>
                     </v-row>
                     <v-row style="padding-top: 4px">
-                      {{text_page.form_component.input.telephone_number.name}}:&nbsp
+                      {{ text_page.form_component.input.telephone_number.name }}:&nbsp
                       <strong> {{ order.telephone_number }}</strong>
                     </v-row>
                     <v-row style="padding-top: 4px">
-                      {{text_page.form_component.input.address.name}}:&nbsp
+                      {{ text_page.form_component.input.address.name }}:&nbsp
                       <strong> {{ order.address }}</strong>
                     </v-row>
                     <v-row style="padding-top: 4px">
-                      {{text_page.form_component.input.comment.name}}:&nbsp
+                      {{ text_page.form_component.input.comment.name }}:&nbsp
                       <strong> {{ order.comment }}</strong>
                     </v-row>
                   </v-container>
@@ -69,7 +69,7 @@
                   v-bind="attrs"
                   v-on="on"
               >
-                {{text_page.form_component.button.show_products}}
+                {{ text_page.form_component.button.show_products }}
               </v-btn>
             </template>
             <v-list>
@@ -96,12 +96,13 @@
           </v-menu>
         </v-col>
         <v-col>
-          <v-btn v-if="order.status === 'CONFIRMED' && !spinnerVisible" :disabled="true" style="width: 13em" outlined text>
-           {{text_page.form_component.button.confirmed}}
+          <v-btn v-if="order.status === 'CONFIRMED' && !spinnerVisible" :disabled="true" style="width: 13em" outlined
+                 text>
+            {{ text_page.form_component.button.confirmed }}
           </v-btn>
           <v-btn @click="submit" color="red" text outlined v-if="order.status === 'NOT_CONFIRMED' && !spinnerVisible"
                  style="width: 13em">
-            {{text_page.form_component.button.not_confirmed}}
+            {{ text_page.form_component.button.not_confirmed }}
           </v-btn>
           <v-progress-circular style="margin-right: 15px"
                                v-if="spinnerVisible"
@@ -121,17 +122,17 @@ export default {
     return {
       text_page: text_page,
       spinnerVisible: false,
-      isError:false,
+      isError: false,
     }
   },
-  methods:{
+  methods: {
     showSpinner() {
       this.spinnerVisible = true;
     },
     hideSpinner() {
       this.spinnerVisible = false;
     },
-    submit(){
+    submit() {
       this.axios.interceptors.request.use(
           conf => {
             this.showSpinner()

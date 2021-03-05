@@ -1,8 +1,8 @@
 package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.parameter.ContentKey;
+import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,7 +86,7 @@ public class SignUpCommand implements Command {
 
             String URL = request.getRequestURL().toString();
             String URI = request.getRequestURI();
-            String linkApp =  URL.replace(URI , EMPTY_STRING);
+            String linkApp = URL.replace(URI, EMPTY_STRING);
 
             String command = CommandType.CONFIRM_SIGN_UP.toString().toLowerCase();
 

@@ -1,26 +1,7 @@
 package by.epam.project.validator;
 
-import by.epam.project.exception.ServiceException;
-import by.epam.project.model.entity.Order;
-import by.epam.project.model.entity.Product;
-import by.epam.project.model.entity.User;
-import by.epam.project.model.service.ProductService;
-import by.epam.project.model.service.UserService;
-import by.epam.project.model.service.impl.ProductServiceImpl;
-import by.epam.project.model.service.impl.UserServiceImpl;
-import by.epam.project.util.JsonUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +9,7 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ServiceValidator {
     private static final String LOGIN_REGEX = "^[a-zA-Z0-9_.-]{3,15}+$";
-    private static final String PASSWORD_REGEX= "^[A-Za-z0-9]{5,20}$";
+    private static final String PASSWORD_REGEX = "^[A-Za-z0-9]{5,20}$";
     private static final String USER_NAME_REGEX = "^[a-zA-Z]{3,15}$";
     private static final String NAME_REGEX = "^.{3,15}$";
     private static final String ADDRESS_REGEX = "^.{3,50}$";

@@ -1,39 +1,40 @@
 <template>
   <v-app>
     <div class="background-image">
-  <div class="notification-wrapper">
-    <v-container>
-      <v-row justilfy="center" row>
-        <v-col sm="12" md="12" lg="12" xl="11">
-          <div class="notification-background">
-            <div class="notification">
-              <v-container>
-                <v-row justify="center" style="margin-top: 3em; margin-bottom: 3em">
+      <div class="notification-wrapper">
+        <v-container>
+          <v-row justilfy="center" row>
+            <v-col sm="12" md="12" lg="12" xl="11">
+              <div class="notification-background">
+                <div class="notification">
+                  <v-container>
+                    <v-row justify="center" style="margin-top: 3em; margin-bottom: 3em">
                   <span class="text-h2 center" style="text-align: center; font-family: 'Monoton', cursive;">
                     {{ text_page.notification_success_component.title }}
                   </span>
-                </v-row>
-                <br>
-                <v-row justify="center">
+                    </v-row>
+                    <br>
+                    <v-row justify="center">
                   <span class="text-h6 font-weight-regular center" style="text-align: center; padding-bottom: 3em;">
                     {{ text_page.notification_success_component.text }}
                   </span>
-                </v-row>
-                <v-row justify="center">
-                  <v-btn href="do?command=passing_by_guest" class="light-green--text text--accent-2" style="margin-bottom: 3em" text
-                         outlined rounded>
+                    </v-row>
+                    <v-row justify="center">
+                      <v-btn href="do?command=passing_by_guest" class="light-green--text text--accent-2"
+                             style="margin-bottom: 3em" text
+                             outlined rounded>
                     <span class="text-h6 center">
                       {{ text_page.notification_success_component.button }}
                     </span>
-                  </v-btn>
-                </v-row>
-              </v-container>
-            </div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+                      </v-btn>
+                    </v-row>
+                  </v-container>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
     </div>
   </v-app>
 </template>

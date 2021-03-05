@@ -7,7 +7,7 @@
             <div class="change-password">
               <div class="title font-weight-regular" style="color: white; text-align: center;">
                 <span class="text-h6 font-weight-regular center">
-                  {{text_page.form_component.title.change_password}}...
+                  {{ text_page.form_component.title.change_password }}...
                 </span><br>
                 <div style="color: green">{{ success }}</div>
               </div>
@@ -91,37 +91,37 @@
 
               <br>
               <div align="center">
-                      <v-progress-circular x
-                          style="margin-right: 15px"
-                          v-if="spinnerVisible"
-                          indeterminate
-                          color="#8C9EFF"
-                      ></v-progress-circular>
+                <v-progress-circular x
+                                     style="margin-right: 15px"
+                                     v-if="spinnerVisible"
+                                     indeterminate
+                                     color="#8C9EFF"
+                ></v-progress-circular>
 
-                      <v-btn v-if="isFirstStepLogic && !spinnerVisible"
-                             @click="submitFormFirstStepLogic"
-                             :disabled="!validFormFirstStepLogic"
-                             dark small text rounded
-                             color="#8C9EFF">
-                        Сheck the existence of login
-                      </v-btn>
-                      <v-btn v-if="isSecondStepLogic && !spinnerVisible"
-                             @click="submitFormSecondStepLogic"
-                             :disabled="!validFormSecondStepLogic"
-                             dark small text rounded
-                             color="#8C9EFF">
-                        submit
-                      </v-btn>
-                      <v-btn v-if="isThirdStepLogic && !spinnerVisible"
-                             @click="submitFormThirdStepLogic"
-                             :disabled="!validFormThirdStepLogic"
-                             dark small text rounded
-                             color="#8C9EFF">
-                        submit
-                      </v-btn>
-                      <v-btn @click="allFormsReset" outlined small fab color="#8C9EFF">
-                        <v-icon>autorenew</v-icon>
-                      </v-btn>
+                <v-btn v-if="isFirstStepLogic && !spinnerVisible"
+                       @click="submitFormFirstStepLogic"
+                       :disabled="!validFormFirstStepLogic"
+                       dark small text rounded
+                       color="#8C9EFF">
+                  Сheck the existence of login
+                </v-btn>
+                <v-btn v-if="isSecondStepLogic && !spinnerVisible"
+                       @click="submitFormSecondStepLogic"
+                       :disabled="!validFormSecondStepLogic"
+                       dark small text rounded
+                       color="#8C9EFF">
+                  submit
+                </v-btn>
+                <v-btn v-if="isThirdStepLogic && !spinnerVisible"
+                       @click="submitFormThirdStepLogic"
+                       :disabled="!validFormThirdStepLogic"
+                       dark small text rounded
+                       color="#8C9EFF">
+                  submit
+                </v-btn>
+                <v-btn @click="allFormsReset" outlined small fab color="#8C9EFF">
+                  <v-icon>autorenew</v-icon>
+                </v-btn>
               </div>
             </div>
           </div>
@@ -229,7 +229,7 @@ export default {
       this.isSecondStepLogic = false
       this.isThirdStepLogic = false
 
-      this.success=undefined
+      this.success = undefined
       this.info = undefined
       this.error = undefined
     },
@@ -289,8 +289,6 @@ export default {
             })
       }
     },
-
-
 
 
     submitFormThirdStepLogic: function () {

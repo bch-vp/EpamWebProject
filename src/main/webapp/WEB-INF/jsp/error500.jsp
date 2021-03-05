@@ -21,7 +21,7 @@
 <script>
     let text_page = {
         error_component: {
-            error:{
+            error: {
                 title: "<fmt:message key="error_component.error500.title"/>",
                 text: "<fmt:message key="error_component.error500.text"/>",
                 button: "<fmt:message key="error_component.error500.button"/>",

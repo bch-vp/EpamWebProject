@@ -11,5 +11,6 @@ public class PagePath {
 
     public final static String NOTIFICATION_SUCCESS = "/WEB-INF/jsp/notificationSuccess.jsp";
 
-    private PagePath(){}
+    private PagePath() {
+    }
 }

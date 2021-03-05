@@ -108,7 +108,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public boolean updateProductInfo(Product product) throws DaoException {
-       boolean isUpdated;
+        boolean isUpdated;
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SqlQuery.UPDATE_PRODUCT_INFO)) {

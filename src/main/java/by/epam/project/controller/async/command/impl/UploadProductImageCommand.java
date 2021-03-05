@@ -2,11 +2,8 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.entity.User;
 import by.epam.project.model.service.ProductService;
-import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
-import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.FileUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.ServiceValidator;
@@ -21,9 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ContentKey.*;
@@ -51,15 +46,15 @@ public class UploadProductImageCommand implements Command {
         ServletFileUpload upload = new ServletFileUpload(factory);
 
 
-            String name = request.getParameter(NAME);
+        String name = request.getParameter(NAME);
 
-            if (!ServletFileUpload.isMultipartContent(request)
-                    || !ServiceValidator.isNameCorrect(name)) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
+        if (!ServletFileUpload.isMultipartContent(request)
+                || !ServiceValidator.isNameCorrect(name)) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
 
-            List<FileItem> fileItems;
+        List<FileItem> fileItems;
         try {
             try {
                 fileItems = upload.parseRequest(request);
