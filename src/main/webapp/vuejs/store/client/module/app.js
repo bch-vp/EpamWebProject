@@ -53,7 +53,7 @@ export default {
             state.userOrders = data
         },
         add_orderToUserOrders(state, data) {
-            state.userOrders.push(data)
+            state.userOrders.unshift(data)
         },
         remove_orderFromUserOrders(state, data) {
             state.userOrders.splice(state.userOrders.indexOf(data), 1)

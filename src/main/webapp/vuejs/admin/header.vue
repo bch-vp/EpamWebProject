@@ -163,7 +163,7 @@ export default {
       url: '/ajax?command=load_all_clients'
     }).then(response => {
           var users = response.data.users.sort(function (a, b) {
-            return response.data.users[a] - response.data.users[b]
+            return a.id - b.id
           })
           this.$store.commit('set_users', response.data.users)
         },
