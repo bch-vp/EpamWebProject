@@ -12,17 +12,6 @@
         <session-timeout>30</session-timeout>
     </session-config>
 
-    <!--type command filter-->
-    <filter>
-        <filter-name>commandTypeSecurityFilter</filter-name>
-        <filter-class>by.epam.project.controller.filter.CommandTypeSecurityFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>commandTypeSecurityFilter</filter-name>
-        <url-pattern>/do</url-pattern>
-        <url-pattern>/ajax</url-pattern>
-    </filter-mapping>
-
     <!--empty command filter-->
     <filter>
         <filter-name>emptyCommandRoleSecurityFilter</filter-name>

@@ -3,7 +3,7 @@ package by.epam.project.controller.async.command;
 import by.epam.project.controller.async.command.impl.*;
 
 public enum CommandType {
-    ADD_PRODUCT_TO_SHOPPING_CART(new AddProductToShoppingCart()),
+    ADD_PRODUCT_TO_SHOPPING_CART(new AddProductToShoppingCartCommand()),
     CHANGE_PASSWORD_BY_EMAIL(new ChangePasswordByEmailCommand()),
     CHANGE_PASSWORD_BY_OLD_PASSWORD(new ChangePasswordByOldPassCommand()),
     CHECK_LOGIN_EXISTENCE(new CheckLoginExistenceCommand()),

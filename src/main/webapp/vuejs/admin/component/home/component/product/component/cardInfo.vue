@@ -54,13 +54,11 @@ export default {
         url: '/ajax?command=change_product_status',
         data: {
           name: this.product.name,
-          // status: this.newStatus
         }
       }).then(response => {
         this.$store.commit('add_productToShoppingCart', this.product)
         this.$store.commit('remove_productToProducts', this.product)
       }, ex => {
-        console.log('FAILURE!!');
         this.isError = true
       })
 

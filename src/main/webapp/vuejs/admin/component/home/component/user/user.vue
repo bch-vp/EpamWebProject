@@ -68,26 +68,7 @@ export default {
   },
   methods: {
     submit: function (id_user, id_status, status) {
-      this.axios.interceptors.request.use(
-          conf => {
-            this.showSpinner()
-            return conf;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
-      this.axios.interceptors.response.use(
-          response => {
-            this.hideSpinner()
-            return response;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
+      this.spinnerVisible = true
       this.axios({
         method: 'post',
         url: '/ajax?command=update_client_status',
@@ -97,20 +78,16 @@ export default {
         }
       }).then(response => {
             this.user.status = status
+            this.spinnerVisible = false
           },
           ex => {
             this.isError = true
+            this.spinnerVisible = false
           })
     },
     async await3Seconds() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       this.isSuccess = false
-    },
-    showSpinner() {
-      this.spinnerVisible = true;
-    },
-    hideSpinner() {
-      this.spinnerVisible = false;
     },
   }
 }

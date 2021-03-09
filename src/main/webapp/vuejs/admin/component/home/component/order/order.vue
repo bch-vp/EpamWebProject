@@ -126,33 +126,8 @@ export default {
     }
   },
   methods: {
-    showSpinner() {
-      this.spinnerVisible = true;
-    },
-    hideSpinner() {
-      this.spinnerVisible = false;
-    },
     submit() {
-      this.axios.interceptors.request.use(
-          conf => {
-            this.showSpinner()
-            return conf;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
-      this.axios.interceptors.response.use(
-          response => {
-            this.hideSpinner()
-            return response;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
+      this.spinnerVisible = true
       this.axios({
         method: 'post',
         url: '/ajax?command=update_order_status',
@@ -180,11 +155,14 @@ export default {
             arrayConcat = arrayConcat.sort((a, b) => (a.id < b.id) ? 1 : -1)
             arrayResult = arrayResult.concat(arrayConcat)
 
-
             this.$store.commit('set_userOrders', arrayResult)
+
+            this.spinnerVisible = false
           },
           ex => {
             this.isError = true
+
+            this.spinnerVisible = false
           })
     }
   }

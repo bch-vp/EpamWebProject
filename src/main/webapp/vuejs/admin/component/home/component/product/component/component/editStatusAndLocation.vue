@@ -70,26 +70,7 @@ export default {
   },
   methods: {
     submitCategory() {
-      this.axios.interceptors.request.use(
-          conf => {
-            this.showSpinner()
-            return conf;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
-      this.axios.interceptors.response.use(
-          response => {
-            this.hideSpinner()
-            return response;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
+      this.spinnerVisible = true
       if (this.selectStatus !== this.product.status) {
         this.axios({
           method: 'post',
@@ -101,12 +82,17 @@ export default {
         }).then(response => {
               this.isSuccess = true
               this.await3Seconds()
+
+              this.spinnerVisible = false
             },
             ex => {
               this.isError = true
+
+              this.spinnerVisible = false
             })
       }
       if (this.selectCategory !== this.$store.state.App.selectCategory && !this.isError) {
+        this.spinnerVisible = true
         this.axios({
           method: 'post',
           url: '/ajax?command=update_product_category',
@@ -117,9 +103,13 @@ export default {
         }).then(response => {
               this.isSuccess = true
               this.removeAfter3Seconds()
+
+              this.spinnerVisible = false
             },
             ex => {
               this.isError = true
+
+              this.spinnerVisible = false
             })
       }
     },
@@ -131,14 +121,8 @@ export default {
     async removeAfter3Seconds() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       this.$store.commit('remove_productToProducts', this.product)
-    },
-    showSpinner() {
-      this.spinnerVisible = true;
-    },
-    hideSpinner() {
-      this.spinnerVisible = false;
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -118,7 +118,7 @@
               </div>
             </div>
           </v-card>
-          <v-row style="padding-top: 2em;">
+          <v-row v-if="isProducts" style="padding-top: 2em;">
             <v-col cols="7">
               <v-row justify="center">
                 <v-select

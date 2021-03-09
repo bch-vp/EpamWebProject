@@ -18,12 +18,19 @@
       </div>
 
       <v-file-input v-on:change="handleFileUpload()"
+                    v-if="!spinnerVisible"
                     style="width: 60%; padding-left: 1em"
                     v-model="file"
                     dark
                     ref="file"
                     prepend-icon="add_a_photo">
       </v-file-input>
+      <div style="color: red; margin-left: 1em" v-if="error">{{ error }}</div>
+      <v-progress-circular style=" margin-left: 1em"
+                           v-if="spinnerVisible"
+                           indeterminate
+                           color="#8C9EFF"
+      ></v-progress-circular>
     </v-img>
     <v-card-text class="pt-6" style="position: relative; background-color: grey">
 
@@ -41,7 +48,6 @@
 
       <EditInfo v-if="isEditInfo" :product="product"/>
       <EditStatusAndLocation v-if="isEditStatusAndLocation" :showCardInfo="showCardInfo" :product="product"/>
-
 
     </v-card-text>
   </v-card>
@@ -64,10 +70,11 @@ export default {
       text_page: text_page,
 
       file: undefined,
+      error:undefined,
 
       isEditInfo: true,
       isEditStatusAndLocation: false,
-
+      spinnerVisible:false
     }
   },
   methods: {
@@ -87,6 +94,8 @@ export default {
       let formData = new FormData();
       formData.append('file', this.file);
 
+      this.spinnerVisible = true
+      this.error = undefined
       this.axios({
         method: 'post',
         url: '/ajax?command=upload_product_image&name=' + this.product.name,
@@ -97,9 +106,12 @@ export default {
       }).then(response => {
         this.error = undefined
         this.product.imageURL = response.data.url
+
+        this.spinnerVisible = false
       }, ex => {
-        console.log('FAILURE!!');
         this.error = ex.response.data.error
+
+        this.spinnerVisible = false
       })
     }
   }

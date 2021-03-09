@@ -118,26 +118,7 @@ export default {
   },
   methods: {
     submitEdit: function (id_user, id_status, status) {
-      this.axios.interceptors.request.use(
-          conf => {
-            this.showSpinner()
-            return conf;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
-      this.axios.interceptors.response.use(
-          response => {
-            this.hideSpinner()
-            return response;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
+      this.spinnerVisible = true
       this.axios({
         method: 'post',
         url: '/ajax?command=update_category_name',
@@ -148,32 +129,16 @@ export default {
       }).then(response => {
             this.category.name = this.name
             this.isEdit = false
+
+            this.spinnerVisible = false
           },
           ex => {
             this.isError = true
+
+            this.spinnerVisible = false
           })
     },
     removeCategory() {
-      this.axios.interceptors.request.use(
-          conf => {
-            this.showSpinner()
-            return conf;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
-      this.axios.interceptors.response.use(
-          response => {
-            this.hideSpinner()
-            return response;
-          },
-          error => {
-            this.hideSpinner()
-            return Promise.reject(error);
-          }
-      );
       this.axios({
         method: 'post',
         url: '/ajax?command=remove_category',
@@ -184,6 +149,7 @@ export default {
             if (this.category.id === this.$store.state.App.selectCategory.id) {
               this.$store.state.App.products = []
             } else if (this.$store.state.App.selectCategory.id === 1) {
+              this.spinnerVisible = true
               this.axios({
                 method: 'post',
                 url: '/ajax?command=load_all_products_by_category',
@@ -193,8 +159,11 @@ export default {
               }).then(response => {
                     var array = response.data.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
                     this.$store.commit('set_products', array)
+
+                    this.spinnerVisible = false
                   },
                   ex => {
+                    this.spinnerVisible = false
                   })
             }
             this.$store.state.App.categories.splice(this.$store.state.App.categories.indexOf(this.category), 1)
@@ -209,13 +178,7 @@ export default {
     async await3Seconds() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       this.isSuccess = false
-    },
-    showSpinner() {
-      this.spinnerVisible = true;
-    },
-    hideSpinner() {
-      this.spinnerVisible = false;
-    },
+    }
   }
 }
 </script>

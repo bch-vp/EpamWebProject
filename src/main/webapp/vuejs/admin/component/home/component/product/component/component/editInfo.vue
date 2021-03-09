@@ -115,28 +115,7 @@ export default {
     },
   },
   created() {
-    //info
     this.valid = false
-    this.axios.interceptors.request.use(
-        conf => {
-          this.showSpinner()
-          return conf;
-        },
-        error => {
-          this.hideSpinner()
-          return Promise.reject(error);
-        }
-    );
-    this.axios.interceptors.response.use(
-        response => {
-          this.hideSpinner()
-          return response;
-        },
-        error => {
-          this.hideSpinner()
-          return Promise.reject(error);
-        }
-    );
   },
   beforeUpdate() {
     this.checkChange()
@@ -144,6 +123,7 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
+        this.spinnerVisible = true
         this.axios({
           method: 'post',
           url: '/ajax?command=update_product_info',
@@ -163,16 +143,20 @@ export default {
               this.isError = false
               this.isSuccess = true
 
-              this.await3Seconds()
+              this.await1Seconds()
+
+              this.spinnerVisible = false
             },
             ex => {
               this.reset()
               this.isSuccess = false
               this.isError = true
+
+              this.spinnerVisible = false
             })
       }
     },
-    async await3Seconds() {
+    async await1Seconds() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       this.isSuccess = false
     },
@@ -193,13 +177,7 @@ export default {
           this.valid = false
         }
       }
-    },
-    showSpinner() {
-      this.spinnerVisible = true;
-    },
-    hideSpinner() {
-      this.spinnerVisible = false;
-    },
+    }
   }
 }
 </script>

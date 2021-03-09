@@ -41,12 +41,18 @@
           <img v-if="$store.state.Profile.isAvatarExists" :src="$store.state.Profile.avatarUrl" class="profile-image"/>
           <div v-if="!$store.state.Profile.isAvatarExists" class="profile-standard-image"/>
           <v-file-input v-on:change="handleFileUpload()"
+                        v-if="!spinnerVisible"
                         v-model="file"
                         dark
                         ref="file"
                         prepend-icon="add_a_photo">
           </v-file-input>
         </div>
+        <v-progress-circular style=" margin-left: 1em; margin-top: 1em"
+                             v-if="spinnerVisible"
+                             indeterminate
+                             color="#8C9EFF"
+        ></v-progress-circular>
       </v-col>
       <v-col>
         <v-container>
@@ -103,6 +109,8 @@ export default {
       text_page: text_page,
       file: undefined,
       error: undefined,
+
+      spinnerVisible:false
     }
   },
   methods: {
@@ -122,7 +130,7 @@ export default {
     handleFileUpload() {
       let formData = new FormData();
       formData.append('file', this.file);
-
+      this.spinnerVisible = true
       this.axios({
         method: 'post',
         url: '/ajax?command=upload_profile_image',
@@ -134,26 +142,15 @@ export default {
         this.$store.commit('set_isAvatarExists', true)
         this.error = undefined
         this.$store.commit('change_avatarUrl', response.data.url)
+
+        this.spinnerVisible = false
       }, ex => {
         console.log('FAILURE!!');
         this.error = ex.response.data.error
+
+        this.spinnerVisible = false
       })
-
-
-      // this.axios({
-      //   method: 'post',
-      //   url: '/ajax?command=load_profile_image',
-      // }).then(resp => {
-      //   console.log(resp.data.url)
-      //   this.$store.commit('set_isAvatarExists', true)
-      //   this.$store.commit('change_avatarUrl', resp.data.url)
-      // }, ex => {
-      //   console.log(ex.response.data.url);
-      //   this.$store.commit('set_isAvatarExists', false)
-      //   this.$store.commit('change_avatarUrl', '')
-      // })
-
-    },
+    }
   }
 
 }

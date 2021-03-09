@@ -146,28 +146,7 @@ export default {
   created() {
     //info
     this.valid = false
-    this.axios.interceptors.request.use(
-        conf => {
-          this.showSpinner()
-          return conf;
-        },
-        error => {
-          this.hideSpinner()
-          return Promise.reject(error);
-        }
-    );
-    this.axios.interceptors.response.use(
-        response => {
-          this.hideSpinner()
-          return response;
-        },
-        error => {
-          this.hideSpinner()
-          return Promise.reject(error);
-        }
-    );
   },
-
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
@@ -185,6 +164,7 @@ export default {
               let formData = new FormData();
               formData.append('file', this.file);
 
+              this.spinnerVisible = true
               this.axios({
                 method: 'post',
                 url: '/ajax?command=upload_product_image&name=' + this.name,
@@ -209,11 +189,14 @@ export default {
                 this.await3Seconds()
                 this.reset()
 
+                this.spinnerVisible = false
               }, ex => {
                 this.error = ex.response.data.error
                 this.isError = true
                 this.await3Seconds()
                 this.reset()
+
+                this.spinnerVisible = false
               })
             },
             ex => {
@@ -221,6 +204,8 @@ export default {
               this.reset()
               this.isError = true
               this.await3Seconds()
+
+              this.spinnerVisible = false
             })
       }
     },
@@ -231,13 +216,7 @@ export default {
     },
     reset() {
       this.$refs.form.reset()
-    },
-    showSpinner() {
-      this.spinnerVisible = true;
-    },
-    hideSpinner() {
-      this.spinnerVisible = false;
-    },
+    }
   }
 }
 </script>

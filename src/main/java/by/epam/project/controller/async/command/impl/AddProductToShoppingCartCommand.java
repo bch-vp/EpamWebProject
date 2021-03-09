@@ -18,7 +18,7 @@ import java.util.*;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
-public class AddProductToShoppingCart implements Command {
+public class AddProductToShoppingCartCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     private final ProductService productService = ProductServiceImpl.getInstance();

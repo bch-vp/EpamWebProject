@@ -32,18 +32,6 @@ export default {
   },
   created() {
     this.showProfileInfo()
-
-    // //avatar
-    // this.axios({
-    //   method: 'get',
-    //   url: '/ajax?command=load_profile_image',
-    // }).then(response => {
-    //   console.log('avatar exist')
-    //   this.$store.commit('set_isAvatarExists', true)
-    // }, ex => {
-    //   console.log('avatar exist')
-    //   this.$store.commit('set_isAvatarExists', false)
-    // })
   },
   methods: {
     clearAllComponents() {
