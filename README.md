@@ -1,5 +1,5 @@
 #### [Watch the project on Heroku](https://app-jewellery.herokuapp.com/do?command=passing_by_guest)
-
+> :warning: **If you are using mobile browser**: Be very careful here!
 ## Jewellery shop
 
 
