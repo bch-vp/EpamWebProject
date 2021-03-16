@@ -21,8 +21,7 @@ public class ServiceValidator {
     private static final String PRICE_REGEX = "^[0-9]{1,8}(\\.[0-9]{2})?$";
     private static final String INFO_REGEX = "^.{3,100}$";
 
-    private ServiceValidator() {
-    }
+    private ServiceValidator() {}
 
     public static Map<String, String> validateParameters(String login, String password, String email,
                                                          String firstName, String lastName, String phone) {
@@ -35,7 +34,6 @@ public class ServiceValidator {
         validatedData.put(EMAIL, isEmailCorrect(email) ? email : EMPTY_STRING);
         return validatedData;
     }
-
 
     public static Map<String, String> validateParameters(String login, String email,
                                                          String firstName, String lastName, String phone) {
@@ -115,3 +113,5 @@ public class ServiceValidator {
         return matcher.matches();
     }
 }
+
+
