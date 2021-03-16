@@ -1,5 +1,5 @@
 #### [Watch the project on Heroku](https://app-jewellery.herokuapp.com/do?command=passing_by_guest)
-> :warning: Еhe first time launching the application on Heroku can take 10-30 seconds, because the initial tariff plan is used!
+> :warning: The first time launching the application on Heroku can take 10-30 seconds, because the initial tariff plan is used!
 ## Jewellery shop
 
 
