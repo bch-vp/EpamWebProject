@@ -20,6 +20,16 @@ public interface UserService {
                     String email, String confirmationLink, String language) throws ServiceException;
     AjaxData changePasswordByOldPassword(User user, String oldPassword, String newPassword,
                                          String language) throws ServiceException;
+    AjaxData changePasswordByEmail(String login, String newPassword, String email, String sessionUniqueKey,
+                                   String requestUniqueKey, long timeCreated, String language) throws ServiceException;
+    AjaxData findUserImage(String login) throws ServiceException;
+    AjaxData removeUserImage(String login) throws ServiceException;
+    AjaxData createOrder(User user, List<Product> shoppingCart, String orderAddress,
+                          String orderComment) throws ServiceException;
+    AjaxData findAllOrders(User user) throws ServiceException;
+    AjaxData findAllClients() throws ServiceException;
+
+
 
 
 
@@ -35,7 +45,6 @@ public interface UserService {
 
     List<User> findAllUsers() throws ServiceException;
 
-    List<User> findAllClients() throws ServiceException;
 
     Optional<User.Status> findStatusById(long id) throws ServiceException;
 
@@ -56,12 +65,6 @@ public interface UserService {
     boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
 
     boolean isStatusEqualUserStatus(String login, User.Status status) throws ServiceException;
-//
-//    boolean isLoginUnique(String login) throws ServiceException;
-//
-//    boolean isEmailUnique(String email) throws ServiceException;
-//
-//    boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException;
 
     boolean removeAvatarByLogin(String login) throws ServiceException;
 

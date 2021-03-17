@@ -4,11 +4,8 @@ import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
-import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,12 +16,10 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class ChangePasswordByOldPassCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
-
-    private final UserService userService = UserServiceImpl.getInstance();
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
-    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) {
+    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         AjaxData ajaxData;
 
         HttpSession session = request.getSession();
@@ -39,8 +34,7 @@ public class ChangePasswordByOldPassCommand implements Command {
 
             ajaxData = userService.changePasswordByOldPassword(user, oldPassword, newPassword, language);
         } catch (ServiceException | IOException exp) {
-            logger.error(exp);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new ServiceException("Error during changing user password by old password", exp);
         }
 
         return ajaxData;

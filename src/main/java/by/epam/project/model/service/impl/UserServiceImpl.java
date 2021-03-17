@@ -6,6 +6,7 @@ import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.dao.impl.ProductDaoImpl;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
@@ -14,6 +15,9 @@ import by.epam.project.model.service.UserService;
 import by.epam.project.util.*;
 import by.epam.project.validator.ServiceValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -21,8 +25,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static by.epam.project.controller.parameter.ContentKey.*;
 import static by.epam.project.controller.parameter.ErrorKey.*;
@@ -32,11 +38,17 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private final ProductDaoImpl productDao = ProductDaoImpl.getInstance();
 
     static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
     private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
     private static final int FILES_COUNT = 1;
     private static final int FIRST = 0;
+
+    private static final int DIFF_RANGE = 900_000;
+    private static final int MIN_RANGE = 100_000;
+    private static final int TIMER_SEC = 300;
+    private static final int MILLISECONDS_PER_SECOND = 1000;
 
     private UserServiceImpl() {
     }
@@ -269,11 +281,11 @@ public class UserServiceImpl implements UserService {
         String encryptOldPassword = EncryptPasswordUtil.encryption(newPassword);
         try {
             Optional<String> userPasswordOptional = userDao.findPasswordByLogin(user.getLogin());
-            if(userPasswordOptional.isPresent() && !encryptOldPassword.equals(userPasswordOptional.get())){
+            if (userPasswordOptional.isPresent() && !encryptOldPassword.equals(userPasswordOptional.get())) {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToAjaxData(ajaxData,
                         ERROR, ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD, language);
-                return;
+                return ajaxData;
             }
 
 
@@ -285,6 +297,207 @@ public class UserServiceImpl implements UserService {
                 return ajaxData;
             }
             userDao.updatePasswordByLogin(user.getLogin(), newPassword);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData changePasswordByEmail(String login, String newPassword, String email, String sessionUniqueKey,
+                                          String requestUniqueKey, long timeCreated,  String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isLoginCorrect(login)
+                || !ServiceValidator.isEmailCorrect(email)
+                || !ServiceValidator.isPasswordCorrect(newPassword)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        try {
+            Optional<User> userOptional = userDao.findByLogin(login);
+            User user = userOptional.get();
+
+            if (!user.getEmail().equals(email)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT, language);
+                return ajaxData;
+            }
+
+            if (sessionUniqueKey == null || sessionUniqueKey.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_UNAUTHORIZED);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, INFO_CHANGING_PASSWORD_EMAIL_CONFIRMATION, language);
+
+                int key = MIN_RANGE + new Random().nextInt(DIFF_RANGE);
+                String uniqueKey = String.valueOf(key);
+
+                ajaxData.putDataToDataSession(UNIQUE_KEY, key);
+
+                String emailSubjectWithLocale = ContentUtil.getWithLocale(language,
+                        ContentKey.EMAIL_SUBJECT_GUEST_CHANGING_PASSWORD);
+                String emailBodyWithLocale = ContentUtil.getWithLocale(language,
+                        ContentKey.EMAIL_BODY_GUEST_CHANGING_PASSWORD);
+
+                MailSenderUtil.sendConfirmationChangingPassword(user, emailSubjectWithLocale,
+                        emailBodyWithLocale, uniqueKey);
+                return ajaxData;
+            }
+
+            if(!ServiceValidator.isUniqueCodeCorrect(requestUniqueKey)){
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                return ajaxData;
+            }
+
+            if (!requestUniqueKey.equals(sessionUniqueKey)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_CHANGING_PASSWORD_UNIQUE_KEY_INCORRECT, language);
+                return ajaxData;
+            }
+
+            long timeNow = System.currentTimeMillis();
+            long diff = (timeNow - timeCreated) / MILLISECONDS_PER_SECOND;
+            boolean isTimeExpired = diff > TIMER_SEC;
+            if (isTimeExpired) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_REQUEST_TIMEOUT);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED, language);
+            }
+            userDao.updatePasswordByLogin(login, newPassword);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData removeUserImage(String login) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        try {
+            Optional<String> URLOptional = userDao.findAvatarURLByLogin(login);
+            if (URLOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            String avatarURL = URLOptional.get();
+            FileUtil.remove(avatarURL);
+            userDao.removeAvatarByLogin(login);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData findUserImage(String login) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        try {
+            Optional<String> URLOptional = userDao.findAvatarURLByLogin(login);
+            if (URLOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            String avatarURL = URLOptional.get();
+            JsonUtil.writeJsonToAjaxData(ajaxData, URL, avatarURL);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData createOrder(User user, List<Product> shoppingCart, String orderAddress,
+                                String orderComment) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isInfoCorrect(orderComment)
+                || !ServiceValidator.isAddressCorrect(orderAddress)
+                || shoppingCart.isEmpty()) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        Order order = new Order(orderComment, orderAddress, new Date(new Date().getTime()), Order.Status.NOT_CONFIRMED);
+        try {
+            userDao.createOrder(user, order, shoppingCart);
+            shoppingCart.clear();
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData findAllOrders(User user) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        String json;
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            switch (user.getRole()) {
+                case CLIENT -> {
+                    List<Order> orders = userDao.findAllOrdersToClient(user);
+
+                    ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
+                    int size = orders.size();
+                    for (int i = 0; i < size; i++) {
+                        JsonNode orderNode = arrayNodeOrders.path(i);
+
+                        List<Product> products = productDao.findAllOrderProducts(orders.get(i));
+                        ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
+
+                        ((ObjectNode) orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
+                    }
+                    json = arrayNodeOrders.toString();
+                }
+                default -> {
+                    List<Order> orders = userDao.findAllOrdersToAdmin();
+
+                    ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
+                    int size = orders.size();
+                    for (int i = 0; i < size; i++) {
+                        JsonNode orderNode = arrayNodeOrders.path(i);
+
+                        Optional<User> userOrderOptional = userDao.findUserByOrderId(orders.get(i).getId());
+                        User userOrder = userOrderOptional.get();
+
+                        ((ObjectNode) orderNode).put(LOGIN, userOrder.getLogin());
+                        ((ObjectNode) orderNode).put(TELEPHONE_NUMBER, userOrder.getTelephoneNumber());
+                        ((ObjectNode) orderNode).put(EMAIL, userOrder.getEmail());
+
+                        List<Product> products = productDao.findAllOrderProducts(orders.get(i));
+                        ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
+
+                        ((ObjectNode) orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
+                    }
+                    json = arrayNodeOrders.toString();
+                }
+            }
+            ajaxData.setJson(json);
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData findAllClients() throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        List<User> users = null;
+        try {
+            users = userDao.findAllClients();
+            String json = JsonUtil.toJson(USERS, users);
+            ajaxData.setJson(json);
         } catch (DaoException | IOException exp) {
             throw new ServiceException(exp);
         }
@@ -404,18 +617,6 @@ public class UserServiceImpl implements UserService {
         return userOptional;
     }
 
-    @Override
-    public List<User> findAllClients() throws ServiceException {
-        List<User> users;
-
-        try {
-            users = userDao.findAllClients();
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all client", exp);
-        }
-
-        return users;
-    }
 
     @Override
     public Optional<User> findUserById(long id) throws ServiceException {

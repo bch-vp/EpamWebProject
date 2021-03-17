@@ -31,12 +31,12 @@ public class AjaxData {
         this.statusHttp = statusHttp;
     }
 
-    public Map<String, Object> getDataToSession() {
+    public Map<String, Object> getDataSession() {
         return dataSession;
     }
 
-    public void setDataToSession(Map<String, Object> dataToSession) {
-        this.dataSession = dataToSession;
+    public void setDataSession(Map<String, Object> dataSession) {
+        this.dataSession = dataSession;
     }
 
     public void putDataToDataSession(String key, Object value) {

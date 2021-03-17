@@ -284,7 +284,7 @@ export default {
                 this.showThirdStepLogic()
                 this.info = ex.response.data.error
               } else if (ex.response.status === 400) {
-                this.error = ex.response.data.error//rewrite
+                this.error = ex.response.data.error
               }
             })
       }
@@ -307,7 +307,7 @@ export default {
               this.success = this.text_page.form_component.info.success
             },
             ex => {
-              if (ex.response.status === 400) {
+              if (ex.response.status === 408) {
                 this.error = ex.response.data.error
               }
             })

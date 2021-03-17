@@ -17,7 +17,7 @@ import static by.epam.project.controller.parameter.ParameterKey.ID_CATEGORY;
 import static by.epam.project.controller.parameter.ParameterKey.ID_PRODUCT;
 
 public class UpdateProductCategoryCommand implements Command {
-    private final ProductService productService = ProductServiceImpl.getInstance();
+    private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

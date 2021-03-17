@@ -18,7 +18,7 @@ import java.util.List;
 import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
 public class LoadShoppingCartCommand implements Command {
-    private final ProductService productService = ProductServiceImpl.getInstance();
+    private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

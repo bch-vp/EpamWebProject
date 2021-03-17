@@ -18,7 +18,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UpdateProfileCommand implements Command {
-    private final UserService userService = UserServiceImpl.getInstance();
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     private static final int EMPTY_PRIMITIVE = 0;
 
