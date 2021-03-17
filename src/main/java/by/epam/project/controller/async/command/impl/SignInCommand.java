@@ -40,7 +40,7 @@ public class SignInCommand implements Command {
                 return ajaxData;
             }
 
-            session.setAttribute(USER, ajaxData.getDataToSession().get(USER));
+            session.setAttribute(USER, ajaxData.getDataSession().get(USER));
             session.setAttribute(SHOPPING_CART, new ArrayList<Product>());
         } catch (ServiceException | IOException exp) {
             throw new CommandException("Error during sign in", exp);

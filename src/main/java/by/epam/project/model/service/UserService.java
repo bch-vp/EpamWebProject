@@ -28,55 +28,6 @@ public interface UserService {
                           String orderComment) throws ServiceException;
     AjaxData findAllOrders(User user) throws ServiceException;
     AjaxData findAllClients() throws ServiceException;
-
-
-
-
-
-
-
-    Optional<User> signInUser(String login, String password) throws ServiceException;
-
-    boolean updateUser(User newUser, String oldLogin) throws ServiceException;
-
-    boolean updateUserStatus(long idUser, long idStatus) throws ServiceException;
-
-    boolean signUpUser(User user, String password) throws ServiceException;
-
-    List<User> findAllUsers() throws ServiceException;
-
-
-    Optional<User.Status> findStatusById(long id) throws ServiceException;
-
-    Optional<User> findUserById(long id) throws ServiceException;
-
-    Optional<User> findUserByLogin(String login) throws ServiceException;
-
-    Optional<User> findUserByOrderId(long id) throws ServiceException;
-
-    Optional<String> findAvatarURLByLogin(String login) throws ServiceException;
-
-    boolean updatePasswordByLogin(String login, String password) throws ServiceException;
-
-    boolean updateAvatarURLByLogin(String login, String fileURL) throws ServiceException;
-
+    AjaxData checkLoginExistence(String login) throws ServiceException;
     boolean updateActivationStatusByLogin(String login, User.Status status) throws ServiceException;
-
-    boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
-
-    boolean isStatusEqualUserStatus(String login, User.Status status) throws ServiceException;
-
-    boolean removeAvatarByLogin(String login) throws ServiceException;
-
-    boolean createOrder(User user, Order order, List<Product> products) throws ServiceException;
-
-    List<Order> findAllOrdersToClient(User user) throws ServiceException;
-
-    List<Order> findAllOrdersToAdmin() throws ServiceException;
-
-    Optional<Order> findOrderById(long id) throws ServiceException;
-
-    boolean updateOrderStatusById(long idOrder, long idStatus) throws ServiceException;
-
-    Optional<Order.Status> findOrderStatusById(long id) throws ServiceException;
 }

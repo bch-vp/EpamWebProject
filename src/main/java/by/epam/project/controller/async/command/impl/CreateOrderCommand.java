@@ -2,6 +2,7 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
+import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
@@ -22,7 +23,7 @@ public class CreateOrderCommand implements Command {
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
-    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         AjaxData ajaxData;
 
         HttpSession session = request.getSession();
@@ -37,7 +38,7 @@ public class CreateOrderCommand implements Command {
 
             ajaxData = userService.createOrder(user, shoppingCart, OrderAddress, OrderComment);
         } catch (ServiceException | IOException exp) {
-            throw new ServiceException("Error during creating order", exp);
+            throw new CommandException("Error during creating order", exp);
         }
 
         return ajaxData;
