@@ -1,8 +1,11 @@
 package by.epam.project.controller.async.command;
 
+import by.epam.project.controller.async.AjaxData;
+import by.epam.project.exception.CommandException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface Command {
-    void execute(HttpServletRequest request, HttpServletResponse response);
+    AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException;
 }

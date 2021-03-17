@@ -1,11 +1,20 @@
 package by.epam.project.util;
 
+import by.epam.project.controller.async.AjaxData;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import static by.epam.project.controller.parameter.ContentKey.*;
+import static by.epam.project.controller.parameter.ErrorKey.ERROR;
+import static by.epam.project.controller.parameter.ParameterKey.URL;
 
 public class FileUtil {
     private static final String SLASH = "/";

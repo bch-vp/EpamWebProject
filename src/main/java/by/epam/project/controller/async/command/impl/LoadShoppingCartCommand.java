@@ -1,10 +1,12 @@
 package by.epam.project.controller.async.command.impl;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
+import by.epam.project.exception.CommandException;
+import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Product;
-import by.epam.project.util.JsonUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import by.epam.project.model.service.ProductService;
+import by.epam.project.model.service.impl.ProductServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,24 +15,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.epam.project.controller.parameter.ParameterKey.DATA;
 import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
 public class LoadShoppingCartCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        AjaxData ajaxData;
+
         HttpSession session = request.getSession();
+        List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
 
         try {
-            List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
-
-            String json = JsonUtil.toJson(DATA, shoppingCart);
-            JsonUtil.writeJsonToResponse(response, json);
-        } catch (IOException exp) {
-            logger.error(exp);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            ajaxData = productService.loadShoppingCart(shoppingCart);
+        } catch (ServiceException exp) {
+            throw new CommandException("Error during loading shopping cart", exp);
         }
+
+        return ajaxData;
     }
 }

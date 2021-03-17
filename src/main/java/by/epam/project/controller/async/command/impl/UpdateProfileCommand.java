@@ -1,5 +1,6 @@
 package by.epam.project.controller.async.command.impl;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.controller.parameter.ErrorKey;
@@ -32,12 +33,12 @@ public class UpdateProfileCommand implements Command {
     private static final String EMPTY_JSON_TREE_OBJECT = "{}";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String language = (String) session.getAttribute(LANGUAGE);
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+            Map requestParameters = JsonUtil.toMap(request.getInputStream());
 
             String login = (String) requestParameters.get(LOGIN);
             String oldLogin = (String) requestParameters.get(OLD_LOGIN);
@@ -49,35 +50,35 @@ public class UpdateProfileCommand implements Command {
             User user = (User) session.getAttribute(USER);
             User.Role role = user.getRole();
 
-            Map<String, String> requestData = ServiceValidator.validateParameters(login, email, firstName, lastName,
-                    telephoneNumber);
+//            Map<String, String> requestData = ServiceValidator.validateParameters(login, email, firstName, lastName,
+//                    telephoneNumber);
+//
+//            if (!ServiceValidator.defineIncorrectValues(requestData)) {
+//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                return;
+//            }
 
-            if (!ServiceValidator.defineIncorrectValues(requestData)) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
-
-            JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
-            if (!userService.isLoginUnique(login) && !user.getLogin().equals(login)) {
-                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
-            }
-            if (!userService.isTelephoneNumberUnique(telephoneNumber) &&
-                    !user.getTelephoneNumber().equals(telephoneNumber)) {
-                String error = ContentUtil.getWithLocale(language,
-                        ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
-                JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
-            }
-            if (!userService.isEmailUnique(email) && !user.getEmail().equals(email)) {
-                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
-                JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
-            }
-
-            if (!jsonTree.path(ERROR).isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                JsonUtil.writeJsonTreeToResponse(response, jsonTree);
-                return;
-            }
+//            JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
+//            if (!userService.isLoginUnique(login) && !user.getLogin().equals(login)) {
+//                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+//                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
+//            }
+//            if (!userService.isTelephoneNumberUnique(telephoneNumber) &&
+//                    !user.getTelephoneNumber().equals(telephoneNumber)) {
+//                String error = ContentUtil.getWithLocale(language,
+//                        ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+//                JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
+//            }
+//            if (!userService.isEmailUnique(email) && !user.getEmail().equals(email)) {
+//                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+//                JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
+//            }
+//
+//            if (!jsonTree.path(ERROR).isEmpty()) {
+//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                JsonUtil.writeJsonTreeToResponse(response, jsonTree);
+//                return;
+//            }
 
             User newUser = new User(login, firstName, lastName, telephoneNumber, email, role, user.getStatus());
             userService.updateUser(newUser, oldLogin);

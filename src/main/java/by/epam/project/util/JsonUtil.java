@@ -1,5 +1,6 @@
 package by.epam.project.util;
 
+import by.epam.project.controller.async.AjaxData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,21 +18,19 @@ public class JsonUtil {
 
     private static final String CONTENT_TYPE = "application/json";
     private static final String ENCODING = "UTF-8";
+    private static final int EMPTY_PRIMITIVE = 0;
 
     private JsonUtil() {
     }
 
-    public static void writeJsonToResponse(HttpServletResponse response, String errorKey, String contentKey, String language)
-            throws IOException {
+    public static void writeJsonToAjaxData(AjaxData ajaxData, String errorKey, String contentKey,
+                                           String language) throws IOException {
         Map<String, String> responseMap = new HashMap<>();
         String contentValue = ContentUtil.getWithLocale(language, contentKey);
         responseMap.put(errorKey, contentValue);
 
         String json = toJson(responseMap);
-
-        response.setContentType(CONTENT_TYPE);
-        response.setCharacterEncoding(ENCODING);
-        response.getWriter().write(json);
+        ajaxData.setJson(json);
     }
 
     public static void writeJsonToResponse(HttpServletResponse response, String json) throws IOException {
@@ -42,9 +41,19 @@ public class JsonUtil {
         }
     }
 
-    public static void writeJsonToResponse(HttpServletResponse response, String key, String value) throws IOException {
+    public static void writeAjaxDataToResponse(HttpServletResponse response, AjaxData ajaxData) throws IOException {
+        int statusHttp = ajaxData.getStatusHttp();
+        if (statusHttp != EMPTY_PRIMITIVE) {
+            response.setStatus(ajaxData.getStatusHttp());
+        } else {
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+        writeJsonToResponse(response, ajaxData.getJson());
+    }
+
+    public static void writeJsonToAjaxData(AjaxData ajaxData, String key, String value) throws IOException {
         String json = toJson(key, value);
-        writeJsonToResponse(response, json);
+        ajaxData.setJson(json);
     }
 
     public static String toJson(String key, String value) throws IOException {
@@ -65,8 +74,8 @@ public class JsonUtil {
         return objectMapper.writeValueAsString(map);
     }
 
-    public static <T> T toMap(InputStream inputStream, Class<T> clazz) throws IOException {
-        return objectMapper.readValue(inputStream, clazz);
+    public static HashMap toMap(InputStream inputStream) throws IOException {
+        return objectMapper.readValue(inputStream, HashMap.class);
     }
 
     public static <T> String toJson(T t) throws IOException {
@@ -74,35 +83,21 @@ public class JsonUtil {
     }
 
     public static JsonNode addNodeToJsonTree(JsonNode rootNode, String key, String value, String... paths) {
-        if (rootNode == null) {
-            rootNode = objectMapper.createObjectNode();
-        }
-
-        JsonNode node = rootNode;
         for (String path : paths) {
-            node = node.path(path);
+            rootNode = rootNode.path(path);
         }
-        JsonNode n = ((ObjectNode) node).put(key, value);
+        JsonNode n = ((ObjectNode) rootNode).put(key, value);
         return rootNode;
     }
 
-    public static JsonNode addObjectToJsonTree(JsonNode rootNode, String object, String... paths) {
-        if (rootNode == null) {
-            rootNode = objectMapper.createObjectNode();
-        }
-
-        JsonNode node = rootNode;
-        for (String path : paths) {
-            node = node.path(path);
-        }
-        JsonNode n = ((ObjectNode) node).putObject(object);
+    public static JsonNode createJsonTree(String object) {
+        JsonNode rootNode = objectMapper.createObjectNode();
+        rootNode = ((ObjectNode) rootNode).putObject(object);
         return rootNode;
     }
 
-    public static void writeJsonTreeToResponse(HttpServletResponse response, JsonNode jsonNode) throws IOException {
-        response.setContentType(CONTENT_TYPE);
-        response.setCharacterEncoding(ENCODING);
+    public static void writeJsonTreeToResponse(AjaxData ajaxData, JsonNode jsonNode) {
         String json = jsonNode.toString();
-        writeJsonToResponse(response, json);
+        ajaxData.setJson(json);
     }
 }

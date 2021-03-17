@@ -1,19 +1,33 @@
 package by.epam.project.model.service.impl;
 
+import by.epam.project.controller.async.AjaxData;
+import by.epam.project.controller.parameter.ContentKey;
+import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
+import by.epam.project.util.ContentUtil;
 import by.epam.project.util.EncryptPasswordUtil;
+import by.epam.project.util.FileUtil;
+import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.ServiceValidator;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static by.epam.project.controller.parameter.ContentKey.*;
+import static by.epam.project.controller.parameter.ErrorKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 
@@ -21,11 +35,111 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     private static final UserServiceImpl instance = new UserServiceImpl();
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
 
+    static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
+    private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
+    private static final int FILES_COUNT = 1;
+    private static final int FIRST = 0;
+
     private UserServiceImpl() {
     }
 
     public static UserServiceImpl getInstance() {
         return instance;
+    }
+
+    @Override
+    public AjaxData uploadUserImage(String userLogin, List<FileItem> fileItems, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+
+        if (!ServiceValidator.isNameCorrect(userLogin)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        try {
+            if (fileItems.size() != FILES_COUNT) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES, language);
+                return ajaxData;
+            }
+
+            FileItem file = fileItems.get(FIRST);
+            if (file.getSize() > FILE_MAX_SIZE) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_MAX_SIZE, language);
+                return ajaxData;
+            }
+
+            if (file.isFormField()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD, language);
+                return ajaxData;
+            }
+
+            String contentType = file.getContentType();
+            if (!FILE_TYPE.contains(contentType)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_FORMAT, language);
+                return ajaxData;
+            }
+
+            Optional<String> URLOptional = userDao.findAvatarURLByLogin(userLogin);
+            if (URLOptional.isPresent()) {
+                String avatarURL = URLOptional.get();
+                FileUtil.remove(avatarURL);
+            }
+
+            String fileURL = FileUtil.save(file);
+            userDao.updateAvatarURLByLogin(userLogin, fileURL);
+            JsonUtil.writeJsonToAjaxData(ajaxData, URL, fileURL);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData updateProfile(User user, String newLogin, String newFirstName, String newLastName,
+                                  String newTelephoneNumber, String newEmail, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isLoginCorrect(newLogin)
+                || !ServiceValidator.isFirstNameCorrect(newFirstName)
+                || !ServiceValidator.isLastNameCorrect(newLastName)
+                || !ServiceValidator.isPhoneCorrect(newTelephoneNumber)
+                || !ServiceValidator.isEmailCorrect(newEmail)){
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        JsonNode jsonTree = JsonUtil.createJsonTree(ERROR);
+
+        if (userDao.findByLogin(newLogin).isPresent() && !user.getLogin().equals(newLogin)) {
+            String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+            JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
+        }
+        if (userDao.findByTelephoneNumber(newTelephoneNumber).isPresent() &&
+                                    !user.getTelephoneNumber().equals(newTelephoneNumber)) {
+            String error = ContentUtil.getWithLocale(language,
+                    ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+            JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
+        }
+        if (userDao.findByEmail(newEmail).isPresent() && !user.getEmail().equals(newEmail)) {
+            String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+            JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
+        }
+
+        if (!jsonTree.path(ERROR).isEmpty()) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            JsonUtil.writeJsonTreeToResponse(ajaxData, jsonTree);
+            return ajaxData;
+        }
+
+        return ajaxData;
     }
 
     @Override

@@ -1,44 +1,32 @@
 package by.epam.project.controller.async.command.impl;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
+import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
-import by.epam.project.util.FileUtil;
-import by.epam.project.util.JsonUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ContentKey.*;
-import static by.epam.project.controller.parameter.ErrorKey.ERROR;
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
+import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class UploadProfileImageCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
-    private static final Logger logger = LogManager.getLogger();
-
-    static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
-    private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
-
-    private static final int FILES_COUNT = 1;
-    private static final int FIRST = 0;
-
-
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        AjaxData ajaxData = new AjaxData();
+
         HttpSession session = request.getSession();
         String language = (String) session.getAttribute(LANGUAGE);
 
@@ -49,57 +37,18 @@ public class UploadProfileImageCommand implements Command {
         String login = user.getLogin();
 
         if (!ServletFileUpload.isMultipartContent(request)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
         List<FileItem> fileItems;
         try {
-            try {
-                fileItems = upload.parseRequest(request);
-            } catch (FileUploadException e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_PARSE_REQUEST, language);
-                return;
-            }
-
-            if (fileItems.size() != FILES_COUNT) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES, language);
-                return;
-            }
-
-            FileItem file = fileItems.get(FIRST);
-            if (file.getSize() > FILE_MAX_SIZE) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_MAX_SIZE, language);
-                return;
-            }
-
-            if (file.isFormField()) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD, language);
-                return;
-            }
-
-            String contentType = file.getContentType();
-            if (!FILE_TYPE.contains(contentType)) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                JsonUtil.writeJsonToResponse(response, ERROR, ERROR_PROFILE_AVATAR_FORMAT, language);
-                return;
-            }
-
-            Optional<String> URLOptional = userService.findAvatarURLByLogin(login);
-            if (URLOptional.isPresent()) {
-                String avatarURL = URLOptional.get();
-                FileUtil.remove(avatarURL);
-            }
-
-            String fileURL = FileUtil.save(file);
-            userService.updateAvatarURLByLogin(login, fileURL);
-            JsonUtil.writeJsonToResponse(response, URL, fileURL);
-        } catch (ServiceException | IOException e) {
-            logger.error(e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            fileItems = upload.parseRequest(request);
+            ajaxData = userService.uploadUserImage(login, fileItems, language);
+        } catch (ServiceException | FileUploadException exp) {
+            throw new CommandException("Error during uploading user image", exp);
         }
+
+        return ajaxData;
     }
 }

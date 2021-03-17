@@ -1,178 +1,301 @@
 package by.epam.project.model.service.impl;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.dao.CategoryDao;
 import by.epam.project.model.dao.ProductDao;
+import by.epam.project.model.dao.impl.CategoryDaoImpl;
 import by.epam.project.model.dao.impl.ProductDaoImpl;
+import by.epam.project.model.entity.Category;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
+import by.epam.project.model.entity.User;
 import by.epam.project.model.service.ProductService;
+import by.epam.project.util.FileUtil;
+import by.epam.project.util.JsonUtil;
+import by.epam.project.validator.ServiceValidator;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
+import static by.epam.project.controller.parameter.ContentKey.*;
+import static by.epam.project.controller.parameter.ErrorKey.ERROR;
+import static by.epam.project.controller.parameter.ParameterKey.DATA;
+import static by.epam.project.controller.parameter.ParameterKey.URL;
 
 public class ProductServiceImpl implements ProductService {
     private static final ProductServiceImpl instance = new ProductServiceImpl();
 
     private final ProductDao productDao = ProductDaoImpl.getInstance();
+    private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
+
+    static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
+    private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
+    private static final int FILES_COUNT = 1;
+    private static final int FIRST = 0;
 
     public static ProductServiceImpl getInstance() {
         return instance;
     }
 
     @Override
-    public boolean add(Product product, long idCategory) throws ServiceException {
-        boolean isUpdated;
+    public AjaxData addProductToShoppingCart(List<Product> shoppingCart, String productName) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            isUpdated = productDao.add(product, idCategory);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during adding new product", exp);
+        if (!ServiceValidator.isNameCorrect(productName)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return isUpdated;
+        try {
+            Optional<Product> productOptional = productDao.findProductByName(productName);
+            if (productOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            Product product = productOptional.get();
+            if (shoppingCart.contains(product)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                return ajaxData;
+            }
+
+            shoppingCart.add(product);
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
     }
 
     @Override
-    public Optional<String> findImageURLByName(String name) throws ServiceException {
-        Optional<String> stringOptional;
+    public AjaxData loadAllProductsByCategory(User.Role userRole, String categoryName,
+                                              List<Product> shoppingCart) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            stringOptional = productDao.findImageURLByName(name);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all products by category to client", exp);
+        if (!ServiceValidator.isNameCorrect(categoryName)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return stringOptional;
-    }
-
-    @Override
-    public boolean updateImageURLByName(String name, String fileURL) throws ServiceException {
-        boolean isUpdated;
-
-        try {
-            isUpdated = productDao.updateImageURLByName(name, fileURL);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during updating product image", exp);
-        }
-
-        return isUpdated;
-    }
-
-    @Override
-    public List<Product> findAllProductsByCategoryToClient(String category) throws ServiceException {
         List<Product> products;
-
         try {
-            products = productDao.findAllProductsByCategoryToClient(category);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all products by category to client", exp);
+            switch (userRole) {
+                case GUEST, CLIENT -> {
+                    products = productDao.findAllProductsByCategoryToClient(categoryName);
+
+                    if (shoppingCart != null) {
+                        shoppingCart.forEach(products::remove);
+                    }
+                }
+                default -> {
+                    products = productDao.findAllProductsByCategoryToAdmin(categoryName);
+                }
+            }
+            String json = JsonUtil.toJson(DATA, products);
+            ajaxData.setJson(json);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
         }
 
-        return products;
+        return ajaxData;
     }
 
     @Override
-    public boolean updateProductInfo(Product product) throws ServiceException {
-        boolean isUpdated;
+    public AjaxData removeProductFromShoppingCart(List<Product> shoppingCart,
+                                                  String productName) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            isUpdated = productDao.updateProductInfo(product);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during updating product info", exp);
+        if (!ServiceValidator.isNameCorrect(productName)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return isUpdated;
+        try {
+            Optional<Product> productOptional = productDao.findProductByName(productName);
+            if (productOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            Product product = productOptional.get();
+            if (!shoppingCart.contains(product)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                return ajaxData;
+            }
+
+            shoppingCart.remove(product);
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
     }
 
     @Override
-    public List<Product> findAllProductsByCategoryToAdmin(String category) throws ServiceException {
-        List<Product> products;
+    public AjaxData loadShoppingCart(List<Product> shoppingCart) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
         try {
-            products = productDao.findAllProductsByCategoryToAdmin(category);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all products by category to admin", exp);
+            String json = JsonUtil.toJson(DATA, shoppingCart);
+            ajaxData.setJson(json);
+        } catch (IOException exp) {
+            throw new ServiceException(exp);
         }
 
-        return products;
+        return ajaxData;
     }
 
     @Override
-    public Optional<Product> findProductByName(String name) throws ServiceException {
-        Optional<Product> productOptional = Optional.empty();
+    public AjaxData updateProductCategory(String idProductString, String idCategoryString) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            productOptional = productDao.findProductByName(name);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding product by name", exp);
+        if (!ServiceValidator.isIdCorrect(idProductString)
+                || !ServiceValidator.isIdCorrect(idCategoryString)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return productOptional;
+        long idProduct = Long.parseLong(idProductString);
+        long idCategory = Long.parseLong(idCategoryString);
+
+        try {
+            Optional<Category> categoryOptional = categoryDao.findCategoryById(idCategory);
+            if (categoryOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            boolean isUpdated = productDao.updateProductCategory(idProduct, idCategory);
+            if (!isUpdated) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
     }
 
     @Override
-    public Optional<Product> findProductById(long id) throws ServiceException {
-        Optional<Product> productOptional = Optional.empty();
+    public AjaxData updateProductInfo(String idString, String name, String info, String priceString) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            productOptional = productDao.findProductById(id);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding product by id", exp);
+        if (!ServiceValidator.isIdCorrect(idString)
+                || !ServiceValidator.isNameCorrect(name)
+                || !ServiceValidator.isInfoCorrect(info)
+                || !ServiceValidator.isPriceCorrect(priceString)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return productOptional;
+        long id = Long.parseLong(idString);
+        BigDecimal price = new BigDecimal(priceString);
+
+        Product product = new Product(id, name, info, price);
+        try {
+            boolean isUpdated = productDao.updateProductInfo(product);
+            if (!isUpdated) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
     }
 
     @Override
-    public Optional<Product.Status> findStatusById(long id) throws ServiceException {
-        Optional<Product.Status> statusOptional = Optional.empty();
+    public AjaxData updateProductStatus(String idProductString, String idStatusString) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            statusOptional = productDao.findStatusById(id);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding product status", exp);
+        if (!ServiceValidator.isIdCorrect(idProductString)
+                || !ServiceValidator.isIdCorrect(idStatusString)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return statusOptional;
+        long idProduct = Long.parseLong(idProductString);
+        long idStatus = Long.parseLong(idStatusString);
+
+        try {
+            Optional<Product.Status> statusOptional = productDao.findStatusById(idStatus);
+            if (statusOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            boolean isUpdated = productDao.updateProductStatus(idProduct, idStatus);
+            if (!isUpdated) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+
+        return ajaxData;
     }
 
     @Override
-    public boolean updateProductCategory(long idProduct, long idCategory) throws ServiceException {
-        boolean isUpdated;
+    public AjaxData uploadProductImage(String productName, List<FileItem> fileItems, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            isUpdated = productDao.updateProductCategory(idProduct, idCategory);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during updating product category", exp);
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+
+        if (!ServiceValidator.isNameCorrect(productName)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return isUpdated;
-    }
-
-    @Override
-    public boolean updateProductStatus(long idProduct, long idStatus) throws ServiceException {
-        boolean isUpdated;
-
         try {
-            isUpdated = productDao.updateProductStatus(idProduct, idStatus);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during updating product status", exp);
+            if (fileItems.size() != FILES_COUNT) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES, language);
+                return ajaxData;
+            }
+
+            FileItem file = fileItems.get(FIRST);
+            if (file.getSize() > FILE_MAX_SIZE) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_MAX_SIZE, language);
+                return ajaxData;
+            }
+
+            if (file.isFormField()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_FORM_FIELD, language);
+                return ajaxData;
+            }
+
+            String contentType = file.getContentType();
+            if (!FILE_TYPE.contains(contentType)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_PROFILE_AVATAR_FORMAT, language);
+                return ajaxData;
+            }
+
+            Optional<String> URLOptional = productDao.findImageURLByName(productName);
+            if (URLOptional.isPresent()) {
+                String avatarURL = URLOptional.get();
+                FileUtil.remove(avatarURL);
+            }
+
+            String fileURL = FileUtil.save(file);
+            productDao.updateImageURLByName(productName, fileURL);
+            JsonUtil.writeJsonToAjaxData(ajaxData, URL, fileURL);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
         }
 
-        return isUpdated;
-    }
-
-    @Override
-    public List<Product> findAllOrderProducts(Order order) throws ServiceException {
-        List<Product> products;
-
-        try {
-            products = productDao.findAllOrderProducts(order);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all products from order", exp);
-        }
-
-        return products;
+        return ajaxData;
     }
 }

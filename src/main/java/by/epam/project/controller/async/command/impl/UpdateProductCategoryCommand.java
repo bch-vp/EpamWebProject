@@ -1,63 +1,39 @@
 package by.epam.project.controller.async.command.impl;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
+import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.entity.Category;
-import by.epam.project.model.entity.Product;
-import by.epam.project.model.service.CategoryService;
 import by.epam.project.model.service.ProductService;
-import by.epam.project.model.service.impl.CategoryServiceImpl;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
-import by.epam.project.validator.ServiceValidator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ParameterKey.ID_CATEGORY;
 import static by.epam.project.controller.parameter.ParameterKey.ID_PRODUCT;
 
 public class UpdateProductCategoryCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
-
     private final ProductService productService = ProductServiceImpl.getInstance();
-    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        AjaxData ajaxData;
+
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream(), HashMap.class);
+            Map requestParameters = JsonUtil.toMap(request.getInputStream());
 
             String idProductString = (String) requestParameters.get(ID_PRODUCT);
             String idCategoryString = (String) requestParameters.get(ID_CATEGORY);
-            if (!ServiceValidator.isIdCorrect(idProductString)
-                    || !ServiceValidator.isIdCorrect(idCategoryString)) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
 
-            long idProduct = Long.parseLong(idProductString);
-            long idCategory = Long.parseLong(idCategoryString);
-
-            Optional<Category> categoryOptional = categoryService.findCategoryById(idCategory);
-            if (categoryOptional.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
-
-            boolean isUpdated = productService.updateProductCategory(idProduct, idCategory);
-            if (!isUpdated) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            }
+            ajaxData = productService.updateProductCategory(idProductString, idCategoryString);
         } catch (ServiceException | IOException exp) {
-            logger.error(exp);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new CommandException("Error during updating product category", exp);
         }
+
+        return ajaxData;
     }
 }

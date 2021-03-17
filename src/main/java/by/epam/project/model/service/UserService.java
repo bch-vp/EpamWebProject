@@ -1,15 +1,23 @@
 package by.epam.project.model.service;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
+import org.apache.commons.fileupload.FileItem;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
+    AjaxData uploadUserImage(String userLogin, List<FileItem> fileItems, String language) throws ServiceException;
+    AjaxData updateProfile(User user, String newLogin, String newFirstName, String newLastName,
+                           String newTelephoneNumber, String newEmail, String language) throws ServiceException;
+
+
+
     Optional<User> signInUser(String login, String password) throws ServiceException;
 
     boolean updateUser(User newUser, String oldLogin) throws ServiceException;

@@ -1,34 +1,24 @@
 package by.epam.project.model.service;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
+import by.epam.project.model.entity.User;
+import org.apache.commons.fileupload.FileItem;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-    boolean add(Product product, long idCategory) throws ServiceException;
-
-    List<Product> findAllProductsByCategoryToClient(String category) throws ServiceException;
-
-    List<Product> findAllProductsByCategoryToAdmin(String category) throws ServiceException;
-
-    Optional<String> findImageURLByName(String name) throws ServiceException;
-
-    boolean updateImageURLByName(String name, String fileURL) throws ServiceException;
-
-    Optional<Product> findProductByName(String name) throws ServiceException;
-
-    Optional<Product> findProductById(long id) throws ServiceException;
-
-    Optional<Product.Status> findStatusById(long id) throws ServiceException;
-
-    boolean updateProductInfo(Product product) throws ServiceException;
-
-    boolean updateProductStatus(long idProduct, long idStatus) throws ServiceException;
-
-    boolean updateProductCategory(long idProduct, long idCategory) throws ServiceException;
-
-    List<Product> findAllOrderProducts(Order order) throws ServiceException;
+    AjaxData addProductToShoppingCart(List<Product> shoppingCart, String productName) throws ServiceException;
+    AjaxData loadAllProductsByCategory(User.Role userRole, String categoryName,
+                                       List<Product> shoppingCart) throws ServiceException;
+    AjaxData removeProductFromShoppingCart(List<Product> shoppingCart, String productName) throws ServiceException;
+    AjaxData loadShoppingCart(List<Product> shoppingCart) throws ServiceException;
+    AjaxData updateProductCategory(String idProductString, String idCategoryString) throws ServiceException;
+    AjaxData updateProductInfo(String idString,String name,
+                               String info, String priceString) throws ServiceException;
+    AjaxData updateProductStatus(String idProductString, String idStatusString) throws ServiceException;
+    AjaxData uploadProductImage(String productName, List<FileItem> fileItems, String language) throws ServiceException;
 }
