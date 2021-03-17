@@ -3,16 +3,15 @@ package by.epam.project.model.service.impl;
 import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.parameter.ContentKey;
 import by.epam.project.controller.parameter.ErrorKey;
+import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
-import by.epam.project.util.ContentUtil;
-import by.epam.project.util.EncryptPasswordUtil;
-import by.epam.project.util.FileUtil;
-import by.epam.project.util.JsonUtil;
+import by.epam.project.model.service.UserService;
+import by.epam.project.util.*;
 import by.epam.project.validator.ServiceValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.fileupload.FileItem;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ContentKey.*;
@@ -31,7 +29,7 @@ import static by.epam.project.controller.parameter.ErrorKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 
-public class UserServiceImpl implements by.epam.project.model.service.UserService {
+public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
 
@@ -111,36 +109,189 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
                 || !ServiceValidator.isFirstNameCorrect(newFirstName)
                 || !ServiceValidator.isLastNameCorrect(newLastName)
                 || !ServiceValidator.isPhoneCorrect(newTelephoneNumber)
-                || !ServiceValidator.isEmailCorrect(newEmail)){
+                || !ServiceValidator.isEmailCorrect(newEmail)) {
             ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
             return ajaxData;
         }
 
         JsonNode jsonTree = JsonUtil.createJsonTree(ERROR);
+        try {
+            if (userDao.findByLogin(newLogin).isPresent() && !user.getLogin().equals(newLogin)) {
+                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
+            }
+            if (userDao.findByTelephoneNumber(newTelephoneNumber).isPresent() &&
+                    !user.getTelephoneNumber().equals(newTelephoneNumber)) {
+                String error = ContentUtil.getWithLocale(language,
+                        ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
+            }
+            if (userDao.findByEmail(newEmail).isPresent() && !user.getEmail().equals(newEmail)) {
+                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
+            }
 
-        if (userDao.findByLogin(newLogin).isPresent() && !user.getLogin().equals(newLogin)) {
-            String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-            JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
-        }
-        if (userDao.findByTelephoneNumber(newTelephoneNumber).isPresent() &&
-                                    !user.getTelephoneNumber().equals(newTelephoneNumber)) {
-            String error = ContentUtil.getWithLocale(language,
-                    ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
-            JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
-        }
-        if (userDao.findByEmail(newEmail).isPresent() && !user.getEmail().equals(newEmail)) {
-            String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
-            JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
-        }
+            if (!jsonTree.path(ERROR).isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonTreeToResponse(ajaxData, jsonTree);
+                return ajaxData;
+            }
 
-        if (!jsonTree.path(ERROR).isEmpty()) {
-            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
-            JsonUtil.writeJsonTreeToResponse(ajaxData, jsonTree);
-            return ajaxData;
+            User newUser = new User(user.getId(), newLogin, newFirstName, newLastName, newTelephoneNumber,
+                    newEmail, user.getRole(), user.getStatus());
+            userDao.updateUser(newUser, user.getLogin());
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
         }
 
         return ajaxData;
     }
+
+    @Override
+    public AjaxData signIn(String login, String password, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isLoginCorrect(login)
+                || !ServiceValidator.isPasswordCorrect(password)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        String encryptPassword = EncryptPasswordUtil.encryption(password);
+
+        Optional<User> userOptional;
+        try {
+            userOptional = userDao.findByLoginAndPassword(login, encryptPassword);
+
+
+            if (userOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            User user = userOptional.get();
+            if (user.getStatus().equals(User.Status.BANNED)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_SIGN_IN_BANNED, language);
+                return ajaxData;
+            }
+
+            if (!user.getStatus().equals(User.Status.ACTIVATED)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_SIGN_IN_NOT_ACTIVATED, language);
+                return ajaxData;
+            }
+
+            User.Role role = user.getRole();
+            if (role == User.Role.CLIENT) {
+                JsonUtil.writeJsonToAjaxData(ajaxData, INFO, PASSING_BY_CLIENT);
+            } else {
+                JsonUtil.writeJsonToAjaxData(ajaxData, INFO, PASSING_BY_ADMIN);
+            }
+            ajaxData.putDataToDataSession(USER, user);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData signUp(String login, String password, String firstName, String lastName, String telephoneNumber,
+                           String email, String confirmationLink, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isLoginCorrect(login)
+                || !ServiceValidator.isPasswordCorrect(password)
+                || !ServiceValidator.isFirstNameCorrect(firstName)
+                || !ServiceValidator.isLastNameCorrect(lastName)
+                || !ServiceValidator.isPhoneCorrect(telephoneNumber)
+                || !ServiceValidator.isEmailCorrect(email)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        JsonNode jsonTree = JsonUtil.createJsonTree(ERROR);
+        try {
+            if (userDao.findByLogin(login).isPresent()) {
+                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
+            }
+            if (userDao.findByTelephoneNumber(telephoneNumber).isPresent()) {
+                String error = ContentUtil.getWithLocale(language,
+                        ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
+            }
+            if (userDao.findByEmail(email).isPresent()) {
+                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
+                JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
+            }
+            if (!jsonTree.path(ERROR).isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonTreeToResponse(ajaxData, jsonTree);
+                return ajaxData;
+            }
+
+            User user = new User(login, firstName, lastName, telephoneNumber, email,
+                    User.Role.CLIENT, User.Status.NOT_ACTIVATED);
+            String encryptPassword = EncryptPasswordUtil.encryption(password);
+            userDao.add(user, encryptPassword);
+
+            String emailSubjectWithLocale = ContentUtil.getWithLocale(language,
+                    ContentKey.EMAIL_SUBJECT_ACTIVATION_SIGN_UP);
+            String emailBodyWithLocale = ContentUtil.getWithLocale(language,
+                    ContentKey.EMAIL_BODY_ACTIVATION_SIGN_UP);
+
+            String command = CommandType.CONFIRM_SIGN_UP.toString().toLowerCase();
+            MailSenderUtil.sendActivationEmail(user, emailSubjectWithLocale,
+                    emailBodyWithLocale, confirmationLink, command);
+
+            ajaxData.setStatusHttp(HttpServletResponse.SC_CREATED);
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData changePasswordByOldPassword(User user, String oldPassword, String newPassword,
+                                                String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (ServiceValidator.isPasswordCorrect(oldPassword)
+                && ServiceValidator.isPasswordCorrect(newPassword)
+                && oldPassword.equals(newPassword)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        String encryptOldPassword = EncryptPasswordUtil.encryption(newPassword);
+        try {
+            Optional<String> userPasswordOptional = userDao.findPasswordByLogin(user.getLogin());
+            if(userPasswordOptional.isPresent() && !encryptOldPassword.equals(userPasswordOptional.get())){
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData,
+                        ERROR, ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD, language);
+                return;
+            }
+
+
+            boolean isEqual = isPasswordEqualLoginPassword(user.getLogin(), oldPassword);
+            if (!isEqual) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR,
+                        ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD, language);
+                return ajaxData;
+            }
+            userDao.updatePasswordByLogin(user.getLogin(), newPassword);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
 
     @Override
     public Optional<User> signInUser(String login, String password) throws ServiceException {
@@ -213,57 +364,6 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
         return isUpdated;
     }
 
-    @Override
-    public Map<String, String> defineSignUpData(String login, String email, String firstName,
-                                                String lastName, String phone) throws ServiceException {
-        Map<String, String> signUpData =
-                ServiceValidator.validateParameters(login, email, firstName, lastName, phone);
-
-        try {
-            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
-                    .isEmpty()
-                    ? (login == null ? EMPTY_STRING : login)
-                    : NOT_UNIQUE);
-            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
-                    .isEmpty()
-                    ? (email == null ? EMPTY_STRING : email)
-                    : NOT_UNIQUE);
-            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByTelephoneNumber(phone)
-                    .isEmpty()
-                    ? (phone == null ? EMPTY_STRING : phone)
-                    : NOT_UNIQUE);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during define sign up data", exp);
-        }
-
-        return signUpData;
-    }
-
-    @Override
-    public Map<String, String> defineSignUpData(String login, String password, String email, String firstName,
-                                                String lastName, String phone) throws ServiceException {
-        Map<String, String> signUpData =
-                ServiceValidator.validateParameters(login, password, email, firstName, lastName, phone);
-
-        try {
-            signUpData.put(LOGIN_UNIQUE, userDao.findByLogin(login)
-                    .isEmpty()
-                    ? (login == null ? EMPTY_STRING : login)
-                    : NOT_UNIQUE);
-            signUpData.put(EMAIL_UNIQUE, userDao.findByEmail(email)
-                    .isEmpty()
-                    ? (email == null ? EMPTY_STRING : email)
-                    : NOT_UNIQUE);
-            signUpData.put(TELEPHONE_NUMBER_UNIQUE, userDao.findByTelephoneNumber(phone)
-                    .isEmpty()
-                    ? (phone == null ? EMPTY_STRING : phone)
-                    : NOT_UNIQUE);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during define sign up data", exp);
-        }
-
-        return signUpData;
-    }
 
     @Override
     public boolean removeAvatarByLogin(String login) throws ServiceException {
@@ -371,7 +471,7 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
     }
 
     @Override
-    public boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException {
+    private boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException {
         Optional<String> userPasswordOptional;
 
         try {
@@ -414,48 +514,48 @@ public class UserServiceImpl implements by.epam.project.model.service.UserServic
         User user = userOptional.get();
         return user.getStatus().equals(status);
     }
-
-    @Override
-    public boolean isLoginUnique(String login) throws ServiceException {
-        boolean isUnique;
-        Optional<User> userOptional;
-
-        try {
-            userOptional = userDao.findByLogin(login);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during checking is login unique", exp);
-        }
-
-        return userOptional.isEmpty();
-    }
-
-    @Override
-    public boolean isEmailUnique(String email) throws ServiceException {
-        boolean isUnique;
-        Optional<User> userOptional;
-
-        try {
-            userOptional = userDao.findByEmail(email);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during checking is email unique", exp);
-        }
-
-        return userOptional.isEmpty();
-    }
-
-    @Override
-    public boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException {
-        boolean isUnique;
-        Optional<User> userOptional;
-
-        try {
-            userOptional = userDao.findByTelephoneNumber(telephoneNumber);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during checking is telephone number unique", exp);
-        }
-
-        return userOptional.isEmpty();
-    }
+//
+//    @Override
+//    private boolean isLoginUnique(String login) throws ServiceException {
+//        boolean isUnique;
+//        Optional<User> userOptional;
+//
+//        try {
+//            userOptional = userDao.findByLogin(login);
+//        } catch (DaoException exp) {
+//            throw new ServiceException("Error during checking is login unique", exp);
+//        }
+//
+//        return userOptional.isEmpty();
+//    }
+//
+//    @Override
+//    private boolean isEmailUnique(String email) throws ServiceException {
+//        boolean isUnique;
+//        Optional<User> userOptional;
+//
+//        try {
+//            userOptional = userDao.findByEmail(email);
+//        } catch (DaoException exp) {
+//            throw new ServiceException("Error during checking is email unique", exp);
+//        }
+//
+//        return userOptional.isEmpty();
+//    }
+//
+//    @Override
+//    private boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException {
+//        boolean isUnique;
+//        Optional<User> userOptional;
+//
+//        try {
+//            userOptional = userDao.findByTelephoneNumber(telephoneNumber);
+//        } catch (DaoException exp) {
+//            throw new ServiceException("Error during checking is telephone number unique", exp);
+//        }
+//
+//        return userOptional.isEmpty();
+//    }
 
     @Override
     public boolean updateUserStatus(long idUser, long idStatus) throws ServiceException {

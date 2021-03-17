@@ -15,6 +15,13 @@ public interface UserService {
     AjaxData uploadUserImage(String userLogin, List<FileItem> fileItems, String language) throws ServiceException;
     AjaxData updateProfile(User user, String newLogin, String newFirstName, String newLastName,
                            String newTelephoneNumber, String newEmail, String language) throws ServiceException;
+    AjaxData signIn(String login, String password, String language) throws ServiceException;
+    AjaxData signUp(String login, String password, String firstName, String lastName, String telephoneNumber,
+                    String email, String confirmationLink, String language) throws ServiceException;
+    AjaxData changePasswordByOldPassword(User user, String oldPassword, String newPassword,
+                                         String language) throws ServiceException;
+
+
 
 
 
@@ -23,12 +30,6 @@ public interface UserService {
     boolean updateUser(User newUser, String oldLogin) throws ServiceException;
 
     boolean updateUserStatus(long idUser, long idStatus) throws ServiceException;
-
-    Map<String, String> defineSignUpData(String login, String password, String email, String name,
-                                         String surname, String phone) throws ServiceException;
-
-    Map<String, String> defineSignUpData(String login, String email, String name,
-                                         String surname, String phone) throws ServiceException;
 
     boolean signUpUser(User user, String password) throws ServiceException;
 
@@ -55,12 +56,12 @@ public interface UserService {
     boolean isPasswordEqualLoginPassword(String login, String password) throws ServiceException;
 
     boolean isStatusEqualUserStatus(String login, User.Status status) throws ServiceException;
-
-    boolean isLoginUnique(String login) throws ServiceException;
-
-    boolean isEmailUnique(String email) throws ServiceException;
-
-    boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException;
+//
+//    boolean isLoginUnique(String login) throws ServiceException;
+//
+//    boolean isEmailUnique(String email) throws ServiceException;
+//
+//    boolean isTelephoneNumberUnique(String telephoneNumber) throws ServiceException;
 
     boolean removeAvatarByLogin(String login) throws ServiceException;
 

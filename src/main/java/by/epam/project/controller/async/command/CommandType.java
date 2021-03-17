@@ -19,15 +19,15 @@ public enum CommandType {
 //    REMOVE_CATEGORY(new RemoveCategoryCommand()),
     REMOVE_PRODUCT_FROM_SHOPPING_CART(new RemoveProductFromShoppingCartCommand()),
 //    REMOVE_PROFILE_IMAGE(new RemoveProfileImageCommand()),
-//    SIGN_IN(new SignInCommand()),
-//    SIGN_UP(new SignUpCommand()),
+    SIGN_IN(new SignInCommand()),
+    SIGN_UP(new SignUpCommand()),
 //    UPDATE_CATEGORY_NAME(new UpdateCategoryNameCommand()),
 //    UPDATE_CLIENT_STATUS(new UpdateClientStatusCommand()),
 //    UPDATE_ORDER_STATUS(new UpdateOrderStatusCommand()),
     UPDATE_PRODUCT_CATEGORY(new UpdateProductCategoryCommand()),
     UPDATE_PRODUCT_INFO(new UpdateProductInfoCommand()),
     UPDATE_PRODUCT_STATUS(new UpdateProductStatusCommand()),
-//    UPDATE_PROFILE(new UpdateProfileCommand()),
+    UPDATE_PROFILE(new UpdateProfileCommand()),
     UPLOAD_PRODUCT_IMAGE(new UploadProductImageCommand()),
     UPLOAD_PROFILE_IMAGE(new UploadProfileImageCommand());
 

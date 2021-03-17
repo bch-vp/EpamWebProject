@@ -2,90 +2,56 @@ package by.epam.project.controller.async.command.impl;
 
 import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.parameter.ContentKey;
-import by.epam.project.controller.parameter.ErrorKey;
+import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
-import by.epam.project.util.ContentUtil;
 import by.epam.project.util.JsonUtil;
-import by.epam.project.validator.ServiceValidator;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.ErrorKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UpdateProfileCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
-
     private final UserService userService = UserServiceImpl.getInstance();
 
-    private static final String EMPTY_JSON_TREE_OBJECT = "{}";
+    private static final int EMPTY_PRIMITIVE = 0;
 
     @Override
-    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) {
+    public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        AjaxData ajaxData;
+
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(USER);
         String language = (String) session.getAttribute(LANGUAGE);
 
         try {
             Map requestParameters = JsonUtil.toMap(request.getInputStream());
 
-            String login = (String) requestParameters.get(LOGIN);
-            String oldLogin = (String) requestParameters.get(OLD_LOGIN);
-            String firstName = (String) requestParameters.get(FIRST_NAME);
-            String lastName = (String) requestParameters.get(LAST_NAME);
-            String telephoneNumber = (String) requestParameters.get(TELEPHONE_NUMBER);
-            String email = (String) requestParameters.get(EMAIL);
+            String newLogin = (String) requestParameters.get(LOGIN);
+            String newFirstName = (String) requestParameters.get(FIRST_NAME);
+            String newLastName = (String) requestParameters.get(LAST_NAME);
+            String newTelephoneNumber = (String) requestParameters.get(TELEPHONE_NUMBER);
+            String newEmail = (String) requestParameters.get(EMAIL);
 
-            User user = (User) session.getAttribute(USER);
-            User.Role role = user.getRole();
+            ajaxData = userService.updateProfile(user, newLogin, newFirstName, newLastName, newTelephoneNumber,
+                    newEmail, language);
+            if(ajaxData.getStatusHttp() != EMPTY_PRIMITIVE){
+                return ajaxData;
+            }
 
-//            Map<String, String> requestData = ServiceValidator.validateParameters(login, email, firstName, lastName,
-//                    telephoneNumber);
-//
-//            if (!ServiceValidator.defineIncorrectValues(requestData)) {
-//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                return;
-//            }
-
-//            JsonNode jsonTree = JsonUtil.addObjectToJsonTree(null, ERROR);
-//            if (!userService.isLoginUnique(login) && !user.getLogin().equals(login)) {
-//                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_LOGIN_NOT_UNIQUE);
-//                JsonUtil.addNodeToJsonTree(jsonTree, LOGIN_NOT_UNIQUE, error, ERROR);
-//            }
-//            if (!userService.isTelephoneNumberUnique(telephoneNumber) &&
-//                    !user.getTelephoneNumber().equals(telephoneNumber)) {
-//                String error = ContentUtil.getWithLocale(language,
-//                        ContentKey.ERROR_SIGN_UP_TELEPHONE_NUMBER_NOT_UNIQUE);
-//                JsonUtil.addNodeToJsonTree(jsonTree, ErrorKey.TELEPHONE_NUMBER_NOT_UNIQUE, error, ERROR);
-//            }
-//            if (!userService.isEmailUnique(email) && !user.getEmail().equals(email)) {
-//                String error = ContentUtil.getWithLocale(language, ContentKey.ERROR_SIGN_UP_EMAIL_NOT_UNIQUE);
-//                JsonUtil.addNodeToJsonTree(jsonTree, EMAIL_NOT_UNIQUE, error, ERROR);
-//            }
-//
-//            if (!jsonTree.path(ERROR).isEmpty()) {
-//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                JsonUtil.writeJsonTreeToResponse(response, jsonTree);
-//                return;
-//            }
-
-            User newUser = new User(login, firstName, lastName, telephoneNumber, email, role, user.getStatus());
-            userService.updateUser(newUser, oldLogin);
+            User newUser = new User(user.getId(), newLogin, newFirstName, newLastName, newTelephoneNumber,
+                    newEmail, user.getRole(), user.getStatus());
             session.setAttribute(USER, newUser);
         } catch (ServiceException | IOException exp) {
-            logger.error(exp);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new CommandException("Error during updating user profile", exp);
         }
+
+        return ajaxData;
     }
 }
