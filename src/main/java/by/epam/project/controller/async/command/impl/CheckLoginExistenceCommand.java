@@ -16,7 +16,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
 
 public class CheckLoginExistenceCommand implements Command {
-    private final UserService userService = UserServiceImpl.getInstance();
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class LoadAllCategoriesCommand implements Command {
-    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
+    private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

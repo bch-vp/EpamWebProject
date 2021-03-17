@@ -16,7 +16,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.ID;
 
 public class RemoveCategoryCommand implements Command {
-    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
+    private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

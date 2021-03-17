@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public AjaxData loadAllProductsByCategory(User.Role userRole, String categoryName,
+    public AjaxData findAllProductsByCategory(User.Role userRole, String categoryName,
                                               List<Product> shoppingCart) throws ServiceException {
         AjaxData ajaxData = new AjaxData();
 

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class LoadAllClientsCommand implements Command {
-    private final UserService userService = UserServiceImpl.getInstance();
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

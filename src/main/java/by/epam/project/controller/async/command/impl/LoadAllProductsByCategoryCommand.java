@@ -6,7 +6,6 @@ import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
-import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
 
@@ -40,7 +39,7 @@ public class LoadAllProductsByCategoryCommand implements Command {
                 userRole = user.getRole();
             }
 
-            ajaxData = productService.loadAllProductsByCategory(userRole, categoryName, shoppingCart);
+            ajaxData = productService.findAllProductsByCategory(userRole, categoryName, shoppingCart);
         } catch (ServiceException | IOException exp) {
             throw new CommandException("Error during loading all products by category", exp);
         }

@@ -34,7 +34,7 @@ public class Controller extends HttpServlet {
             AjaxData ajaxData = command.execute(request, response);
             JsonUtil.writeAjaxDataToResponse(response, ajaxData);
         } catch (CommandException | IOException exp) {
-            logger.error(exp);
+            logger.error(exp.toString());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

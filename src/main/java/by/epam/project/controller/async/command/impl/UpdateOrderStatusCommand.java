@@ -23,9 +23,7 @@ import static by.epam.project.controller.parameter.ParameterKey.ID_ORDER;
 import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
 
 public class UpdateOrderStatusCommand implements Command {
-    private static final Logger logger = LogManager.getLogger();
-
-    private final UserService userService = UserServiceImpl.getInstance();
+    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
