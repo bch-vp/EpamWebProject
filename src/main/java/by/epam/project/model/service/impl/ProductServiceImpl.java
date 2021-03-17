@@ -8,7 +8,6 @@ import by.epam.project.model.dao.ProductDao;
 import by.epam.project.model.dao.impl.CategoryDaoImpl;
 import by.epam.project.model.dao.impl.ProductDaoImpl;
 import by.epam.project.model.entity.Category;
-import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.ProductService;
@@ -295,6 +294,40 @@ public class ProductServiceImpl implements ProductService {
         } catch (DaoException | IOException exp) {
             throw new ServiceException(exp);
         }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData createProduct(String idCategoryString, String name, String info,
+                                  String priceString, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isIdCorrect(idCategoryString)
+                || !ServiceValidator.isNameCorrect(name)
+                || !ServiceValidator.isInfoCorrect(info)
+                || !ServiceValidator.isPriceCorrect(priceString)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        try {
+            Optional<Product> productOptional = productDao.findProductByName(name);
+            if (productOptional.isPresent()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_NAME_NOT_UNIQUE, language);
+                return ajaxData;
+            }
+
+            long idCategory = Long.parseLong(idCategoryString);
+            BigDecimal price = new BigDecimal(priceString);
+
+            Product product = new Product(name, info, Product.Status.ACTIVE, price);
+            productDao.add(product, idCategory);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
+        }
+
 
         return ajaxData;
     }

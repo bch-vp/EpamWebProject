@@ -21,4 +21,6 @@ public interface ProductService {
                                String info, String priceString) throws ServiceException;
     AjaxData updateProductStatus(String idProductString, String idStatusString) throws ServiceException;
     AjaxData uploadProductImage(String productName, List<FileItem> fileItems, String language) throws ServiceException;
+    AjaxData createProduct(String idCategoryString, String name, String info,
+                           String priceString, String language) throws ServiceException;
 }

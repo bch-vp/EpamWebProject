@@ -1,14 +1,24 @@
 package by.epam.project.model.service.impl;
 
+import by.epam.project.controller.async.AjaxData;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.dao.CategoryDao;
 import by.epam.project.model.dao.impl.CategoryDaoImpl;
 import by.epam.project.model.entity.Category;
 import by.epam.project.model.service.CategoryService;
+import by.epam.project.util.JsonUtil;
+import by.epam.project.validator.ServiceValidator;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import static by.epam.project.controller.parameter.ContentKey.ERROR_NAME_NOT_UNIQUE;
+import static by.epam.project.controller.parameter.ErrorKey.ERROR;
+import static by.epam.project.controller.parameter.ParameterKey.DATA;
+import static by.epam.project.controller.parameter.ParameterKey.OTHERS;
 
 public class CategoryServiceImpl implements CategoryService {
     private static final CategoryServiceImpl instance = new CategoryServiceImpl();
@@ -20,78 +30,116 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category add(Category category) throws ServiceException {
+    public AjaxData createCategory(String nameCategory, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isNameCorrect(nameCategory)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
         try {
+            Optional<Category> categoryOptional = categoryDao.findCategoryByName(nameCategory);
+            if (categoryOptional.isPresent()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_NAME_NOT_UNIQUE, language);
+                return ajaxData;
+            }
+
+            Category category = new Category(nameCategory);
             category = categoryDao.add(category);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during adding new category", exp);
+            String json = JsonUtil.toJson(category);
+            ajaxData.setJson(json);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
         }
 
-        return category;
+        return ajaxData;
     }
 
     @Override
-    public List<Category> findAllCategories() throws ServiceException {
-        List<Category> categories;
+    public AjaxData findAllCategories() throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
         try {
-            categories = categoryDao.findAllCategories();
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding all categories", exp);
+            List<Category> categories = categoryDao.findAllCategories();
+
+            String json = JsonUtil.toJson(DATA, categories);
+            ajaxData.setJson(json);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
         }
 
-        return categories;
+        return ajaxData;
     }
 
     @Override
-    public Optional<Category> findCategoryByName(String name) throws ServiceException {
-        Optional<Category> categoryOptional;
+    public AjaxData removeCategory(String idCategoryString) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            categoryOptional = categoryDao.findCategoryByName(name);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding category by name", exp);
+        if (!ServiceValidator.isIdCorrect(idCategoryString)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return categoryOptional;
+        try {
+            long idCategory = Long.parseLong(idCategoryString);
+            Optional<Category> categoryOptional = categoryDao.findCategoryById(idCategory);
+            if (categoryOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            Category category = categoryOptional.get();
+            if (category.getName().equals(OTHERS)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                return ajaxData;
+            }
+
+            categoryDao.removeCategoryById(idCategory);
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
     }
 
     @Override
-    public Optional<Category> findCategoryById(long id) throws ServiceException {
-        Optional<Category> categoryOptional;
+    public AjaxData updateCategoryName(String idCategoryString, String newName, String language) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
 
-        try {
-            categoryOptional = categoryDao.findCategoryById(id);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during finding category by id", exp);
+        if (!ServiceValidator.isIdCorrect(idCategoryString) ||
+                !ServiceValidator.isNameCorrect(newName)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
         }
 
-        return categoryOptional;
-    }
-
-    @Override
-    public boolean updateCategoryNameById(long id, String name) throws ServiceException {
-        boolean isUpdated;
-
+        long idCategory = Long.parseLong(idCategoryString);
         try {
-            isUpdated = categoryDao.updateCategoryNameById(id, name);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during updating category name", exp);
+            Optional<Category> categoryOptional = categoryDao.findCategoryById(idCategory);
+            if (categoryOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            Category category = categoryOptional.get();
+            if (category.getName().equals(OTHERS)) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                return ajaxData;
+            }
+
+            categoryOptional = categoryDao.findCategoryByName(newName);
+            if (categoryOptional.isPresent()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_NAME_NOT_UNIQUE, language);
+                return ajaxData;
+            }
+
+            categoryDao.updateCategoryNameById(idCategory, newName);
+        } catch (DaoException | IOException exp) {
+            throw new ServiceException(exp);
         }
 
-        return isUpdated;
-    }
-
-    @Override
-    public boolean removeCategoryById(long id) throws ServiceException {
-        boolean isUpdated;
-
-        try {
-            isUpdated = categoryDao.removeCategoryById(id);
-        } catch (DaoException exp) {
-            throw new ServiceException("Error during removing category", exp);
-        }
-
-        return isUpdated;
+        return ajaxData;
     }
 }

@@ -29,5 +29,7 @@ public interface UserService {
     AjaxData findAllOrders(User user) throws ServiceException;
     AjaxData findAllClients() throws ServiceException;
     AjaxData checkLoginExistence(String login) throws ServiceException;
+    AjaxData updateClientStatus(String idUserString, String idStatusString) throws ServiceException;
+    AjaxData updateOrderStatus(String idOrderString, String idStatusString) throws ServiceException;
     boolean updateActivationStatusByLogin(String login, User.Status status) throws ServiceException;
 }

@@ -1,9 +1,11 @@
 package by.epam.project.controller.sync;
 
-import by.epam.project.controller.parameter.ParameterKey;
 import by.epam.project.controller.sync.command.Command;
 import by.epam.project.controller.sync.command.CommandProvider;
+import by.epam.project.exception.CommandException;
 import by.epam.project.model.connection.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.epam.project.controller.parameter.PagePath.ERROR_500;
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.IS_DEV_MODE;
 
 public class Controller extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,7 +42,13 @@ public class Controller extends HttpServlet {
 
         String commandName = request.getParameter(COMMAND);
         Command command = CommandProvider.provideCommand(commandName);
-        Router router = command.execute(request);
+        Router router = null;
+        try {
+            router = command.execute(request);
+        } catch (CommandException exp) {
+            logger.error(exp);
+            router.setCurrentPage(ERROR_500);
+        }
 
         String currentPage = router.getCurrentPage();
 

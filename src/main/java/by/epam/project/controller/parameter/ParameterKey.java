@@ -50,6 +50,7 @@ public class ParameterKey {
     public static final String PRODUCTS = "products";
 
     public static final String CATEGORY = "category";
+    public static final String OTHERS = "others";
 
     public static final String LOGIN_UNIQUE = "login_unique";
     public static final String EMAIL_UNIQUE = "email_unique";

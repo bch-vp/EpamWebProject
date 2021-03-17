@@ -520,6 +520,68 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public AjaxData updateClientStatus(String idUserString, String idStatusString) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isIdCorrect(idUserString)
+                || !ServiceValidator.isIdCorrect(idStatusString)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        long idUser = Long.parseLong(idUserString);
+        long idStatus = Long.parseLong(idStatusString);
+
+        try {
+            Optional<User.Status> categoryOptional = userDao.findStatusById(idStatus);
+            if (categoryOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            boolean isUpdated = userDao.updateUserStatus(idUser, idStatus);
+            if (!isUpdated) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
+    public AjaxData updateOrderStatus(String idOrderString, String idStatusString) throws ServiceException {
+        AjaxData ajaxData = new AjaxData();
+
+        if (!ServiceValidator.isIdCorrect(idOrderString)
+                || !ServiceValidator.isIdCorrect(idStatusString)) {
+            ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+            return ajaxData;
+        }
+
+        long idOrder = Long.parseLong(idOrderString);
+        long idStatus = Long.parseLong(idStatusString);
+
+        try {
+            Optional<Order.Status> statusOptional = userDao.findOrderStatusById(idStatus);
+            if (statusOptional.isEmpty()) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
+
+            boolean isUpdated = userDao.updateOrderStatusById(idOrder, idStatus);
+            if (!isUpdated) {
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (DaoException exp) {
+            throw new ServiceException(exp);
+        }
+
+        return ajaxData;
+    }
+
+    @Override
     public boolean updateActivationStatusByLogin(String login, User.Status status) throws ServiceException {
         boolean isUpdated;
 
@@ -530,7 +592,7 @@ public class UserServiceImpl implements UserService {
         try {
             isUpdated = userDao.updateActivationStatusByLogin(login, status);
         } catch (DaoException exp) {
-            throw new ServiceException("Error during updating user's activation status", exp);
+            throw new ServiceException(exp);
         }
 
         return isUpdated;
