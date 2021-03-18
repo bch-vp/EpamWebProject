@@ -6,6 +6,8 @@ import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.service.impl.ProductServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import java.util.List;
 import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
 public class LoadShoppingCartCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
@@ -28,7 +31,8 @@ public class LoadShoppingCartCommand implements Command {
         try {
             ajaxData = productService.loadShoppingCart(shoppingCart);
         } catch (ServiceException exp) {
-            throw new CommandException("Error during loading shopping cart", exp);
+            logger.error("Error during loading shopping cart");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

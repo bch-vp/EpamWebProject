@@ -6,6 +6,8 @@ import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class LoadAllOrdersCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
@@ -26,7 +29,8 @@ public class LoadAllOrdersCommand implements Command {
         try {
             ajaxData = userService.findAllOrders(user);
         } catch (ServiceException exp) {
-            throw new CommandException("Error during loading all orders to user by role", exp);
+            logger.error("Error during loading all orders to user by role");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

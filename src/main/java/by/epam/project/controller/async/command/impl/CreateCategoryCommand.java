@@ -7,6 +7,8 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.service.CategoryService;
 import by.epam.project.model.service.impl.CategoryServiceImpl;
 import by.epam.project.util.JsonUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
 public class CreateCategoryCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();
 
     @Override
@@ -33,7 +36,8 @@ public class CreateCategoryCommand implements Command {
 
             ajaxData = categoryService.createCategory(nameCategory, language);
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during creating new category", exp);
+            logger.error("Error during creating new category");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

@@ -4,13 +4,15 @@ import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class LoadAllClientsCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
@@ -20,7 +22,8 @@ public class LoadAllClientsCommand implements Command {
         try {
             ajaxData = userService.findAllClients();
         } catch (ServiceException exp) {
-            throw new CommandException("Error during loading all clients", exp);
+            logger.error("Error during loading all clients");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

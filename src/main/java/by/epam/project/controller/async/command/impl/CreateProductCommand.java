@@ -19,6 +19,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class CreateProductCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
@@ -38,7 +39,8 @@ public class CreateProductCommand implements Command {
 
             ajaxData = productService.createProduct(idCategoryString, name, info, priceString, language);
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during creating product", exp);
+            logger.error("Error during creating product");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

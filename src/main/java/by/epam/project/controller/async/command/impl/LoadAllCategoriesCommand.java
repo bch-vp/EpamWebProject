@@ -5,12 +5,15 @@ import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.service.impl.CategoryServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
 public class LoadAllCategoriesCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();
 
     @Override
@@ -20,7 +23,8 @@ public class LoadAllCategoriesCommand implements Command {
         try {
             ajaxData = categoryService.findAllCategories();
         } catch (ServiceException exp) {
-            throw new CommandException("Error during loading all categories", exp);
+            logger.error("Error during loading all categories");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

@@ -7,6 +7,8 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UpdateProductInfoCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
@@ -32,7 +35,8 @@ public class UpdateProductInfoCommand implements Command {
 
            ajaxData = productService.updateProductInfo(idString, name, info, priceString);
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during updating product info", exp);
+            logger.error("Error during updating product info");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

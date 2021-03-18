@@ -10,6 +10,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
 public class UploadProductImageCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
@@ -44,7 +47,8 @@ public class UploadProductImageCommand implements Command {
             fileItems = upload.parseRequest(request);
             ajaxData = productService.uploadProductImage(productName, fileItems, language);
         } catch (ServiceException | FileUploadException exp) {
-            throw new CommandException("Error during uploading product image", exp);
+            logger.error("Error during uploading product image");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

@@ -10,6 +10,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 public class UploadProfileImageCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
@@ -45,7 +48,8 @@ public class UploadProfileImageCommand implements Command {
             fileItems = upload.parseRequest(request);
             ajaxData = userService.uploadUserImage(login, fileItems, language);
         } catch (ServiceException | FileUploadException exp) {
-            throw new CommandException("Error during uploading user image", exp);
+            logger.error("Error during uploading user image");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

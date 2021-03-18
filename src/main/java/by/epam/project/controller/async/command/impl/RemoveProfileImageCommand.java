@@ -18,6 +18,7 @@ import static by.epam.project.controller.parameter.ParameterKey.USER;
 
 
 public class RemoveProfileImageCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
@@ -30,7 +31,8 @@ public class RemoveProfileImageCommand implements Command {
         try {
             ajaxData = userService.removeUserImage(user.getLogin());
         } catch (ServiceException exp) {
-            throw new CommandException("Error during removing user image", exp);
+            logger.error("Error during removing user image");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

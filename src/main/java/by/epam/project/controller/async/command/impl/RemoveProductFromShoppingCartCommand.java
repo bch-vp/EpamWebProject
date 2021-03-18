@@ -8,6 +8,8 @@ import by.epam.project.model.entity.Product;
 import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,7 @@ import static by.epam.project.controller.parameter.ParameterKey.NAME;
 import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
 public class RemoveProductFromShoppingCartCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
@@ -34,7 +37,8 @@ public class RemoveProductFromShoppingCartCommand implements Command {
 
             ajaxData = productService.removeProductFromShoppingCart(shoppingCart, productName);
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during removing product from shopping cart", exp);
+            logger.error("Error during removing product from shopping cart");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

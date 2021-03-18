@@ -23,6 +23,7 @@ import static by.epam.project.controller.parameter.ParameterKey.ID_ORDER;
 import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
 
 public class UpdateOrderStatusCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
@@ -37,7 +38,8 @@ public class UpdateOrderStatusCommand implements Command {
 
             ajaxData = userService.updateOrderStatus(idOrderString, idStatusString);
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during updating order status", exp);
+            logger.error("Error during updating order status");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

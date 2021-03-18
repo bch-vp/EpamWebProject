@@ -7,6 +7,8 @@ import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class SignInCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     private static final int EMPTY_PRIMITIVE = 0;
@@ -43,7 +46,8 @@ public class SignInCommand implements Command {
             session.setAttribute(USER, ajaxData.getDataSession().get(USER));
             session.setAttribute(SHOPPING_CART, new ArrayList<Product>());
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during sign in", exp);
+            logger.error("Error during sign in");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

@@ -8,6 +8,8 @@ import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class LoadAllProductsByCategoryCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
 
     @Override
@@ -41,7 +44,8 @@ public class LoadAllProductsByCategoryCommand implements Command {
 
             ajaxData = productService.findAllProductsByCategory(userRole, categoryName, shoppingCart);
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during loading all products by category", exp);
+            logger.error("Error during loading all products by category");
+            throw new CommandException(exp);
         }
 
         return ajaxData;

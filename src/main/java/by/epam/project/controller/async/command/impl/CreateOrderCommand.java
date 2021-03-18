@@ -8,6 +8,8 @@ import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class CreateOrderCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
@@ -38,7 +41,8 @@ public class CreateOrderCommand implements Command {
 
             ajaxData = userService.createOrder(user, shoppingCart, OrderAddress, OrderComment);
         } catch (ServiceException | IOException exp) {
-            throw new CommandException("Error during creating order", exp);
+            logger.error("Error during creating order");
+            throw new CommandException(exp);
         }
 
         return ajaxData;
