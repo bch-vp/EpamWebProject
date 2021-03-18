@@ -19,7 +19,7 @@ import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.IS_DEV_MODE;
 
 public class Controller extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -42,7 +42,7 @@ public class Controller extends HttpServlet {
 
         String commandName = request.getParameter(COMMAND);
         Command command = CommandProvider.provideCommand(commandName);
-        Router router = null;
+        Router router = new Router();
         try {
             router = command.execute(request);
         } catch (CommandException exp) {

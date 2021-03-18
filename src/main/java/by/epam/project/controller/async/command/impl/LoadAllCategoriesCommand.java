@@ -4,7 +4,6 @@ import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.service.CategoryService;
 import by.epam.project.model.service.impl.CategoryServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;

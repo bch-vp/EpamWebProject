@@ -16,7 +16,7 @@ import java.io.IOException;
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 
 public class Controller extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
