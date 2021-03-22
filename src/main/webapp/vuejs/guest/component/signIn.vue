@@ -156,6 +156,14 @@ export default {
             },
             ex => {
               console.log(ex.response.status)
+
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               if (ex.response.status === 400) {
                 this.$refs.formSignIn.reset()
                 this.error = ex.response.data.error
@@ -169,6 +177,7 @@ export default {
     reset: function () {
       this.$refs.formSignIn.reset()
       this.text_page.form_component.error.login_not_found = undefined
+      this.error = undefined
     },
   }
 }

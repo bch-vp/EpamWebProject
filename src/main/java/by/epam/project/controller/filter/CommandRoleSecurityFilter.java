@@ -1,5 +1,9 @@
 package by.epam.project.controller.filter;
 
+import by.epam.project.controller.async.command.Command;
+import by.epam.project.controller.async.command.CommandProvider;
+import by.epam.project.controller.async.command.CommandType;
+import by.epam.project.controller.async.command.impl.EmptyCommand;
 import by.epam.project.controller.filter.typerole.RolePermission;
 import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.model.entity.User;
@@ -9,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
 
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
@@ -51,8 +56,14 @@ public class CommandRoleSecurityFilter implements Filter {
             }
         }
 
-        commandName = commandName.toUpperCase();
-        if (!commandsByRole.contains(commandName)) {
+        boolean isContain =  Arrays.stream(CommandType.values())
+                .anyMatch(commandType -> commandName.equalsIgnoreCase(commandType.toString()));
+        if(isContain && !commandsByRole.contains(commandName.toUpperCase())){
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
+        if (!commandsByRole.contains(commandName.toUpperCase())) {
             request.getRequestDispatcher(PagePath.ERROR_404).forward(servletRequest, servletResponse);
             return;
         }

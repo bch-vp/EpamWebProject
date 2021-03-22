@@ -1,5 +1,7 @@
 package by.epam.project.validator;
 
+import by.epam.project.controller.async.command.CommandType;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
