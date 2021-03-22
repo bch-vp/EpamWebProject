@@ -39,7 +39,7 @@ public class SignInCommand implements Command {
             String password = (String) requestParameters.get(PASSWORD);
 
             ajaxData = userService.signIn(login, password, language);
-            if (ajaxData.getStatusHttp() != EMPTY_PRIMITIVE) {
+            if (ajaxData.getStatusHttp() != HttpServletResponse.SC_OK) {
                 return ajaxData;
             }
 
