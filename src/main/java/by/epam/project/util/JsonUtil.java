@@ -42,8 +42,7 @@ public class JsonUtil {
     }
 
     public static void writeAjaxDataToResponse(HttpServletResponse response, AjaxData ajaxData) throws IOException {
-        int statusHttp = ajaxData.getStatusHttp();
-        if (statusHttp != EMPTY_PRIMITIVE) {
+        if (ajaxData.getStatusHttp() != HttpServletResponse.SC_OK) {
             response.setStatus(ajaxData.getStatusHttp());
         } else {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -83,16 +82,17 @@ public class JsonUtil {
     }
 
     public static JsonNode addNodeToJsonTree(JsonNode rootNode, String key, String value, String... paths) {
+        JsonNode node = rootNode;
         for (String path : paths) {
-            rootNode = rootNode.path(path);
+            node = node.path(path);
         }
-        JsonNode n = ((ObjectNode) rootNode).put(key, value);
+        ((ObjectNode) node).put(key, value);
         return rootNode;
     }
 
     public static JsonNode createJsonTree(String object) {
         JsonNode rootNode = objectMapper.createObjectNode();
-        rootNode = ((ObjectNode) rootNode).putObject(object);
+        ((ObjectNode) rootNode).putObject(object);
         return rootNode;
     }
 

@@ -6,10 +6,10 @@ import by.epam.project.model.dao.ProductDao;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
-import by.epam.project.util.ResultSetUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.IMAGE_URL;
-import static by.epam.project.controller.parameter.ParameterKey.NAME;
+import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.ParameterKey.PRICE;
 
 public class ProductDaoImpl implements ProductDao {
     private static final Logger logger = LogManager.getLogger();
@@ -96,7 +96,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setString(1, category);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Product product = ResultSetUtil.toProduct(resultSet);
+                Product product = toProduct(resultSet);
                 products.add(product);
             }
         } catch (SQLException exp) {
@@ -169,7 +169,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setString(1, category);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Product product = ResultSetUtil.toProduct(resultSet);
+                Product product = toProduct(resultSet);
                 products.add(product);
             }
         } catch (SQLException exp) {
@@ -189,7 +189,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Product product = ResultSetUtil.toProduct(resultSet);
+                Product product = toProduct(resultSet);
                 productOptional = Optional.of(product);
             }
 
@@ -210,7 +210,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Product product = ResultSetUtil.toProduct(resultSet);
+                Product product = toProduct(resultSet);
                 productOptional = Optional.of(product);
             }
 
@@ -252,7 +252,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.setLong(1, order.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Product product = ResultSetUtil.toProduct(resultSet);
+                Product product = toProduct(resultSet);
                 products.add(product);
             }
         } catch (SQLException exp) {
@@ -261,5 +261,22 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         return products;
+    }
+
+    private Product toProduct(ResultSet resultSet) throws DaoException {
+        try {
+            long id = resultSet.getLong(ID);
+            String name = resultSet.getString(NAME);
+            String info = resultSet.getString(INFO);
+            String statusName = resultSet.getString(STATUS);
+            Product.Status status = Product.Status.valueOf(statusName);
+            BigDecimal price = resultSet.getBigDecimal(PRICE);
+            String imageURL = resultSet.getString(IMAGE_URL);
+
+            Product product = new Product(id, name, info, status, price, imageURL);
+            return product;
+        } catch (SQLException exp) {
+            throw new DaoException("Error while creating product from resultSet", exp);
+        }
     }
 }

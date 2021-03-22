@@ -56,6 +56,16 @@ public class User {
         this.email = email;
     }
 
+    public User(String login, Status status, Role role) {
+        this.login = login;
+        this.status = status;
+        this.role = role;
+    }
+
+    public User(String login) {
+        this.login = login;
+    }
+
     public long getId() {
         return id;
     }

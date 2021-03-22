@@ -7,12 +7,13 @@ import by.epam.project.model.dao.UserDao;
 import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
-import by.epam.project.util.ResultSetUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -160,7 +161,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -179,7 +180,7 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -197,7 +198,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_USERS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 users.add(user);
             }
         } catch (SQLException exp) {
@@ -215,7 +216,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_CLIENTS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 users.add(user);
             }
         } catch (SQLException exp) {
@@ -234,7 +235,7 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 productOptional = Optional.of(user);
             }
 
@@ -294,7 +295,7 @@ public class UserDaoImpl implements UserDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -313,7 +314,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, phone);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -351,7 +352,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                User user = ResultSetUtil.toUser(resultSet);
+                User user = toUser(resultSet);
                 userOptional = Optional.of(user);
             }
         } catch (SQLException exp) {
@@ -439,7 +440,7 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                orderOptional = Optional.of(ResultSetUtil.toOrder(resultSet));
+                orderOptional = Optional.of(toOrder(resultSet));
             }
         } catch (SQLException exp) {
             logger.error(exp);
@@ -457,7 +458,7 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(1, user.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Order order = ResultSetUtil.toOrder(resultSet);
+                Order order = toOrder(resultSet);
                 orders.add(order);
             }
         } catch (SQLException exp) {
@@ -475,7 +476,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_ADMIN_ORDERS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Order order = ResultSetUtil.toOrder(resultSet);
+                Order order = toOrder(resultSet);
                 orders.add(order);
             }
         } catch (SQLException exp) {
@@ -502,5 +503,42 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(exp);
         }
         return orderOptional;
+    }
+
+    private User toUser(ResultSet resultSet) throws DaoException {
+        try {
+            long id = resultSet.getLong(ID);
+            String login = resultSet.getString(LOGIN);
+            String firstName = resultSet.getString(FIRST_NAME);
+            String lastName = resultSet.getString(LAST_NAME);
+            String telephoneNumber = resultSet.getString(TELEPHONE_NUMBER);
+            String email = resultSet.getString(EMAIL);
+            String roleName = resultSet.getString(ROLE);
+            User.Role role = User.Role.valueOf(roleName);
+            String statusName = resultSet.getString(STATUS);
+            User.Status status = User.Status.valueOf(statusName);
+
+            User user = new User(id, login, firstName, lastName, telephoneNumber, email, role, status);
+            return user;
+        } catch (SQLException exp) {
+            throw new DaoException("Error while creating user from resultSet", exp);
+        }
+    }
+
+    private Order toOrder(ResultSet resultSet) throws DaoException {
+        try {
+            long id = resultSet.getLong(ID);
+            String address = resultSet.getString(ADDRESS);
+            String comment = resultSet.getString(COMMENT);
+            java.util.Date dateCreateAt = new Date(resultSet.getLong(TIME_CREATED));
+            String statusName = resultSet.getString(STATUS);
+            Order.Status status = Order.Status.valueOf(statusName);
+            BigDecimal totalPrice = resultSet.getBigDecimal(TOTAL_PRICE);
+
+            Order order = new Order(id, comment, address, dateCreateAt, totalPrice, status);
+            return order;
+        } catch (SQLException exp) {
+            throw new DaoException("Error while creating order from resultSet", exp);
+        }
     }
 }

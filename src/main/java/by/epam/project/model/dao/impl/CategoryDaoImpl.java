@@ -5,7 +5,6 @@ import by.epam.project.model.connection.ConnectionPool;
 import by.epam.project.model.dao.CategoryDao;
 import by.epam.project.model.dao.SqlQuery;
 import by.epam.project.model.entity.Category;
-import by.epam.project.util.ResultSetUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +12,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static by.epam.project.controller.parameter.ParameterKey.ID;
+import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
 public class CategoryDaoImpl implements CategoryDao {
     private static final Logger logger = LogManager.getLogger();
@@ -54,7 +56,7 @@ public class CategoryDaoImpl implements CategoryDao {
              PreparedStatement statement = connection.prepareStatement(SqlQuery.FIND_ALL_CATEGORIES)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Category category = ResultSetUtil.toCategory(resultSet);
+                Category category = toCategory(resultSet);
                 categories.add(category);
             }
         } catch (SQLException exp) {
@@ -74,7 +76,7 @@ public class CategoryDaoImpl implements CategoryDao {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                categoryOptional = Optional.of(ResultSetUtil.toCategory(resultSet));
+                categoryOptional = Optional.of(toCategory(resultSet));
             }
         } catch (SQLException exp) {
             logger.error(exp);
@@ -93,7 +95,7 @@ public class CategoryDaoImpl implements CategoryDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                categoryOptional = Optional.of(ResultSetUtil.toCategory(resultSet));
+                categoryOptional = Optional.of(toCategory(resultSet));
             }
         } catch (SQLException exp) {
             logger.error(exp);
@@ -150,5 +152,17 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
         return isUpdated;
+    }
+
+    private Category toCategory(ResultSet resultSet) throws DaoException {
+        try {
+            long id = resultSet.getLong(ID);
+            String name = resultSet.getString(NAME);
+
+            Category category = new Category(id, name);
+            return category;
+        } catch (SQLException exp) {
+            throw new DaoException("Error while creating category from resultSet", exp);
+        }
     }
 }

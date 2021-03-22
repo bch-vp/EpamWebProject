@@ -1,5 +1,6 @@
 package by.epam.project.controller.async;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public class AjaxData {
     }
 
     public AjaxData() {
+        this.statusHttp = HttpServletResponse.SC_OK;
     }
 
     public String getJson() {

@@ -6,6 +6,7 @@ import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.dao.UserDao;
 import by.epam.project.model.dao.impl.ProductDaoImpl;
 import by.epam.project.model.dao.impl.UserDaoImpl;
 import by.epam.project.model.entity.Order;
@@ -36,7 +37,7 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 
 public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
-    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private final UserDao userDao = UserDaoImpl.getInstance();
     private final ProductDaoImpl productDao = ProductDaoImpl.getInstance();
 
     static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
@@ -270,17 +271,17 @@ public class UserServiceImpl implements UserService {
                                                 String language) throws ServiceException {
         AjaxData ajaxData = new AjaxData();
 
-        if (ServiceValidator.isPasswordCorrect(oldPassword)
-                && ServiceValidator.isPasswordCorrect(newPassword)
-                && oldPassword.equals(newPassword)) {
+        if (!ServiceValidator.isPasswordCorrect(oldPassword)
+                || !ServiceValidator.isPasswordCorrect(newPassword)
+                || oldPassword.equals(newPassword)) {
             ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
             return ajaxData;
         }
 
-        String encryptOldPassword = EncryptPasswordUtil.encryption(newPassword);
+        String encryptOldPassword = EncryptPasswordUtil.encryption(oldPassword);
         try {
             Optional<String> userPasswordOptional = userDao.findPasswordByLogin(user.getLogin());
-            if (userPasswordOptional.isPresent() && !encryptOldPassword.equals(userPasswordOptional.get())) {
+            if (!encryptOldPassword.equals(userPasswordOptional.get())) {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToAjaxData(ajaxData,
                         ERROR, ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD, language);
