@@ -25,6 +25,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -416,7 +417,11 @@ public class UserServiceImpl implements UserService {
             return ajaxData;
         }
 
-        Order order = new Order(orderComment, orderAddress, new Date(new Date().getTime()), Order.Status.NOT_CONFIRMED);
+        BigDecimal totalPrice = BigDecimal.valueOf(0);
+        shoppingCart.stream()
+                .map(Product::getPrice)
+                .forEach(totalPrice::add);
+        Order order = new Order(orderComment, orderAddress, new Date(new Date().getTime()), totalPrice, Order.Status.NOT_CONFIRMED);
         try {
             userDao.createOrder(user, order, shoppingCart);
             shoppingCart.clear();
