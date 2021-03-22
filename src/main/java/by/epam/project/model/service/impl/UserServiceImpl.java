@@ -417,10 +417,9 @@ public class UserServiceImpl implements UserService {
             return ajaxData;
         }
 
-        BigDecimal totalPrice = BigDecimal.valueOf(0);
-        shoppingCart.stream()
+        BigDecimal totalPrice = shoppingCart.stream()
                 .map(Product::getPrice)
-                .forEach(totalPrice::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         Order order = new Order(orderComment, orderAddress, new Date(new Date().getTime()), totalPrice, Order.Status.NOT_CONFIRMED);
         try {
             userDao.createOrder(user, order, shoppingCart);
