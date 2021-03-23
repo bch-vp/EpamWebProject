@@ -12,6 +12,9 @@ import java.util.Properties;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 
+/**
+ * The type Mail sender util.
+ */
 public class MailSenderUtil {
     private final static Logger logger = LogManager.getLogger();
     private static final String ADDRESS = "epam.web.project@gmail.com";
@@ -38,6 +41,13 @@ public class MailSenderUtil {
     private MailSenderUtil() {
     }
 
+    /**
+     * Send message.
+     *
+     * @param subject the subject
+     * @param body    the body
+     * @param email   the email
+     */
     public static void sendMessage(String subject, String body, String email) {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override
@@ -58,11 +68,28 @@ public class MailSenderUtil {
         }
     }
 
+    /**
+     * Send confirmation changing password.
+     *
+     * @param user      the user
+     * @param subject   the subject
+     * @param body      the body
+     * @param uniqueKey the unique key
+     */
     public static void sendConfirmationChangingPassword(User user, String subject, String body, String uniqueKey) {
         String bodyEmail = String.format(body, user.getFirstName(), uniqueKey);
         sendMessage(subject, bodyEmail, user.getEmail());
     }
 
+    /**
+     * Send activation email.
+     *
+     * @param user    the user
+     * @param subject the subject
+     * @param body    the body
+     * @param linkApp the link app
+     * @param command the command
+     */
     public static void sendActivationEmail(User user, String subject, String body, String linkApp, String command) {
         String bodyEmail = String.format(body, user.getFirstName(), linkApp
                 + SEPARATOR_SIGN + COMMAND_TYPE + QUESTION_MARK + COMMAND + EQUAL_SIGN + command

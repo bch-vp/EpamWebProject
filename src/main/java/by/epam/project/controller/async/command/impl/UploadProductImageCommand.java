@@ -21,6 +21,9 @@ import java.util.List;
 import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
+/**
+ * The type Upload product image command.
+ */
 public class UploadProductImageCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

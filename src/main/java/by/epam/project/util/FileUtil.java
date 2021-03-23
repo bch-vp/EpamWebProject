@@ -16,6 +16,9 @@ import static by.epam.project.controller.parameter.ContentKey.*;
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ParameterKey.URL;
 
+/**
+ * The type File util.
+ */
 public class FileUtil {
     private static final String SLASH = "/";
     private static final String DOT = ".";
@@ -25,6 +28,13 @@ public class FileUtil {
     private FileUtil() {
     }
 
+    /**
+     * Save string.
+     *
+     * @param file the file
+     * @return the string
+     * @throws IOException the io exception
+     */
     public static String save(FileItem file) throws IOException {
         byte[] fileByte = file.get();
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -36,6 +46,13 @@ public class FileUtil {
         return (String) result.get("url");
     }
 
+    /**
+     * Remove boolean.
+     *
+     * @param url the url
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public static boolean remove(String url) throws IOException {
         int lastIndexOfSlash = url.lastIndexOf(SLASH);
         int lastIndexOfDOT = url.lastIndexOf(DOT);

@@ -19,6 +19,9 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
+/**
+ * The type Create category command.
+ */
 public class CreateCategoryCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();

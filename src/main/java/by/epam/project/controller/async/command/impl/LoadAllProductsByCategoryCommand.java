@@ -21,6 +21,9 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
+/**
+ * The type Load all products by category command.
+ */
 public class LoadAllProductsByCategoryCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

@@ -17,6 +17,9 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
+/**
+ * The type Update product info command.
+ */
 public class UpdateProductInfoCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

@@ -18,6 +18,9 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.ID_PRODUCT;
 import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
 
+/**
+ * The type Update product status command.
+ */
 public class UpdateProductStatusCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

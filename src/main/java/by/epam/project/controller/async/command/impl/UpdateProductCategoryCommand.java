@@ -18,6 +18,9 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.ID_CATEGORY;
 import static by.epam.project.controller.parameter.ParameterKey.ID_PRODUCT;
 
+/**
+ * The type Update product category command.
+ */
 public class UpdateProductCategoryCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

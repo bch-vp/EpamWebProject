@@ -19,6 +19,9 @@ import java.util.Set;
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
+/**
+ * The type Command role security filter.
+ */
 public class CommandRoleSecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {

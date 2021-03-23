@@ -21,6 +21,9 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_URL_BY_LOGIN;
 
 
+/**
+ * The type User dao.
+ */
 public class UserDaoImpl implements UserDao {
     private static final Logger logger = LogManager.getLogger();
 
@@ -32,6 +35,11 @@ public class UserDaoImpl implements UserDao {
     private UserDaoImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static UserDaoImpl getInstance() {
         return instance;
     }

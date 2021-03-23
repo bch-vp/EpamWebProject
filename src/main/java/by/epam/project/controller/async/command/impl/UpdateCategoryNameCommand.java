@@ -18,6 +18,9 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
+/**
+ * The type Update category name command.
+ */
 public class UpdateCategoryNameCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();

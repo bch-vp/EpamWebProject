@@ -17,6 +17,9 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.ID_ORDER;
 import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
 
+/**
+ * The type Update order status command.
+ */
 public class UpdateOrderStatusCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();

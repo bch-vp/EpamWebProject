@@ -4,6 +4,9 @@ package by.epam.project.controller.filter;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * The type Encoding filter.
+ */
 public class EncodingFilter implements Filter {
     private String encoding;
     private static final String ENCODING_PARAMETER_NAME = "encoding";

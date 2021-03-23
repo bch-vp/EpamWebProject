@@ -13,6 +13,9 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * The type Connection pool.
+ */
 public class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
 
@@ -22,6 +25,11 @@ public class ConnectionPool {
     private static final int DEFAULT_POOL_SIZE = 8;
     private static final Logger logger = LogManager.getLogger();
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ConnectionPool getInstance() {
         return instance;
     }
@@ -47,6 +55,11 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         ProxyConnection proxyConnection = null;
         try {
@@ -58,6 +71,11 @@ public class ConnectionPool {
         return proxyConnection;
     }
 
+    /**
+     * Release connection.
+     *
+     * @param connection the connection
+     */
     public void releaseConnection(Connection connection) {
         if (connection.getClass() == ProxyConnection.class
                 && busyConnections.remove(connection)) {
@@ -67,6 +85,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Destroy pool.
+     */
     public void destroyPool() {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {

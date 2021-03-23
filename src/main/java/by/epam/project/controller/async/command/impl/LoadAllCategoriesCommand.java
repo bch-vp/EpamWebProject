@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+/**
+ * The type Load all categories command.
+ */
 public class LoadAllCategoriesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();

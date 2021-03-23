@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 
+/**
+ * The type Sign out command.
+ */
 public class SignOutCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {

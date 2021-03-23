@@ -36,11 +36,17 @@ import static by.epam.project.controller.parameter.ErrorKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
 
+/**
+ * The type User service.
+ */
 public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
     private final UserDao userDao = UserDaoImpl.getInstance();
     private final ProductDaoImpl productDao = ProductDaoImpl.getInstance();
 
+    /**
+     * The File max size.
+     */
     static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
     private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
     private static final int FILES_COUNT = 1;
@@ -54,6 +60,11 @@ public class UserServiceImpl implements UserService {
     private UserServiceImpl() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static UserServiceImpl getInstance() {
         return instance;
     }

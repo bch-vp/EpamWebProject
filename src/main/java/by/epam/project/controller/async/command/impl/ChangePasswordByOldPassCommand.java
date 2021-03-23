@@ -18,6 +18,9 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
+/**
+ * The type Change password by old pass command.
+ */
 public class ChangePasswordByOldPassCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();

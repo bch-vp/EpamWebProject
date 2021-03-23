@@ -21,6 +21,9 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
+/**
+ * The type Add product to shopping cart command.
+ */
 public class AddProductToShoppingCartCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

@@ -18,6 +18,9 @@ import java.util.Map;
 import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
 import static by.epam.project.controller.parameter.ParameterKey.ID_USER;
 
+/**
+ * The type Update client status command.
+ */
 public class UpdateClientStatusCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserService userService = UserServiceImpl.getInstance();

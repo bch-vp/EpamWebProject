@@ -3,7 +3,13 @@ package by.epam.project.controller.filter.typerole;
 import java.util.Set;
 
 
+/**
+ * The enum Role permission.
+ */
 public enum RolePermission {
+    /**
+     * Admin role permission.
+     */
     ADMIN(Set.of(
             "CHANGE_LANGUAGE",
             "CHANGE_PASSWORD_BY_OLD_PASSWORD",
@@ -28,6 +34,9 @@ public enum RolePermission {
             "UPLOAD_PRODUCT_IMAGE",
             "UPLOAD_PROFILE_IMAGE"
     )),
+    /**
+     * Client role permission.
+     */
     CLIENT(Set.of(
             "ADD_PRODUCT_TO_SHOPPING_CART",
             "CHANGE_LANGUAGE",
@@ -45,6 +54,9 @@ public enum RolePermission {
             "UPDATE_PROFILE",
             "UPLOAD_PROFILE_IMAGE"
     )),
+    /**
+     * Guest role permission.
+     */
     GUEST(Set.of(
             "PASSING_BY_GUEST",
             "CHANGE_LANGUAGE",
@@ -62,6 +74,11 @@ public enum RolePermission {
         this.commands = commandNames;
     }
 
+    /**
+     * Gets commands.
+     *
+     * @return the commands
+     */
     public Set<String> getCommands() {
         return commands;
     }

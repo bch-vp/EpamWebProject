@@ -16,11 +16,19 @@ import java.util.Optional;
 import static by.epam.project.controller.parameter.ParameterKey.ID;
 import static by.epam.project.controller.parameter.ParameterKey.NAME;
 
+/**
+ * The type Category dao.
+ */
 public class CategoryDaoImpl implements CategoryDao {
     private static final Logger logger = LogManager.getLogger();
 
     private static final CategoryDaoImpl instance = new CategoryDaoImpl();
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CategoryDaoImpl getInstance() {
         return instance;
     }

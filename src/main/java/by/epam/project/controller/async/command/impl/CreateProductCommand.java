@@ -18,6 +18,9 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
+/**
+ * The type Create product command.
+ */
 public class CreateProductCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

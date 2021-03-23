@@ -17,6 +17,9 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.ID;
 
+/**
+ * The type Remove category command.
+ */
 public class RemoveCategoryCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();

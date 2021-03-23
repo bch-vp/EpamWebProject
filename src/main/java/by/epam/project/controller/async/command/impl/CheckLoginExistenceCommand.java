@@ -17,6 +17,9 @@ import java.util.Map;
 
 import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
 
+/**
+ * The type Check login existence command.
+ */
 public class CheckLoginExistenceCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();

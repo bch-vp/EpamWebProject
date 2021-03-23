@@ -5,7 +5,15 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
+/**
+ * The type Service validator test.
+ */
 public class ServiceValidatorTest {
+    /**
+     * Is login correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isLoginCorrectData")
     public Object[][] isLoginCorrectData() {
         return new Object[][]{
@@ -19,12 +27,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is login correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isLoginCorrectData")
     public void testIsLoginCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isLoginCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is password correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isPasswordCorrectData")
     public Object[][] isPasswordCorrectData() {
         return new Object[][]{
@@ -41,12 +60,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is password correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isPasswordCorrectData")
     public void testIsPasswordCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isPasswordCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is email correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isEmailCorrectData")
     public Object[][] isEmailCorrectData() {
         return new Object[][]{
@@ -63,12 +93,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is email correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isEmailCorrectData")
     public void testIsEmailCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isEmailCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is first name correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isFirstNameCorrectData")
     public Object[][] isFirstNameCorrectData() {
         return new Object[][]{
@@ -86,12 +127,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is first name correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isFirstNameCorrectData")
     public void testIsFirstNameCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isFirstNameCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is phone correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isPhoneCorrectData")
     public Object[][] isPhoneCorrectData() {
         return new Object[][]{
@@ -109,12 +161,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is phone correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isPhoneCorrectData")
     public void testIsPhoneCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isPhoneCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is unique code correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isUniqueCodeCorrectData")
     public Object[][] isUniqueCodeCorrectData() {
         return new Object[][]{
@@ -127,12 +190,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is unique code correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isUniqueCodeCorrectData")
     public void testIsUniqueCodeCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isUniqueCodeCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is id correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isIdCorrectData")
     public Object[][] isIdCorrectData() {
         return new Object[][]{
@@ -144,12 +218,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is id correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isIdCorrectData")
     public void testIsIdCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isIdCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is price correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isPriceCorrectData")
     public Object[][] isPriceCorrectData() {
         return new Object[][]{
@@ -162,12 +247,23 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is price correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isPriceCorrectData")
     public void testIsPriceCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isPriceCorrect(data);
         assertEquals(actual, expected);
     }
 
+    /**
+     * Is address correct data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "isAddressCorrectData")
     public Object[][] isAddressCorrectData() {
         return new Object[][]{
@@ -177,6 +273,12 @@ public class ServiceValidatorTest {
         };
     }
 
+    /**
+     * Test is address correct.
+     *
+     * @param data     the data
+     * @param expected the expected
+     */
     @Test(dataProvider = "isAddressCorrectData")
     public void testIsAddressCorrect(String data, boolean expected) {
         boolean actual = ServiceValidator.isAddressCorrect(data);

@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 import static by.epam.project.controller.parameter.ParameterKey.ENGLISH_LANGUAGE;
 
 
+/**
+ * The type Content util.
+ */
 public class ContentUtil {
     private ContentUtil() {
     }
@@ -13,6 +16,13 @@ public class ContentUtil {
     private static final String RESOURCES_LANGUAGE = "content.language";
     private static final Locale DEFAULT_LANGUAGE = new Locale(ENGLISH_LANGUAGE);
 
+    /**
+     * Gets with locale.
+     *
+     * @param language the language
+     * @param key      the key
+     * @return the with locale
+     */
     public static String getWithLocale(String language, String key) {
         Locale currentLocale = DEFAULT_LANGUAGE;
         if (language != null) {

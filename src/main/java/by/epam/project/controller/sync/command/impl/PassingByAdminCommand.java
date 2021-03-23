@@ -6,6 +6,9 @@ import by.epam.project.controller.sync.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The type Passing by admin command.
+ */
 public class PassingByAdminCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {

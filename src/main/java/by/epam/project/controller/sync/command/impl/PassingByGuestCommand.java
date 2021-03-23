@@ -8,6 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The type Passing by guest command.
+ */
 public class PassingByGuestCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 

@@ -10,6 +10,9 @@ import java.util.Properties;
 
 import static by.epam.project.controller.parameter.ParameterKey.IS_DEV_MODE;
 
+/**
+ * The type Database config.
+ */
 class DatabaseConfig {
     private static final DatabaseConfig instance = new DatabaseConfig();
     private static final Logger LOGGER = LogManager.getLogger();
@@ -55,22 +58,47 @@ class DatabaseConfig {
         }
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static DatabaseConfig getInstance() {
         return instance;
     }
 
+    /**
+     * Gets driver name.
+     *
+     * @return the driver name
+     */
     public String getDriverName() {
         return driverName;
     }
 
+    /**
+     * Gets url.
+     *
+     * @return the url
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }

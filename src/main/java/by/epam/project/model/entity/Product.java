@@ -2,10 +2,25 @@ package by.epam.project.model.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Product.
+ */
 public class Product {
+    /**
+     * The enum Status.
+     */
     public enum Status {
+        /**
+         * Active status.
+         */
         ACTIVE,
+        /**
+         * Inactive status.
+         */
         INACTIVE,
+        /**
+         * Blocked status.
+         */
         BLOCKED
     }
 
@@ -16,9 +31,21 @@ public class Product {
     private BigDecimal price;
     private String imageURL;
 
+    /**
+     * Instantiates a new Product.
+     */
     public Product() {
     }
 
+    /**
+     * Instantiates a new Product.
+     *
+     * @param id     the id
+     * @param name   the name
+     * @param info   the info
+     * @param status the status
+     * @param price  the price
+     */
     public Product(long id, String name, String info, Status status, BigDecimal price) {
         this.id = id;
         this.name = name;
@@ -27,6 +54,16 @@ public class Product {
         this.price = price;
     }
 
+    /**
+     * Instantiates a new Product.
+     *
+     * @param id       the id
+     * @param name     the name
+     * @param info     the info
+     * @param status   the status
+     * @param price    the price
+     * @param imageURL the image url
+     */
     public Product(long id, String name, String info, Status status, BigDecimal price, String imageURL) {
         this.id = id;
         this.name = name;
@@ -36,6 +73,15 @@ public class Product {
         this.imageURL = imageURL;
     }
 
+    /**
+     * Instantiates a new Product.
+     *
+     * @param name     the name
+     * @param info     the info
+     * @param status   the status
+     * @param price    the price
+     * @param imageURL the image url
+     */
     public Product(String name, String info, Status status, BigDecimal price, String imageURL) {
         this.name = name;
         this.info = info;
@@ -44,6 +90,14 @@ public class Product {
         this.imageURL = imageURL;
     }
 
+    /**
+     * Instantiates a new Product.
+     *
+     * @param name   the name
+     * @param info   the info
+     * @param status the status
+     * @param price  the price
+     */
     public Product(String name, String info, Status status, BigDecimal price) {
         this.name = name;
         this.info = info;
@@ -51,6 +105,14 @@ public class Product {
         this.price = price;
     }
 
+    /**
+     * Instantiates a new Product.
+     *
+     * @param id    the id
+     * @param name  the name
+     * @param info  the info
+     * @param price the price
+     */
     public Product(long id, String name, String info, BigDecimal price) {
         this.id = id;
         this.name = name;
@@ -58,56 +120,123 @@ public class Product {
         this.price = price;
     }
 
+    /**
+     * Instantiates a new Product.
+     *
+     * @param name  the name
+     * @param info  the info
+     * @param price the price
+     */
     public Product(String name, String info, BigDecimal price) {
         this.name = name;
         this.info = info;
         this.price = price;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets info.
+     *
+     * @return the info
+     */
     public String getInfo() {
         return info;
     }
 
+    /**
+     * Sets info.
+     *
+     * @param info the info
+     */
     public void setInfo(String info) {
         this.info = info;
     }
 
+    /**
+     * Gets status.
+     *
+     * @return the status
+     */
     public Status getStatus() {
         return status;
     }
 
+    /**
+     * Sets status.
+     *
+     * @param status the status
+     */
     public void setStatus(Status status) {
         this.status = status;
     }
 
+    /**
+     * Gets price.
+     *
+     * @return the price
+     */
     public BigDecimal getPrice() {
         return price;
     }
 
+    /**
+     * Sets price.
+     *
+     * @param price the price
+     */
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
+    /**
+     * Gets image url.
+     *
+     * @return the image url
+     */
     public String getImageURL() {
         return imageURL;
     }
 
+    /**
+     * Sets image url.
+     *
+     * @param imageURL the image url
+     */
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }

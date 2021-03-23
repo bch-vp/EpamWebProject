@@ -14,6 +14,9 @@ import java.util.Set;
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
+/**
+ * The type Empty command role security filter.
+ */
 public class EmptyCommandRoleSecurityFilter implements Filter {
 
     @Override

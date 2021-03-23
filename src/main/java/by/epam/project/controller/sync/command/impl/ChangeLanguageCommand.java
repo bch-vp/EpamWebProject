@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import static by.epam.project.controller.parameter.ParameterKey.*;
 
+/**
+ * The type Change language command.
+ */
 public class ChangeLanguageCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {

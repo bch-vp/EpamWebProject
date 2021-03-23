@@ -18,10 +18,22 @@ import java.util.Optional;
 import static javax.servlet.http.HttpServletResponse.*;
 import static org.testng.Assert.assertEquals;
 
+/**
+ * The type User service impl test.
+ */
 public class UserServiceImplTest {
+    /**
+     * The User service.
+     */
     UserService userService;
+    /**
+     * The Mock.
+     */
     UserDao mock;
 
+    /**
+     * Sets up.
+     */
     @BeforeMethod
     public void setUp() {
         mock = Mockito.mock(UserDao.class);
@@ -29,6 +41,11 @@ public class UserServiceImplTest {
         WhiteboxImpl.setInternalState(userService, "userDao", mock);
     }
 
+    /**
+     * Sign in data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "signInData")
     public Object[][] signInData() {
         return new Object[][]{
@@ -45,6 +62,15 @@ public class UserServiceImplTest {
         };
     }
 
+    /**
+     * Test sign in.
+     *
+     * @param ajaxDataExpected the ajax data expected
+     * @param userOptional     the user optional
+     * @param userArguments    the user arguments
+     * @throws DaoException     the dao exception
+     * @throws ServiceException the service exception
+     */
     @Test(dataProvider = "signInData")
     public void testSignIn(AjaxData ajaxDataExpected, Optional<User> userOptional, String... userArguments) throws DaoException, ServiceException {
         Mockito.when(mock.findByLoginAndPassword(Mockito.anyString(), Mockito.anyString()))
@@ -54,6 +80,11 @@ public class UserServiceImplTest {
         assertEquals(ajaxDataActual.getStatusHttp(), ajaxDataExpected.getStatusHttp());
     }
 
+    /**
+     * Sign up data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "signUpData")
     public Object[][] signUpData() {
         return new Object[][]{
@@ -72,6 +103,15 @@ public class UserServiceImplTest {
         };
     }
 
+    /**
+     * Test sign up.
+     *
+     * @param ajaxDataExpected the ajax data expected
+     * @param users            the users
+     * @param userArguments    the user arguments
+     * @throws DaoException     the dao exception
+     * @throws ServiceException the service exception
+     */
     @Test(dataProvider = "signUpData")
     public void testSignUp(AjaxData ajaxDataExpected, List<Optional<User>> users, List<String> userArguments)
             throws DaoException, ServiceException {
@@ -89,6 +129,11 @@ public class UserServiceImplTest {
         assertEquals(ajaxDataActual.getStatusHttp(), ajaxDataExpected.getStatusHttp());
     }
 
+    /**
+     * Change password by old password data object [ ] [ ].
+     *
+     * @return the object [ ] [ ]
+     */
     @DataProvider(name = "changePasswordByOldPasswordData")
     public Object[][] changePasswordByOldPasswordData() {
         return new Object[][]{
@@ -104,6 +149,15 @@ public class UserServiceImplTest {
         };
     }
 
+    /**
+     * Test change password by old password.
+     *
+     * @param ajaxDataExpected the ajax data expected
+     * @param userOptional     the user optional
+     * @param serviceArguments the service arguments
+     * @throws DaoException     the dao exception
+     * @throws ServiceException the service exception
+     */
     @Test(dataProvider = "changePasswordByOldPasswordData")
     public void testChangePasswordByOldPassword(AjaxData ajaxDataExpected, Optional<User> userOptional,
                                                 String... serviceArguments)  throws DaoException, ServiceException {

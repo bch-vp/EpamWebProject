@@ -4,7 +4,13 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
+/**
+ * The type Encrypt password util test.
+ */
 public class EncryptPasswordUtilTest {
+    /**
+     * Test encrypt password positive.
+     */
     @Test
     public void testEncryptPasswordPositive() {
         String expected = "346d145247b73c887914a7036fdbd4a9";
@@ -12,6 +18,9 @@ public class EncryptPasswordUtilTest {
         assertEquals(actual, expected);
     }
 
+    /**
+     * Test encrypt password negative.
+     */
     @Test
     public void testEncryptPasswordNegative() {
         String expected = "346d145247b73c887914a7036fdbd4a9";
@@ -19,6 +28,9 @@ public class EncryptPasswordUtilTest {
         assertNotEquals(actual, expected);
     }
 
+    /**
+     * Test encrypt password length.
+     */
     @Test
     public void testEncryptPasswordLength() {
         String hashPassword1 = EncryptPasswordUtil.encryption("q32");
@@ -28,6 +40,9 @@ public class EncryptPasswordUtilTest {
         assertEquals(expected1, expected2);
     }
 
+    /**
+     * Test encrypt password identical.
+     */
     @Test
     public void testEncryptPasswordIdentical() {
         String hashPassword1 = EncryptPasswordUtil.encryption("asfg5454$#@%G$RE$%R@$FF$#");

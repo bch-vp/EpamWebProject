@@ -21,6 +21,9 @@ import java.util.List;
 import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
+/**
+ * The type Upload profile image command.
+ */
 public class UploadProfileImageCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();

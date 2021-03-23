@@ -17,6 +17,9 @@ import java.util.List;
 
 import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
 
+/**
+ * The type Load shopping cart command.
+ */
 public class LoadShoppingCartCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ProductServiceImpl productService = ProductServiceImpl.getInstance();

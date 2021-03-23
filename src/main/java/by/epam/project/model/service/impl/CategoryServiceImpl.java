@@ -20,11 +20,19 @@ import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ParameterKey.DATA;
 import static by.epam.project.controller.parameter.ParameterKey.OTHERS;
 
+/**
+ * The type Category service.
+ */
 public class CategoryServiceImpl implements CategoryService {
     private static final CategoryServiceImpl instance = new CategoryServiceImpl();
 
     private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CategoryServiceImpl getInstance() {
         return instance;
     }

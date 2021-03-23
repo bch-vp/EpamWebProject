@@ -15,6 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import static by.epam.project.controller.parameter.ParameterKey.USER;
 
+/**
+ * The type Load all orders command.
+ */
 public class LoadAllOrdersCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserServiceImpl userService = UserServiceImpl.getInstance();

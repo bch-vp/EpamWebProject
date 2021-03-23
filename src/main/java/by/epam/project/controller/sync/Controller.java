@@ -18,6 +18,9 @@ import static by.epam.project.controller.parameter.PagePath.ERROR_500;
 import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
 import static by.epam.project.controller.parameter.ParameterKey.IS_DEV_MODE;
 
+/**
+ * The type Controller.
+ */
 public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger();
 

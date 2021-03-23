@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import static by.epam.project.controller.parameter.PagePath.NOTIFICATION_SUCCESS;
 import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
 
+/**
+ * The type Confirm sign up command.
+ */
 public class ConfirmSignUpCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final UserService userService = UserServiceImpl.getInstance();

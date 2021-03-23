@@ -29,17 +29,28 @@ import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.ParameterKey.DATA;
 import static by.epam.project.controller.parameter.ParameterKey.URL;
 
+/**
+ * The type Product service.
+ */
 public class ProductServiceImpl implements ProductService {
     private static final ProductServiceImpl instance = new ProductServiceImpl();
 
     private final ProductDao productDao = ProductDaoImpl.getInstance();
     private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
 
+    /**
+     * The File max size.
+     */
     static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
     private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
     private static final int FILES_COUNT = 1;
     private static final int FIRST = 0;
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ProductServiceImpl getInstance() {
         return instance;
     }

@@ -3,9 +3,21 @@ package by.epam.project.model.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * The type Order.
+ */
 public class Order {
+    /**
+     * The enum Status.
+     */
     public enum Status {
+        /**
+         * Confirmed status.
+         */
         CONFIRMED,
+        /**
+         * Not confirmed status.
+         */
         NOT_CONFIRMED
     }
 
@@ -16,6 +28,16 @@ public class Order {
     private BigDecimal totalPrice;
     private Status status;
 
+    /**
+     * Instantiates a new Order.
+     *
+     * @param id            the id
+     * @param comment       the comment
+     * @param address       the address
+     * @param dateCreatedAt the date created at
+     * @param totalPrice    the total price
+     * @param status        the status
+     */
     public Order(long id, String comment, String address, Date dateCreatedAt, BigDecimal totalPrice, Status status) {
         this.id = id;
         this.comment = comment;
@@ -25,6 +47,15 @@ public class Order {
         this.status = status;
     }
 
+    /**
+     * Instantiates a new Order.
+     *
+     * @param id         the id
+     * @param comment    the comment
+     * @param address    the address
+     * @param createdAt  the created at
+     * @param totalPrice the total price
+     */
     public Order(long id, String comment, String address, Date createdAt, BigDecimal totalPrice) {
         this.id = id;
         this.comment = comment;
@@ -34,6 +65,14 @@ public class Order {
         this.status = Status.NOT_CONFIRMED;
     }
 
+    /**
+     * Instantiates a new Order.
+     *
+     * @param comment    the comment
+     * @param address    the address
+     * @param createdAt  the created at
+     * @param totalPrice the total price
+     */
     public Order(String comment, String address, Date createdAt, BigDecimal totalPrice) {
         this.comment = comment;
         this.address = address;
@@ -42,6 +81,15 @@ public class Order {
         this.status = Status.NOT_CONFIRMED;
     }
 
+    /**
+     * Instantiates a new Order.
+     *
+     * @param comment    the comment
+     * @param address    the address
+     * @param createdAt  the created at
+     * @param totalPrice the total price
+     * @param status     the status
+     */
     public Order(String comment, String address, Date createdAt, BigDecimal totalPrice, Status status) {
         this.comment = comment;
         this.address = address;
@@ -50,12 +98,27 @@ public class Order {
         this.status = status;
     }
 
+    /**
+     * Instantiates a new Order.
+     *
+     * @param comment   the comment
+     * @param address   the address
+     * @param createdAt the created at
+     */
     public Order(String comment, String address, Date createdAt) {
         this.comment = comment;
         this.address = address;
         this.dateCreatedAt = createdAt;
     }
 
+    /**
+     * Instantiates a new Order.
+     *
+     * @param comment   the comment
+     * @param address   the address
+     * @param createdAt the created at
+     * @param status    the status
+     */
     public Order(String comment, String address, Date createdAt, Status status) {
         this.comment = comment;
         this.address = address;
@@ -63,50 +126,110 @@ public class Order {
         this.status = status;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Gets comment.
+     *
+     * @return the comment
+     */
     public String getComment() {
         return comment;
     }
 
+    /**
+     * Sets comment.
+     *
+     * @param comment the comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+    /**
+     * Gets address.
+     *
+     * @return the address
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Sets address.
+     *
+     * @param address the address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * Gets date created at.
+     *
+     * @return the date created at
+     */
     public Date getDateCreatedAt() {
         return dateCreatedAt;
     }
 
+    /**
+     * Sets date created at.
+     *
+     * @param dateCreatedAt the date created at
+     */
     public void setDateCreatedAt(Date dateCreatedAt) {
         this.dateCreatedAt = dateCreatedAt;
     }
 
+    /**
+     * Gets status.
+     *
+     * @return the status
+     */
     public Status getStatus() {
         return status;
     }
 
+    /**
+     * Sets status.
+     *
+     * @param status the status
+     */
     public void setStatus(Status status) {
         this.status = status;
     }
 
+    /**
+     * Gets total price.
+     *
+     * @return the total price
+     */
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
+    /**
+     * Sets total price.
+     *
+     * @param totalPrice the total price
+     */
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }

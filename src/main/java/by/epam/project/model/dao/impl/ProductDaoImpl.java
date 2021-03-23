@@ -21,6 +21,9 @@ import java.util.Optional;
 import static by.epam.project.controller.parameter.ParameterKey.*;
 import static by.epam.project.controller.parameter.ParameterKey.PRICE;
 
+/**
+ * The type Product dao.
+ */
 public class ProductDaoImpl implements ProductDao {
     private static final Logger logger = LogManager.getLogger();
 
@@ -28,6 +31,11 @@ public class ProductDaoImpl implements ProductDao {
     private static final int CALCULUS_FROM_ONE = 1;
     private static final int ONE_UPDATE = 1;
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ProductDaoImpl getInstance() {
         return instance;
     }
