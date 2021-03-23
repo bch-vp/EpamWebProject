@@ -257,6 +257,13 @@ export default {
               this.showSecondStepLogic()
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               this.error = this.text_page.form_component.error.not_found
             })
       }
@@ -280,6 +287,13 @@ export default {
         }).then(resp => {
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               if (ex.response.status === 401) {
                 this.showThirdStepLogic()
                 this.info = ex.response.data.error
@@ -307,6 +321,13 @@ export default {
               this.success = this.text_page.form_component.info.success
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               if (ex.response.status === 408) {
                 this.error = ex.response.data.error
               }

@@ -155,8 +155,6 @@ export default {
               window.location.href = '/do?command=' + response.data.info;
             },
             ex => {
-              console.log(ex.response.status)
-
               if (ex.response.status === 500) {
                 window.location.href = '/jsp/error500.jsp'
               }

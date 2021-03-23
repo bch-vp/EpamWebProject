@@ -66,7 +66,13 @@ export default {
         this.$store.commit('add_productToShoppingCart', this.product)
         this.$store.commit('remove_productToProducts', this.product)
       }, ex => {
-        console.log('FAILURE!!');
+        if (ex.response.status === 500) {
+          window.location.href = '/jsp/error500.jsp'
+        }
+        if (ex.response.status === 403) {
+          window.location.href = '/jsp/error403.jsp'
+        }
+
         this.isError = true
       })
 

@@ -123,7 +123,13 @@ export default {
         this.error = undefined
         this.$store.commit('change_avatarUrl', '')
       }, ex => {
-        console.log('FAILURE!!');
+        if (ex.response.status === 500) {
+          window.location.href = '/jsp/error500.jsp'
+        }
+        if (ex.response.status === 403) {
+          window.location.href = '/jsp/error403.jsp'
+        }
+
         this.error = ex.response.data.error
       })
     },
@@ -145,9 +151,14 @@ export default {
 
         this.spinnerVisible = false
       }, ex => {
-        console.log('FAILURE!!');
-        this.error = ex.response.data.error
+        if (ex.response.status === 500) {
+          window.location.href = '/jsp/error500.jsp'
+        }
+        if (ex.response.status === 403) {
+          window.location.href = '/jsp/error403.jsp'
+        }
 
+        this.error = ex.response.data.error
         this.spinnerVisible = false
       })
     }

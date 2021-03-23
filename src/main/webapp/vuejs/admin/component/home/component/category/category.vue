@@ -133,8 +133,14 @@ export default {
             this.spinnerVisible = false
           },
           ex => {
-            this.isError = true
+            if (ex.response.status === 500) {
+              window.location.href = '/jsp/error500.jsp'
+            }
+            if (ex.response.status === 403) {
+              window.location.href = '/jsp/error403.jsp'
+            }
 
+            this.isError = true
             this.spinnerVisible = false
           })
     },
@@ -163,12 +169,26 @@ export default {
                     this.spinnerVisible = false
                   },
                   ex => {
+                    if (ex.response.status === 500) {
+                      window.location.href = '/jsp/error500.jsp'
+                    }
+                    if (ex.response.status === 403) {
+                      window.location.href = '/jsp/error403.jsp'
+                    }
+
                     this.spinnerVisible = false
                   })
             }
             this.$store.state.App.categories.splice(this.$store.state.App.categories.indexOf(this.category), 1)
           },
           ex => {
+            if (ex.response.status === 500) {
+              window.location.href = '/jsp/error500.jsp'
+            }
+            if (ex.response.status === 403) {
+              window.location.href = '/jsp/error403.jsp'
+            }
+
             this.isError = true
           })
     },

@@ -100,6 +100,12 @@ export default {
             this.$store.commit('set_products', array)
           },
           ex => {
+            if (ex.response.status === 500) {
+              window.location.href = '/jsp/error500.jsp'
+            }
+            if (ex.response.status === 403) {
+              window.location.href = '/jsp/error403.jsp'
+            }
           })
     }
   },
@@ -113,6 +119,12 @@ export default {
           this.selectCategory = response.data.data[0]
         },
         ex => {
+          if (ex.response.status === 500) {
+            window.location.href = '/jsp/error500.jsp'
+          }
+          if (ex.response.status === 403) {
+            window.location.href = '/jsp/error403.jsp'
+          }
         })
   },
 }

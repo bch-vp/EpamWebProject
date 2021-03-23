@@ -253,6 +253,13 @@ export default {
               this.showNotification()
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               if (ex.response.status === 400) {
                 this.$refs.formSignUp.reset()
                 this.error.login_not_unique = ex.response.data.error.login_not_unique
@@ -267,7 +274,6 @@ export default {
       this.error.login_not_unique = undefined
       this.error.telephone_number_not_unique = undefined
       this.error.email_not_unique = undefined
-      // this.error.database_connection_not_received = undefined
     },
   }
 }

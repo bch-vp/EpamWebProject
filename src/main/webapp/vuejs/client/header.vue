@@ -113,6 +113,12 @@ export default {
             this.$store.commit('set_products', array)
           },
           ex => {
+            if (ex.response.status === 500) {
+              window.location.href = '/jsp/error500.jsp'
+            }
+            if (ex.response.status === 403) {
+              window.location.href = '/jsp/error403.jsp'
+            }
           })
     }
   },
@@ -127,7 +133,12 @@ export default {
       })
       this.$store.commit('set_userOrders', array)
     }, ex => {
-
+      if (ex.response.status === 500) {
+        window.location.href = '/jsp/error500.jsp'
+      }
+      if (ex.response.status === 403) {
+        window.location.href = '/jsp/error403.jsp'
+      }
     })
 
     this.axios({
@@ -137,6 +148,13 @@ export default {
       this.$store.commit('set_isAvatarExists', true)
       this.$store.commit('change_avatarUrl', resp.data.url)
     }, ex => {
+      if (ex.response.status === 500) {
+        window.location.href = '/jsp/error500.jsp'
+      }
+      if (ex.response.status === 403) {
+        window.location.href = '/jsp/error403.jsp'
+      }
+
       console.log(ex.response.data.url);
       this.$store.commit('set_isAvatarExists', false)
       this.$store.commit('change_avatarUrl', '')
@@ -151,6 +169,12 @@ export default {
           this.selectCategory = response.data.data[0]
         },
         ex => {
+          if (ex.response.status === 500) {
+            window.location.href = '/jsp/error500.jsp'
+          }
+          if (ex.response.status === 403) {
+            window.location.href = '/jsp/error403.jsp'
+          }
         })
 
     this.axios({
@@ -160,7 +184,12 @@ export default {
           this.$store.commit('set_shoppingCart', response.data.data)
         },
         ex => {
-
+          if (ex.response.status === 500) {
+            window.location.href = '/jsp/error500.jsp'
+          }
+          if (ex.response.status === 403) {
+            window.location.href = '/jsp/error403.jsp'
+          }
         })
   },
   methods: {}

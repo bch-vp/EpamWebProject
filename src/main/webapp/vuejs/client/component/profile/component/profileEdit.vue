@@ -366,6 +366,13 @@ export default {
               this.successChangePassword = this.text_page.form_component.info.success
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               if (ex.response.status === 404) {
                 this.reset()
                 this.errorChangePassword = ex.response.data.error
@@ -387,7 +394,6 @@ export default {
             email: this.email
           }
         }).then(response => {
-              // this.reset()
               this.success = this.text_page.form_component.info.success
               this.error.login_not_unique = undefined
               this.error.telephone_number_not_unique = undefined
@@ -400,6 +406,13 @@ export default {
               this.text_page.profile_component.email.value = this.email
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               if (ex.response.status === 400) {
                 this.reset()
                 this.login = this.text_page.profile_component.login.value

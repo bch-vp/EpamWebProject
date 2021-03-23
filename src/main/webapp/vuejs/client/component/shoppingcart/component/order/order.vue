@@ -191,11 +191,24 @@ export default {
                     this.$store.commit('set_products', array)
                   },
                   ex => {
+                    if (ex.response.status === 500) {
+                      window.location.href = '/jsp/error500.jsp'
+                    }
+                    if (ex.response.status === 403) {
+                      window.location.href = '/jsp/error403.jsp'
+                    }
                   })
               this.$store.state.App.shoppingCart = []
               this.await3Seconds()
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+
               this.reset()
               this.isError = true
 

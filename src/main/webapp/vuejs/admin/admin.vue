@@ -66,6 +66,13 @@ export default {
     }).then(response => {
       this.$store.commit('set_isAvatarExists', true)
     }, ex => {
+      if (ex.response.status === 500) {
+        window.location.href = '/jsp/error500.jsp'
+      }
+      if (ex.response.status === 403) {
+        window.location.href = '/jsp/error403.jsp'
+      }
+
       this.$store.commit('set_isAvatarExists', false)
     })
   },

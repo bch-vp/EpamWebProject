@@ -81,6 +81,13 @@ export default {
             this.spinnerVisible = false
           },
           ex => {
+            if (ex.response.status === 500) {
+              window.location.href = '/jsp/error500.jsp'
+            }
+            if (ex.response.status === 403) {
+              window.location.href = '/jsp/error403.jsp'
+            }
+
             this.isError = true
             this.spinnerVisible = false
           })
