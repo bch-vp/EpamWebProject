@@ -111,10 +111,10 @@ public class UserServiceImpl implements UserService {
             Optional<String> URLOptional = userDao.findAvatarURLByLogin(userLogin);
             if (URLOptional.isPresent()) {
                 String avatarURL = URLOptional.get();
-                FileUtil.remove(avatarURL);
+                ImageUtil.remove(avatarURL);
             }
 
-            String fileURL = FileUtil.save(file);
+            String fileURL = ImageUtil.save(file);
             userDao.updateAvatarURLByLogin(userLogin, fileURL);
             JsonUtil.writeJsonToAjaxData(ajaxData, URL, fileURL);
         } catch (DaoException | IOException exp) {
@@ -387,7 +387,7 @@ public class UserServiceImpl implements UserService {
             }
 
             String avatarURL = URLOptional.get();
-            FileUtil.remove(avatarURL);
+            ImageUtil.remove(avatarURL);
             userDao.removeAvatarByLogin(login);
         } catch (DaoException | IOException exp) {
             throw new ServiceException(exp);

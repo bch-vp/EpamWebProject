@@ -11,7 +11,7 @@ import by.epam.project.model.entity.Category;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import by.epam.project.model.service.ProductService;
-import by.epam.project.util.FileUtil;
+import by.epam.project.util.ImageUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.validator.ServiceValidator;
 import org.apache.commons.fileupload.FileItem;
@@ -296,10 +296,10 @@ public class ProductServiceImpl implements ProductService {
             Optional<String> URLOptional = productDao.findImageURLByName(productName);
             if (URLOptional.isPresent()) {
                 String avatarURL = URLOptional.get();
-                FileUtil.remove(avatarURL);
+                ImageUtil.remove(avatarURL);
             }
 
-            String fileURL = FileUtil.save(file);
+            String fileURL = ImageUtil.save(file);
             productDao.updateImageURLByName(productName, fileURL);
             JsonUtil.writeJsonToAjaxData(ajaxData, URL, fileURL);
         } catch (DaoException | IOException exp) {

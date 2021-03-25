@@ -15,7 +15,7 @@ import static by.epam.project.controller.parameter.ParameterKey.IS_DEV_MODE;
  */
 class DatabaseConfig {
     private static final DatabaseConfig instance = new DatabaseConfig();
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private static final String DATABASE_PROPERTIES = "database.properties";
     private static final String DRIVER = "driver";
@@ -40,7 +40,7 @@ class DatabaseConfig {
             InputStream inputStream = classLoader.getResourceAsStream(DATABASE_PROPERTIES);
             properties.load(inputStream);
         } catch (IOException e) {
-            LOGGER.log(Level.FATAL, "Error while reading properties file: {}", DATABASE_PROPERTIES, e);
+            logger.fatal("Error while reading properties file: {}", DATABASE_PROPERTIES, e);
             throw new RuntimeException("Error while reading properties file: " + DATABASE_PROPERTIES, e);
         }
 

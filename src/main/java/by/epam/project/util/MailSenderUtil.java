@@ -17,6 +17,7 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
  */
 public class MailSenderUtil {
     private final static Logger logger = LogManager.getLogger();
+
     private static final String ADDRESS = "epam.web.project@gmail.com";
     private static final String PASSWORD = "epam.web.project123";
     private static final String HOST = "smtp.gmail.com";
@@ -58,7 +59,7 @@ public class MailSenderUtil {
 
         try {
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("epam.web.project@gmail.com"));
+            message.setFrom(new InternetAddress(ADDRESS));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(subject, ENCODING);
             message.setText(body, ENCODING);
