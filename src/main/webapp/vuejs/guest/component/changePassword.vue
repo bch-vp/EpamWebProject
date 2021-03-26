@@ -328,7 +328,7 @@ export default {
                 window.location.href = '/jsp/error403.jsp'
               }
 
-              if (ex.response.status === 408) {
+              if (ex.response.status === 400) {
                 this.error = ex.response.data.error
               }
             })

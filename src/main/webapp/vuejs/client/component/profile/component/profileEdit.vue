@@ -325,7 +325,6 @@ export default {
     }
   },
   created() {
-    //info
     this.valid = false
     this.axios.interceptors.request.use(
         conf => {
@@ -362,7 +361,7 @@ export default {
             new_password: this.newPassword
           }
         }).then(response => {
-              this.reset()
+              this.resetChangePassword()
               this.successChangePassword = this.text_page.form_component.info.success
             },
             ex => {
@@ -374,7 +373,7 @@ export default {
               }
 
               if (ex.response.status === 404) {
-                this.reset()
+                this.resetChangePassword()
                 this.errorChangePassword = ex.response.data.error
               }
             })

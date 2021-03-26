@@ -45,8 +45,8 @@ public class ChangePasswordByEmailCommand implements Command {
                     timeCreated, language);
 
             if (ajaxData.getStatusHttp() == HttpServletResponse.SC_UNAUTHORIZED) {
-                int uniqueKey = (int) ajaxData.getDataSession().get(UNIQUE_KEY);
-                session.setAttribute(TIME_CREATED, System.currentTimeMillis());
+                String uniqueKey = (String) ajaxData.getDataSession().get(UNIQUE_KEY);
+                session.setAttribute(TIME_CREATED, String.valueOf(System.currentTimeMillis()));
                 session.setAttribute(UNIQUE_KEY, uniqueKey);
             } else if (ajaxData.getStatusHttp() == HttpServletResponse.SC_REQUEST_TIMEOUT) {
                 session.removeAttribute(UNIQUE_KEY);

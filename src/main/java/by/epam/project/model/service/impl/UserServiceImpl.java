@@ -287,13 +287,13 @@ public class UserServiceImpl implements UserService {
         try {
             Optional<String> userPasswordOptional = userDao.findPasswordByLogin(user.getLogin());
             if (!encryptOldPassword.equals(userPasswordOptional.get())) {
-                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
                 JsonUtil.writeJsonToAjaxData(ajaxData,
                         ERROR, ERROR_PROFILE_OLD_PASSWORD_NOT_EQUAL_LOGIN_PASSWORD, language);
                 return ajaxData;
             }
 
-            userDao.updatePasswordByLogin(user.getLogin(), newPassword);
+            userDao.updatePasswordByLogin(user.getLogin(), EncryptPasswordUtil.encryption(newPassword));
         } catch (DaoException | IOException exp) {
             throw new ServiceException(exp);
         }
@@ -330,7 +330,7 @@ public class UserServiceImpl implements UserService {
                 int key = MIN_RANGE + new Random().nextInt(DIFF_RANGE);
                 String uniqueKey = String.valueOf(key);
 
-                ajaxData.putDataToDataSession(UNIQUE_KEY, key);
+                ajaxData.putDataToDataSession(UNIQUE_KEY, uniqueKey);
 
                 String emailSubjectWithLocale = ContentUtil.getWithLocale(language,
                         ContentKey.EMAIL_SUBJECT_GUEST_CHANGING_PASSWORD);
@@ -360,7 +360,7 @@ public class UserServiceImpl implements UserService {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_REQUEST_TIMEOUT);
                 JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED, language);
             }
-            userDao.updatePasswordByLogin(login, newPassword);
+            userDao.updatePasswordByLogin(login, EncryptPasswordUtil.encryption(newPassword));
         } catch (DaoException | IOException exp) {
             throw new ServiceException(exp);
         }
