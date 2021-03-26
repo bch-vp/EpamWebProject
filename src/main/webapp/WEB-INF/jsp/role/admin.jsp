@@ -268,7 +268,7 @@
         <script src="http://localhost:8081/admin.js"></script>
     </c:when>
     <c:otherwise>
-        <script src="js/admin.js"></script>
+        <script src="/js/admin.js"></script>
     </c:otherwise>
 </c:choose>
 </body>

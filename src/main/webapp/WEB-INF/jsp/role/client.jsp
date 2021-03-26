@@ -265,7 +265,7 @@
         <script src="http://localhost:8081/client.js"></script>
     </c:when>
     <c:otherwise>
-        <script src="js/client.js"></script>
+        <script src="/js/client.js"></script>
     </c:otherwise>
 </c:choose>
 </body>

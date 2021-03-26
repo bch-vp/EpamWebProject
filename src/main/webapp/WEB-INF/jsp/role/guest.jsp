@@ -256,7 +256,7 @@
         <script src="http://localhost:8081/guest.js"></script>
     </c:when>
     <c:otherwise>
-        <script src="js/guest.js"></script>
+        <script src="/js/guest.js"></script>
     </c:otherwise>
 </c:choose>
 </body>
