@@ -30,9 +30,9 @@ public class ImageUtil {
     private static final String OK = "ok";
     private static final String RESULT = "result";
 
-    private ImageUtil() {
+    static {
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
+            ClassLoader classLoader = ImageUtil.class.getClassLoader();
             InputStream inputStream = classLoader.getResourceAsStream(IMAGE_PROPERTIES);
             properties.load(inputStream);
         } catch (IOException e) {
@@ -40,6 +40,8 @@ public class ImageUtil {
             throw new RuntimeException("Error while reading properties file: " + IMAGE_PROPERTIES, e);
         }
     }
+
+    private ImageUtil() {}
 
     /**
      * Save string.

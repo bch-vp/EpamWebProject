@@ -13,7 +13,6 @@ import java.util.Properties;
 
 import static by.epam.project.controller.parameter.Parameter.*;
 
-
 /**
  * The type Mail sender util.
  */
@@ -21,7 +20,7 @@ public class MailSenderUtil {
     private final static Logger logger = LogManager.getLogger();
 
     private static final Properties properties = new Properties();
-    private static final String IMAGE_PROPERTIES = "property/image.properties";
+    private static final String IMAGE_PROPERTIES = "property/mail.properties";
 
     private static final String HOST = "mail.smtp.host";
     private static final String ADDRESS = "mail.from";
@@ -36,9 +35,9 @@ public class MailSenderUtil {
     private static final String QUESTION_MARK = "?";
     private static final String COMMAND_TYPE = "do";
 
-    private MailSenderUtil() {
+    static  {
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
+            ClassLoader classLoader = MailSenderUtil.class.getClassLoader();
             InputStream inputStream = classLoader.getResourceAsStream(IMAGE_PROPERTIES);
             properties.load(inputStream);
         } catch (IOException e) {
@@ -46,6 +45,8 @@ public class MailSenderUtil {
             throw new RuntimeException("Error while reading properties file: " + IMAGE_PROPERTIES, e);
         }
     }
+
+    private MailSenderUtil(){}
 
     /**
      * Send message.
