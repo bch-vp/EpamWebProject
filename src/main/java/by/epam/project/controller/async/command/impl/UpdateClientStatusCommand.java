@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
-import static by.epam.project.controller.parameter.ParameterKey.ID_USER;
+import static by.epam.project.controller.parameter.Parameter.ID_STATUS;
+import static by.epam.project.controller.parameter.Parameter.ID_USER;
 
 /**
  * The type Update client status command.

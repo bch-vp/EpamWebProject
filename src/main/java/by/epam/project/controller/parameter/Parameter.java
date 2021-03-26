@@ -3,7 +3,7 @@ package by.epam.project.controller.parameter;
 /**
  * The type Parameter key.
  */
-public class ParameterKey {
+public class Parameter {
     /**
      * The constant ENCODING.
      */
@@ -216,6 +216,6 @@ public class ParameterKey {
      */
     public static final String COMMAND = "command";
 
-    private ParameterKey() {
+    private Parameter() {
     }
 }

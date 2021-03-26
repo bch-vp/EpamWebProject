@@ -1,9 +1,6 @@
 package by.epam.project.controller.filter;
 
-import by.epam.project.controller.async.command.Command;
-import by.epam.project.controller.async.command.CommandProvider;
 import by.epam.project.controller.async.command.CommandType;
-import by.epam.project.controller.async.command.impl.EmptyCommand;
 import by.epam.project.controller.filter.typerole.RolePermission;
 import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.model.entity.User;
@@ -16,8 +13,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 
-import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
-import static by.epam.project.controller.parameter.ParameterKey.USER;
+import static by.epam.project.controller.parameter.Parameter.COMMAND;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Command role security filter.

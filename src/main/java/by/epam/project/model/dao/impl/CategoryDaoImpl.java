@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.ID;
-import static by.epam.project.controller.parameter.ParameterKey.NAME;
+import static by.epam.project.controller.parameter.Parameter.ID;
+import static by.epam.project.controller.parameter.Parameter.NAME;
 
 /**
  * The type Category dao.

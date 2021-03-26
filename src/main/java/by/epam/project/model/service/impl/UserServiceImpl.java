@@ -33,7 +33,8 @@ import java.util.Random;
 
 import static by.epam.project.controller.parameter.ContentKey.*;
 import static by.epam.project.controller.parameter.ErrorKey.*;
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.model.service.impl.ImageCriterion.*;
 
 
 /**
@@ -43,19 +44,6 @@ public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
     private final UserDao userDao = UserDaoImpl.getInstance();
     private final ProductDaoImpl productDao = ProductDaoImpl.getInstance();
-
-    /**
-     * The File max size.
-     */
-    static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
-    private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
-    private static final int FILES_COUNT = 1;
-    private static final int FIRST = 0;
-
-    private static final int DIFF_RANGE = 900_000;
-    private static final int MIN_RANGE = 100_000;
-    private static final int TIMER_SEC = 300;
-    private static final int MILLISECONDS_PER_SECOND = 1000;
 
     private UserServiceImpl() {
     }
@@ -68,6 +56,11 @@ public class UserServiceImpl implements UserService {
     public static UserServiceImpl getInstance() {
         return instance;
     }
+
+    private final int DIFF_RANGE = 900_000;
+    private final int MIN_RANGE = 100_000;
+    private final int TIMER_SEC = 300;
+    private final int MILLISECONDS_PER_SECOND = 1000;
 
     @Override
     public AjaxData uploadUserImage(String userLogin, List<FileItem> fileItems, String language) throws ServiceException {

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Set;
 
-import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
-import static by.epam.project.controller.parameter.ParameterKey.USER;
+import static by.epam.project.controller.parameter.Parameter.COMMAND;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Empty command role security filter.

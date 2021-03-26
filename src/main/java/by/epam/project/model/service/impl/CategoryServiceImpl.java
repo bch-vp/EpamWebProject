@@ -17,8 +17,8 @@ import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ContentKey.ERROR_NAME_NOT_UNIQUE;
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
-import static by.epam.project.controller.parameter.ParameterKey.DATA;
-import static by.epam.project.controller.parameter.ParameterKey.OTHERS;
+import static by.epam.project.controller.parameter.Parameter.DATA;
+import static by.epam.project.controller.parameter.Parameter.OTHERS;
 
 /**
  * The type Category service.

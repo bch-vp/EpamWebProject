@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
+<Configuration status="WARN">
     <Properties>
         <property name="log_pattern">
             %d{dd.MM.yyyy HH:mm:ss} [%t] %-5p %c - %m%n
@@ -9,18 +9,10 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${log_pattern}"/>
         </Console>
-        <!--<RollingFile name="File" fileName="log/app.log" append="true"
-                     filePattern="logs/app-%d{MM-dd-yyyy}.log.gz">
-            <PatternLayout pattern="${log_pattern}"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="100 KB"/>
-            </Policies>
-        </RollingFile>-->
     </Appenders>
     <Loggers>
-        <Root level="INFO">
+        <Root level="WARN">
             <AppenderRef ref="Console"/>
-            <!--<AppenderRef ref="File"/>-->
         </Root>
     </Loggers>
 </Configuration>

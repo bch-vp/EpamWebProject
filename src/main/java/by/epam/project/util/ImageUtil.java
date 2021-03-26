@@ -1,37 +1,28 @@
 package by.epam.project.util;
 
-import by.epam.project.controller.async.AjaxData;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Properties;
-
-import static by.epam.project.controller.parameter.ContentKey.*;
-import static by.epam.project.controller.parameter.ErrorKey.ERROR;
-import static by.epam.project.controller.parameter.ParameterKey.URL;
 
 /**
  * The type File util.
  */
 public class ImageUtil {
+    private static final Logger logger = LogManager.getLogger();
+
+    private static final Properties properties = new Properties();
+    private static final String IMAGE_PROPERTIES = "property/image.properties";
+
     private static final String CLOUD_NAME = "cloud_name";
     private static final String API_KEY = "api_key";
     private static final String API_SECRET = "api_secret";
-
-    private static final String CLOUD_NAME_VALUE = "dkxnuhv44";
-    private static final String API_KEY_VALUE = "276587525864389";
-    private static final String API_SECRET_VALUE = "LtbxmO33K22U1Qi8NliGNE8ljp0";
 
     private static final String SLASH = "/";
     private static final String URL = "url";
@@ -39,7 +30,16 @@ public class ImageUtil {
     private static final String OK = "ok";
     private static final String RESULT = "result";
 
-    private ImageUtil() {}
+    private ImageUtil() {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream(IMAGE_PROPERTIES);
+            properties.load(inputStream);
+        } catch (IOException e) {
+            logger.fatal("Error while reading properties file: {}", IMAGE_PROPERTIES, e);
+            throw new RuntimeException("Error while reading properties file: " + IMAGE_PROPERTIES, e);
+        }
+    }
 
     /**
      * Save string.
@@ -51,9 +51,9 @@ public class ImageUtil {
     public static String save(FileItem file) throws IOException {
         byte[] fileByte = file.get();
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                CLOUD_NAME, CLOUD_NAME_VALUE,
-                API_KEY, API_KEY_VALUE,
-                API_SECRET, API_SECRET_VALUE
+                CLOUD_NAME, properties.getProperty(CLOUD_NAME),
+                API_KEY, properties.getProperty(API_KEY),
+                API_SECRET, properties.getProperty(API_SECRET)
         ));
         Map<String, Object> result = cloudinary.uploader().upload(fileByte, ObjectUtils.emptyMap());
         return (String) result.get(URL);
@@ -72,9 +72,9 @@ public class ImageUtil {
         String fileName = url.substring(lastIndexOfSlash + 1, lastIndexOfDOT);
 
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                CLOUD_NAME, CLOUD_NAME_VALUE,
-                API_KEY, API_KEY_VALUE,
-                API_SECRET, API_SECRET_VALUE
+                CLOUD_NAME, properties.getProperty(CLOUD_NAME),
+                API_KEY, properties.getProperty(API_KEY),
+                API_SECRET, properties.getProperty(API_SECRET)
         ));
 
         Map<String, Object> result = cloudinary.uploader().destroy(fileName, ObjectUtils.emptyMap());

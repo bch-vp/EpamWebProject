@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.ParameterKey.ID_ORDER;
-import static by.epam.project.controller.parameter.ParameterKey.ID_STATUS;
+import static by.epam.project.controller.parameter.Parameter.ID_ORDER;
+import static by.epam.project.controller.parameter.Parameter.ID_STATUS;
 
 /**
  * The type Update order status command.

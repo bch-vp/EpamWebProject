@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.epam.project.controller.parameter.PagePath.ERROR_500;
-import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
-import static by.epam.project.controller.parameter.ParameterKey.IS_DEV_MODE;
+import static by.epam.project.controller.parameter.Parameter.COMMAND;
+import static by.epam.project.controller.parameter.Parameter.IS_DEV_MODE;
 
 /**
  * The type Controller.

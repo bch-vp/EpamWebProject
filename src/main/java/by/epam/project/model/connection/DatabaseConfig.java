@@ -1,6 +1,5 @@
 package by.epam.project.model.connection;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static by.epam.project.controller.parameter.ParameterKey.IS_DEV_MODE;
+import static by.epam.project.controller.parameter.Parameter.IS_DEV_MODE;
 
 /**
  * The type Database config.
@@ -17,7 +16,7 @@ class DatabaseConfig {
     private static final DatabaseConfig instance = new DatabaseConfig();
     private static final Logger logger = LogManager.getLogger();
 
-    private static final String DATABASE_PROPERTIES = "database.properties";
+    private static final String DATABASE_PROPERTIES = "property/database.properties";
     private static final String DRIVER = "driver";
 
     private static final String LOCAL_URL = "local.url";

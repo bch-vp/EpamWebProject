@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.Parameter.*;
 import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_URL_BY_LOGIN;
 
 

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
+import static by.epam.project.controller.parameter.Parameter.SHOPPING_CART;
 
 /**
  * The type Load shopping cart command.

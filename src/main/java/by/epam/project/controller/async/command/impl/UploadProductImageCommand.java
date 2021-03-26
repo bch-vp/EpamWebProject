@@ -4,7 +4,6 @@ import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -18,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
-import static by.epam.project.controller.parameter.ParameterKey.NAME;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.NAME;
 
 /**
  * The type Upload product image command.

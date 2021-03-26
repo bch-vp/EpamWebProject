@@ -5,7 +5,6 @@ import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.Product;
-import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
 import org.apache.logging.log4j.LogManager;
@@ -17,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
-import static by.epam.project.controller.parameter.ParameterKey.NAME;
-import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
+import static by.epam.project.controller.parameter.Parameter.NAME;
+import static by.epam.project.controller.parameter.Parameter.SHOPPING_CART;
 
 /**
  * The type Remove product from shopping cart command.

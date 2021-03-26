@@ -26,8 +26,9 @@ import java.util.Optional;
 
 import static by.epam.project.controller.parameter.ContentKey.*;
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
-import static by.epam.project.controller.parameter.ParameterKey.DATA;
-import static by.epam.project.controller.parameter.ParameterKey.URL;
+import static by.epam.project.controller.parameter.Parameter.DATA;
+import static by.epam.project.controller.parameter.Parameter.URL;
+import static by.epam.project.model.service.impl.ImageCriterion.*;
 
 /**
  * The type Product service.
@@ -37,14 +38,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao = ProductDaoImpl.getInstance();
     private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
-
-    /**
-     * The File max size.
-     */
-    static final int FILE_MAX_SIZE = 1024 * 1024 * 2;
-    private static final String FILE_TYPE = "image/jpg, image/png, image/jpeg";
-    private static final int FILES_COUNT = 1;
-    private static final int FIRST = 0;
 
     /**
      * Gets instance.
@@ -174,7 +167,6 @@ public class ProductServiceImpl implements ProductService {
         } catch (DaoException exp) {
             throw new ServiceException(exp);
         }
-
 
         return ajaxData;
     }
@@ -338,7 +330,6 @@ public class ProductServiceImpl implements ProductService {
         } catch (DaoException | IOException exp) {
             throw new ServiceException(exp);
         }
-
 
         return ajaxData;
     }

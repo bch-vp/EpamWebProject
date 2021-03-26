@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.ParameterKey.NAME;
-import static by.epam.project.controller.parameter.ParameterKey.SHOPPING_CART;
+import static by.epam.project.controller.parameter.Parameter.NAME;
+import static by.epam.project.controller.parameter.Parameter.SHOPPING_CART;
 
 /**
  * The type Add product to shopping cart command.

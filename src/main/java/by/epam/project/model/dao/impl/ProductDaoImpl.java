@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
-import static by.epam.project.controller.parameter.ParameterKey.PRICE;
+import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.PRICE;
 
 /**
  * The type Product dao.

@@ -8,7 +8,7 @@ import by.epam.project.util.URLUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
 
 /**
  * The type Sign out command.

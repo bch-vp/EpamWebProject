@@ -7,9 +7,11 @@ import org.apache.logging.log4j.Logger;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.Parameter.*;
 
 
 /**
@@ -18,11 +20,15 @@ import static by.epam.project.controller.parameter.ParameterKey.*;
 public class MailSenderUtil {
     private final static Logger logger = LogManager.getLogger();
 
-    private static final String ADDRESS = "epam.web.project@gmail.com";
-    private static final String PASSWORD = "epam.web.project123";
-    private static final String HOST = "smtp.gmail.com";
-    private static final String PORT = "587";
     private static final Properties properties = new Properties();
+    private static final String IMAGE_PROPERTIES = "property/image.properties";
+
+    private static final String HOST = "mail.smtp.host";
+    private static final String ADDRESS = "mail.from";
+    private static final String PASSWORD = "mail.smtp.password";
+    private static final String PORT = "mail.smtp.port";
+    private static final String AUTH = "mail.smtp.auth";
+    private static final String TLS = "mail.smtp.starttls.enable";
 
     private static final String SEPARATOR_SIGN = "/";
     private static final String AMPERSAND_SIGN = "&";
@@ -30,16 +36,15 @@ public class MailSenderUtil {
     private static final String QUESTION_MARK = "?";
     private static final String COMMAND_TYPE = "do";
 
-    static {
-        properties.put("mail.smtp.host", HOST);
-        properties.put("mail.smtp.port", PORT);
-        properties.put("mail.from", ADDRESS);
-        properties.put("mail.smtp.password", PASSWORD);
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-    }
-
     private MailSenderUtil() {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream(IMAGE_PROPERTIES);
+            properties.load(inputStream);
+        } catch (IOException e) {
+            logger.fatal("Error while reading properties file: {}", IMAGE_PROPERTIES, e);
+            throw new RuntimeException("Error while reading properties file: " + IMAGE_PROPERTIES, e);
+        }
     }
 
     /**
@@ -50,16 +55,19 @@ public class MailSenderUtil {
      * @param email   the email
      */
     public static void sendMessage(String subject, String body, String email) {
+        String address = properties.getProperty(ADDRESS);
+        String password = properties.getProperty(PASSWORD);
+
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(ADDRESS, PASSWORD);
+                return new PasswordAuthentication(address, password);
             }
         });
 
         try {
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(ADDRESS));
+            message.setFrom(new InternetAddress(address));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(subject, ENCODING);
             message.setText(body, ENCODING);

@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import static by.epam.project.controller.parameter.PagePath.NOTIFICATION_SUCCESS;
-import static by.epam.project.controller.parameter.ParameterKey.LOGIN;
+import static by.epam.project.controller.parameter.Parameter.LOGIN;
 
 /**
  * The type Confirm sign up command.

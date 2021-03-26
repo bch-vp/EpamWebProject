@@ -1,13 +1,7 @@
 package by.epam.project.validator;
 
-import by.epam.project.controller.async.command.CommandType;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static by.epam.project.controller.parameter.ParameterKey.*;
 
 /**
  * The type Service validator.

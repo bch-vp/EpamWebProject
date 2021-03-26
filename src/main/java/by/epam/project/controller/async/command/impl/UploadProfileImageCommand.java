@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static by.epam.project.controller.parameter.ParameterKey.LANGUAGE;
-import static by.epam.project.controller.parameter.ParameterKey.USER;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Upload profile image command.

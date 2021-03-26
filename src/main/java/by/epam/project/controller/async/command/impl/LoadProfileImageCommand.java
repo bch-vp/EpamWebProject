@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.project.controller.parameter.ParameterKey.USER;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Load profile image command.

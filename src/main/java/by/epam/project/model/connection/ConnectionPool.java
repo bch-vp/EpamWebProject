@@ -12,27 +12,23 @@ import java.util.Enumeration;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * The type Connection pool.
  */
 public class ConnectionPool {
-    private static final ConnectionPool instance = new ConnectionPool();
+    private static ConnectionPool instance;
+    private static final Logger logger = LogManager.getLogger();
 
+    private static final Lock locking = new ReentrantLock();
+    private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
     private final BlockingQueue<ProxyConnection> freeConnections;
     private final Queue<ProxyConnection> busyConnections;
 
     private static final int DEFAULT_POOL_SIZE = 8;
-    private static final Logger logger = LogManager.getLogger();
-
-    /**
-     * Gets instance.
-     *
-     * @return the instance
-     */
-    public static ConnectionPool getInstance() {
-        return instance;
-    }
 
     private ConnectionPool() {
         DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
@@ -53,6 +49,23 @@ public class ConnectionPool {
             logger.fatal("Connection pool is not initialize", exp);
             throw new RuntimeException("Connection pool is not initialize", exp);
         }
+    }
+
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static ConnectionPool getInstance() {
+        if (!isInitialized.get()) {
+            locking.lock();
+            if (instance == null) {
+                instance = new ConnectionPool();
+                isInitialized.set(true);
+            }
+            locking.unlock();
+        }
+        return instance;
     }
 
     /**

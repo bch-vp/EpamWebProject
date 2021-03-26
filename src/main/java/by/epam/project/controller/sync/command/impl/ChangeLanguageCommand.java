@@ -10,7 +10,7 @@ import by.epam.project.util.URLUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.project.controller.parameter.ParameterKey.*;
+import static by.epam.project.controller.parameter.Parameter.*;
 
 /**
  * The type Change language command.

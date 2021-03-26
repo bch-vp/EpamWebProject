@@ -2,7 +2,7 @@ package by.epam.project.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static by.epam.project.controller.parameter.ParameterKey.COMMAND;
+import static by.epam.project.controller.parameter.Parameter.COMMAND;
 
 /**
  * The type Url util.
