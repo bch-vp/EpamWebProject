@@ -46,7 +46,7 @@ public class UpdateProfileCommand implements Command {
 
             ajaxData = userService.updateProfile(user, newLogin, newFirstName, newLastName, newTelephoneNumber,
                     newEmail, language);
-            if(ajaxData.getStatusHttp() != EMPTY_PRIMITIVE){
+            if (ajaxData.getStatusHttp() != EMPTY_PRIMITIVE) {
                 return ajaxData;
             }
 

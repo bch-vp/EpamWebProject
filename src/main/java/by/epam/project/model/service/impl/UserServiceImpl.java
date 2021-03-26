@@ -303,7 +303,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AjaxData changePasswordByEmail(String login, String newPassword, String email, String sessionUniqueKey,
-                                          String requestUniqueKey, long timeCreated, String language) throws ServiceException {
+                                          String requestUniqueKey, String timeCreated, String language) throws ServiceException {
         AjaxData ajaxData = new AjaxData();
 
         if (!ServiceValidator.isLoginCorrect(login)
@@ -354,7 +354,7 @@ public class UserServiceImpl implements UserService {
             }
 
             long timeNow = System.currentTimeMillis();
-            long diff = (timeNow - timeCreated) / MILLISECONDS_PER_SECOND;
+            long diff = (timeNow - Long.parseLong(timeCreated)) / MILLISECONDS_PER_SECOND;
             boolean isTimeExpired = diff > TIMER_SEC;
             if (isTimeExpired) {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_REQUEST_TIMEOUT);

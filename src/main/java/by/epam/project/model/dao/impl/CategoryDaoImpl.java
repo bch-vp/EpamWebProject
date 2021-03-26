@@ -32,6 +32,7 @@ public class CategoryDaoImpl implements CategoryDao {
     public static CategoryDaoImpl getInstance() {
         return instance;
     }
+
     private static final int ONE_UPDATE = 1;
 
     private CategoryDaoImpl() {

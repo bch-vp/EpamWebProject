@@ -70,11 +70,11 @@ export default {
       text_page: text_page,
 
       file: undefined,
-      error:undefined,
+      error: undefined,
 
       isEditInfo: true,
       isEditStatusAndLocation: false,
-      spinnerVisible:false
+      spinnerVisible: false
     }
   },
   methods: {

@@ -35,7 +35,7 @@ public class UpdateProductInfoCommand implements Command {
             String info = (String) requestParameters.get(INFO);
             String priceString = (String) requestParameters.get(PRICE);
 
-           ajaxData = productService.updateProductInfo(idString, name, info, priceString);
+            ajaxData = productService.updateProductInfo(idString, name, info, priceString);
         } catch (ServiceException | IOException exp) {
             logger.error("Error during updating product info");
             throw new CommandException(exp);

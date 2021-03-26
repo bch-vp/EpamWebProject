@@ -160,7 +160,7 @@ public class UserServiceImplTest {
      */
     @Test(dataProvider = "changePasswordByOldPasswordData")
     public void testChangePasswordByOldPassword(AjaxData ajaxDataExpected, Optional<User> userOptional,
-                                                String... serviceArguments)  throws DaoException, ServiceException {
+                                                String... serviceArguments) throws DaoException, ServiceException {
         Mockito.when(mock.findPasswordByLogin(Mockito.anyString()))
                 .thenReturn(Optional.of(serviceArguments[0]));
         Mockito.when(mock.updatePasswordByLogin(Mockito.anyString(), Mockito.anyString()))

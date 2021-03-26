@@ -21,12 +21,12 @@ public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         processRequest(request, response);
     }
 

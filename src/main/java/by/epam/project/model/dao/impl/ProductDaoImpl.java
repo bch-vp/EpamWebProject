@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static by.epam.project.controller.parameter.Parameter.*;
-import static by.epam.project.controller.parameter.Parameter.PRICE;
 
 /**
  * The type Product dao.

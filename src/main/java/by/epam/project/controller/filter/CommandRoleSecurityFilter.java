@@ -56,9 +56,9 @@ public class CommandRoleSecurityFilter implements Filter {
             }
         }
 
-        boolean isContain =  Arrays.stream(CommandType.values())
+        boolean isContain = Arrays.stream(CommandType.values())
                 .anyMatch(commandType -> commandName.equalsIgnoreCase(commandType.toString()));
-        if(isContain && !commandsByRole.contains(commandName.toUpperCase())){
+        if (isContain && !commandsByRole.contains(commandName.toUpperCase())) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }

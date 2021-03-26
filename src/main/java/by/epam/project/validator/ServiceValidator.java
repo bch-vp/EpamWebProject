@@ -23,7 +23,8 @@ public class ServiceValidator {
     private static final String PRICE_REGEX = "^[0-9]{1,8}(\\.[0-9]{2})?$";
     private static final String INFO_REGEX = "^.{3,100}$";
 
-    private ServiceValidator() {}
+    private ServiceValidator() {
+    }
 
     /**
      * Is login correct boolean.
@@ -158,6 +159,7 @@ public class ServiceValidator {
         Matcher matcher = pattern.matcher(string);
         return matcher.matches();
     }
+
     private static boolean isStringContain(String string, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(string);

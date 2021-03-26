@@ -2,14 +2,11 @@ package by.epam.project.model.service;
 
 import by.epam.project.controller.async.AjaxData;
 import by.epam.project.exception.ServiceException;
-import by.epam.project.model.entity.Order;
 import by.epam.project.model.entity.Product;
 import by.epam.project.model.entity.User;
 import org.apache.commons.fileupload.FileItem;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * The interface User service.
@@ -97,7 +94,7 @@ public interface UserService {
      * @throws ServiceException the service exception
      */
     AjaxData changePasswordByEmail(String login, String newPassword, String email, String sessionUniqueKey,
-                                   String requestUniqueKey, long timeCreated, String language) throws ServiceException;
+                                   String requestUniqueKey, String timeCreated, String language) throws ServiceException;
 
     /**
      * Find user image ajax data.
@@ -128,7 +125,7 @@ public interface UserService {
      * @throws ServiceException the service exception
      */
     AjaxData createOrder(User user, List<Product> shoppingCart, String orderAddress,
-                          String orderComment) throws ServiceException;
+                         String orderComment) throws ServiceException;
 
     /**
      * Find all orders ajax data.

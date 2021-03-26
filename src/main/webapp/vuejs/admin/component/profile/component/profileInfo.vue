@@ -110,7 +110,7 @@ export default {
       file: undefined,
       error: undefined,
 
-      spinnerVisible:false
+      spinnerVisible: false
     }
   },
   methods: {

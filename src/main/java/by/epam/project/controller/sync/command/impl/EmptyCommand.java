@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * The type Empty command.
  */
-public class EmptyCommand  implements Command {
+public class EmptyCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) {
         return new Router(PagePath.ERROR_404);
