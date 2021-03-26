@@ -31,7 +31,7 @@ public class ChangePasswordByEmailCommand implements Command {
         HttpSession session = request.getSession();
         String language = (String) session.getAttribute(LANGUAGE);
         String sessionUniqueKey = (String) session.getAttribute(UNIQUE_KEY);
-        long timeCreated = (long) session.getAttribute(TIME_CREATED);
+        Long timeCreated = (Long) session.getAttribute(TIME_CREATED);
 
         try {
             Map requestParameters = JsonUtil.toMap(request.getInputStream());
