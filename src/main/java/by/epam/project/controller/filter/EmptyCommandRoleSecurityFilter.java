@@ -42,7 +42,6 @@ public class EmptyCommandRoleSecurityFilter implements Filter {
         }
 
         User.Role role = User.Role.GUEST;
-        Set<CommandType> commandsByRole;
 
         User user = (User) session.getAttribute(USER);
         if (user != null) {
