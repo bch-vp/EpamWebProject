@@ -11,13 +11,31 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.ADDRESS;
+import static by.epam.project.controller.parameter.Parameter.AVATAR_URL;
+import static by.epam.project.controller.parameter.Parameter.COMMENT;
+import static by.epam.project.controller.parameter.Parameter.EMAIL;
+import static by.epam.project.controller.parameter.Parameter.FIRST_NAME;
+import static by.epam.project.controller.parameter.Parameter.ID;
+import static by.epam.project.controller.parameter.Parameter.LAST_NAME;
+import static by.epam.project.controller.parameter.Parameter.LOGIN;
+import static by.epam.project.controller.parameter.Parameter.NAME;
+import static by.epam.project.controller.parameter.Parameter.PASSWORD;
+import static by.epam.project.controller.parameter.Parameter.ROLE;
+import static by.epam.project.controller.parameter.Parameter.STATUS;
+import static by.epam.project.controller.parameter.Parameter.TELEPHONE_NUMBER;
+import static by.epam.project.controller.parameter.Parameter.TIME_CREATED;
+import static by.epam.project.controller.parameter.Parameter.TOTAL_PRICE;
 import static by.epam.project.model.dao.SqlQuery.FIND_AVATAR_URL_BY_LOGIN;
 
 

@@ -4,14 +4,21 @@ import by.epam.project.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.mail.*;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.COMMAND;
+import static by.epam.project.controller.parameter.Parameter.ENCODING;
+import static by.epam.project.controller.parameter.Parameter.LOGIN;
 
 /**
  * The type Mail sender util.

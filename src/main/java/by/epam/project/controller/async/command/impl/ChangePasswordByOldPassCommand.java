@@ -16,7 +16,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.NEW_PASSWORD;
+import static by.epam.project.controller.parameter.Parameter.OLD_PASSWORD;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Change password by old pass command.

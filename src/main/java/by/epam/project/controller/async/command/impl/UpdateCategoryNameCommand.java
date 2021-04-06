@@ -15,7 +15,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.ID;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.NAME;
 
 /**
  * The type Update category name command.

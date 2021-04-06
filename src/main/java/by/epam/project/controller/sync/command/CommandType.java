@@ -1,6 +1,12 @@
 package by.epam.project.controller.sync.command;
 
-import by.epam.project.controller.sync.command.impl.*;
+import by.epam.project.controller.sync.command.impl.ChangeLanguageCommand;
+import by.epam.project.controller.sync.command.impl.ConfirmSignUpCommand;
+import by.epam.project.controller.sync.command.impl.EmptyCommand;
+import by.epam.project.controller.sync.command.impl.PassingByAdminCommand;
+import by.epam.project.controller.sync.command.impl.PassingByClientCommand;
+import by.epam.project.controller.sync.command.impl.PassingByGuestCommand;
+import by.epam.project.controller.sync.command.impl.SignOutCommand;
 
 /**
  * The enum Command type.

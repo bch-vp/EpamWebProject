@@ -24,11 +24,18 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static by.epam.project.controller.parameter.ContentKey.*;
+import static by.epam.project.controller.parameter.ContentKey.ERROR_NAME_NOT_UNIQUE;
+import static by.epam.project.controller.parameter.ContentKey.ERROR_PROFILE_AVATAR_COUNT_ALLOWED_FILES;
+import static by.epam.project.controller.parameter.ContentKey.ERROR_PROFILE_AVATAR_FORMAT;
+import static by.epam.project.controller.parameter.ContentKey.ERROR_PROFILE_AVATAR_FORM_FIELD;
+import static by.epam.project.controller.parameter.ContentKey.ERROR_PROFILE_AVATAR_MAX_SIZE;
 import static by.epam.project.controller.parameter.ErrorKey.ERROR;
 import static by.epam.project.controller.parameter.Parameter.DATA;
 import static by.epam.project.controller.parameter.Parameter.URL;
-import static by.epam.project.model.service.impl.ImageCriterion.*;
+import static by.epam.project.model.service.impl.ImageCriterion.FILES_COUNT;
+import static by.epam.project.model.service.impl.ImageCriterion.FILE_MAX_SIZE;
+import static by.epam.project.model.service.impl.ImageCriterion.FILE_TYPE;
+import static by.epam.project.model.service.impl.ImageCriterion.FIRST;
 
 /**
  * The type Product service.

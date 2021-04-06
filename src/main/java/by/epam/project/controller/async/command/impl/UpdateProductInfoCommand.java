@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.ID;
+import static by.epam.project.controller.parameter.Parameter.INFO;
+import static by.epam.project.controller.parameter.Parameter.NAME;
+import static by.epam.project.controller.parameter.Parameter.PRICE;
 
 /**
  * The type Update product info command.

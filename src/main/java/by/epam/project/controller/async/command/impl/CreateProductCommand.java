@@ -15,7 +15,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.ID_CATEGORY;
+import static by.epam.project.controller.parameter.Parameter.INFO;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.NAME;
+import static by.epam.project.controller.parameter.Parameter.PRICE;
 
 /**
  * The type Create product command.

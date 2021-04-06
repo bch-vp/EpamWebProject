@@ -5,7 +5,12 @@ import by.epam.project.controller.filter.typerole.RolePermission;
 import by.epam.project.controller.parameter.PagePath;
 import by.epam.project.model.entity.User;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

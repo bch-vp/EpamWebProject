@@ -1,6 +1,32 @@
 package by.epam.project.controller.async.command;
 
-import by.epam.project.controller.async.command.impl.*;
+import by.epam.project.controller.async.command.impl.AddProductToShoppingCartCommand;
+import by.epam.project.controller.async.command.impl.ChangePasswordByEmailCommand;
+import by.epam.project.controller.async.command.impl.ChangePasswordByOldPassCommand;
+import by.epam.project.controller.async.command.impl.CheckLoginExistenceCommand;
+import by.epam.project.controller.async.command.impl.CreateCategoryCommand;
+import by.epam.project.controller.async.command.impl.CreateOrderCommand;
+import by.epam.project.controller.async.command.impl.CreateProductCommand;
+import by.epam.project.controller.async.command.impl.LoadAllCategoriesCommand;
+import by.epam.project.controller.async.command.impl.LoadAllClientsCommand;
+import by.epam.project.controller.async.command.impl.LoadAllOrdersCommand;
+import by.epam.project.controller.async.command.impl.LoadAllProductsByCategoryCommand;
+import by.epam.project.controller.async.command.impl.LoadProfileImageCommand;
+import by.epam.project.controller.async.command.impl.LoadShoppingCartCommand;
+import by.epam.project.controller.async.command.impl.RemoveCategoryCommand;
+import by.epam.project.controller.async.command.impl.RemoveProductFromShoppingCartCommand;
+import by.epam.project.controller.async.command.impl.RemoveProfileImageCommand;
+import by.epam.project.controller.async.command.impl.SignInCommand;
+import by.epam.project.controller.async.command.impl.SignUpCommand;
+import by.epam.project.controller.async.command.impl.UpdateCategoryNameCommand;
+import by.epam.project.controller.async.command.impl.UpdateClientStatusCommand;
+import by.epam.project.controller.async.command.impl.UpdateOrderStatusCommand;
+import by.epam.project.controller.async.command.impl.UpdateProductCategoryCommand;
+import by.epam.project.controller.async.command.impl.UpdateProductInfoCommand;
+import by.epam.project.controller.async.command.impl.UpdateProductStatusCommand;
+import by.epam.project.controller.async.command.impl.UpdateProfileCommand;
+import by.epam.project.controller.async.command.impl.UploadProductImageCommand;
+import by.epam.project.controller.async.command.impl.UploadProfileImageCommand;
 
 /**
  * The enum Command type.

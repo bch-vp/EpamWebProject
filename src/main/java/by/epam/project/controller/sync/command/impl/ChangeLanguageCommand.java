@@ -10,7 +10,10 @@ import by.epam.project.util.URLUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.ENGLISH_LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.RUSSIAN_LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Change language command.

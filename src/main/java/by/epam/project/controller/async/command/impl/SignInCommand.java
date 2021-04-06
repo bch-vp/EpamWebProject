@@ -17,7 +17,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.LOGIN;
+import static by.epam.project.controller.parameter.Parameter.PASSWORD;
+import static by.epam.project.controller.parameter.Parameter.SHOPPING_CART;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Sign in command.

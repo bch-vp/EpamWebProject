@@ -15,7 +15,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.EMAIL;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.LOGIN;
+import static by.epam.project.controller.parameter.Parameter.NEW_PASSWORD;
+import static by.epam.project.controller.parameter.Parameter.TIME_CREATED;
+import static by.epam.project.controller.parameter.Parameter.UNIQUE_KEY;
 
 /**
  * The type Change password by email command.

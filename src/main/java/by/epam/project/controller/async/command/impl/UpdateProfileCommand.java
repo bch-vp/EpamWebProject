@@ -16,7 +16,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.EMAIL;
+import static by.epam.project.controller.parameter.Parameter.FIRST_NAME;
+import static by.epam.project.controller.parameter.Parameter.LANGUAGE;
+import static by.epam.project.controller.parameter.Parameter.LAST_NAME;
+import static by.epam.project.controller.parameter.Parameter.LOGIN;
+import static by.epam.project.controller.parameter.Parameter.TELEPHONE_NUMBER;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Update profile command.

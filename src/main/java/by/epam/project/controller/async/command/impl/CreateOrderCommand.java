@@ -19,7 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static by.epam.project.controller.parameter.Parameter.*;
+import static by.epam.project.controller.parameter.Parameter.ADDRESS;
+import static by.epam.project.controller.parameter.Parameter.COMMENT;
+import static by.epam.project.controller.parameter.Parameter.SHOPPING_CART;
+import static by.epam.project.controller.parameter.Parameter.USER;
 
 /**
  * The type Create order command.
