@@ -24,7 +24,7 @@ public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
 
     private static final Lock locking = new ReentrantLock();
-    private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
+    private static volatile boolean isInitialized = false;
     private final BlockingQueue<ProxyConnection> freeConnections;
     private final Queue<ProxyConnection> busyConnections;
 
@@ -57,13 +57,17 @@ public class ConnectionPool {
      * @return the instance
      */
     public static ConnectionPool getInstance() {
-        if (!isInitialized.get()) {
+        if (!isInitialized) {
             locking.lock();
-            if (instance == null) {
-                instance = new ConnectionPool();
-                isInitialized.set(true);
+            try {
+                if (instance == null) {
+                    instance = new ConnectionPool();
+                    isInitialized = true;
+                }
+            }finally {
+                locking.unlock();
             }
-            locking.unlock();
+
         }
         return instance;
     }
