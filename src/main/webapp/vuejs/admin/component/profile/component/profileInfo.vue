@@ -116,7 +116,7 @@ export default {
   methods: {
     handleFileDelete() {
       this.axios({
-        method: 'post',
+        method: 'get',
         url: '/ajax?command=remove_profile_image',
       }).then(response => {
         this.$store.commit('set_isAvatarExists', false)

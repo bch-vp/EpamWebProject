@@ -54,30 +54,6 @@ export default {
       isError: false
     }
   },
-  methods: {
-    addProductToShoppingCart() {
-      this.axios({
-        method: 'post',
-        url: '/ajax?command=add_product_to_shopping_cart',
-        data: {
-          name: this.product.name
-        }
-      }).then(response => {
-        this.$store.commit('add_productToShoppingCart', this.product)
-        this.$store.commit('remove_productToProducts', this.product)
-      }, ex => {
-        if (ex.response.status === 500) {
-          window.location.href = '/jsp/error500.jsp'
-        }
-        if (ex.response.status === 403) {
-          window.location.href = '/jsp/error403.jsp'
-        }
-
-        this.isError = true
-      })
-
-    }
-  }
 }
 </script>
 

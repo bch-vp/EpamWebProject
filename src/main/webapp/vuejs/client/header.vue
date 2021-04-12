@@ -124,7 +124,7 @@ export default {
   },
   created() {
     this.axios({
-      method: 'post',
+      method: 'get',
       url: '/ajax?command=load_all_orders',
     }).then(resp => {
       var array = resp.data.sort((a, b) => (a.id < b.id) ? 1 : -1)
@@ -142,7 +142,7 @@ export default {
     })
 
     this.axios({
-      method: 'post',
+      method: 'get',
       url: '/ajax?command=load_profile_image',
     }).then(resp => {
       this.$store.commit('set_isAvatarExists', true)
@@ -161,7 +161,7 @@ export default {
     })
 
     this.axios({
-      method: 'post',
+      method: 'get',
       url: '/ajax?command=load_all_categories'
     }).then(response => {
           var array = response.data.data.sort((a, b) => (a.id > b.id) ? 1 : -1)
@@ -178,7 +178,7 @@ export default {
         })
 
     this.axios({
-      method: 'post',
+      method: 'get',
       url: '/ajax?command=load_shopping_cart'
     }).then(response => {
           this.$store.commit('set_shoppingCart', response.data.data)

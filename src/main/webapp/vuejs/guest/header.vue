@@ -111,7 +111,7 @@ export default {
   },
   created() {
     this.axios({
-      method: 'post',
+      method: 'get',
       url: '/ajax?command=load_all_categories'
     }).then(response => {
           var array = response.data.data.sort((a, b) => (a.id > b.id) ? 1 : -1)

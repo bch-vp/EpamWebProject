@@ -57,7 +57,7 @@ export default {
     this.$store.commit('show_home') // cahnge
 
     this.axios({
-      method: 'post',
+      method: 'get',
       url: '/ajax?command=load_profile_image',
     }).then(response => {
       this.$store.commit('set_isAvatarExists', true)
