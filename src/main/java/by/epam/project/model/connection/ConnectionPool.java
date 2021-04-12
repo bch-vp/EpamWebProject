@@ -20,11 +20,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * The type Connection pool.
  */
 public class ConnectionPool {
-    private static ConnectionPool instance;
     private static final Logger logger = LogManager.getLogger();
+    private static final ConnectionPool instance = new ConnectionPool();
 
-    private static final Lock locking = new ReentrantLock();
-    private static volatile boolean isInitialized = false;
     private final BlockingQueue<ProxyConnection> freeConnections;
     private final Queue<ProxyConnection> busyConnections;
 
@@ -57,18 +55,6 @@ public class ConnectionPool {
      * @return the instance
      */
     public static ConnectionPool getInstance() {
-        if (!isInitialized) {
-            locking.lock();
-            try {
-                if (instance == null) {
-                    instance = new ConnectionPool();
-                    isInitialized = true;
-                }
-            }finally {
-                locking.unlock();
-            }
-
-        }
         return instance;
     }
 

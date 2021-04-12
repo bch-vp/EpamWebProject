@@ -61,11 +61,5 @@ public class Controller extends HttpServlet {
             response.sendRedirect(currentPage);
         }
     }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        ConnectionPool.getInstance().destroyPool();
-    }
 }
 
