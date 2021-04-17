@@ -133,9 +133,15 @@ public class ProductServiceImpl implements ProductService {
 
         long id = Long.parseLong(idString);
         BigDecimal price = new BigDecimal(priceString);
-
-        Product product = new Product(id, name, info, price);
         try {
+            Optional<Product> productOptional = productDao.findProductByName(name);
+            if(productOptional.isPresent()
+                    && productOptional.get().getId()!=id){
+                ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
+                return ajaxData;
+            }
+
+            Product product = new Product(id, name, info, price);
             boolean isUpdated = productDao.updateProductInfo(product);
             if (!isUpdated) {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);

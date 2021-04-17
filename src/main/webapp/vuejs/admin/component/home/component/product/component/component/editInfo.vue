@@ -2,7 +2,7 @@
   <div>
     <div v-if="isError" class="text-subtitle-1 font-weight-medium mb-2">
           <span style="color: orangered">{{ text_page.form_component.error.notification }}:&nbsp
-          </span>{{ text_page.form_component.error.need_reload_page }}
+          </span>{{ error }}
     </div>
     <div align="center" v-if="isSuccess && !isError" class="text-subtitle-1 font-weight-medium mb-2">
       <span style="color: greenyellow">{{ text_page.form_component.info.success }}</span>
@@ -73,6 +73,8 @@ export default {
     return {
       valid: false,
       text_page: text_page,
+
+      error: undefined,
 
       spinnerVisible: false,
       isError: false,
@@ -148,17 +150,32 @@ export default {
               this.spinnerVisible = false
             },
             ex => {
+              if (ex.response.status === 500) {
+                window.location.href = '/jsp/error500.jsp'
+              }
+              if (ex.response.status === 403) {
+                window.location.href = '/jsp/error403.jsp'
+              }
+              if (ex.response.status === 400) {
+                this.error = text_page.form_component.error.name_not_unique
+              } else{
+                this.error = text_page.form_component.error.notification
+              }
+
               this.reset()
               this.isSuccess = false
               this.isError = true
 
               this.spinnerVisible = false
+
+              this.await1Seconds()
             })
       }
     },
     async await1Seconds() {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       this.isSuccess = false
+      this.isError = false
     },
     reset() {
       this.name = this.product.name

@@ -16,7 +16,7 @@
 
     <div v-if="isError" class="text-subtitle-1 font-weight-medium mb-2">
           <span style="color: orangered">{{ text_page.form_component.error.notification }}:&nbsp
-          </span>{{ text_page.form_component.error.need_reload_page }}
+          </span>{{ error }}
     </div>
 
     <v-list-item-content v-if="!spinnerVisible && !isError && !isEdit">
@@ -103,7 +103,7 @@ export default {
       isError: false,
       isEdit: false,
       isSuccess: false,
-
+      error: undefined,
       valid: false,
 
       rules: {
@@ -139,10 +139,21 @@ export default {
             if (ex.response.status === 403) {
               window.location.href = '/jsp/error403.jsp'
             }
+            if (ex.response.status === 400) {
+              this.error = text_page.form_component.error.name_not_unique
+            } else {
+              this.error = text_page.form_component.error.need_reload_page
+            }
 
             this.isError = true
             this.spinnerVisible = false
+
+            this.await3Seconds()
           })
+    },
+    async await3Seconds() {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      this.isError = false
     },
     removeCategory() {
       this.axios({
@@ -188,16 +199,11 @@ export default {
             if (ex.response.status === 403) {
               window.location.href = '/jsp/error403.jsp'
             }
-
             this.isError = true
           })
     },
     resetEdit() {
       this.$refs.form.reset()
-    },
-    async await3Seconds() {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      this.isSuccess = false
     }
   }
 }
