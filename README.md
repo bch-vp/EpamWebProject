@@ -2,8 +2,11 @@
 #### [Watch the project on Heroku](https://app-jewellery.herokuapp.com/do?command=passing_by_guest)
 > :warning: The first time launching the application (after it falls asleep) on Heroku can take 10-30 seconds, because the initial tariff plan is used!
 
-
-
+USER | LOGIN | PASSWORD 
+---------| --------------|----------------
+Client| ilya_user | Aa123  |
+Admin| ilya_admin | Aa123 |
+#
 ### Application description
    The application is built on the use of AJAX, which means that all HTTP requests, such as getting, 
    updating and removing data, occur completely asynchronously. Built three independent client
