@@ -46,6 +46,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao = ProductDaoImpl.getInstance();
     private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
 
+    private ProductServiceImpl() {
+    }
+
     /**
      * Gets instance.
      *

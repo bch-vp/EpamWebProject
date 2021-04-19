@@ -4,6 +4,7 @@ import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.service.CategoryService;
 import by.epam.project.model.service.impl.CategoryServiceImpl;
 import by.epam.project.util.JsonUtil;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ import static by.epam.project.controller.parameter.Parameter.NAME;
  */
 public class CreateCategoryCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private final CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();
+    private final CategoryService categoryService = CategoryServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

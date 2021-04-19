@@ -26,6 +26,8 @@ import static by.epam.project.controller.parameter.Parameter.OTHERS;
 public class CategoryServiceImpl implements CategoryService {
     private static final CategoryServiceImpl instance = new CategoryServiceImpl();
 
+    private CategoryServiceImpl(){}
+
     private final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
 
     /**
