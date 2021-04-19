@@ -5,6 +5,7 @@ import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
 import by.epam.project.model.entity.User;
+import by.epam.project.model.service.UserService;
 import by.epam.project.model.service.impl.UserServiceImpl;
 import by.epam.project.util.JsonUtil;
 import org.apache.logging.log4j.LogManager;
@@ -29,9 +30,7 @@ import static by.epam.project.controller.parameter.Parameter.USER;
  */
 public class UpdateProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private final UserServiceImpl userService = UserServiceImpl.getInstance();
-
-    private static final int EMPTY_PRIMITIVE = 0;
+    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

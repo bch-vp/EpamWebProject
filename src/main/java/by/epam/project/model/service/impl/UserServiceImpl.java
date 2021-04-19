@@ -6,6 +6,7 @@ import by.epam.project.controller.parameter.ErrorKey;
 import by.epam.project.controller.sync.command.CommandType;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.dao.ProductDao;
 import by.epam.project.model.dao.UserDao;
 import by.epam.project.model.dao.impl.ProductDaoImpl;
 import by.epam.project.model.dao.impl.UserDaoImpl;
@@ -18,6 +19,7 @@ import by.epam.project.util.EncryptPasswordUtil;
 import by.epam.project.util.ImageUtil;
 import by.epam.project.util.JsonUtil;
 import by.epam.project.util.MailSenderUtil;
+import by.epam.project.util.UniqueSixDigitKeyUtil;
 import by.epam.project.validator.ServiceValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +35,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static by.epam.project.controller.parameter.ContentKey.ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT;
 import static by.epam.project.controller.parameter.ContentKey.ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED;
@@ -72,7 +73,10 @@ import static by.epam.project.model.service.impl.ImageCriterion.FIRST;
 public class UserServiceImpl implements UserService {
     private static final UserServiceImpl instance = new UserServiceImpl();
     private final UserDao userDao = UserDaoImpl.getInstance();
-    private final ProductDaoImpl productDao = ProductDaoImpl.getInstance();
+    private final ProductDao productDao = ProductDaoImpl.getInstance();
+
+    private static final int MAX_TIMER_SEC = 300;
+    private static final int MILLISECONDS_PER_SECOND = 1000;
 
     private UserServiceImpl() {
     }
@@ -85,11 +89,6 @@ public class UserServiceImpl implements UserService {
     public static UserServiceImpl getInstance() {
         return instance;
     }
-
-    private final int DIFF_RANGE = 900_000;
-    private final int MIN_RANGE = 100_000;
-    private final int TIMER_SEC = 300;
-    private final int MILLISECONDS_PER_SECOND = 1000;
 
     @Override
     public AjaxData uploadUserImage(String userLogin, List<FileItem> fileItems, String language) throws ServiceException {
@@ -344,8 +343,12 @@ public class UserServiceImpl implements UserService {
 
         try {
             Optional<User> userOptional = userDao.findByLogin(login);
-            User user = userOptional.get();
+            if(userOptional.isEmpty()){
+                ajaxData.setStatusHttp(HttpServletResponse.SC_NOT_FOUND);
+                return ajaxData;
+            }
 
+            User user = userOptional.get();
             if (!user.getEmail().equals(email)) {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_BAD_REQUEST);
                 JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_CHANGING_PASSWORD_EMAIL_INCORRECT, language);
@@ -356,7 +359,7 @@ public class UserServiceImpl implements UserService {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_UNAUTHORIZED);
                 JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, INFO_CHANGING_PASSWORD_EMAIL_CONFIRMATION, language);
 
-                int key = MIN_RANGE + new Random().nextInt(DIFF_RANGE);
+                int key = UniqueSixDigitKeyUtil.generate();
                 String uniqueKey = String.valueOf(key);
 
                 ajaxData.putDataToDataSession(UNIQUE_KEY, uniqueKey);
@@ -384,7 +387,7 @@ public class UserServiceImpl implements UserService {
 
             long timeNow = System.currentTimeMillis();
             long diff = (timeNow - Long.parseLong(timeCreated)) / MILLISECONDS_PER_SECOND;
-            boolean isTimeExpired = diff > TIMER_SEC;
+            boolean isTimeExpired = diff > MAX_TIMER_SEC;
             if (isTimeExpired) {
                 ajaxData.setStatusHttp(HttpServletResponse.SC_REQUEST_TIMEOUT);
                 JsonUtil.writeJsonToAjaxData(ajaxData, ERROR, ERROR_CHANGING_PASSWORD_GUEST_TIME_EXPIRED, language);
@@ -471,44 +474,41 @@ public class UserServiceImpl implements UserService {
         String json;
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            switch (user.getRole()) {
-                case CLIENT -> {
-                    List<Order> orders = userDao.findAllOrdersToClient(user);
+            if (user.getRole() == User.Role.CLIENT) {
+                List<Order> orders = userDao.findAllOrdersToClient(user);
 
-                    ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
-                    int size = orders.size();
-                    for (int i = 0; i < size; i++) {
-                        JsonNode orderNode = arrayNodeOrders.path(i);
+                ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
+                int size = orders.size();
+                for (int i = 0; i < size; i++) {
+                    JsonNode orderNode = arrayNodeOrders.path(i);
 
-                        List<Product> products = productDao.findAllOrderProducts(orders.get(i));
-                        ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
+                    List<Product> products = productDao.findAllOrderProducts(orders.get(i));
+                    ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
 
-                        ((ObjectNode) orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
-                    }
-                    json = arrayNodeOrders.toString();
+                    ((ObjectNode) orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
                 }
-                default -> {
-                    List<Order> orders = userDao.findAllOrdersToAdmin();
+                json = arrayNodeOrders.toString();
+            } else {
+                List<Order> orders = userDao.findAllOrdersToAdmin();
 
-                    ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
-                    int size = orders.size();
-                    for (int i = 0; i < size; i++) {
-                        JsonNode orderNode = arrayNodeOrders.path(i);
+                ArrayNode arrayNodeOrders = objectMapper.valueToTree(orders);
+                int size = orders.size();
+                for (int i = 0; i < size; i++) {
+                    JsonNode orderNode = arrayNodeOrders.path(i);
 
-                        Optional<User> userOrderOptional = userDao.findUserByOrderId(orders.get(i).getId());
-                        User userOrder = userOrderOptional.get();
+                    Optional<User> userOrderOptional = userDao.findUserByOrderId(orders.get(i).getId());
+                    User userOrder = userOrderOptional.get();
 
-                        ((ObjectNode) orderNode).put(LOGIN, userOrder.getLogin());
-                        ((ObjectNode) orderNode).put(TELEPHONE_NUMBER, userOrder.getTelephoneNumber());
-                        ((ObjectNode) orderNode).put(EMAIL, userOrder.getEmail());
+                    ((ObjectNode) orderNode).put(LOGIN, userOrder.getLogin());
+                    ((ObjectNode) orderNode).put(TELEPHONE_NUMBER, userOrder.getTelephoneNumber());
+                    ((ObjectNode) orderNode).put(EMAIL, userOrder.getEmail());
 
-                        List<Product> products = productDao.findAllOrderProducts(orders.get(i));
-                        ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
+                    List<Product> products = productDao.findAllOrderProducts(orders.get(i));
+                    ArrayNode arrayNodeProducts = objectMapper.valueToTree(products);
 
-                        ((ObjectNode) orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
-                    }
-                    json = arrayNodeOrders.toString();
+                    ((ObjectNode) orderNode).putArray(PRODUCTS).addAll(arrayNodeProducts);
                 }
+                json = arrayNodeOrders.toString();
             }
             ajaxData.setJson(json);
         } catch (DaoException exp) {

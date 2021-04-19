@@ -4,6 +4,7 @@ import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -25,7 +26,7 @@ import static by.epam.project.controller.parameter.Parameter.NAME;
  */
 public class UploadProductImageCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
