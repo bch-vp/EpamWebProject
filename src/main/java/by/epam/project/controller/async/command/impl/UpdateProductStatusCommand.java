@@ -4,6 +4,7 @@ import by.epam.project.controller.async.AjaxData;
 import by.epam.project.controller.async.command.Command;
 import by.epam.project.exception.CommandException;
 import by.epam.project.exception.ServiceException;
+import by.epam.project.model.service.ProductService;
 import by.epam.project.model.service.impl.ProductServiceImpl;
 import by.epam.project.util.JsonUtil;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,7 @@ import static by.epam.project.controller.parameter.Parameter.ID_STATUS;
  */
 public class UpdateProductStatusCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private final ProductServiceImpl productService = ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     public AjaxData execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
