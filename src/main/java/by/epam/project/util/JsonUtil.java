@@ -2,6 +2,7 @@ package by.epam.project.util;
 
 import by.epam.project.controller.async.AjaxData;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -138,8 +139,9 @@ public class JsonUtil {
      * @return the hash map
      * @throws IOException the io exception
      */
-    public static HashMap toMap(InputStream inputStream) throws IOException {
-        return objectMapper.readValue(inputStream, HashMap.class);
+    public static Map<String, String> toMap(InputStream inputStream) throws IOException {
+        TypeReference<HashMap<String, String>> typeRef = new TypeReference<>(){} ;
+        return objectMapper.readValue(inputStream, typeRef);
     }
 
     /**

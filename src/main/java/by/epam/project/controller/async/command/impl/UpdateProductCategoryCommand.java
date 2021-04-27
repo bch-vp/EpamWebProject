@@ -29,10 +29,10 @@ public class UpdateProductCategoryCommand implements Command {
         AjaxData ajaxData;
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
 
-            String idProductString = (String) requestParameters.get(ID_PRODUCT);
-            String idCategoryString = (String) requestParameters.get(ID_CATEGORY);
+            String idProductString = requestParameters.get(ID_PRODUCT);
+            String idCategoryString = requestParameters.get(ID_CATEGORY);
 
             ajaxData = productService.updateProductCategory(idProductString, idCategoryString);
         } catch (ServiceException | IOException exp) {

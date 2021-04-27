@@ -40,10 +40,10 @@ public class SignInCommand implements Command {
         String language = (String) session.getAttribute(LANGUAGE);
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
 
-            String login = (String) requestParameters.get(LOGIN);
-            String password = (String) requestParameters.get(PASSWORD);
+            String login = requestParameters.get(LOGIN);
+            String password = requestParameters.get(PASSWORD);
 
             ajaxData = userService.signIn(login, password, language);
             if (ajaxData.getStatusHttp() != HttpServletResponse.SC_OK) {

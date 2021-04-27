@@ -28,8 +28,8 @@ public class RemoveCategoryCommand implements Command {
         AjaxData ajaxData;
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
-            String idCategoryString = (String) requestParameters.get(ID);
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
+            String idCategoryString = requestParameters.get(ID);
 
             ajaxData = categoryService.removeCategory(idCategoryString);
         } catch (ServiceException | IOException exp) {

@@ -42,13 +42,13 @@ public class UpdateProfileCommand implements Command {
         String language = (String) session.getAttribute(LANGUAGE);
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
 
-            String newLogin = (String) requestParameters.get(LOGIN);
-            String newFirstName = (String) requestParameters.get(FIRST_NAME);
-            String newLastName = (String) requestParameters.get(LAST_NAME);
-            String newTelephoneNumber = (String) requestParameters.get(TELEPHONE_NUMBER);
-            String newEmail = (String) requestParameters.get(EMAIL);
+            String newLogin = requestParameters.get(LOGIN);
+            String newFirstName = requestParameters.get(FIRST_NAME);
+            String newLastName = requestParameters.get(LAST_NAME);
+            String newTelephoneNumber = requestParameters.get(TELEPHONE_NUMBER);
+            String newEmail = requestParameters.get(EMAIL);
 
             ajaxData = userService.updateProfile(user, newLogin, newFirstName, newLastName, newTelephoneNumber,
                     newEmail, language);

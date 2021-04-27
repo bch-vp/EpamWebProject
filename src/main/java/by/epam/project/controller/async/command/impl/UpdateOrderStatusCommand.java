@@ -29,10 +29,10 @@ public class UpdateOrderStatusCommand implements Command {
         AjaxData ajaxData;
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
 
-            String idOrderString = (String) requestParameters.get(ID_ORDER);
-            String idStatusString = (String) requestParameters.get(ID_STATUS);
+            String idOrderString = requestParameters.get(ID_ORDER);
+            String idStatusString = requestParameters.get(ID_STATUS);
 
             ajaxData = userService.updateOrderStatus(idOrderString, idStatusString);
         } catch (ServiceException | IOException exp) {

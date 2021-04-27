@@ -36,8 +36,8 @@ public class RemoveProductFromShoppingCartCommand implements Command {
         List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
-            String productName = (String) requestParameters.get(NAME);
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
+            String productName = requestParameters.get(NAME);
 
             ajaxData = productService.removeProductFromShoppingCart(shoppingCart, productName);
         } catch (ServiceException | IOException exp) {

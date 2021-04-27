@@ -31,12 +31,12 @@ public class UpdateProductInfoCommand implements Command {
         AjaxData ajaxData;
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
 
-            String idString = (String) requestParameters.get(ID);
-            String name = (String) requestParameters.get(NAME);
-            String info = (String) requestParameters.get(INFO);
-            String priceString = (String) requestParameters.get(PRICE);
+            String idString = requestParameters.get(ID);
+            String name = requestParameters.get(NAME);
+            String info = requestParameters.get(INFO);
+            String priceString = requestParameters.get(PRICE);
 
             ajaxData = productService.updateProductInfo(idString, name, info, priceString);
         } catch (ServiceException | IOException exp) {
