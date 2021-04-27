@@ -35,9 +35,9 @@ public class UpdateCategoryNameCommand implements Command {
         String language = (String) session.getAttribute(LANGUAGE);
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
-            String idCategoryString = (String) requestParameters.get(ID);
-            String newName = (String) requestParameters.get(NAME);
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
+            String idCategoryString = requestParameters.get(ID);
+            String newName = requestParameters.get(NAME);
 
             ajaxData = categoryService.updateCategoryName(idCategoryString, newName, language);
         } catch (ServiceException | IOException exp) {
