@@ -34,8 +34,8 @@ public class CreateCategoryCommand implements Command {
         String language = (String) session.getAttribute(LANGUAGE);
 
         try {
-            Map requestParameters = JsonUtil.toMap(request.getInputStream());
-            String nameCategory = (String) requestParameters.get(NAME);
+            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
+            String nameCategory = requestParameters.get(NAME);
 
             ajaxData = categoryService.createCategory(nameCategory, language);
         } catch (ServiceException | IOException exp) {
