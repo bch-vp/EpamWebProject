@@ -39,8 +39,8 @@ public class LoadAllProductsByCategoryCommand implements Command {
         List<Product> shoppingCart = (ArrayList<Product>) session.getAttribute(SHOPPING_CART);
 
         try {
-            Map<String, String> requestParameters = JsonUtil.toMap(request.getInputStream());
-            String categoryName = requestParameters.get(NAME);
+            Map<String, Object> requestParameters = JsonUtil.toMap(request.getInputStream());
+            String categoryName = (String) requestParameters.get(NAME);
 
             User user = (User) session.getAttribute(USER);
             User.Role userRole = User.Role.GUEST;
